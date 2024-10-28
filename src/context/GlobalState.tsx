@@ -50,6 +50,7 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
     const getImageURL = useCallback(
         (url?: string, opts?: { maxWidth?: number; maxHeight?: number; format?: string }) => {
             if (!url) return ''
+            if (url.startsWith('data:')) return url
             if ('world.concrnt.hyperproxy.image' in client.domainServices) {
                 return `https://${client.host}${client.domainServices['world.concrnt.hyperproxy.image'].path}/${
                     opts?.maxWidth ?? ''
