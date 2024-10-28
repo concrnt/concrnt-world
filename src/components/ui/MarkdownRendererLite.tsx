@@ -15,6 +15,7 @@ import {
 import { CCUserChip } from './CCUserChip'
 import { LinkChip } from './LinkChip'
 import { StreamChip } from './StreamChip'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface MarkdownRendererProps {
     messagebody: string
@@ -24,6 +25,8 @@ export interface MarkdownRendererProps {
 }
 
 export function MarkdownRendererLite(props: MarkdownRendererProps): JSX.Element {
+    const { getImageURL } = useGlobalState()
+
     return (
         <Box
             sx={{
@@ -288,7 +291,7 @@ export function MarkdownRendererLite(props: MarkdownRendererProps): JSX.Element 
                         const emoji = props.emojiDict[shortcode]
                         return emoji ? (
                             <img
-                                src={emoji?.animURL ?? emoji?.imageURL ?? ''}
+                                src={getImageURL(emoji?.animURL ?? emoji?.imageURL, { maxHeight: 128 })}
                                 style={{
                                     height: '1.25em',
                                     verticalAlign: '-0.45em',

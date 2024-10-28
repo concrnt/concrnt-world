@@ -46,6 +46,7 @@ import RepeatIcon from '@mui/icons-material/Repeat'
 import CancelIcon from '@mui/icons-material/Cancel'
 import FeedbackIcon from '@mui/icons-material/Feedback'
 import { usePreference } from '../../context/PreferenceContext'
+import { CCComboBox } from '../ui/CCComboBox'
 
 const ModeSets = {
     plaintext: {
@@ -847,20 +848,27 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         <MenuItem value="video/mov">MOV</MenuItem>
                     </Select>
                 </FormControl>
-                <TextField
-                    label="flag(optional)"
-                    value={medias[selectedMediaIndex]?.flag}
-                    onChange={(e) => {
+                <CCComboBox
+                    label="フラグ設定(任意)"
+                    options={{
+                        注意: '注意',
+                        ヌード: 'ヌード',
+                        ポルノ: 'ポルノ',
+                        ハード: 'ハード'
+                    }}
+                    value={medias[selectedMediaIndex]?.flag ?? ''}
+                    onChange={(newvalue) => {
                         // setAddingMediaFlag(e.target.value)
                         setMedias((medias) => {
                             const newMedias = [...medias]
                             newMedias[selectedMediaIndex] = {
                                 ...newMedias[selectedMediaIndex],
-                                flag: e.target.value === '' ? undefined : e.target.value
+                                flag: newvalue === '' ? undefined : newvalue
                             }
                             return newMedias
                         })
                     }}
+                    helperText="自由に記述できます"
                 />
                 <Button
                     onClick={() => {

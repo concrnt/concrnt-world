@@ -1,5 +1,5 @@
 import { TextField, type SxProps, Autocomplete } from '@mui/material'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 export interface CCComboBoxProps {
     sx?: SxProps
@@ -16,6 +16,8 @@ export const CCComboBox = (props: CCComboBoxProps): JSX.Element => {
         Object.keys(props.options)[Object.values(props.options).indexOf(props.value)] || props.value
     )
 
+    const keys = useMemo(() => Object.keys(props.options), [props.options])
+
     return (
         <Autocomplete
             fullWidth
@@ -25,12 +27,16 @@ export const CCComboBox = (props: CCComboBoxProps): JSX.Element => {
             value={props.value}
             inputValue={inputValue}
             onInputChange={(_, value) => {
-                setInputValue(Object.keys(props.options)[Object.values(props.options).indexOf(value)] || value)
+                setInputValue(keys[Object.values(props.options).indexOf(value)] || value)
                 props.onChange(props.options[value] || value)
             }}
-            options={Object.keys(props.options).filter((option) => {
-                return option.toLowerCase().includes(inputValue.toLowerCase())
-            })}
+            options={
+                keys.includes(inputValue.toLowerCase())
+                    ? keys
+                    : keys.filter((option) => {
+                          return option.toLowerCase().includes(inputValue.toLowerCase())
+                      })
+            }
             filterOptions={(options, _) => {
                 return options
             }}

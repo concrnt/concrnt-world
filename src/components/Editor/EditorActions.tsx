@@ -27,6 +27,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EmojiEmotions from '@mui/icons-material/EmojiEmotions'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { type Dispatch, type SetStateAction, useRef, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type WorldMedia, type Emoji, type EmojiLite } from '../../model'
@@ -222,6 +223,20 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
                         <EmojiEmotions sx={{ fontSize: '80%' }} />
                     </CCIconButton>
                 </Tooltip>
+
+                <Tooltip title={'内容を隠す'} arrow placement="top" enterDelay={500}>
+                    <CCIconButton
+                        onClick={(_) => {
+                            props.setDraft(`<details>
+<summary>クリックして表示</summary>
+${props.draft || '内容を入力...'}
+</details>`)
+                        }}
+                    >
+                        <VisibilityOffIcon sx={{ fontSize: '80%' }} />
+                    </CCIconButton>
+                </Tooltip>
+
                 <Tooltip title={t('clearDraft')} arrow placement="top" enterDelay={500}>
                     <span>
                         <CCIconButton

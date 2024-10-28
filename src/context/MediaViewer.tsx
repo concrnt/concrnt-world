@@ -155,7 +155,7 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
                                 setContainer(el)
                             }}
                             onClick={(e) => {
-                                if (e.target !== imageRef.current?.parentElement) {
+                                if (e.target !== imageRef.current) {
                                     close()
                                 }
                             }}
@@ -180,6 +180,9 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
                                     >
                                         <img
                                             src={getImageURL(previewImage)}
+                                            style={{
+                                                pointerEvents: 'auto'
+                                            }}
                                             alt="preview"
                                             ref={(el: HTMLImageElement | null) => {
                                                 imageRef.current = el
