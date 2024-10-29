@@ -50,7 +50,7 @@ export const onRequest: PagesFunction = async (context) => {
         }
 
         const messageBody: WorldMessage = JSON.parse(message.document).body
-        const content = messageBody.body
+        let content = messageBody.body
 
         const profile: CoreProfile = await fetch(`https://${entity.domain}/api/v1/profile/${entity.ccid}/world.concrnt.p`)
             .then((response) => response.json<ApiResponse<CoreProfile>>())
@@ -72,12 +72,21 @@ export const onRequest: PagesFunction = async (context) => {
         const matches = content.matchAll(imageRegex)
         const images = Array.from(matches, m => m[1])
 
+        let filteredMedias = 0
         const medias = messageBody.medias
         medias?.forEach((media) => {
             if (media.mediaType.startsWith('image')) {
-                images.push(media.mediaURL)
+                if (media.flag) filteredMedias++
+                else images.push(media.mediaURL)
             }
         })
+
+        if (filteredMedias > 0) {
+            content += `(with ${filteredMedias} hidden images)`
+        }
+
+        // remove markdown image syntax
+        content = content.replace(imageRegex, '')
 
         const responseBody = `
 <!DOCTYPE html>
@@ -85,7 +94,7 @@ export const onRequest: PagesFunction = async (context) => {
   <head>
     <meta charset="UTF-8">
     <meta property="og:title" content="${username} on Concrnt">
-    <meta property="og:description" content="${content.slice(0, content.search(imageRegex))}">
+    <meta property="og:description" content="${content}">
     <meta property="twitter:card" content="${images.length > 0 ? 'summary_large_image' : 'summary'}">
     ${
         images.length > 0 

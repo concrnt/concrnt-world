@@ -73,6 +73,7 @@ export interface WorldMessage {
         mediaType: string;
         thumbnailURL?: string;
         blurhash?: string;
+        flag?: string;
     }[]
 }
 
