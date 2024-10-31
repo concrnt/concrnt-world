@@ -340,12 +340,9 @@ export const IdentitySettings = (): JSX.Element => {
                                     }}
                                 />
 
-                                <Codeblock language="js">{`対象ドメイン: _concrnt.${aliasDraft}
-レコード値:
-"ccid=${client.ccid}"
-"sig=${signature}"
-"hint=${client.host}"`}</Codeblock>
-
+                                <Codeblock language="js">{`_concrnt.${aliasDraft} TXT "ccid=${client.ccid}"
+_concrnt.${aliasDraft} TXT "sig=${signature}"
+_concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                                 <Button
                                     fullWidth
                                     onClick={() => {

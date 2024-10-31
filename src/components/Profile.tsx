@@ -361,7 +361,13 @@ export function Profile(props: ProfileProps): JSX.Element {
                         }}
                     >
                         {detailMode !== 'none' && (
-                            <AckList initmode={detailMode === 'ack' ? 'acking' : 'acker'} user={props.user} />
+                            <AckList
+                                initmode={detailMode === 'ack' ? 'acking' : 'acker'}
+                                user={props.user}
+                                onNavigated={() => {
+                                    setDetailMode('none')
+                                }}
+                            />
                         )}
                     </Box>
                 </CCDrawer>

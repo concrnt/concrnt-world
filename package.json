@@ -15,7 +15,7 @@
     "dependencies": {
         "@aws-sdk/client-s3": "^3.592.0",
         "@aws-sdk/s3-request-presigner": "^3.592.0",
-        "@concurrent-world/client": "^6.2.1",
+        "@concurrent-world/client": "^6.2.2",
         "@cosmjs/encoding": "^0.32.4",
         "@cosmjs/proto-signing": "^0.32.4",
         "@cosmjs/stargate": "^0.32.4",

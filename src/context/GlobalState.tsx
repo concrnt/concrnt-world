@@ -45,8 +45,6 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
     const [allKnownSubscriptions, setAllKnownSubscriptions] = useState<Array<CoreSubscription<any>>>([])
     const [listedSubscriptions, setListedSubscriptions] = useState<Record<string, CoreSubscription<any>>>({})
 
-    console.log(client.domainServices)
-
     const getImageURL = useCallback(
         (url?: string, opts?: { maxWidth?: number; maxHeight?: number; format?: string }) => {
             if (!url) return ''

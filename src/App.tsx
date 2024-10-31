@@ -368,6 +368,7 @@ function App(): JSX.Element {
                             <Routes>
                                 <Route index element={<ListPage />} />
                                 <Route path="/:id" element={<EntityPage />} />
+                                <Route path="/:id/:tab" element={<EntityPage />} />
                                 <Route path="/timeline/:id" element={<StreamPage />} />
                                 <Route path="/:authorID/:messageID" element={<MessagePage />} />
                                 <Route path="/associations" element={<Associations />} />

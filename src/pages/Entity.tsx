@@ -1,6 +1,6 @@
 import { Box, Collapse, Divider, Tab, Tabs } from '@mui/material'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useClient } from '../context/ClientContext'
 import { Schemas, type User } from '@concurrent-world/client'
 import { type VListHandle } from 'virtua'
@@ -12,15 +12,14 @@ import { TimelineFilter } from '../components/TimelineFilter'
 
 export function EntityPage(): JSX.Element {
     const { client } = useClient()
-    const { id } = useParams()
+    const { id, tab } = useParams()
+    const navigate = useNavigate()
 
     const [user, setUser] = useState<User | null | undefined>(null)
 
     const timelineRef = useRef<VListHandle>(null)
 
     const [showHeader, setShowHeader] = useState(false)
-
-    const [tab, setTab] = useState(0)
 
     const path = useLocation()
     const subCharacterID = path.hash.replace('#', '')
@@ -36,12 +35,12 @@ export function EntityPage(): JSX.Element {
 
     const targetTimeline = useMemo(() => {
         let target
-        switch (tab) {
-            case 0:
-            case 1:
+        switch (tab ?? '') {
+            case '':
+            case 'media':
                 target = user?.homeTimeline
                 break
-            case 2:
+            case 'activity':
                 target = user?.associationTimeline
                 break
         }
@@ -50,9 +49,9 @@ export function EntityPage(): JSX.Element {
 
     const query = useMemo(() => {
         switch (tab) {
-            case 1:
+            case 'media':
                 return { schema: Schemas.mediaMessage }
-            case 2:
+            case 'activity':
                 return { schema: filter }
             default:
                 return {}
@@ -101,18 +100,19 @@ export function EntityPage(): JSX.Element {
                             />
                             <Tabs
                                 value={tab}
-                                onChange={(_, index) => {
-                                    setTab(index)
+                                onChange={(_, value) => {
+                                    if (value === '') navigate(`/${id}` + (subCharacterID ? '#' + subCharacterID : ''))
+                                    else navigate(`/${id}/${value}` + (subCharacterID ? '#' + subCharacterID : ''))
                                 }}
                                 textColor="secondary"
                                 indicatorColor="secondary"
                             >
-                                <Tab label="カレント" />
-                                <Tab label="メディア" />
-                                <Tab label="アクティビティ" />
+                                <Tab label="カレント" value="" />
+                                <Tab label="メディア" value="media" />
+                                <Tab label="アクティビティ" value="activity" />
                             </Tabs>
                             <Divider />
-                            {tab === 2 && (
+                            {tab === 'activity' && (
                                 <>
                                     <TimelineFilter selected={filter} setSelected={setFilter} sx={{ px: 1 }} />
                                     <Divider />

@@ -1,13 +1,17 @@
 import { type User } from '@concurrent-world/client'
 import { useEffect, useState } from 'react'
-import { Box, Link, Tab, Tabs } from '@mui/material'
+import { Box, Chip, Link, Tab, Tabs, Typography } from '@mui/material'
 import { CCAvatar } from './ui/CCAvatar'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useClient } from '../context/ClientContext'
+import { AckButton } from './AckButton'
+import { MarkdownRendererLite } from './ui/MarkdownRendererLite'
 
 export interface AckListProps {
     initmode?: 'acking' | 'acker'
     user: User
+    onNavigated?: () => void
 }
 
 export const AckList = (props: AckListProps): JSX.Element => {
@@ -17,6 +21,8 @@ export const AckList = (props: AckListProps): JSX.Element => {
     const [ackerUsers, setAckerUsers] = useState<User[]>([])
 
     const { t } = useTranslation('', { keyPrefix: 'common' })
+
+    const { client } = useClient()
 
     useEffect(() => {
         let unmounted = false
@@ -59,7 +65,7 @@ export const AckList = (props: AckListProps): JSX.Element => {
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: 1
+                        gap: 2
                     }}
                 >
                     {(mode === 'acking' ? ackingUsers : ackerUsers).map((user) => (
@@ -68,15 +74,45 @@ export const AckList = (props: AckListProps): JSX.Element => {
                             sx={{
                                 display: 'flex',
                                 width: '100%',
-                                alignItems: 'center',
+                                alignItems: 'flex-start',
                                 gap: 1,
                                 textDecoration: 'none'
                             }}
                             component={RouterLink}
                             to={`/${user.ccid}`}
+                            onClick={props.onNavigated}
                         >
                             <CCAvatar avatarURL={user.profile?.avatar} identiconSource={user.ccid} />
-                            <Link underline="hover">{user.profile?.username}</Link>
+                            <Box display="flex" flexDirection="column" flex="1">
+                                <Link underline="hover">{user.profile?.username}</Link>
+                                {client.ackers.find((ack) => ack.ccid === user.ccid) && (
+                                    <Chip
+                                        label={'フォローされています'}
+                                        sx={{
+                                            fontSize: '10px',
+                                            padding: '0.5',
+                                            borderRadius: '5px',
+                                            height: '20px',
+                                            width: 'fit-content'
+                                        }}
+                                    />
+                                )}
+                                <Typography
+                                    variant="caption"
+                                    color="primary"
+                                    overflow="hidden"
+                                    sx={{
+                                        wordBreak: 'break-all'
+                                    }}
+                                >
+                                    <MarkdownRendererLite
+                                        limit={60}
+                                        emojiDict={{}}
+                                        messagebody={user.profile?.description ?? 'no description'}
+                                    />
+                                </Typography>
+                            </Box>
+                            <AckButton user={user} />
                         </Box>
                     ))}
                 </Box>
