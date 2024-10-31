@@ -12,7 +12,11 @@ import { TimelineFilter } from '../components/TimelineFilter'
 
 export function EntityPage(): JSX.Element {
     const { client } = useClient()
-    const { id, tab } = useParams()
+    const { id } = useParams()
+
+    const path = useLocation()
+    const tab = path.pathname.split('/')[2] ?? ''
+
     const navigate = useNavigate()
 
     const [user, setUser] = useState<User | null | undefined>(null)
@@ -21,7 +25,6 @@ export function EntityPage(): JSX.Element {
 
     const [showHeader, setShowHeader] = useState(false)
 
-    const path = useLocation()
     const subCharacterID = path.hash.replace('#', '')
 
     const [filter, setFilter] = useState<string | undefined>(undefined)
