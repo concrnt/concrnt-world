@@ -34,6 +34,8 @@ import { type WorldMedia, type Emoji, type EmojiLite } from '../../model'
 import { UserPicker } from '../ui/UserPicker'
 import { type User } from '@concurrent-world/client'
 import { usePersistent } from '../../hooks/usePersistent'
+import { genBlurHash } from '../../util'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface EditorActionsProps {
     post: () => void
@@ -58,6 +60,7 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
     const { t } = useTranslation('', { keyPrefix: 'ui.draft' })
     const emojiPicker = useEmojiPicker()
     const navigate = useNavigate()
+    const { getImageURL } = useGlobalState()
 
     const { isUploadReady } = useStorage()
 
@@ -74,6 +77,13 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
         }
 
         props.textInputRef.current?.focus()
+    }
+
+    const fetchImage = async (url: string): Promise<{ url: string; type: string; blurhash: string }> => {
+        const response = await fetch(url)
+        const blurhash = await genBlurHash(url)
+        const blob = await response.blob()
+        return { url, type: blob.type, blurhash: blurhash ?? '' }
     }
 
     const [mediaMenuAnchorEl, setMediaMenuAnchorEl] = useState<HTMLButtonElement | null>(null)
@@ -105,8 +115,6 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
     }, [isUploadReady, navigate])
 
     const [addingMediaURL, setAddingMediaURL] = useState<string>('')
-    const [addingMediaType, setAddingMediaType] = useState<string>('image/png')
-
     const [detailMenuAnchorEl, setDetailMenuAnchorEl] = useState<null | HTMLElement>(null)
     const [openWhisperWarning, setOpenWhisperWarning] = usePersistent('openWhisperWarning', true)
 
@@ -177,31 +185,21 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
                             setAddingMediaURL(e.target.value)
                         }}
                     />
-                    <FormControl>
-                        <InputLabel>Type</InputLabel>
-                        <Select
-                            label="Type"
-                            value={addingMediaType}
-                            onChange={(e) => {
-                                setAddingMediaType(e.target.value)
-                            }}
-                        >
-                            <MenuItem value="image/png">PNG</MenuItem>
-                            <MenuItem value="image/jpeg">JPEG</MenuItem>
-                            <MenuItem value="image/gif">GIF</MenuItem>
-                            <MenuItem value="video/mp4">MP4</MenuItem>
-                            <MenuItem value="video/mov">MOV</MenuItem>
-                        </Select>
-                    </FormControl>
                     <Button
                         onClick={() => {
-                            props.onAddMedia?.({
-                                mediaType: addingMediaType,
-                                mediaURL: addingMediaURL
-                            })
-                            setAddingMediaURL('')
-                            setAddingMediaType('image/png')
-                            setMediaMenuAnchorEl(null)
+                            fetchImage(getImageURL(addingMediaURL))
+                                .then((media) => {
+                                    props.onAddMedia?.({
+                                        mediaType: media.type,
+                                        mediaURL: media.url,
+                                        blurhash: media.blurhash
+                                    })
+                                    setAddingMediaURL('')
+                                    setMediaMenuAnchorEl(null)
+                                })
+                                .catch((_) => {
+                                    enqueueSnackbar('指定のURLからのアクセスが拒否されました', { variant: 'error' })
+                                })
                         }}
                     >
                         追加
@@ -226,10 +224,12 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
 
                 <Tooltip title={'内容を隠す'} arrow placement="top" enterDelay={500}>
                     <CCIconButton
+                        disabled={props.disableEmoji}
                         onClick={(_) => {
                             props.setDraft(`<details>
 <summary>クリックして表示</summary>
-${props.draft || '内容を入力...'}
+
+${props.draft.trim() || '内容を入力...'}
 </details>`)
                         }}
                     >

@@ -35,7 +35,6 @@ import { UserSuggestion } from '../Editor/UserSuggestion'
 import { useStorage } from '../../context/StorageContext'
 import { EditorActions } from './EditorActions'
 import { EditorPreview } from './EditorPreview'
-import { encode } from 'blurhash'
 
 import { FaMarkdown } from 'react-icons/fa'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
@@ -47,6 +46,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import FeedbackIcon from '@mui/icons-material/Feedback'
 import { usePreference } from '../../context/PreferenceContext'
 import { CCComboBox } from '../ui/CCComboBox'
+import { genBlurHash } from '../../util'
 
 const ModeSets = {
     plaintext: {
@@ -285,27 +285,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
             })
     }
 
-    const loadImage = async (src: string): Promise<HTMLImageElement> =>
-        await new Promise((resolve, reject) => {
-            const img = new Image()
-            img.onload = () => {
-                resolve(img)
-            }
-            img.onerror = (...args) => {
-                reject(args)
-            }
-            img.src = src
-        })
-
-    const getImageData = (image: HTMLImageElement, resolutionX: number, resolutionY: number): ImageData | undefined => {
-        const canvas = document.createElement('canvas')
-        canvas.width = resolutionX
-        canvas.height = resolutionY
-        const context = canvas.getContext('2d')
-        context?.drawImage(image, 0, 0, resolutionX, resolutionY)
-        return context?.getImageData(0, 0, resolutionX, resolutionY)
-    }
-
     const uploadImage = async (imageFile: File): Promise<void> => {
         const mediaExists = draft.match(/!\[[^\]]*\]\([^)]*\)/g)
         if (!mediaExists && mode === 'markdown' && autoSwitchMediaPostType) {
@@ -318,15 +297,8 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
             if (!result) {
                 enqueueSnackbar('Failed to upload image', { variant: 'error' })
             } else {
-                let blurhash: string | undefined
                 const url = URL.createObjectURL(imageFile)
-                const img = await loadImage(url)
-                const clampedSize = getClampedSize(img.width, img.height, 64)
-                const data = getImageData(img, clampedSize.width, clampedSize.height)
-                if (data) {
-                    blurhash = encode(data.data, clampedSize.width, clampedSize.height, 4, 4)
-                }
-
+                const blurhash = await genBlurHash(url)
                 setMedias((medias) => [
                     ...medias,
                     {
@@ -881,17 +853,5 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         </Box>
     )
 })
-
-const getClampedSize = (width: number, height: number, max: number): { width: number; height: number } => {
-    if (width >= height && width > max) {
-        return { width: max, height: Math.round((height / width) * max) }
-    }
-
-    if (height > width && height > max) {
-        return { width: Math.round((width / height) * max), height: max }
-    }
-
-    return { width, height }
-}
 
 CCPostEditor.displayName = 'CCEditor'
