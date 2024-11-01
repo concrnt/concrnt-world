@@ -368,6 +368,7 @@ function App(): JSX.Element {
                             <Routes>
                                 <Route index element={<ListPage />} />
                                 <Route path="/:id" element={<EntityPage />} />
+                                <Route path="/settings/*" element={<Settings />} />
                                 <Route path="/:id/media" element={<EntityPage />} />
                                 <Route path="/:id/activity" element={<EntityPage />} />
                                 <Route path="/:authorID/:messageID" element={<MessagePage />} />
@@ -376,7 +377,6 @@ function App(): JSX.Element {
                                 <Route path="/contacts" element={<ContactsPage />} />
                                 <Route path="/explorer/:tab" element={<Explorer />} />
                                 <Route path="/notifications" element={<Notifications />} />
-                                <Route path="/settings/*" element={<Settings />} />
                                 <Route path="/devtool" element={<Devtool />} />
                                 <Route path="/subscriptions" element={<ManageSubsPage />} />
                                 <Route path="/concord/*" element={<ConcordPage />} />

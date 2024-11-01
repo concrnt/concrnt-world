@@ -40,7 +40,7 @@ const loggedinTests = [
     {name: 'settings-theme', path: '/settings/theme'},
     {name: 'settings-sound', path: '/settings/sound'},
     {name: 'settings-emoji', path: '/settings/emoji'},
-    {name: 'settings-media', path: '/settings/media'},
+    {name: 'settings-storage', path: '/settings/storage'},
     {name: 'settings-loginqr', path: '/settings/loginqr'},
     {name: 'settings-inportexport-manage', path: '/settings/importexport/manage'},
     {name: 'settings-importexport-migrate', path: '/settings/importexport/migrate'},

@@ -22,7 +22,7 @@ const pathTitles: Record<string, string> = {
     '/settings/theme': 'settings.theme.title',
     '/settings/sound': 'settings.sound.title',
     '/settings/emoji': 'settings.emoji.title',
-    '/settings/media': 'settings.media.title',
+    '/settings/storage': 'settings.media.title',
     '/settings/activitypub': 'settings.ap.title',
     '/settings/loginqr': 'settings.qr.title',
     '/settings/importexport': 'settings.importexport.title',
@@ -52,7 +52,7 @@ export function Settings(): JSX.Element {
                 <Route path="/theme" element={<ThemeSettings />} />
                 <Route path="/sound" element={<SoundSettings />} />
                 <Route path="/emoji" element={<EmojiSettings />} />
-                <Route path="/media" element={<MediaSettings />} />
+                <Route path="/storage" element={<MediaSettings />} />
                 <Route path="/activitypub" element={<APSettings />} />
                 <Route path="/loginqr" element={<LoginQR />} />
                 <Route path="/jobs" element={<Jobs />} />

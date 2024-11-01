@@ -98,7 +98,7 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
                 if (isUploadReady) {
                     fileInputRef.current.click()
                 } else {
-                    navigate('/settings/media')
+                    navigate('/settings/storage')
                 }
             }
         }

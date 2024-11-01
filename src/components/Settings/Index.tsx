@@ -136,7 +136,7 @@ export function SettingsIndex(): JSX.Element {
                     label={t('settings.emoji.title')}
                     to="/settings/emoji"
                 />
-                <IconButtonWithLabel link icon={PhotoIcon} label={t('settings.media.title')} to="/settings/media" />
+                <IconButtonWithLabel link icon={PhotoIcon} label={t('settings.media.title')} to="/settings/storage" />
                 <IconButtonWithLabel
                     link
                     disabled={!isDomainApAvailable}
