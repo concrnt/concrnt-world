@@ -2,6 +2,7 @@ import { Box, Paper, Skeleton, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { type Summary, useUrlSummary } from '../../context/urlSummaryContext'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface MessageUrlPreviewProps {
     messageBody: string
@@ -64,6 +65,8 @@ export const UrlPreview = (props: { url: string }): JSX.Element | null => {
     const [preview, setPreview] = useState<Summary | undefined>(undefined)
     const [errored, setErrored] = useState(false)
 
+    const { getImageURL } = useGlobalState()
+
     useEffect(() => {
         service
             .getSummary(props.url)
@@ -119,14 +122,14 @@ export const UrlPreview = (props: { url: string }): JSX.Element | null => {
         >
             {(preview.thumbnail || preview.icon) && (
                 <Box
-                    component="img"
                     sx={{
                         width: '100px',
                         height: '100px',
-                        objectFit: 'cover'
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundImage: `url(${getImageURL(preview.thumbnail || preview.icon)})`,
+                        flexShrink: 0
                     }}
-                    src={preview.thumbnail || preview.icon}
-                    alt={preview.title || hostname}
                 />
             )}
             <Box padding={1} height="100px" overflow="hidden">

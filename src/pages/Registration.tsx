@@ -159,9 +159,13 @@ export function Registration(): JSX.Element {
                 gap: 2
             }}
             additionalButton={
-                <Button component={Link} to="/import">
-                    {t('importAccount')}
-                </Button>
+                <>
+                    {activeStep === 0 && (
+                        <Button component={Link} to="/import">
+                            {t('importAccount')}
+                        </Button>
+                    )}
+                </>
             }
         >
             <ApiProvider client={client}>

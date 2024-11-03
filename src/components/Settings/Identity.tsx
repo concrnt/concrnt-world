@@ -288,6 +288,21 @@ export const IdentitySettings = (): JSX.Element => {
                     gap: 1
                 }}
             >
+                {identity && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1
+                        }}
+                    >
+                        <Typography variant="h3">マスターキーからサブキーへ切り替える</Typography>
+                        <Suspense fallback={<>loading...</>}>
+                            <SwitchMasterToSub identity={identity} />
+                        </Suspense>
+                    </Box>
+                )}
+
                 <Box
                     sx={{
                         padding: { xs: '10px', sm: '10px 50px' }
@@ -369,22 +384,6 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                         )}
                     </AccordionDetails>
                 </Accordion>
-
-                {identity && (
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 1
-                        }}
-                    >
-                        <Alert severity="warning">{t('loginType.masterKey')}</Alert>
-
-                        <Suspense fallback={<>loading...</>}>
-                            <SwitchMasterToSub identity={identity} />
-                        </Suspense>
-                    </Box>
-                )}
 
                 {subkey && (
                     <Box
