@@ -198,6 +198,7 @@ function App(): JSX.Element {
 
     useEffect(() => {
         const newtheme = loadConcurrentTheme(themeName, customThemes)
+        localStorage.setItem('theme', JSON.stringify(newtheme))
         setTheme(newtheme)
         let themeColorMetaTag: HTMLMetaElement = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement
         if (!themeColorMetaTag) {

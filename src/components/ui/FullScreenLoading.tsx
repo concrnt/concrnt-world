@@ -6,12 +6,35 @@ export interface FullScreenLoadingProps {
 }
 
 export const FullScreenLoading = (props: FullScreenLoadingProps): JSX.Element => {
+    const themeStr = localStorage.getItem('theme')
+    let theme
+    try {
+        if (themeStr) {
+            theme = JSON.parse(themeStr)
+        }
+    } catch (e) {
+        console.error(e)
+    }
+
+    const backgroundColor = theme?.palette?.primary?.main || '#0476d9'
+    const color = theme?.palette?.primary?.contrastText || '#ffffff'
+
+    let themeColorMetaTag: HTMLMetaElement = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement
+    if (!themeColorMetaTag) {
+        themeColorMetaTag = document.createElement('meta')
+        themeColorMetaTag.name = 'theme-color'
+        document.head.appendChild(themeColorMetaTag)
+    }
+    themeColorMetaTag.content = backgroundColor
+
+    const isMobileSize = window.matchMedia('(max-width: 600px)').matches
+
     return (
         <CssBaseline>
             <Box
                 sx={{
-                    backgroundColor: '#0476d9',
-                    color: '#ffffff',
+                    backgroundColor,
+                    color,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -21,8 +44,8 @@ export const FullScreenLoading = (props: FullScreenLoadingProps): JSX.Element =>
                     gap: 2
                 }}
             >
-                <ConcrntLogo size="100px" color="#fff" spinning={true} />
-                <Typography variant="h5">{props.message}</Typography>
+                <ConcrntLogo size="100px" color={color} spinning={true} />
+                {!isMobileSize && <Typography variant="h5">{props.message}</Typography>}
             </Box>
         </CssBaseline>
     )

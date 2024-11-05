@@ -57,6 +57,10 @@ export const StreamPicker = (props: StreamPickerProps): JSX.Element => {
                             return true
                         }
 
+                        if (!option.document.body.name) {
+                            return false
+                        }
+
                         return (
                             option.document.body.name.toLowerCase().includes(state.inputValue.toLowerCase()) ||
                             option.document.body.shortname?.toLowerCase().includes(state.inputValue.toLowerCase())

@@ -29,22 +29,18 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
     const list = lists[props.subscription.id]
 
     const { allProfiles } = useGlobalState()
+    const { allKnownTimelines } = useGlobalState()
 
     const [listName, setListName] = useState<string>('')
 
     const { t } = useTranslation('', { keyPrefix: 'ui.listSettings' })
 
-    const [options, setOptions] = useState<Array<Timeline<CommunityTimelineSchema>>>([])
     const [postStreams, setPostStreams] = useState<Array<Timeline<CommunityTimelineSchema>>>([])
 
     const [tab, setTab] = useState<'stream' | 'user'>('stream')
 
     useEffect(() => {
         setListName(props.subscription.document.body.name)
-
-        Promise.all(props.subscription.items.map((sub) => client.getTimeline(sub.id))).then((streams) => {
-            setOptions(streams.filter((e) => e !== null) as Array<Timeline<CommunityTimelineSchema>>)
-        })
 
         if (!list) return
         Promise.all(list.defaultPostStreams.map((streamID) => client.getTimeline(streamID))).then((streams) => {
@@ -118,7 +114,7 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                         }}
                     >
                         <StreamPicker
-                            options={options}
+                            options={allKnownTimelines}
                             selected={postStreams}
                             setSelected={(value) => {
                                 updateList(props.subscription.id, {
