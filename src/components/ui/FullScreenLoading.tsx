@@ -46,6 +46,17 @@ export const FullScreenLoading = (props: FullScreenLoadingProps): JSX.Element =>
             >
                 <ConcrntLogo size="100px" color={color} spinning={true} />
                 {!isMobileSize && <Typography variant="h5">{props.message}</Typography>}
+                <Typography
+                    sx={{
+                        color,
+                        fontWeight: 600,
+                        fontSize: '22px',
+                        position: 'absolute',
+                        bottom: 'calc(16px + env(safe-area-inset-bottom))'
+                    }}
+                >
+                    Concrnt
+                </Typography>
             </Box>
         </CssBaseline>
     )
