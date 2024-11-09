@@ -2,10 +2,13 @@ import { Box, Button, Typography } from '@mui/material'
 import { forwardRef } from 'react'
 import { useClient } from '../../context/ClientContext'
 import { useSnackbar } from 'notistack'
+import { usePreference } from '../../context/PreferenceContext'
 
 export const Debugger = forwardRef<HTMLDivElement>((props, ref): JSX.Element => {
     const { client } = useClient()
     const { enqueueSnackbar } = useSnackbar()
+
+    const [_progress, setProgress] = usePreference('tutorialProgress')
 
     return (
         <div ref={ref} {...props}>
@@ -35,6 +38,13 @@ export const Debugger = forwardRef<HTMLDivElement>((props, ref): JSX.Element => 
                         }}
                     >
                         Show Notification
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            setProgress(0)
+                        }}
+                    >
+                        チュートリアルをリセット
                     </Button>
                 </Box>
                 <Typography variant="h4">ConnectedDomains</Typography>

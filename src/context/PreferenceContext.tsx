@@ -26,6 +26,8 @@ export interface Preference {
     hideDisabledSubKey: boolean
     enableConcord: boolean
     autoSwitchMediaPostType: boolean
+    tutorialProgress: number
+    tutorialCompleted: boolean
 }
 
 export const defaultPreference: Preference = {
@@ -53,7 +55,9 @@ export const defaultPreference: Preference = {
     customThemes: {},
     hideDisabledSubKey: false,
     enableConcord: false,
-    autoSwitchMediaPostType: true
+    autoSwitchMediaPostType: true,
+    tutorialProgress: 0,
+    tutorialCompleted: false
 }
 
 interface PreferenceState {

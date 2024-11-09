@@ -223,11 +223,16 @@ export function Profile(props: ProfileProps): JSX.Element {
                                 flexShrink: 0,
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'flex-end'
+                                justifyContent: 'flex-end',
+                                minHeight: '32.5px'
                             }}
                         >
-                            {!isSelf && <AckButton user={props.user} />}
-                            <WatchButton timelineID={props.user.homeTimeline ?? ''} />
+                            {!!client.user ?? (
+                                <>
+                                    {!isSelf && <AckButton user={props.user} />}
+                                    <WatchButton timelineID={props.user.homeTimeline ?? ''} />
+                                </>
+                            )}
                             {isSelf && (
                                 <Button variant="outlined" component={NavLink} to="/settings/profile">
                                     Edit Profile

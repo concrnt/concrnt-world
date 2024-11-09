@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Divider, IconButton } from '@mui/material'
+import { Badge, Box, ButtonBase, Divider, IconButton } from '@mui/material'
 import CreateIcon from '@mui/icons-material/Create'
 import { Link } from 'react-router-dom'
 
@@ -7,6 +7,7 @@ import ExploreIcon from '@mui/icons-material/Explore'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ContactsIcon from '@mui/icons-material/Contacts'
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { memo } from 'react'
 import { CCAvatar } from '../ui/CCAvatar'
 import { useClient } from '../../context/ClientContext'
@@ -16,6 +17,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { MinimalListsMenu } from '../ListsMenu/minimal'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import { useEditorModal } from '../EditorModal'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface MenuProps {
     onClick?: () => void
@@ -27,6 +29,10 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const editorModal = useEditorModal()
     const [devMode] = usePreference('devMode')
     const [showEditorOnTop] = usePreference('showEditorOnTop')
+
+    const globalState = useGlobalState()
+    const [progress] = usePreference('tutorialProgress')
+    const [tutorialCompleted] = usePreference('tutorialCompleted')
 
     return (
         <Box
@@ -101,6 +107,22 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                             }}
                         />
                     </IconButton>
+                    {!tutorialCompleted && (
+                        <IconButton sx={{ p: 0.5 }} component={Link} to="/tutorial" onClick={props.onClick}>
+                            <Badge
+                                color="secondary"
+                                variant="dot"
+                                invisible={progress !== 0 || !globalState.isMasterSession}
+                            >
+                                <MenuBookIcon
+                                    sx={{
+                                        color: 'background.contrastText'
+                                    }}
+                                />
+                            </Badge>
+                        </IconButton>
+                    )}
+
                     {devMode && (
                         <IconButton sx={{ p: 0.5 }} component={Link} to="/devtool" onClick={props.onClick}>
                             <TerminalIcon

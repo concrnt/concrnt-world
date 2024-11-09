@@ -33,6 +33,7 @@ export const GeneralSettings = (): JSX.Element => {
     const [devMode, setDevMode] = usePreference('devMode')
     const [enableConcord, setEnableConcord] = usePreference('enableConcord')
     const [autoSwitchMediaPostType, setAutoSwitchMediaPostType] = usePreference('autoSwitchMediaPostType')
+    const [tutorialCompleted, setTutorialCompleted] = usePreference('tutorialCompleted')
 
     const tags = client?.user?.tag ? client.user.tag.split(',') : []
     const { enqueueSnackbar } = useSnackbar()
@@ -130,6 +131,17 @@ export const GeneralSettings = (): JSX.Element => {
                     )}
                 </FormGroup>
             </Box>
+
+            {tutorialCompleted && (
+                <Button
+                    onClick={(_) => {
+                        setTutorialCompleted(false)
+                    }}
+                >
+                    メニューにチュートリアルを表示する
+                </Button>
+            )}
+
             {!enableConcord && (
                 <Accordion>
                     <AccordionSummary>

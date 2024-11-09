@@ -35,6 +35,7 @@ export const LogoutButton = (): JSX.Element => {
                         borderRadius: '10px',
                         top: '50%',
                         left: '50%',
+                        width: '80vw',
                         background: theme.palette.background.paper
                     }}
                 >

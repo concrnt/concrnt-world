@@ -1,4 +1,4 @@
-import { Button, CircularProgress, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -12,7 +12,7 @@ export const ImportSubkey = (): JSX.Element => {
 
     const [subkey, setSubkey] = useState<string>('')
     const [subkeyDraft, setSubkeyDraft] = useState<string>('')
-    const [showSecret, setShowSecret] = useState<boolean>(true)
+    const [showSecret, setShowSecret] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
 
     const [client, setClient] = useState<Client | null>(null)
@@ -21,6 +21,7 @@ export const ImportSubkey = (): JSX.Element => {
 
     const accountImport = (): void => {
         if (client) {
+            localStorage.clear()
             localStorage.setItem('Domain', JSON.stringify(client.host))
             localStorage.setItem('SubKey', JSON.stringify(subkey))
             window.location.href = '/'
@@ -48,7 +49,7 @@ export const ImportSubkey = (): JSX.Element => {
     }
 
     return (
-        <>
+        <Box component="form" display="flex" flexDirection="column" gap={2}>
             <Typography variant="h3">{t('withSubkey')}</Typography>
             <TextField
                 type={showSecret ? 'text' : 'password'}
@@ -84,6 +85,6 @@ export const ImportSubkey = (): JSX.Element => {
             <Button disabled={!client} onClick={accountImport}>
                 {t('import')}
             </Button>
-        </>
+        </Box>
     )
 }

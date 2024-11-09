@@ -10,7 +10,8 @@ import {
     Typography,
     Link,
     useMediaQuery,
-    useTheme
+    useTheme,
+    Badge
 } from '@mui/material'
 import CreateIcon from '@mui/icons-material/Create'
 import { Link as NavLink } from 'react-router-dom'
@@ -21,6 +22,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import ContactsIcon from '@mui/icons-material/Contacts'
 import CellTowerIcon from '@mui/icons-material/CellTower'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { memo } from 'react'
 import { ListsMenu } from '../ListsMenu/main'
 import { CCAvatar } from '../ui/CCAvatar'
@@ -28,6 +30,7 @@ import { useClient } from '../../context/ClientContext'
 import { usePreference } from '../../context/PreferenceContext'
 import { useTranslation } from 'react-i18next'
 import { useEditorModal } from '../EditorModal'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface MenuProps {
     onClick?: () => void
@@ -42,6 +45,9 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const [showEditorOnTop] = usePreference('showEditorOnTop')
     const theme = useTheme()
     const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
+    const globalState = useGlobalState()
+    const [progress] = usePreference('tutorialProgress')
+    const [tutorialCompleted] = usePreference('tutorialCompleted')
 
     return (
         <Box
@@ -163,6 +169,30 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                     />
 
                                     <ListItemText primary={'Concord'} />
+                                </ListItemButton>
+                            </ListItem>
+                        )}
+                        {!tutorialCompleted && (
+                            <ListItem disablePadding>
+                                <ListItemButton
+                                    sx={{ gap: 1 }}
+                                    component={NavLink}
+                                    to="/tutorial"
+                                    onClick={props.onClick}
+                                >
+                                    <Badge
+                                        color="secondary"
+                                        variant="dot"
+                                        invisible={progress !== 0 || !globalState.isMasterSession}
+                                    >
+                                        <MenuBookIcon
+                                            sx={{
+                                                color: 'background.contrastText'
+                                            }}
+                                        />
+                                    </Badge>
+
+                                    <ListItemText primary={'チュートリアル'} />
                                 </ListItemButton>
                             </ListItem>
                         )}

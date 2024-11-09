@@ -31,6 +31,7 @@ export const ThemeCard = (props: ThemeCardProps): JSX.Element => {
                 }}
                 color="info"
                 onClick={props.onClick}
+                variant="outlined"
             >
                 <Box
                     sx={{

@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
-import { Routes, Route, Link as RouterLink } from 'react-router-dom'
-import { darken, Box, Paper, ThemeProvider, CssBaseline, Typography, useMediaQuery } from '@mui/material'
+import { useEffect, useState, useRef, Suspense, lazy } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { darken, Box, Paper, ThemeProvider, CssBaseline, Typography, useMediaQuery, Modal } from '@mui/material'
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 import { ConcordProvider } from './context/ConcordContext'
 
@@ -48,6 +48,10 @@ import { ConcrntLogo } from './components/theming/ConcrntLogo'
 import { ConcordPage } from './pages/Concord'
 import { EditorModalProvider } from './components/EditorModal'
 import { MediaViewerProvider } from './context/MediaViewer'
+import { Tutorial } from './pages/Tutorial'
+import { LogoutButton } from './components/Settings/LogoutButton'
+
+const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
 function App(): JSX.Element {
     const { client } = useClient()
@@ -58,6 +62,9 @@ function App(): JSX.Element {
     const [theme, setTheme] = useState<ConcurrentTheme>(loadConcurrentTheme(themeName, customThemes))
     const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
     const subscription = useRef<Subscription>()
+
+    const identity = JSON.parse(localStorage.getItem('Identity') || 'null')
+    const [progress] = usePreference('tutorialProgress')
 
     const { t } = useTranslation()
 
@@ -279,18 +286,21 @@ function App(): JSX.Element {
                             現在所属ドメインではないドメインにログインしています。引っ越し作業が完了次第、再ログインしてください。
                         </Typography>
                     )}
-                    {globalState.isMasterSession && globalState.isCanonicalUser && (
+                    {globalState.isMasterSession && globalState.isCanonicalUser && progress !== 0 && (
                         <Typography
                             sx={{
                                 textAlign: 'center',
                                 color: 'error.contrastText',
                                 fontSize: '0.8em',
                                 fontWeight: 'bold',
-                                padding: '10px'
+                                padding: '10px',
+                                textDecoration: 'underline'
                             }}
-                            component={RouterLink}
-                            to="/settings/identity"
+                            onClick={() => {
+                                globalState.setSwitchToSub(true)
+                            }}
                         >
+                            {' '}
                             {t('settings.identity.loginType.masterKey')}
                         </Typography>
                     )}
@@ -381,6 +391,7 @@ function App(): JSX.Element {
                                 <Route path="/devtool" element={<Devtool />} />
                                 <Route path="/subscriptions" element={<ManageSubsPage />} />
                                 <Route path="/concord/*" element={<ConcordPage />} />
+                                <Route path="/tutorial" element={<Tutorial />} />
                             </Routes>
                         </Paper>
                         <Box
@@ -412,6 +423,38 @@ function App(): JSX.Element {
                     <ConcrntLogo size="300px" color={theme.palette.background.contrastText} />
                 </Box>
             </Box>
+            <Modal
+                open={globalState.switchToSubOpen}
+                onClose={() => {
+                    globalState.setSwitchToSub(false)
+                }}
+            >
+                <Paper
+                    sx={{
+                        position: 'absolute',
+                        top: '10%',
+                        left: '50%',
+                        transform: 'translate(-50%, 0%)',
+                        width: '700px',
+                        maxWidth: '90vw',
+                        padding: '20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1
+                    }}
+                >
+                    <Box>
+                        <Typography variant="h2">特権モードから抜ける</Typography>
+                        <Typography variant="caption">
+                            特権モードは、アカウントの削除など重要な操作が可能なモードです。
+                        </Typography>
+                    </Box>
+                    <Suspense fallback={<>loading...</>}>
+                        <SwitchMasterToSub identity={identity} />
+                    </Suspense>
+                    <LogoutButton />
+                </Paper>
+            </Modal>
         </>
     )
 }

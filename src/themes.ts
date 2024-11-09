@@ -251,27 +251,30 @@ export const ConcurrentDefaultTheme = {
             fontSize: '1rem'
         },
         h1: {
-            fontSize: 32,
-            fontWeight: 700
+            fontSize: '1.8em',
+            fontWeight: 700,
+            lineHeight: 1.5
         },
         h2: {
-            fontSize: 24,
-            fontWeight: 700
+            fontSize: '1.6em',
+            fontWeight: 700,
+            lineHeight: 1.5
         },
         h3: {
-            fontSize: 19.2,
-            fontWeight: 700
+            fontSize: '1.4em',
+            fontWeight: 700,
+            lineHeight: 1.5
         },
         h4: {
-            fontSize: 16,
+            fontSize: '1.2em',
             fontWeight: 700
         },
         h5: {
-            fontSize: 12.8,
+            fontSize: '1em',
             fontWeight: 700
         },
         h6: {
-            fontSize: 11.2,
+            fontSize: '0.9em',
             fontWeight: 700
         }
     },
@@ -321,6 +324,9 @@ export const ConcurrentDefaultTheme = {
                 },
                 '.snackbar-container-mobile': {
                     bottom: 'calc(55px + env(safe-area-inset-bottom))'
+                },
+                'p+p, figure+p': {
+                    marginTop: '1.3em'
                 }
             }
         }

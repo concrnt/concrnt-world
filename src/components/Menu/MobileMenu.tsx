@@ -1,20 +1,27 @@
-import { Box, Button, alpha, useTheme } from '@mui/material'
+import { Badge, Box, Button, alpha, useTheme } from '@mui/material'
 
 import HomeIcon from '@mui/icons-material/Home'
 import ContactsIcon from '@mui/icons-material/Contacts'
 import ExploreIcon from '@mui/icons-material/Explore'
 import CreateIcon from '@mui/icons-material/Create'
 import MenuIcon from '@mui/icons-material/Menu'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { NavLink } from 'react-router-dom'
 import { useGlobalActions } from '../../context/GlobalActions'
 import type { ConcurrentTheme } from '../../model'
 import { useEditorModal } from '../EditorModal'
+import { useGlobalState } from '../../context/GlobalState'
+import { usePreference } from '../../context/PreferenceContext'
 
 export const MobileMenu = (): JSX.Element => {
     const theme = useTheme<ConcurrentTheme>()
     const actions = useGlobalActions()
     const editorModal = useEditorModal()
+
+    const globalState = useGlobalState()
+    const [progress] = usePreference('tutorialProgress')
+    const [tutorialCompleted] = usePreference('tutorialCompleted')
 
     return (
         <Box
@@ -23,7 +30,8 @@ export const MobileMenu = (): JSX.Element => {
                 height: 49,
                 color: 'white',
                 justifyContent: 'space-around',
-                marginBottom: 'env(safe-area-inset-bottom)'
+                marginBottom: 'env(safe-area-inset-bottom)',
+                overflow: 'hidden'
             }}
         >
             <Button
@@ -34,8 +42,8 @@ export const MobileMenu = (): JSX.Element => {
                 }}
                 sx={{
                     color: 'divider',
-                    minWidth: 0,
-                    width: 0.5
+                    flex: 0.5,
+                    minWidth: 0
                 }}
             >
                 <MenuIcon
@@ -47,12 +55,25 @@ export const MobileMenu = (): JSX.Element => {
                     }}
                 />
             </Button>
-            <Button variant="text" sx={{ color: 'background.contrastText', width: 1 }} component={NavLink} to="/">
+            <Button
+                variant="text"
+                sx={{
+                    color: 'background.contrastText',
+                    flex: 1,
+                    minWidth: 0
+                }}
+                component={NavLink}
+                to="/"
+            >
                 <HomeIcon />
             </Button>
             <Button
                 variant="text"
-                sx={{ color: 'background.contrastText', width: 1 }}
+                sx={{
+                    color: 'background.contrastText',
+                    flex: 1,
+                    minWidth: 0
+                }}
                 component={NavLink}
                 to="/notifications"
             >
@@ -60,15 +81,43 @@ export const MobileMenu = (): JSX.Element => {
             </Button>
             <Button
                 variant="text"
-                sx={{ color: 'background.contrastText', width: 1 }}
+                sx={{
+                    color: 'background.contrastText',
+                    flex: 1,
+                    minWidth: 0
+                }}
                 component={NavLink}
                 to="/contacts"
             >
                 <ContactsIcon />
             </Button>
+            {!tutorialCompleted && (
+                <Button
+                    variant="text"
+                    sx={{
+                        color: 'background.contrastText',
+                        flex: 1,
+                        minWidth: 0
+                    }}
+                    component={NavLink}
+                    to="/tutorial"
+                >
+                    <Badge color="secondary" variant="dot" invisible={progress !== 0 || !globalState.isMasterSession}>
+                        <MenuBookIcon
+                            sx={{
+                                color: 'background.contrastText'
+                            }}
+                        />
+                    </Badge>
+                </Button>
+            )}
             <Button
                 variant="text"
-                sx={{ color: 'background.contrastText', width: 1 }}
+                sx={{
+                    color: 'background.contrastText',
+                    flex: 1,
+                    minWidth: 0
+                }}
                 component={NavLink}
                 to="/explorer/timelines"
             >
@@ -79,7 +128,7 @@ export const MobileMenu = (): JSX.Element => {
                 sx={{
                     height: 36,
                     my: 'auto',
-                    width: 0.5,
+                    flex: 0.5,
                     borderRadius: `20px 0 0 20px`,
                     backgroundColor: alpha(theme.palette.background.contrastText, 0.9),
                     ':hover': {

@@ -93,9 +93,9 @@ export function AccountImport(): JSX.Element {
                 )}
                 {importMode === 'manual' && (
                     <>
-                        <ImportSubkey />
-                        <Divider>または</Divider>
                         <ImportMasterKey />
+                        <Divider>または</Divider>
+                        <ImportSubkey />
                     </>
                 )}
             </Paper>

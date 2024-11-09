@@ -22,6 +22,8 @@ export interface GlobalState {
     allProfiles: Array<CoreProfile<any>>
     reloadList: () => void
     getImageURL: (url?: string, params?: { maxWidth?: number; maxHeight?: number; format?: string }) => string
+    setSwitchToSub: (state: boolean) => void
+    switchToSubOpen: boolean
 }
 
 const GlobalStateContext = createContext<GlobalState | undefined>(undefined)
@@ -38,12 +40,15 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
     const [entity, setEntity] = useState<CoreEntity | null>(null)
     const isCanonicalUser = entity ? entity.domain === client?.host : true
     const [isRegistered, setIsRegistered] = useState<boolean>(true)
-    const isMasterSession = JSON.parse(localStorage.getItem('Identity') || 'null') !== null
+    const identity = JSON.parse(localStorage.getItem('Identity') || 'null')
+    const isMasterSession = identity !== null
 
     const [allProfiles, setAllProfiles] = useState<Array<CoreProfile<any>>>([])
     const [allKnownTimelines, setAllKnownTimelines] = useState<Array<Timeline<CommunityTimelineSchema>>>([])
     const [allKnownSubscriptions, setAllKnownSubscriptions] = useState<Array<CoreSubscription<any>>>([])
     const [listedSubscriptions, setListedSubscriptions] = useState<Record<string, CoreSubscription<any>>>({})
+
+    const [switchToSubOpen, setKeyModalOpen] = useState<boolean>(false)
 
     const getImageURL = useCallback(
         (url?: string, opts?: { maxWidth?: number; maxHeight?: number; format?: string }) => {
@@ -163,6 +168,10 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
             })
     }, [client])
 
+    const setSwitchToSub = useCallback((state: boolean) => {
+        setKeyModalOpen(state)
+    }, [])
+
     return (
         <GlobalStateContext.Provider
             value={{
@@ -175,7 +184,9 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
                 listedSubscriptions,
                 reloadList,
                 allProfiles,
-                getImageURL
+                getImageURL,
+                setSwitchToSub,
+                switchToSubOpen
             }}
         >
             {children}
@@ -196,7 +207,9 @@ export function useGlobalState(): GlobalState {
             listedSubscriptions: {},
             reloadList: () => {},
             allProfiles: [],
-            getImageURL: (url?: string, _options?: any) => url ?? ''
+            getImageURL: (url?: string, _options?: any) => url ?? '',
+            setSwitchToSub: (_state: boolean) => {},
+            switchToSubOpen: false
         }
     }
     return context
