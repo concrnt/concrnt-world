@@ -394,7 +394,7 @@ export function Tutorial(): JSX.Element {
 
 <emojipack src="https://emojis.worldfile.cc/worldpack/emojis.json"></emojipack>
 
-また、少し手間が必要ですが、自分で絵文字パックを作成することもできます。詳細は[こちら]()を参照してください。
+また、少し手間が必要ですが、自分で絵文字パックを作成することもできます。詳細は[こちら](https://square.concrnt.net/general/world/emojipack/)を参照してください。
 
 
 `}

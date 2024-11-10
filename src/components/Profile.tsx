@@ -227,7 +227,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                                 minHeight: '32.5px'
                             }}
                         >
-                            {!!client.user ?? (
+                            {client.user && (
                                 <>
                                     {!isSelf && <AckButton user={props.user} />}
                                     <WatchButton timelineID={props.user.homeTimeline ?? ''} />
