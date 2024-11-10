@@ -12,6 +12,7 @@ export interface StreamPickerProps {
     setSelected: (selected: Array<Timeline<CommunityTimelineSchema>>) => void
     sx?: SxProps
     options: Array<Timeline<CommunityTimelineSchema>>
+    placeholder?: string
 }
 
 export const StreamPicker = (props: StreamPickerProps): JSX.Element => {
@@ -84,7 +85,7 @@ export const StreamPicker = (props: StreamPickerProps): JSX.Element => {
                             {...params.InputProps}
                             {...rest}
                             sx={{ color: 'props.theme.palette.text.secondary' }}
-                            placeholder={selected.length === 0 ? '投稿先の選択…' : ''}
+                            placeholder={props.placeholder}
                         />
                     )
                 }}

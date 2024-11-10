@@ -188,6 +188,7 @@ export const APSettings = (): JSX.Element => {
                         setSelected={(streams) => {
                             setListenTimelines(streams)
                         }}
+                        placeholder="転送元タイムラインの追加"
                     />
                     <Button
                         onClick={() => {

@@ -123,6 +123,7 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                                 })
                                 setPostStreams(value)
                             }}
+                            placeholder="デフォルト投稿先の追加"
                         />
                     </Box>
                     <Typography variant="h3">ホーム投稿</Typography>

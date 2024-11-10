@@ -451,6 +451,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             options={props.streamPickerOptions}
                             selected={destTimelines}
                             setSelected={setDestTimelines}
+                            placeholder={destTimelines.length === 0 ? '投稿先を選択' : ''}
                         />
                         <CCIconButton
                             sx={{

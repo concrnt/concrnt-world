@@ -10,6 +10,7 @@ import { StreamCard } from '../components/Stream/Card'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import figurePost from '../resources/tutorial-post-to-communities.png'
 import figureListSettings from '../resources/tutorial-list-settings.png'
+import TuneIcon from '@mui/icons-material/Tune'
 
 const SwitchMasterToSub = lazy(() => import('../components/SwitchMasterToSub'))
 
@@ -313,7 +314,16 @@ export function Tutorial(): JSX.Element {
 
                             <Typography>
                                 自分の腰を据えるコミュニティがあれば、そのコミュニティをデフォルト投稿先に設定しておくと便利でしょう。
-                                リストを表示した状態で、右上のiボタンを押すことで、デフォルト投稿先の設定を行うことができます。
+                                リストを表示した状態で、右上の
+                                {
+                                    <TuneIcon
+                                        sx={{
+                                            color: 'text.primary',
+                                            verticalAlign: 'middle'
+                                        }}
+                                    />
+                                }
+                                を押すことで、デフォルト投稿先の設定を行うことができます。
                             </Typography>
 
                             <Box
