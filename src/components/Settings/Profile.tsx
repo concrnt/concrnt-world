@@ -292,6 +292,20 @@ export const ProfileSettings = (): JSX.Element => {
             {allProfiles.map((character) => {
                 const published = enabledSubprofiles.includes(character.id)
                 const withTimeline = allEnabledTimelines.find((t) => t.document.body.subprofile === character.id)
+                let policyParams: any = {}
+                try {
+                    if (withTimeline?.document.policyParams) {
+                        policyParams = JSON.parse(withTimeline.document.policyParams)
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
+                const timelineValid =
+                    withTimeline &&
+                    withTimeline.document.policy === 'https://policy.concrnt.world/t/inline-read-write.json' &&
+                    policyParams.isWritePublic === false &&
+                    policyParams.isReadPublic === true &&
+                    policyParams.writer.includes(client.ccid)
 
                 const menuItems = [
                     <MenuItem
@@ -352,7 +366,7 @@ export const ProfileSettings = (): JSX.Element => {
                     </MenuItem>
                 ]
 
-                if (!withTimeline) {
+                if (!withTimeline || !timelineValid) {
                     menuItems.push(
                         <MenuItem
                             key="fix"
@@ -364,6 +378,10 @@ export const ProfileSettings = (): JSX.Element => {
                                             subprofile: character.id
                                         },
                                         {
+                                            owner: client.ccid,
+                                            indexable: false,
+                                            policy: 'https://policy.concrnt.world/t/inline-read-write.json',
+                                            policyParams: `{"isWritePublic": false, "isReadPublic": true, "writer": ["${client.ccid}"], "reader": []}`,
                                             semanticID: 'world.concrnt.t-subhome.' + character.id
                                         }
                                     )
@@ -395,6 +413,14 @@ export const ProfileSettings = (): JSX.Element => {
                             <>
                                 <br />
                                 サブプロフィールタイムラインがありません
+                            </>
+                        )}
+                        {timelineValid ? (
+                            <></>
+                        ) : (
+                            <>
+                                <br />
+                                サブプロフィールタイムラインの設定が不完全です
                             </>
                         )}
                     </SubProfileCard>
