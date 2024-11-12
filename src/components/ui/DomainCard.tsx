@@ -44,9 +44,13 @@ export const DomainCard = (props: DomainCardProps): JSX.Element | null => {
         >
             <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
                 <Avatar src={domain.meta.logo} />
-                <Box display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center" gap={0}>
-                    <Typography variant="h3">{domain.meta.nickname}</Typography>
-                    <Typography variant="subtitle1">{domain.fqdn}</Typography>
+                <Box display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center" gap={0.5}>
+                    <Typography variant="h3" lineHeight="1">
+                        {domain.meta.nickname}
+                    </Typography>
+                    <Typography variant="subtitle1" lineHeight="1">
+                        {domain.fqdn}
+                    </Typography>
                 </Box>
             </Box>
             <Checkbox

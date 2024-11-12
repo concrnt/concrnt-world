@@ -133,7 +133,14 @@ export const UrlPreview = (props: { url: string }): JSX.Element | null => {
                 />
             )}
             <Box padding={1} height="100px" overflow="hidden">
-                <Typography variant="h3" whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" width="100%">
+                <Typography
+                    variant="h3"
+                    whiteSpace="nowrap"
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    width="100%"
+                    lineHeight="1"
+                >
                     {preview?.title || hostname}
                 </Typography>
 

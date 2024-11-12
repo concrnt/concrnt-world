@@ -185,7 +185,7 @@ export function GuestTimelinePage(props: GuestPageProps): JSX.Element {
                                                     fontSize: '10rem'
                                                 }}
                                             />
-                                            <Typography variant="h5">このストリームはプライベートです。</Typography>
+                                            <Typography variant="h5">このコミュニティはプライベートです。</Typography>
                                         </Box>
                                     </Box>
                                 ) : (

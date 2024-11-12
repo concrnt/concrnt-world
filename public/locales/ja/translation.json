@@ -36,6 +36,9 @@
         "devtool": {
             "title": "開発者ツール"
         },
+        "tutorial": {
+            "title": "チュートリアル"
+        },
         "settings": {
             "title": "設定",
             "actions": {
@@ -84,7 +87,7 @@
             "emoji": "絵文字",
             "clearDraft": "下書きを削除",
             "postToHome": "ホーム同時投稿モード",
-            "noPostToHome": "ストリーム限定投稿モード",
+            "noPostToHome": "コミュニティ限定投稿モード",
             "current": "カレント",
             "whisper": "ウィスパー"
         },
@@ -99,6 +102,7 @@
             "update": "更新",
             "defaultDest": "デフォルト投稿先",
             "stream": "ストリーム",
+            "community": "コミュニティ",
             "user": "ユーザー",
             "pin": "ピン留め",
             "delete": "リストを削除"

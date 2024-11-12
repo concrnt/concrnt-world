@@ -36,6 +36,9 @@
         "devtool": {
             "title": "Devtool"
         },
+        "tutorial": {
+            "title": "Tutorial"
+        },
         "settings": {
             "title": "Settings",
             "actions": {
@@ -83,8 +86,8 @@
             "closePreview": "Close preview",
             "emoji": "Emojis",
             "clearDraft": "Clear draft",
-            "postToHome": "Also posting to home stream",
-            "noPostToHome": "Not posting to home stream",
+            "postToHome": "Also posting to home timeline",
+            "noPostToHome": "Not posting to home timeline",
             "current": "Post",
             "whisper": "Whisper"
         },
@@ -99,6 +102,7 @@
             "update": "Update",
             "defaultDest": "Default destination",
             "stream": "Stream",
+            "community": "Community",
             "user": "User",
             "pin": "Pin",
             "delete": "Delete"

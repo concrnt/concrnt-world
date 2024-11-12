@@ -234,13 +234,13 @@ export function ListPage(): JSX.Element {
                                         alignItems: 'center'
                                     }}
                                 >
-                                    <Button component={RouterLink} to="/explorer/streams">
+                                    <Button component={RouterLink} to="/explorer/timelines">
                                         <Typography variant="h1" sx={{ fontWeight: 600, mx: 1 }}>
                                             Go Explore
                                         </Typography>
                                         <ExploreIcon sx={{ fontSize: '10rem', verticalAlign: 'middle' }} />
                                     </Button>
-                                    <p>フォローするユーザー・ストリームを探しに行く</p>
+                                    <p>フォローするユーザー・コミュニティを探しに行く</p>
                                 </Box>
                             </Box>
                         )}

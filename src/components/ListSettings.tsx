@@ -181,7 +181,7 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                 textColor="secondary"
                 indicatorColor="secondary"
             >
-                <Tab label={t('stream')} value="stream" />
+                <Tab label={t('community')} value="stream" />
                 <Tab label={t('user')} value="user" />
             </Tabs>
             <List>

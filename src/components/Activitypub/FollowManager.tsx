@@ -180,7 +180,8 @@ export const APUserCard = memo<{ url: string; remove?: (_: { URL: string; shortI
                     backgroundSize: 'cover',
                     gap: 1,
                     textDecoration: 'none',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    alignItems: 'center'
                 }}
             >
                 <Avatar src={getImageURL(person.icon?.url, { maxHeight: 256 })} />
@@ -195,7 +196,9 @@ export const APUserCard = memo<{ url: string; remove?: (_: { URL: string; shortI
                         overflow: 'hidden'
                     }}
                 >
-                    <Typography variant="h3">{person.name || person.preferredUsername}</Typography>
+                    <Typography variant="h3" lineHeight="1">
+                        {person.name || person.preferredUsername}
+                    </Typography>
                     <Link underline="hover" href={props.url} target="_blank" rel="noopener noreferrer">
                         @{person.preferredUsername}@{host}
                     </Link>

@@ -192,7 +192,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                         />
                                     </Badge>
 
-                                    <ListItemText primary={'チュートリアル'} />
+                                    <ListItemText primary={t('tutorial.title')} />
                                 </ListItemButton>
                             </ListItem>
                         )}
