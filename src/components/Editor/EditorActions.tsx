@@ -4,11 +4,7 @@ import {
     Box,
     Button,
     Collapse,
-    FormControl,
-    InputLabel,
-    MenuItem,
     Popover,
-    Select,
     TextField,
     Tooltip,
     Typography,
@@ -53,6 +49,7 @@ export interface EditorActionsProps {
     whisperUsers: User[]
     setWhisperUsers: Dispatch<SetStateAction<User[]>>
     isPrivate?: boolean
+    addon?: JSX.Element | boolean
 }
 
 export const EditorActions = (props: EditorActionsProps): JSX.Element => {
@@ -357,6 +354,7 @@ ${props.draft.trim() || '内容を入力...'}
                     gap: 1
                 }}
             >
+                {props.addon}
                 <Box>
                     <Button
                         color="primary"

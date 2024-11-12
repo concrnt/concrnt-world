@@ -1,13 +1,13 @@
-import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip } from '@mui/material'
 
-import { type Message, type RerouteMessageSchema } from '@concurrent-world/client'
+import { type CoreProfile, type Message, type RerouteMessageSchema } from '@concurrent-world/client'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import { CCAvatar } from '../ui/CCAvatar'
 import { Link as routerLink, Link as RouterLink } from 'react-router-dom'
 import { TimeDiff } from '../ui/TimeDiff'
 import { MessageContainer } from './MessageContainer'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useClient } from '../../context/ClientContext'
@@ -27,16 +27,30 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
     const { client } = useClient()
     const inspector = useInspector()
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
+    const [character, setProfile] = useState<CoreProfile<any> | null>(null)
 
     const profileOverride = props.message.document.body.profileOverride
 
-    const avatarURL = profileOverride?.avatar ?? props.message.authorUser?.profile?.avatar
-    const username = profileOverride?.username ?? props.message.authorUser?.profile?.username ?? 'Anonymous'
+    const avatarURL =
+        character?.document.body.avatar ?? profileOverride?.avatar ?? props.message.authorUser?.profile?.avatar
+    const username =
+        character?.document.body.username ??
+        profileOverride?.username ??
+        props.message.authorUser?.profile?.username ??
+        'Anonymous'
     const link = profileOverride?.link ?? '/' + props.message.author
+
+    useEffect(() => {
+        if (profileOverride?.profileID) {
+            client.api.getProfileByID(profileOverride.profileID, props.message.author).then((character) => {
+                setProfile(character ?? null)
+            })
+        }
+    }, [profileOverride?.profileID])
 
     return (
         <>
-            <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 2 }}>
+            <Box display="flex" alignItems="center" gap={1}>
                 <Box
                     display="flex"
                     width={{ xs: '38px', sm: '48px' }}

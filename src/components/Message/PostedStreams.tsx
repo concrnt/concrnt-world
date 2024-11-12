@@ -18,6 +18,7 @@ import TagIcon from '@mui/icons-material/Tag'
 import LockIcon from '@mui/icons-material/Lock'
 import { isPrivateTimeline } from '../../util'
 import { useGlobalState } from '../../context/GlobalState'
+import { SubprofileBadge } from '../ui/SubprofileBadge'
 
 export interface PostedStreamsProps {
     useUserIcon?: boolean
@@ -35,6 +36,7 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                     (stream.schema === Schemas.communityTimeline &&
                         (stream.author === client.ccid || stream.indexable)) ||
                     stream.schema === Schemas.emptyTimeline ||
+                    stream.schema === Schemas.subprofileTimeline ||
                     globalState.allKnownTimelines.map((t) => t.id).includes(stream.id)
             ) ?? []
         const uniq = [...new Set(streams)]
@@ -111,6 +113,42 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                             width: '1rem'
                                         }}
                                         ccid={e.author}
+                                    />
+                                }
+                            >
+                                <HomeOutlinedIcon
+                                    sx={{
+                                        height: '1rem',
+                                        width: '1rem',
+                                        color: 'text.secondary'
+                                    }}
+                                />
+                            </Tooltip>
+                        )
+                    case Schemas.subprofileTimeline:
+                        return props.useUserIcon ? (
+                            <SubprofileBadge
+                                key={e.id}
+                                characterID={e.document.body.subprofile}
+                                authorCCID={e.author}
+                                sx={{
+                                    height: '1rem',
+                                    width: '1rem'
+                                }}
+                            />
+                        ) : (
+                            <Tooltip
+                                key={e.id}
+                                arrow
+                                placement="top"
+                                title={
+                                    <SubprofileBadge
+                                        characterID={e.document.body.subprofile}
+                                        authorCCID={e.author}
+                                        sx={{
+                                            height: '1rem',
+                                            width: '1rem'
+                                        }}
                                     />
                                 }
                             >

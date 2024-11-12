@@ -25,7 +25,7 @@ export function EntityPage(): JSX.Element {
 
     const [showHeader, setShowHeader] = useState(false)
 
-    const subCharacterID = path.hash.replace('#', '')
+    const subProfileID = path.hash.replace('#', '')
 
     const [filter, setFilter] = useState<string | undefined>(undefined)
 
@@ -37,18 +37,15 @@ export function EntityPage(): JSX.Element {
     }, [id])
 
     const targetTimeline = useMemo(() => {
-        let target
         switch (tab ?? '') {
             case '':
             case 'media':
-                target = user?.homeTimeline
-                break
+                if (subProfileID) return 'world.concrnt.t-subhome.' + subProfileID + '@' + user?.ccid
+                return user?.homeTimeline
             case 'activity':
-                target = user?.associationTimeline
-                break
+                return user?.associationTimeline
         }
-        return target
-    }, [user, tab])
+    }, [user, tab, subProfileID])
 
     const query = useMemo(() => {
         switch (tab) {
@@ -96,7 +93,7 @@ export function EntityPage(): JSX.Element {
                             <Profile
                                 user={user ?? undefined}
                                 id={id}
-                                overrideSubProfileID={subCharacterID}
+                                overrideSubProfileID={subProfileID}
                                 onSubProfileClicked={(id) => {
                                     window.location.hash = id
                                 }}
@@ -104,8 +101,8 @@ export function EntityPage(): JSX.Element {
                             <Tabs
                                 value={tab}
                                 onChange={(_, value) => {
-                                    if (value === '') navigate(`/${id}` + (subCharacterID ? '#' + subCharacterID : ''))
-                                    else navigate(`/${id}/${value}` + (subCharacterID ? '#' + subCharacterID : ''))
+                                    if (value === '') navigate(`/${id}` + (subProfileID ? '#' + subProfileID : ''))
+                                    else navigate(`/${id}/${value}` + (subProfileID ? '#' + subProfileID : ''))
                                 }}
                                 textColor="secondary"
                                 indicatorColor="secondary"

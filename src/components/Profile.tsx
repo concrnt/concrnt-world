@@ -230,7 +230,16 @@ export function Profile(props: ProfileProps): JSX.Element {
                             {client.user && (
                                 <>
                                     {!isSelf && <AckButton user={props.user} />}
-                                    <WatchButton timelineID={props.user.homeTimeline ?? ''} />
+                                    <WatchButton
+                                        timelineID={
+                                            props.overrideSubProfileID
+                                                ? 'world.concrnt.t-subhome.' +
+                                                  props.overrideSubProfileID +
+                                                  '@' +
+                                                  props.user.ccid
+                                                : props.user.homeTimeline ?? ''
+                                        }
+                                    />
                                 </>
                             )}
                             {isSelf && (

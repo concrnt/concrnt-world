@@ -1,11 +1,20 @@
 import { ListItemButton, type SxProps } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { type User, type Timeline, type CommunityTimelineSchema, IsCSID } from '@concurrent-world/client'
+import {
+    type Timeline,
+    type CommunityTimelineSchema,
+    IsCSID,
+    Schemas,
+    type ProfileSchema,
+    type CoreTimeline,
+    type SubprofileTimelineSchema
+} from '@concurrent-world/client'
 import { useClient } from '../../context/ClientContext'
 import TagIcon from '@mui/icons-material/Tag'
 import CloudOffIcon from '@mui/icons-material/CloudOff'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
+import { FaTheaterMasks } from 'react-icons/fa'
 
 export interface ListItemTimelineProps {
     timelineID: string
@@ -15,16 +24,27 @@ export interface ListItemTimelineProps {
 
 export const ListItemTimeline = (props: ListItemTimelineProps): JSX.Element | null => {
     const { client } = useClient()
-    const [timeline, setTimeline] = useState<Timeline<CommunityTimelineSchema> | null | undefined>(null)
-    const [userProfile, setUserProfile] = useState<User | null | undefined>(null)
+    const [timeline, setTimeline] = useState<Timeline<any> | null | undefined>(null)
+    const [profile, setProfile] = useState<ProfileSchema | null | undefined>(null)
 
     useEffect(() => {
-        client.getTimeline<CommunityTimelineSchema>(props.timelineID).then((e) => {
+        client.getTimeline<any>(props.timelineID).then((e) => {
+            if (!e) return
             setTimeline(e)
-            if (e && !e.document.body.name) {
-                client.getUser(e.document.signer).then((user) => {
-                    setUserProfile(user)
+
+            if (e.schema === Schemas.emptyTimeline) {
+                const timeline: CoreTimeline<CommunityTimelineSchema> = e
+                client.getUser(timeline.author).then((user) => {
+                    setProfile(user?.profile)
                 })
+            } else if (e.schema === Schemas.subprofileTimeline) {
+                const timeline: CoreTimeline<SubprofileTimelineSchema> = e
+                client.api
+                    .getProfileByID<ProfileSchema>(timeline.document.body.subprofile, timeline.author)
+                    .then((profile) => {
+                        if (!profile) return
+                        setProfile(profile.document.body)
+                    })
             }
         })
     }, [props.timelineID])
@@ -38,14 +58,20 @@ export const ListItemTimeline = (props: ListItemTimelineProps): JSX.Element | nu
         )
     }
 
+    let link = `/timeline/${props.timelineID}`
+
     const split = props.timelineID.split('@')
-    const isUserTimeline = split[0] === 'world.concrnt.t-home'
-    const link = isUserTimeline ? `/${split[1]}` : `/timeline/${props.timelineID}`
+    if (split[0] === 'world.concrnt.t-home') {
+        link = `/${split[1]}`
+    } else if (timeline.schema === Schemas.subprofileTimeline) {
+        link = `/${split[1]}#${timeline.document.body.subprofile}`
+    }
 
     return (
         <ListItemButton dense component={RouterLink} to={link} sx={props.sx} onClick={props.onClick}>
             {timeline?.owner && IsCSID(timeline.owner) ? <TagIcon /> : <AlternateEmailIcon />}
-            {timeline?.document.body.name || userProfile?.profile?.username || 'Unknown'}
+            {timeline?.document.body.name || profile?.username || 'Unknown'}
+            {timeline?.schema === Schemas.subprofileTimeline && <FaTheaterMasks />}
         </ListItemButton>
     )
 }
