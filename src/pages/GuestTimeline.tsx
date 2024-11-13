@@ -17,6 +17,7 @@ import { Profile } from '../components/Profile'
 import { MessageContainer } from '../components/Message/MessageContainer'
 import { GuestBase } from '../components/GuestBase'
 import { StreamInfo } from '../components/StreamInfo'
+import { MediaViewerProvider } from '../context/MediaViewer'
 
 export interface GuestPageProps {
     page: 'timeline' | 'entity' | 'message'
@@ -92,7 +93,13 @@ export function GuestTimelinePage(props: GuestPageProps): JSX.Element {
 
     if (!client) return <FullScreenLoading message="Loading..." />
 
-    return (
+    const providers = (childs: JSX.Element): JSX.Element => (
+        <TickerProvider>
+            <MediaViewerProvider>{childs}</MediaViewerProvider>
+        </TickerProvider>
+    )
+
+    return providers(
         <GuestBase
             sx={{
                 display: 'flex',
@@ -115,107 +122,105 @@ export function GuestTimelinePage(props: GuestPageProps): JSX.Element {
                 </Button>
             }
         >
-            <TickerProvider>
-                <ApiProvider client={client}>
-                    <>
-                        {props.page === 'message' && messageID && authorID && (
-                            <Paper
-                                sx={{
-                                    margin: { xs: 0.5, sm: 1 },
-                                    display: 'flex',
-                                    flexFlow: 'column',
-                                    p: 2
-                                }}
-                            >
-                                <MessageContainer messageID={messageID} messageOwner={authorID} />
-                            </Paper>
-                        )}
-
+            <ApiProvider client={client}>
+                <>
+                    {props.page === 'message' && messageID && authorID && (
                         <Paper
                             sx={{
-                                flex: 1,
                                 margin: { xs: 0.5, sm: 1 },
-                                mb: { xs: 0, sm: '10px' },
                                 display: 'flex',
                                 flexFlow: 'column',
-                                borderRadius: 2,
-                                overflow: 'hidden',
-                                background: 'none'
+                                p: 2
                             }}
                         >
-                            <Box
-                                sx={{
-                                    width: '100%',
-                                    minHeight: '100%',
-                                    backgroundColor: 'background.paper',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flex: 1
-                                }}
-                            >
-                                <TimelineHeader
-                                    title={title}
-                                    titleIcon={
-                                        isPrivateTimeline ? (
-                                            <LockIcon />
-                                        ) : props.page === 'entity' ? (
-                                            <AlternateEmailIcon />
-                                        ) : (
-                                            <TagIcon />
-                                        )
-                                    }
-                                />
+                            <MessageContainer messageID={messageID} messageOwner={authorID} />
+                        </Paper>
+                    )}
 
-                                {isPrivateTimeline ? (
-                                    <Box>
-                                        {id && <StreamInfo id={id} />}
+                    <Paper
+                        sx={{
+                            flex: 1,
+                            margin: { xs: 0.5, sm: 1 },
+                            mb: { xs: 0, sm: '10px' },
+                            display: 'flex',
+                            flexFlow: 'column',
+                            borderRadius: 2,
+                            overflow: 'hidden',
+                            background: 'none'
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                width: '100%',
+                                minHeight: '100%',
+                                backgroundColor: 'background.paper',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                flex: 1
+                            }}
+                        >
+                            <TimelineHeader
+                                title={title}
+                                titleIcon={
+                                    isPrivateTimeline ? (
+                                        <LockIcon />
+                                    ) : props.page === 'entity' ? (
+                                        <AlternateEmailIcon />
+                                    ) : (
+                                        <TagIcon />
+                                    )
+                                }
+                            />
+
+                            {isPrivateTimeline ? (
+                                <Box>
+                                    {id && <StreamInfo id={id} />}
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            height: '100%',
+                                            color: 'text.disabled',
+                                            p: 2
+                                        }}
+                                    >
+                                        <LockIcon
+                                            sx={{
+                                                fontSize: '10rem'
+                                            }}
+                                        />
+                                        <Typography variant="h5">このコミュニティはプライベートです。</Typography>
+                                    </Box>
+                                </Box>
+                            ) : (
+                                <Timeline
+                                    ref={timelineRef}
+                                    streams={targetStream}
+                                    header={
                                         <Box
                                             sx={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                height: '100%',
-                                                color: 'text.disabled',
-                                                p: 2
+                                                overflowX: 'hidden',
+                                                overflowY: 'auto',
+                                                overscrollBehaviorY: 'contain'
                                             }}
+                                            ref={scrollParentRef}
                                         >
-                                            <LockIcon
-                                                sx={{
-                                                    fontSize: '10rem'
-                                                }}
-                                            />
-                                            <Typography variant="h5">このコミュニティはプライベートです。</Typography>
+                                            {user && (
+                                                <>
+                                                    <Profile user={user} id={id} guest={true} />
+                                                    <Divider />
+                                                </>
+                                            )}
                                         </Box>
-                                    </Box>
-                                ) : (
-                                    <Timeline
-                                        ref={timelineRef}
-                                        streams={targetStream}
-                                        header={
-                                            <Box
-                                                sx={{
-                                                    overflowX: 'hidden',
-                                                    overflowY: 'auto',
-                                                    overscrollBehaviorY: 'contain'
-                                                }}
-                                                ref={scrollParentRef}
-                                            >
-                                                {user && (
-                                                    <>
-                                                        <Profile user={user} id={id} guest={true} />
-                                                        <Divider />
-                                                    </>
-                                                )}
-                                            </Box>
-                                        }
-                                    />
-                                )}
-                            </Box>
-                        </Paper>
-                    </>
-                </ApiProvider>
-            </TickerProvider>
+                                    }
+                                />
+                            )}
+                        </Box>
+                    </Paper>
+                </>
+            </ApiProvider>
         </GuestBase>
     )
 }
