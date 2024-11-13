@@ -67,7 +67,9 @@ export interface WorldMessage {
     body: string
     emojis: {}
     mentions: []
-    profileOverride: {}
+    profileOverride?: {
+        profileID?: string
+    }
     medias?: {
         mediaURL: string;
         mediaType: string;

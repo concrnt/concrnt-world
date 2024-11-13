@@ -51,8 +51,13 @@ export const onRequest: PagesFunction = async (context) => {
 
         const messageBody: WorldMessage = JSON.parse(message.document).body
         let content = messageBody.body
+        
+        let profileURL = `https://${entity.domain}/api/v1/profile/${entity.ccid}/world.concrnt.p`
+        if (messageBody?.profileOverride?.profileID) {
+            profileURL = `https://${entity.domain}/api/v1/profile/${messageBody.profileOverride.profileID}`
+        }
 
-        const profile: CoreProfile = await fetch(`https://${entity.domain}/api/v1/profile/${entity.ccid}/world.concrnt.p`)
+        const profile: CoreProfile = await fetch(profileURL)
             .then((response) => response.json<ApiResponse<CoreProfile>>())
             .then((data) => data.content)
         if (!profile) {
