@@ -23,7 +23,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { defaultPreference } from '../context/PreferenceContext'
 import { GuestBase } from '../components/GuestBase'
 
-export function Registration(): JSX.Element {
+export default function Registration(): JSX.Element {
     const location = useLocation()
 
     const { t } = useTranslation('', { keyPrefix: 'registration' })

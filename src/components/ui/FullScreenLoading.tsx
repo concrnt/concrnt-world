@@ -27,8 +27,6 @@ export const FullScreenLoading = (props: FullScreenLoadingProps): JSX.Element =>
     }
     themeColorMetaTag.content = backgroundColor
 
-    const isMobileSize = window.matchMedia('(max-width: 600px)').matches
-
     return (
         <CssBaseline>
             <Box
@@ -45,18 +43,36 @@ export const FullScreenLoading = (props: FullScreenLoadingProps): JSX.Element =>
                 }}
             >
                 <ConcrntLogo size="100px" color={color} spinning={true} />
-                {!isMobileSize && <Typography variant="h5">{props.message}</Typography>}
-                <Typography
+                <Box
                     sx={{
-                        color,
-                        fontWeight: 600,
-                        fontSize: '22px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         position: 'absolute',
-                        bottom: 'calc(16px + env(safe-area-inset-bottom))'
+                        bottom: 'calc(16px + env(safe-area-inset-bottom))',
+                        gap: 2
                     }}
                 >
-                    Concrnt
-                </Typography>
+                    <Typography
+                        sx={{
+                            color,
+                            size: '0.8rem',
+                            opacity: 0.7
+                        }}
+                    >
+                        {props.message}
+                    </Typography>
+                    <Typography
+                        sx={{
+                            color,
+                            fontWeight: 600,
+                            fontSize: '22px'
+                        }}
+                    >
+                        Concrnt
+                    </Typography>
+                </Box>
             </Box>
         </CssBaseline>
     )

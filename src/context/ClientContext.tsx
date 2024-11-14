@@ -32,11 +32,18 @@ export default function ClientProvider(props: ClientProviderProps): JSX.Element 
     const [client, setClient] = useState<Client | undefined>(props.client)
     const [updatecount, updater] = useState(0)
 
+    const [progress, setProgress] = useState<string>('Initializing client...')
+
     useEffect(() => {
         if (props.client) return
 
         if (prvkey !== '') {
-            Client.create(prvkey, domain, versionString)
+            Client.create(prvkey, domain, {
+                appName: versionString,
+                progressCallback: (msg) => {
+                    setProgress(msg)
+                }
+            })
                 .then((client) => {
                     setClient(client)
                 })
@@ -44,7 +51,12 @@ export default function ClientProvider(props: ClientProviderProps): JSX.Element 
                     console.error(e)
                 })
         } else if (subkey !== '') {
-            Client.createFromSubkey(subkey, versionString)
+            Client.createFromSubkey(subkey, {
+                appName: versionString,
+                progressCallback: (msg) => {
+                    setProgress(msg)
+                }
+            })
                 .then((client) => {
                     setClient(client)
                 })
@@ -66,7 +78,7 @@ export default function ClientProvider(props: ClientProviderProps): JSX.Element 
     }, [client, forceUpdate])
 
     if (!client) {
-        return <FullScreenLoading message="Initializing client..." />
+        return <FullScreenLoading message={progress} />
     }
 
     return <ClientContext.Provider value={value as ClientContextState}>{props.children}</ClientContext.Provider>

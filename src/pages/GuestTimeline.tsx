@@ -23,7 +23,7 @@ export interface GuestPageProps {
     page: 'timeline' | 'entity' | 'message'
 }
 
-export function GuestTimelinePage(props: GuestPageProps): JSX.Element {
+export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
     const reactlocation = useLocation()
     const [title, setTitle] = useState<string>('')
     const [user, setUser] = useState<User | null | undefined>(null)

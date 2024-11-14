@@ -13,7 +13,7 @@ import { Client } from '@concurrent-world/client'
 
 const QRCodeReader = lazy(() => import('../components/ui/QRCodeReader'))
 
-export function AccountImport(): JSX.Element {
+export default function AccountImport(): JSX.Element {
     const { t } = useTranslation('', { keyPrefix: 'import' })
 
     const [importMode, setImportMode] = useState<'none' | 'scan' | 'manual'>('none')

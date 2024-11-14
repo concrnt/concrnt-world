@@ -5,16 +5,17 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { LoginGuard } from './utils/LoginGuard'
 import { Suspense, lazy } from 'react'
 import { FullScreenLoading } from './components/ui/FullScreenLoading'
-import { Registration } from './pages/Registration'
-import { AccountImport } from './pages/AccountImport'
-import { GuestTimelinePage } from './pages/GuestTimeline'
-import ApiProvider from './context/ClientContext'
 import { PreferenceProvider } from './context/PreferenceContext'
-import './i18n'
 import { GlobalStateProvider } from './context/GlobalState'
+
+import './i18n'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
+const Registration = lazy(() => import('./pages/Registration'))
+const AccountImport = lazy(() => import('./pages/AccountImport'))
+const GuestTimelinePage = lazy(() => import('./pages/GuestTimeline'))
+const ClientProvider = lazy(() => import('./context/ClientContext'))
 
 let domain = ''
 let prvkey = ''
@@ -42,7 +43,7 @@ const logined = domain !== '' && (prvkey !== '' || subkey !== '')
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ErrorBoundary FallbackComponent={EmergencyKit}>
-        <Suspense fallback={<FullScreenLoading message="Loading..." />}>
+        <Suspense fallback={<FullScreenLoading message="Downloading Updates..." />}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/crash" element={<EmergencyKit error={null} resetErrorBoundary={() => {}} />} />
@@ -61,13 +62,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                         element={
                             <LoginGuard
                                 component={
-                                    <ApiProvider>
+                                    <ClientProvider>
                                         <PreferenceProvider>
                                             <GlobalStateProvider>
                                                 <AppPage />
                                             </GlobalStateProvider>
                                         </PreferenceProvider>
-                                    </ApiProvider>
+                                    </ClientProvider>
                                 }
                                 redirect="/welcome"
                             />
