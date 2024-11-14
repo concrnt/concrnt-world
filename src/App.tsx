@@ -50,6 +50,7 @@ import { EditorModalProvider } from './components/EditorModal'
 import { MediaViewerProvider } from './context/MediaViewer'
 import { Tutorial } from './pages/Tutorial'
 import { LogoutButton } from './components/Settings/LogoutButton'
+import { ConfirmProvider } from './context/Confirm'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -234,7 +235,9 @@ function App(): JSX.Element {
                                 <StorageProvider>
                                     <ConcordProvider>
                                         <EditorModalProvider>
-                                            <GlobalActionsProvider>{childs}</GlobalActionsProvider>
+                                            <ConfirmProvider>
+                                                <GlobalActionsProvider>{childs}</GlobalActionsProvider>
+                                            </ConfirmProvider>
                                         </EditorModalProvider>
                                     </ConcordProvider>
                                 </StorageProvider>

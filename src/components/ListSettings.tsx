@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import { type StreamList } from '../model'
 import { ProfilePicker } from './ui/ProfilePicker'
 import { useGlobalState } from '../context/GlobalState'
+import { useConfirm } from '../context/Confirm'
 
 export interface ListSettingsProps {
     subscription: CoreSubscription<any>
@@ -24,6 +25,7 @@ export interface ListSettingsProps {
 
 export function ListSettings(props: ListSettingsProps): JSX.Element {
     const { client } = useClient()
+    const confirm = useConfirm()
 
     const [lists, setLists] = usePreference('lists')
     const list = lists[props.subscription.id]
@@ -161,14 +163,20 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
             <Button
                 color="error"
                 onClick={(_) => {
-                    if (lists[props.subscription.id]) {
-                        const old = lists
-                        delete old[props.subscription.id]
-                        setLists(JSON.parse(JSON.stringify(old)))
-                    }
-                    client.api.deleteSubscription(props.subscription.id).then((_) => {
-                        props.onModified?.()
-                    })
+                    confirm.open(
+                        'リストを削除しますか？',
+                        () => {
+                            if (lists[props.subscription.id]) {
+                                const old = lists
+                                delete old[props.subscription.id]
+                                setLists(JSON.parse(JSON.stringify(old)))
+                            }
+                            client.api.deleteSubscription(props.subscription.id).then((_) => {
+                                props.onModified?.()
+                            })
+                        },
+                        { confirmText: '削除' }
+                    )
                 }}
             >
                 {t('delete')}

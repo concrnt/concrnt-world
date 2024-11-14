@@ -15,6 +15,7 @@ import { useInspector } from '../../context/Inspector'
 import { MarkdownRendererLite } from '../ui/MarkdownRendererLite'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'
 import { FaTheaterMasks } from 'react-icons/fa'
+import { useConfirm } from '../../context/Confirm'
 
 export interface RerouteMessageFrameProp {
     message: Message<RerouteMessageSchema>
@@ -28,6 +29,7 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
     const inspector = useInspector()
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
     const [character, setProfile] = useState<CoreProfile<any> | null>(null)
+    const confirm = useConfirm()
 
     const profileOverride = props.message.document.body.profileOverride
 
@@ -141,7 +143,13 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                 {props.message.author === client?.user?.ccid && (
                     <MenuItem
                         onClick={() => {
-                            props.message.delete()
+                            confirm.open(
+                                'リルートを削除しますか？',
+                                () => {
+                                    props.message.delete()
+                                },
+                                { confirmText: '削除' }
+                            )
                         }}
                     >
                         <ListItemIcon>

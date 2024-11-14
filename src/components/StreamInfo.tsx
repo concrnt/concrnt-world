@@ -23,6 +23,7 @@ import { PolicyEditor } from './ui/PolicyEditor'
 import { CCUserChip } from './ui/CCUserChip'
 import { CCIconButton } from './ui/CCIconButton'
 import { CCComboBox } from './ui/CCComboBox'
+import { useConfirm } from '../context/Confirm'
 
 export interface StreamInfoProps {
     id: string
@@ -33,6 +34,7 @@ export interface StreamInfoProps {
 
 export function StreamInfo(props: StreamInfoProps): JSX.Element {
     const { client } = useClient()
+    const confirm = useConfirm()
     const { enqueueSnackbar } = useSnackbar()
     const [stream, setStream] = useState<CoreTimeline<CommunityTimelineSchema>>()
     const isAuthor = stream?.author === client.ccid
@@ -300,9 +302,19 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                             <Button
                                 color="error"
                                 onClick={() => {
-                                    client.api.deleteTimeline(props.id.split('@')[0]).then((_) => {
-                                        enqueueSnackbar('削除しました', { variant: 'success' })
-                                    })
+                                    confirm.open(
+                                        'コミュニティを削除しますか？',
+                                        () => {
+                                            client.api.deleteTimeline(props.id.split('@')[0]).then((_) => {
+                                                enqueueSnackbar('削除しました', { variant: 'success' })
+                                            })
+                                        },
+                                        {
+                                            confirmText: '削除',
+                                            description:
+                                                'この操作は取り消せません。コミュニティを削除しても、コミュニティに投稿されたメッセージは削除されませんが、リンクを失う可能性があります。'
+                                        }
+                                    )
                                 }}
                             >
                                 削除

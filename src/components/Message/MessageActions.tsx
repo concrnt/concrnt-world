@@ -30,9 +30,11 @@ import { enqueueSnackbar } from 'notistack'
 import { usePreference } from '../../context/PreferenceContext'
 import { useConcord } from '../../context/ConcordContext'
 import { useEditorModal } from '../EditorModal'
+import { useConfirm } from '../../context/Confirm'
+import { MessageView } from './MessageView'
 
 export interface MessageActionsProps {
-    message: Message<MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema>
+    message: Message<MarkdownMessageSchema | ReplyMessageSchema>
     userCCID?: string
 }
 
@@ -43,6 +45,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
     const editorModal = useEditorModal()
 
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
+
+    const confirm = useConfirm()
 
     const ownFavorite = props.message?.ownAssociations.find(
         (association) => association.schema === Schemas.likeAssociation
@@ -263,7 +267,16 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                 {props.message.author === props.userCCID && (
                     <MenuItem
                         onClick={() => {
-                            props.message.delete()
+                            confirm.open(
+                                'メッセージを削除しますか？',
+                                () => {
+                                    props.message.delete()
+                                },
+                                {
+                                    confirmText: '削除',
+                                    description: <MessageView message={props.message} simple />
+                                }
+                            )
                         }}
                     >
                         <ListItemIcon>

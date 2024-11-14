@@ -28,12 +28,14 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { usePreference } from '../../context/PreferenceContext'
 import { useConcord } from '../../context/ConcordContext'
 import MedicationIcon from '@mui/icons-material/Medication'
+import { useConfirm } from '../../context/Confirm'
 
 export const ProfileSettings = (): JSX.Element => {
     const { client } = useClient()
     const concord = useConcord()
     const { enqueueSnackbar } = useSnackbar()
     const [enableConcord] = usePreference('enableConcord')
+    const confirm = useConfirm()
 
     const { t } = useTranslation('', { keyPrefix: 'settings.profile' })
 
@@ -354,9 +356,15 @@ export const ProfileSettings = (): JSX.Element => {
                         key="delete"
                         disabled={published}
                         onClick={() => {
-                            client.api.deleteProfile(character.id).then((_) => {
-                                load()
-                            })
+                            confirm.open(
+                                'サブプロフィールを削除しますか？',
+                                () => {
+                                    client.api.deleteProfile(character.id).then((_) => {
+                                        load()
+                                    })
+                                },
+                                { confirmText: '削除' }
+                            )
                         }}
                     >
                         <ListItemIcon>
