@@ -3,7 +3,6 @@ import {
     type CoreEntity,
     type CommunityTimelineSchema,
     type CoreSubscription,
-    Schemas,
     type CoreProfile
 } from '@concurrent-world/client'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
@@ -102,7 +101,7 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
             uniq.forEach((id) => {
                 client.getTimeline<CommunityTimelineSchema>(id).then((stream) => {
                     if (stream && !unmounted) {
-                        if (stream.schema !== Schemas.communityTimeline) return
+                        if (stream.schema !== 'https://schema.concrnt.world/t/community.json') return
                         setAllKnownTimelines((prev) => [...prev, stream])
                     }
                 })

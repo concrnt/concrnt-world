@@ -2,7 +2,6 @@ import { type Key } from '@concurrent-world/client/dist/types/model/core'
 import { alpha, useTheme, IconButton } from '@mui/material'
 import { type ConcurrentTheme } from '../../model'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import { useSnackbar } from 'notistack'
 
 export interface KeyCardProps {
     item: Key
@@ -14,7 +13,6 @@ export interface KeyCardProps {
 export const KeyCard = (props: KeyCardProps): JSX.Element => {
     const valid = !props.item.revokeDocument
     const theme = useTheme<ConcurrentTheme>()
-    const { enqueueSnackbar } = useSnackbar()
 
     const mainColor = valid ? theme.palette.primary.main : theme.palette.text.disabled
 
@@ -73,10 +71,6 @@ export const KeyCard = (props: KeyCardProps): JSX.Element => {
                 marginTop: '15px',
                 position: 'relative',
                 userSelect: 'none'
-            }}
-            onClick={(_) => {
-                navigator.clipboard.writeText(props.item.id)
-                enqueueSnackbar('Key copied to clipboard', { variant: 'success' })
             }}
         >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 415 115.03">

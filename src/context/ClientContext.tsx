@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { Client } from '@concurrent-world/client'
+import type { Client } from '@concurrent-world/client'
 import { usePersistent } from '../hooks/usePersistent'
 
 // @ts-expect-error vite dynamic import
@@ -24,7 +24,7 @@ const ClientContext = createContext<ClientContextState>({
     forceUpdate: () => {}
 })
 
-export default function ClientProvider(props: ClientProviderProps): JSX.Element {
+export const ClientProvider = (props: ClientProviderProps): JSX.Element => {
     const [domain] = usePersistent<string>('Domain', '')
     const [prvkey] = usePersistent<string>('PrivateKey', '')
     const [subkey] = usePersistent<string>('SubKey', '')
@@ -32,38 +32,44 @@ export default function ClientProvider(props: ClientProviderProps): JSX.Element 
     const [client, setClient] = useState<Client | undefined>(props.client)
     const [updatecount, updater] = useState(0)
 
-    const [progress, setProgress] = useState<string>('Initializing client...')
+    const [progress, setProgress] = useState<string>('Downloading client...')
 
     useEffect(() => {
         if (props.client) return
 
-        if (prvkey !== '') {
-            Client.create(prvkey, domain, {
-                appName: versionString,
-                progressCallback: (msg) => {
-                    setProgress(msg)
-                }
-            })
-                .then((client) => {
-                    setClient(client)
+        const loader = async (): Promise<void> => {
+            const { Client } = await import('@concurrent-world/client')
+
+            if (prvkey !== '') {
+                Client.create(prvkey, domain, {
+                    appName: versionString,
+                    progressCallback: (msg) => {
+                        setProgress(msg)
+                    }
                 })
-                .catch((e) => {
-                    console.error(e)
+                    .then((client) => {
+                        setClient(client)
+                    })
+                    .catch((e) => {
+                        console.error(e)
+                    })
+            } else if (subkey !== '') {
+                Client.createFromSubkey(subkey, {
+                    appName: versionString,
+                    progressCallback: (msg) => {
+                        setProgress(msg)
+                    }
                 })
-        } else if (subkey !== '') {
-            Client.createFromSubkey(subkey, {
-                appName: versionString,
-                progressCallback: (msg) => {
-                    setProgress(msg)
-                }
-            })
-                .then((client) => {
-                    setClient(client)
-                })
-                .catch((e) => {
-                    console.error(e)
-                })
+                    .then((client) => {
+                        setClient(client)
+                    })
+                    .catch((e) => {
+                        console.error(e)
+                    })
+            }
         }
+
+        loader()
     }, [domain, prvkey])
 
     const forceUpdate = useCallback(() => {

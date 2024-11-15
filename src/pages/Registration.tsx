@@ -2,7 +2,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { useEffect, useMemo, useState } from 'react'
-import ApiProvider from '../context/ClientContext'
+import { ClientProvider } from '../context/ClientContext'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Fade, Paper, TextField } from '@mui/material'
 import { usePersistent } from '../hooks/usePersistent'
 import { jumpToDomainRegistration } from '../util'
@@ -168,7 +168,7 @@ export default function Registration(): JSX.Element {
                 </>
             }
         >
-            <ApiProvider client={client}>
+            <ClientProvider client={client}>
                 <>
                     <Paper
                         sx={{
@@ -292,7 +292,7 @@ export default function Registration(): JSX.Element {
                         </DialogActions>
                     </Dialog>
                 </>
-            </ApiProvider>
+            </ClientProvider>
         </GuestBase>
     )
 }

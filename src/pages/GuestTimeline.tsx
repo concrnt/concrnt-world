@@ -4,7 +4,7 @@ import { useLocation, useParams, Link as NavLink } from 'react-router-dom'
 import { Timeline } from '../components/Timeline/main'
 import { Client, type User } from '@concurrent-world/client'
 import { FullScreenLoading } from '../components/ui/FullScreenLoading'
-import ApiProvider from '../context/ClientContext'
+import { ClientProvider } from '../context/ClientContext'
 import TickerProvider from '../context/Ticker'
 
 import { type VListHandle } from 'virtua'
@@ -122,7 +122,7 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
                 </Button>
             }
         >
-            <ApiProvider client={client}>
+            <ClientProvider client={client}>
                 <>
                     {props.page === 'message' && messageID && authorID && (
                         <Paper
@@ -220,7 +220,7 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
                         </Box>
                     </Paper>
                 </>
-            </ApiProvider>
+            </ClientProvider>
         </GuestBase>
     )
 }

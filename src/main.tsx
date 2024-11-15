@@ -7,6 +7,7 @@ import { Suspense, lazy } from 'react'
 import { FullScreenLoading } from './components/ui/FullScreenLoading'
 import { PreferenceProvider } from './context/PreferenceContext'
 import { GlobalStateProvider } from './context/GlobalState'
+import { ClientProvider } from './context/ClientContext'
 
 import './i18n'
 
@@ -15,7 +16,6 @@ const Welcome = lazy(() => import('./pages/Welcome'))
 const Registration = lazy(() => import('./pages/Registration'))
 const AccountImport = lazy(() => import('./pages/AccountImport'))
 const GuestTimelinePage = lazy(() => import('./pages/GuestTimeline'))
-const ClientProvider = lazy(() => import('./context/ClientContext'))
 
 let domain = ''
 let prvkey = ''

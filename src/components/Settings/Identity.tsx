@@ -3,11 +3,9 @@ import {
     Box,
     Menu,
     MenuItem,
-    /*
     Switch,
     FormGroup,
     FormControlLabel,
-    */
     Typography,
     TextField,
     Button,
@@ -235,6 +233,10 @@ export const IdentitySettings = (): JSX.Element => {
                 children: []
             }
 
+            if (hideDisabledSubKey) {
+                res = res.filter((key) => !key.revokeDocument)
+            }
+
             const findChildren = (root: CertChain, id: string): CertChain | null => {
                 if (root.id === id) {
                     return root
@@ -271,7 +273,7 @@ export const IdentitySettings = (): JSX.Element => {
             }
             setCertChain(certChain)
         })
-    }, [forceUpdate])
+    }, [forceUpdate, hideDisabledSubKey])
 
     const toggleHideDisabledSubKey = (): void => {
         setHideDisabledSubKey(!hideDisabledSubKey)
@@ -422,7 +424,6 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
 
                 {!subkey && !identity && <Alert severity="error">{t('loginType.secret')}</Alert>}
 
-                {/* TODO
                 <Box
                     sx={{
                         padding: { sm: '10px 10px' }
@@ -437,7 +438,6 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                         />
                     </FormGroup>
                 </Box>
-                */}
 
                 <Box
                     sx={{
