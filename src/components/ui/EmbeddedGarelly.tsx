@@ -77,26 +77,27 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                     )}
 
                     {media.mediaType.startsWith('video') && (
-                        <>
-                            <video
-                                controls
-                                ref={videoRef}
-                                style={{
-                                    display: isHidden ? 'none' : 'block',
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'contain',
-                                    cursor: 'pointer'
-                                }}
-                                muted
-                                onLoadedData={() => {
-                                    setLoadded(true)
-                                }}
-                            >
-                                <source src={media.mediaURL} type={media.mediaType} />
-                                <source src={media.mediaURL} />
-                            </video>
-                        </>
+                        <Box
+                            ref={videoRef}
+                            component="video"
+                            muted
+                            controls
+                            src={media.mediaURL}
+                            preload="metadata"
+                            style={{
+                                display: isHidden ? 'none' : 'block',
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                                cursor: 'pointer'
+                            }}
+                            onLoadedMetadata={() => {
+                                setLoadded(true)
+                            }}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                            }}
+                        />
                     )}
 
                     <Box
