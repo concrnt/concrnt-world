@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { Box, Divider, Fade, Tab, Tabs, Typography } from '@mui/material'
 import { UserJWT } from '../components/Devtool/UserJWT'
 import { CCComposer } from '../components/Devtool/CCComposer'
@@ -11,6 +11,10 @@ type widgets = 'debug' | 'composer' | 'userJWT' | 'idgen'
 export const Devtool = memo((): JSX.Element => {
     const path = useLocation()
     const tab: widgets = (path.hash.replace('#', '') as widgets) || 'debug'
+
+    useEffect(() => {
+        document.title = 'Devtool - Concrnt'
+    })
 
     return (
         <Box

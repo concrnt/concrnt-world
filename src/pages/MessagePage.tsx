@@ -93,6 +93,10 @@ export function MessagePage(): JSX.Element {
                 if (!isMounted || !msg) return
                 setMessage(msg)
 
+                document.title = `${msg.authorUser?.profile?.username || 'anonymous'}: "${
+                    msg.document.body.body
+                }" - Concrnt`
+
                 msg.getReplyMessages().then((replies) => {
                     if (!isMounted) return
                     setReplies(replies)

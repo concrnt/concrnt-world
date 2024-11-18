@@ -33,6 +33,9 @@ export function EntityPage(): JSX.Element {
         if (!id) return
         client.getUser(id).then((user) => {
             setUser(user)
+            document.title = `${user?.profile?.username || 'anonymous'}${
+                user?.alias ? `(@${user.alias})` : ''
+            } - Concrnt`
         })
     }, [id])
 

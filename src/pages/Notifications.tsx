@@ -2,7 +2,7 @@ import { Box, Divider, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClient } from '../context/ClientContext'
 import { QueryTimelineReader } from '../components/QueryTimeline'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { TimelineFilter } from '../components/TimelineFilter'
 
 export function Notifications(): JSX.Element {
@@ -16,6 +16,10 @@ export function Notifications(): JSX.Element {
     const query = useMemo(() => {
         return selected ? { schema: selected } : {}
     }, [selected])
+
+    useEffect(() => {
+        document.title = t('title') + ' - Concrnt'
+    })
 
     return (
         <Box

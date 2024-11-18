@@ -65,6 +65,7 @@ export const StreamPage = memo((): JSX.Element => {
         client.getTimeline<CommunityTimelineSchema>(targetStreamID).then((stream) => {
             if (stream) {
                 setTargetStream(stream)
+                document.title = `#${stream.document.body.name} - Concrnt`
             }
         })
     }, [id])

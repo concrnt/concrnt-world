@@ -37,6 +37,7 @@ export const onRequest: PagesFunction = async (context) => {
     <meta property="og:image" content="${imageUrl}">
     <meta property="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#0476d9" />
+    <link rel="canonical" href="${originalPath}">
     <script>
         window.location.href = "${originalPath}"
     </script>

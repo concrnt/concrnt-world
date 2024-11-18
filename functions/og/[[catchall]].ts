@@ -107,6 +107,7 @@ export const onRequest: PagesFunction = async (context) => {
             : `<meta property="og:image" content="${avatar}">`
     }
     <meta name="theme-color" content="#0476d9" />
+    <link rel="canonical" href="${originalPath}">
     <script>
         window.location.href = "${originalPath}"
     </script>

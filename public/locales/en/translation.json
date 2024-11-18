@@ -52,6 +52,9 @@
         },
         "lists": {
             "title": "Lists"
+        },
+        "manageSubs": {
+            "title": "List Management"
         }
     },
     "time": {

@@ -10,6 +10,7 @@ import { GlobalStateProvider } from './context/GlobalState'
 import { ClientProvider } from './context/ClientContext'
 
 import './i18n'
+import GuestMessagePage from './pages/GuestMessage'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
@@ -55,7 +56,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                     )}
                     <Route path="/import" element={<AccountImport />} />
                     {!logined && <Route path="/:id" element={<GuestTimelinePage page="entity" />} />}
-                    {!logined && <Route path="/:authorID/:messageID" element={<GuestTimelinePage page="message" />} />}
+                    {!logined && <Route path="/:authorID/:messageID" element={<GuestMessagePage />} />}
                     {!logined && <Route path="/timeline/:id" element={<GuestTimelinePage page="timeline" />} />}
                     <Route
                         path="*"

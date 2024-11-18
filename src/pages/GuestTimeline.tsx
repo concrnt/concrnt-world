@@ -14,13 +14,12 @@ import TagIcon from '@mui/icons-material/Tag'
 import LockIcon from '@mui/icons-material/Lock'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import { Profile } from '../components/Profile'
-import { MessageContainer } from '../components/Message/MessageContainer'
 import { GuestBase } from '../components/GuestBase'
 import { StreamInfo } from '../components/StreamInfo'
 import { MediaViewerProvider } from '../context/MediaViewer'
 
 export interface GuestPageProps {
-    page: 'timeline' | 'entity' | 'message'
+    page: 'timeline' | 'entity'
 }
 
 export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
@@ -30,7 +29,7 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
     const [targetStream, setTargetStream] = useState<string[]>([])
     const [isPrivateTimeline, setIsPrivateTimeline] = useState<boolean>(false)
 
-    const { id, authorID, messageID } = useParams()
+    const { id } = useParams()
 
     const timelineRef = useRef<VListHandle>(null)
 
@@ -47,6 +46,8 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
 
                     client.api.getTimeline(id).then((e) => {
                         setTitle(e?.document.body.name ?? '')
+
+                        document.title = `#${e?.document.body.name} - Concrnt`
 
                         if (e?.policy === 'https://policy.concrnt.world/t/inline-read-write.json' && e?.policyParams) {
                             try {
@@ -70,19 +71,9 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
                         setUser(e)
                         setTitle(e?.profile?.username ?? '')
                         setTargetStream([e?.homeTimeline ?? ''])
-                    })
-                }
-                break
-            case 'message':
-                {
-                    if (!authorID || !messageID) return
-                    const client = new Client('ariake.concrnt.net')
-                    initializeClient(client)
-
-                    client.getUser(authorID).then((e) => {
-                        setUser(e)
-                        setTitle(e?.profile?.username ?? '')
-                        setTargetStream([e?.homeTimeline ?? ''])
+                        document.title = `${e?.profile?.username || 'anonymous'}${
+                            e?.alias ? `(@${e.alias})` : ''
+                        } - Concrnt`
                     })
                 }
                 break
@@ -123,103 +114,88 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
             }
         >
             <ClientProvider client={client}>
-                <>
-                    {props.page === 'message' && messageID && authorID && (
-                        <Paper
-                            sx={{
-                                margin: { xs: 0.5, sm: 1 },
-                                display: 'flex',
-                                flexFlow: 'column',
-                                p: 2
-                            }}
-                        >
-                            <MessageContainer messageID={messageID} messageOwner={authorID} />
-                        </Paper>
-                    )}
-
-                    <Paper
+                <Paper
+                    sx={{
+                        flex: 1,
+                        margin: { xs: 0.5, sm: 1 },
+                        mb: { xs: 0, sm: '10px' },
+                        display: 'flex',
+                        flexFlow: 'column',
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                        background: 'none'
+                    }}
+                >
+                    <Box
                         sx={{
-                            flex: 1,
-                            margin: { xs: 0.5, sm: 1 },
-                            mb: { xs: 0, sm: '10px' },
+                            width: '100%',
+                            minHeight: '100%',
+                            backgroundColor: 'background.paper',
                             display: 'flex',
-                            flexFlow: 'column',
-                            borderRadius: 2,
-                            overflow: 'hidden',
-                            background: 'none'
+                            flexDirection: 'column',
+                            flex: 1
                         }}
                     >
-                        <Box
-                            sx={{
-                                width: '100%',
-                                minHeight: '100%',
-                                backgroundColor: 'background.paper',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                flex: 1
-                            }}
-                        >
-                            <TimelineHeader
-                                title={title}
-                                titleIcon={
-                                    isPrivateTimeline ? (
-                                        <LockIcon />
-                                    ) : props.page === 'entity' ? (
-                                        <AlternateEmailIcon />
-                                    ) : (
-                                        <TagIcon />
-                                    )
-                                }
-                            />
+                        <TimelineHeader
+                            title={title}
+                            titleIcon={
+                                isPrivateTimeline ? (
+                                    <LockIcon />
+                                ) : props.page === 'entity' ? (
+                                    <AlternateEmailIcon />
+                                ) : (
+                                    <TagIcon />
+                                )
+                            }
+                        />
 
-                            {isPrivateTimeline ? (
-                                <Box>
-                                    {id && <StreamInfo id={id} />}
+                        {isPrivateTimeline ? (
+                            <Box>
+                                {id && <StreamInfo id={id} />}
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        height: '100%',
+                                        color: 'text.disabled',
+                                        p: 2
+                                    }}
+                                >
+                                    <LockIcon
+                                        sx={{
+                                            fontSize: '10rem'
+                                        }}
+                                    />
+                                    <Typography variant="h5">このコミュニティはプライベートです。</Typography>
+                                </Box>
+                            </Box>
+                        ) : (
+                            <Timeline
+                                ref={timelineRef}
+                                streams={targetStream}
+                                header={
                                     <Box
                                         sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            height: '100%',
-                                            color: 'text.disabled',
-                                            p: 2
+                                            overflowX: 'hidden',
+                                            overflowY: 'auto',
+                                            overscrollBehaviorY: 'contain'
                                         }}
+                                        ref={scrollParentRef}
                                     >
-                                        <LockIcon
-                                            sx={{
-                                                fontSize: '10rem'
-                                            }}
-                                        />
-                                        <Typography variant="h5">このコミュニティはプライベートです。</Typography>
+                                        {user && (
+                                            <>
+                                                <Profile user={user} id={id} guest={true} />
+                                                <Divider />
+                                            </>
+                                        )}
                                     </Box>
-                                </Box>
-                            ) : (
-                                <Timeline
-                                    ref={timelineRef}
-                                    streams={targetStream}
-                                    header={
-                                        <Box
-                                            sx={{
-                                                overflowX: 'hidden',
-                                                overflowY: 'auto',
-                                                overscrollBehaviorY: 'contain'
-                                            }}
-                                            ref={scrollParentRef}
-                                        >
-                                            {user && (
-                                                <>
-                                                    <Profile user={user} id={id} guest={true} />
-                                                    <Divider />
-                                                </>
-                                            )}
-                                        </Box>
-                                    }
-                                />
-                            )}
-                        </Box>
-                    </Paper>
-                </>
+                                }
+                            />
+                        )}
+                    </Box>
+                </Paper>
             </ClientProvider>
         </GuestBase>
     )

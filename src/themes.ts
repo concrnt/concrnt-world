@@ -43,7 +43,7 @@ export const Themes: Record<string, DeepPartial<ConcurrentTheme>> = {
             text: {
                 primary: '#fff',
                 secondary: 'rgba(255, 255, 255, 0.8)',
-                disabled: 'rgba(255, 255, 255, 0.6)'
+                disabled: 'rgba(255, 255, 255, 0.4)'
             },
             divider: 'rgba(255, 255, 255, 0.2)'
         },
@@ -80,7 +80,7 @@ export const Themes: Record<string, DeepPartial<ConcurrentTheme>> = {
             text: {
                 primary: '#fff',
                 secondary: 'rgba(255, 255, 255, 0.7)',
-                disabled: 'rgba(255, 255, 255, 0.5)'
+                disabled: 'rgba(255, 255, 255, 0.3)'
             },
             divider: 'rgba(255, 255, 255, 0.2)'
         },
@@ -142,7 +142,7 @@ export const Themes: Record<string, DeepPartial<ConcurrentTheme>> = {
             text: {
                 primary: '#232d31',
                 secondary: 'rgba(52, 61, 66, 0.7)',
-                disabled: 'rgba(0, 0, 0, 0.5)'
+                disabled: 'rgba(0, 0, 0, 0.3)'
             },
             divider: 'rgba(0, 0, 0, 0.2)'
         },
@@ -173,7 +173,7 @@ export const Themes: Record<string, DeepPartial<ConcurrentTheme>> = {
             text: {
                 primary: '#2e0d03',
                 secondary: '#4c6675',
-                disabled: 'rgba(0, 0, 0, 0.5)'
+                disabled: 'rgba(0, 0, 0, 0.4)'
             },
             divider: 'rgba(0, 0, 0, 0.2)'
         },

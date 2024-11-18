@@ -387,7 +387,6 @@ function App(): JSX.Element {
                                 <Route path="/:id/activity" element={<EntityPage />} />
                                 <Route path="/:authorID/:messageID" element={<MessagePage />} />
                                 <Route path="/timeline/:id" element={<StreamPage />} />
-                                <Route path="/associations" element={<Associations />} />
                                 <Route path="/contacts" element={<ContactsPage />} />
                                 <Route path="/explorer/:tab" element={<Explorer />} />
                                 <Route path="/notifications" element={<Notifications />} />

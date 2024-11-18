@@ -2,7 +2,7 @@ import { Alert, Box, Button, Divider, Tab, Tabs, Typography } from '@mui/materia
 import { useTranslation } from 'react-i18next'
 import { useClient } from '../context/ClientContext'
 import { usePreference } from '../context/PreferenceContext'
-import { Suspense, lazy, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { MarkdownRenderer } from '../components/ui/MarkdownRenderer'
 import { type Identity } from '@concurrent-world/client'
 import { useEditorModal } from '../components/EditorModal'
@@ -17,7 +17,7 @@ const SwitchMasterToSub = lazy(() => import('../components/SwitchMasterToSub'))
 const tabs = ['パスワードとログイン', '投稿', 'フォローとウォッチ', 'コミュニティ', 'リスト', 'カスタマイズ', '完了！']
 
 export function Tutorial(): JSX.Element {
-    const { t } = useTranslation('', { keyPrefix: 'tutorial' })
+    const { t } = useTranslation('', { keyPrefix: 'pages.tutorial' })
     const { client } = useClient()
 
     const [progress, setProgress] = usePreference('tutorialProgress')
@@ -32,6 +32,10 @@ export function Tutorial(): JSX.Element {
         setPage(page + 1)
         if (page + 1 > progress) setProgress(page + 1)
     }
+
+    useEffect(() => {
+        document.title = t('title') + ' - Concrnt'
+    })
 
     return (
         <Box
@@ -50,7 +54,9 @@ export function Tutorial(): JSX.Element {
                     paddingTop: 1
                 }}
             >
-                <Typography variant="h2">チュートリアル {`(${progress + 1}/${tabs.length})`}</Typography>
+                <Typography variant="h2">
+                    {t('title')} {`(${progress + 1}/${tabs.length})`}
+                </Typography>
                 <Divider />
                 <Tabs
                     value={page}

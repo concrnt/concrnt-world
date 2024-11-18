@@ -13,6 +13,7 @@ import { IdentitySettings } from '../components/Settings/Identity'
 import { BreadcrumbList } from '../components/ui/BreadcrumbList'
 import { ImportExport } from '../components/Settings/ImportExport'
 import { Jobs } from '../components/Settings/Jobs'
+import { useEffect } from 'react'
 
 const pathTitles: Record<string, string> = {
     '/settings': 'settings.title',
@@ -30,6 +31,10 @@ const pathTitles: Record<string, string> = {
 }
 
 export function Settings(): JSX.Element {
+    useEffect(() => {
+        document.title = 'Settings - Concrnt'
+    }, [])
+
     return (
         <Box
             sx={{

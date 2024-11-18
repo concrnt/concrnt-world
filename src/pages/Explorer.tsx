@@ -36,6 +36,10 @@ export function Explorer(): JSX.Element {
         return result
     }, [hash])
 
+    useEffect(() => {
+        document.title = t('title') + ' - Concrnt'
+    })
+
     const profileSchema = hashQuery.schema ?? Schemas.profile
 
     const [domains, setDomains] = useState<string[]>([])

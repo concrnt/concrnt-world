@@ -3,7 +3,7 @@ import { useClient } from '../context/ClientContext'
 import { useTranslation } from 'react-i18next'
 import { usePreference } from '../context/PreferenceContext'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Schemas, type CoreSubscription } from '@concurrent-world/client'
 
 import AddIcon from '@mui/icons-material/Add'
@@ -31,6 +31,10 @@ export function ManageSubsPage(): JSX.Element {
     )
     const [inspectedSub, setInspectedSub] = useState<CoreSubscription<any> | null>(null)
 
+    useEffect(() => {
+        document.title = t('title') + ' - Concrnt'
+    })
+
     return (
         <Box
             sx={{
@@ -49,7 +53,7 @@ export function ManageSubsPage(): JSX.Element {
                     overflow: 'hidden'
                 }}
             >
-                <Typography variant="h2">リストの管理</Typography>
+                <Typography variant="h2">{t('title')}</Typography>
 
                 <Divider
                     sx={{

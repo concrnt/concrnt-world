@@ -52,6 +52,9 @@
         },
         "lists": {
             "title": "リスト"
+        },
+        "manageSubs": {
+            "title": "リストの管理"
         }
     },
     "time": {

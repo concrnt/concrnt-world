@@ -2,10 +2,15 @@ import { Box, Divider, Typography } from '@mui/material'
 import { AckList } from '../components/AckList'
 import { useClient } from '../context/ClientContext'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 
 export function ContactsPage(): JSX.Element {
     const { t } = useTranslation('', { keyPrefix: 'pages.contacts' })
     const { client } = useClient()
+
+    useEffect(() => {
+        document.title = t('title') + ' - Concrnt'
+    })
 
     return (
         <Box

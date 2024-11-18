@@ -93,6 +93,7 @@ export function ListPage(): JSX.Element {
         client.api.getSubscription<ListSubscriptionSchema>(id).then((sub) => {
             if (!sub) return
             setSubscription(sub)
+            document.title = `${sub.document.body.name} - Concrnt`
         })
     }, [id, client, updater])
 
