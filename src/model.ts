@@ -155,4 +155,5 @@ export interface WorldMedia {
     thumbnailURL?: string
     blurhash?: string
     flag?: string
+    loop?: boolean
 }
