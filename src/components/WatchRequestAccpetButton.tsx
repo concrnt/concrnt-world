@@ -30,6 +30,19 @@ export const WatchRequestAcceptButton = (props: WatchRequestAcceptButtonProps): 
             <Box flex={1} />
             <Button
                 disabled={working}
+                color="error"
+                onClick={() => {
+                    setWorking(true)
+                    props.request.delete().then(() => {
+                        enqueueSnackbar('無視しました', { variant: 'success' })
+                        props.onAccept?.()
+                    })
+                }}
+            >
+                無視
+            </Button>
+            <Button
+                disabled={working}
                 onClick={() => {
                     if (!target.policyParams) return
                     setWorking(true)

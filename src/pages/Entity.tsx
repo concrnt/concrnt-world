@@ -48,6 +48,7 @@ export function EntityPage(): JSX.Element {
 
     useEffect(() => {
         if (!timelineID) return
+        client.api.invalidateTimeline(timelineID)
         client.getTimeline<EmptyTimelineSchema>(timelineID).then(setTimeline)
     }, [timelineID])
 

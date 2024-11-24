@@ -66,6 +66,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
     const isTimelinePrivate = timeline && timeline.policyParams.isReadPublic === false
 
     useEffect(() => {
+        client.api.invalidateTimeline('world.concrnt.t-subhome.' + props.subProfile.id + '@' + client.ccid!)
         client.getTimeline('world.concrnt.t-subhome.' + props.subProfile.id + '@' + client.ccid!).then((timeline) => {
             if (!timeline) return
             setTimeline(timeline)
