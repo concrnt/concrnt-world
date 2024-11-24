@@ -1,4 +1,4 @@
-import { type CoreProfile } from '@concurrent-world/client'
+import { Schemas, type CoreProfile } from '@concurrent-world/client'
 import { Box, Chip, IconButton, Menu, Paper, Typography } from '@mui/material'
 import { CCWallpaper } from './ui/CCWallpaper'
 import { CCAvatar } from './ui/CCAvatar'
@@ -23,6 +23,11 @@ export const SubProfileCard = (props: SubProfileCardProps): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar()
 
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
+
+    const link =
+        props.character.schema === Schemas.profile
+            ? '/' + props.character.author
+            : '/' + props.character.author + '#' + props.character.id
 
     return (
         <Paper variant="outlined">
@@ -58,7 +63,7 @@ export const SubProfileCard = (props: SubProfileCardProps): JSX.Element => {
                     <Box position="relative" height={0}>
                         <Box
                             component={routerLink}
-                            to={'/' + props.character.author + '#' + props.character.id}
+                            to={link}
                             position="relative"
                             sx={{
                                 top: '-30px',

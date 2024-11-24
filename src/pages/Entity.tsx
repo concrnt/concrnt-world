@@ -74,7 +74,7 @@ export function EntityPage(): JSX.Element {
         }
     }, [tab, filter])
 
-    if (!user || !timeline) return <></>
+    if (!user) return <></>
 
     return (
         <Box
