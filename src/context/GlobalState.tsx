@@ -101,7 +101,6 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
             uniq.forEach((id) => {
                 client.getTimeline<CommunityTimelineSchema>(id).then((stream) => {
                     if (stream && !unmounted) {
-                        if (stream.schema !== 'https://schema.concrnt.world/t/community.json') return
                         setAllKnownTimelines((prev) => [...prev, stream])
                     }
                 })

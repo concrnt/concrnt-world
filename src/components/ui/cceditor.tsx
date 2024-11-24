@@ -86,11 +86,11 @@ export const CCEditor = memo<CCEditorProps>((props: CCEditorProps): JSX.Element 
             })
     }, [props.schemaURL])
 
+    const [errors, setErrors] = useState<CCEditorError[] | undefined>(undefined)
+
     if (!props.schemaURL && !props.schema) {
         return <Box>Bad Input</Box>
     }
-
-    const [errors, setErrors] = useState<CCEditorError[] | undefined>(undefined)
 
     return (
         <Box>

@@ -58,7 +58,7 @@ export const SubProfileCard = (props: SubProfileCardProps): JSX.Element => {
                     <Box position="relative" height={0}>
                         <Box
                             component={routerLink}
-                            to={'/' + props.character.author}
+                            to={'/' + props.character.author + '#' + props.character.id}
                             position="relative"
                             sx={{
                                 top: '-30px',
@@ -81,10 +81,10 @@ export const SubProfileCard = (props: SubProfileCardProps): JSX.Element => {
                         flexDirection="row"
                         justifyContent="flex-end"
                         alignItems="center"
-                        height="40px"
                         gap={1}
                         px={1}
                         mb={1}
+                        minHeight="30px"
                     >
                         {props.children}
                     </Box>

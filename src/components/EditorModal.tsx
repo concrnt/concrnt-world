@@ -80,7 +80,7 @@ export const EditorModalProvider = (props: EditorModalProps): JSX.Element => {
     const homePostTimelines = useMemo(() => {
         if (!home) return []
         return home.defaultPostStreams
-            .map((timelineID) => globalState.allKnownTimelines.find((e) => e.id === timelineID))
+            .map((timelineID) => globalState.allKnownTimelines.find((e) => (e.cacheKey ?? e.id) === timelineID))
             .filter((e) => e) as Array<Timeline<CommunityTimelineSchema>>
     }, [lists, globalState.allKnownTimelines])
 

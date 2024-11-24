@@ -10,13 +10,13 @@ import { GlobalStateProvider } from './context/GlobalState'
 import { ClientProvider } from './context/ClientContext'
 
 import './i18n'
-import GuestMessagePage from './pages/GuestMessage'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
 const Registration = lazy(() => import('./pages/Registration'))
 const AccountImport = lazy(() => import('./pages/AccountImport'))
 const GuestTimelinePage = lazy(() => import('./pages/GuestTimeline'))
+const GuestMessagePage = lazy(() => import('./pages/GuestMessage'))
 
 let domain = ''
 let prvkey = ''

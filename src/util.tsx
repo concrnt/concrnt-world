@@ -218,7 +218,7 @@ export const strikeThroughRemarkPlugin = (): any => {
 export const userMentionRemarkPlugin = (): any => {
     return (tree: any) => {
         visit(tree, 'text', (node: any, index?: number, parent?: any) => {
-            const parts = node.value.split(/(@con1\w+)/)
+            const parts = node.value.split(/(^|\s+)(@con1\w{38})/)
             if (parts.length !== 1) {
                 parent.children.splice(
                     index,
@@ -260,7 +260,7 @@ export const colorCodeRemarkPlugin = (): any => {
 export const streamLinkRemarkPlugin = (): any => {
     return (tree: any) => {
         visit(tree, 'text', (node: any, index?: number, parent?: any) => {
-            const parts = node.value.split(/(#\w+@[^\s]+)/)
+            const parts = node.value.split(/(#[\w.-]+@[^\s]+)/)
             if (parts.length !== 1) {
                 parent.children.splice(
                     index,

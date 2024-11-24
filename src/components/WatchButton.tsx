@@ -22,7 +22,7 @@ export const WatchButton = (props: WatchButtonProps): JSX.Element => {
 
     const { t } = useTranslation('', { keyPrefix: 'common' })
 
-    const watching = allKnownTimelines.find((e) => e.id === props.timelineID) !== undefined
+    const watching = allKnownTimelines.find((e) => (e.cacheKey ?? e.id) === props.timelineID) !== undefined
 
     return (
         <Box>

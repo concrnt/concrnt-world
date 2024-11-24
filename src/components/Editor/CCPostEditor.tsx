@@ -122,17 +122,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         props.streamPickerInitial
     )
 
-    // check Visibility
-    // 'https://policy.concrnt.world/t/inline-read-write.json'
-    const isPrivate = useMemo(() => {
-        return destTimelines.some((dest) => {
-            if (dest.policy !== 'https://policy.concrnt.world/t/inline-read-write.json') return false
-            // const policyParams = JSON.parse(dest.policyParams)
-            if (dest.policyParams.isReadPublic) return false
-            return true
-        })
-    }, [destTimelines])
-
     useEffect(() => {
         setDestTimelines(props.streamPickerInitial)
     }, [props.streamPickerInitial])
@@ -194,6 +183,18 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     const [participants, setParticipants] = useState<User[]>([])
     const whisper = participants.map((p) => p.ccid)
 
+    // check Visibility
+    // 'https://policy.concrnt.world/t/inline-read-write.json'
+    const isPrivate = useMemo(() => {
+        return (
+            destTimelines.some((dest) => {
+                if (dest.policy !== 'https://policy.concrnt.world/t/inline-read-write.json') return false
+                if (dest.policyParams.isReadPublic) return false
+                return true
+            }) || participants.length > 0
+        )
+    }, [destTimelines, participants])
+
     const post = (postHome: boolean): void => {
         if (!client?.user) return
         if ((draft.length === 0 || draft.trim().length === 0) && !(mode === 'media' || mode === 'reroute')) {
@@ -215,7 +216,8 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
             : client.user.homeTimeline
         const dest = [...new Set([...destTimelineIDs, ...(postHome ? [homeTimeline] : [])])].filter((e) => e)
 
-        const mentions = draft.match(/@([^\s@]+)/g)?.map((e) => e.slice(1)) ?? []
+        const mentionsMatches = draft.matchAll(/(^|\s+)@(con1\w{38})/g)
+        const mentions = [...new Set(Array.from(mentionsMatches).map((m) => m[2]))]
 
         setSending((sending = true))
 

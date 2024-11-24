@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
-import { Box, Divider, Typography } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { TimelineHeader } from '../components/TimelineHeader'
 import { useClient } from '../context/ClientContext'
@@ -18,6 +18,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import { useGlobalState } from '../context/GlobalState'
 import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useEditorModal } from '../components/EditorModal'
+import { PrivateTimelineDoor } from '../components/PrivateTimelineDoor'
 
 export const StreamPage = memo((): JSX.Element => {
     const { client } = useClient()
@@ -145,22 +146,7 @@ export const StreamPage = memo((): JSX.Element => {
                 ) : (
                     <Box>
                         <StreamInfo id={targetStreamID} />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: '100%'
-                            }}
-                        >
-                            <LockIcon
-                                sx={{
-                                    fontSize: '10rem'
-                                }}
-                            />
-                            <Typography variant="h5">このタイムラインはプライベートです。</Typography>
-                        </Box>
+                        {targetStream && <PrivateTimelineDoor timeline={targetStream} />}
                     </Box>
                 )}
             </Box>

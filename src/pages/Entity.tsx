@@ -2,13 +2,14 @@ import { Box, Collapse, Divider, Tab, Tabs } from '@mui/material'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useClient } from '../context/ClientContext'
-import { Schemas, type User } from '@concurrent-world/client'
+import { type EmptyTimelineSchema, Schemas, type Timeline, type User } from '@concurrent-world/client'
 import { type VListHandle } from 'virtua'
 import { TimelineHeader } from '../components/TimelineHeader'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import { Profile } from '../components/Profile'
 import { QueryTimelineReader } from '../components/QueryTimeline'
 import { TimelineFilter } from '../components/TimelineFilter'
+import { PrivateTimelineDoor } from '../components/PrivateTimelineDoor'
 
 export function EntityPage(): JSX.Element {
     const { client } = useClient()
@@ -19,6 +20,10 @@ export function EntityPage(): JSX.Element {
 
     const navigate = useNavigate()
 
+    const [timeline, setTimeline] = useState<Timeline<EmptyTimelineSchema> | null>(null)
+    const isPrivate =
+        timeline?.policyParams.isReadPublic === false && !timeline?.policyParams.reader.includes(client.ccid)
+
     const [user, setUser] = useState<User | null | undefined>(null)
 
     const timelineRef = useRef<VListHandle>(null)
@@ -26,6 +31,8 @@ export function EntityPage(): JSX.Element {
     const [showHeader, setShowHeader] = useState(false)
 
     const subProfileID = path.hash.replace('#', '')
+
+    const timelineID = subProfileID ? 'world.concrnt.t-subhome.' + subProfileID + '@' + id : user?.homeTimeline
 
     const [filter, setFilter] = useState<string | undefined>(undefined)
 
@@ -38,6 +45,11 @@ export function EntityPage(): JSX.Element {
             } - Concrnt`
         })
     }, [id])
+
+    useEffect(() => {
+        if (!timelineID) return
+        client.getTimeline<EmptyTimelineSchema>(timelineID).then(setTimeline)
+    }, [timelineID])
 
     const targetTimeline = useMemo(() => {
         switch (tab ?? '') {
@@ -61,6 +73,8 @@ export function EntityPage(): JSX.Element {
         }
     }, [tab, filter])
 
+    if (!user || !timeline) return <></>
+
     return (
         <Box
             sx={{
@@ -82,48 +96,66 @@ export function EntityPage(): JSX.Element {
                     />
                 </Collapse>
             </Box>
-            {targetTimeline && (
-                <QueryTimelineReader
-                    ref={timelineRef}
-                    timeline={targetTimeline}
-                    query={query}
-                    perspective={user?.ccid}
-                    onScroll={(top) => {
-                        setShowHeader(top > 180)
-                    }}
-                    header={
-                        <>
-                            <Profile
-                                user={user ?? undefined}
-                                id={id}
-                                overrideSubProfileID={subProfileID}
-                                onSubProfileClicked={(id) => {
-                                    window.location.hash = id
-                                }}
-                            />
-                            <Tabs
-                                value={tab}
-                                onChange={(_, value) => {
-                                    if (value === '') navigate(`/${id}` + (subProfileID ? '#' + subProfileID : ''))
-                                    else navigate(`/${id}/${value}` + (subProfileID ? '#' + subProfileID : ''))
-                                }}
-                                textColor="secondary"
-                                indicatorColor="secondary"
-                            >
-                                <Tab label="カレント" value="" />
-                                <Tab label="メディア" value="media" />
-                                <Tab label="アクティビティ" value="activity" />
-                            </Tabs>
-                            <Divider />
-                            {tab === 'activity' && (
+
+            {isPrivate ? (
+                <>
+                    <Profile
+                        user={user ?? undefined}
+                        id={id}
+                        overrideSubProfileID={subProfileID}
+                        onSubProfileClicked={(id) => {
+                            window.location.hash = id
+                        }}
+                    />
+                    <PrivateTimelineDoor timeline={timeline} />
+                </>
+            ) : (
+                <>
+                    {targetTimeline && (
+                        <QueryTimelineReader
+                            ref={timelineRef}
+                            timeline={targetTimeline}
+                            query={query}
+                            perspective={user?.ccid}
+                            onScroll={(top) => {
+                                setShowHeader(top > 180)
+                            }}
+                            header={
                                 <>
-                                    <TimelineFilter selected={filter} setSelected={setFilter} sx={{ px: 1 }} />
+                                    <Profile
+                                        user={user ?? undefined}
+                                        id={id}
+                                        overrideSubProfileID={subProfileID}
+                                        onSubProfileClicked={(id) => {
+                                            window.location.hash = id
+                                        }}
+                                    />
+                                    <Tabs
+                                        value={tab}
+                                        onChange={(_, value) => {
+                                            if (value === '')
+                                                navigate(`/${id}` + (subProfileID ? '#' + subProfileID : ''))
+                                            else navigate(`/${id}/${value}` + (subProfileID ? '#' + subProfileID : ''))
+                                        }}
+                                        textColor="secondary"
+                                        indicatorColor="secondary"
+                                    >
+                                        <Tab label="カレント" value="" />
+                                        <Tab label="メディア" value="media" />
+                                        <Tab label="アクティビティ" value="activity" />
+                                    </Tabs>
                                     <Divider />
+                                    {tab === 'activity' && (
+                                        <>
+                                            <TimelineFilter selected={filter} setSelected={setFilter} sx={{ px: 1 }} />
+                                            <Divider />
+                                        </>
+                                    )}
                                 </>
-                            )}
-                        </>
-                    }
-                />
+                            }
+                        />
+                    )}
+                </>
             )}
         </Box>
     )

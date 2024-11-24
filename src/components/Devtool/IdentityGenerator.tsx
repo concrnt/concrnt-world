@@ -11,7 +11,7 @@ export const IdentityGenerator = forwardRef<HTMLDivElement>((props, ref): JSX.El
     const generate = (): void => {
         const identity = GenerateIdentity()
 
-        setMnemonic(`${identity.mnemonic}}`)
+        setMnemonic(`${identity.mnemonic}`)
         setCCID(identity.CCID)
         setPrivateKey(identity.privateKey)
         setPublicKey(identity.publicKey)

@@ -1,11 +1,11 @@
 import { Autocomplete, Box, InputBase, type SxProps } from '@mui/material'
 import { type CommunityTimelineSchema, type Timeline } from '@concurrent-world/client'
 import { CCChip } from './CCChip'
-import { useMemo } from 'react'
 
 import TagIcon from '@mui/icons-material/Tag'
 import LockIcon from '@mui/icons-material/Lock'
 import { isPrivateTimeline } from '../../util'
+import { useMemo } from 'react'
 
 export interface StreamPickerProps {
     selected: Array<Timeline<CommunityTimelineSchema>>
@@ -16,19 +16,9 @@ export interface StreamPickerProps {
 }
 
 export const StreamPicker = (props: StreamPickerProps): JSX.Element => {
-    // WORKAROUND for vite circular JSON dependency
-    const selected: Array<Timeline<CommunityTimelineSchema>> = useMemo(
-        () =>
-            JSON.parse(
-                JSON.stringify(props.selected ?? [], (key, value) => {
-                    if (key === 'client' || key === 'api') {
-                        return undefined
-                    }
-                    return value
-                })
-            ),
-        [props.selected]
-    )
+    const communities = useMemo(() => {
+        return props.options.filter((e) => e.schema === 'https://schema.concrnt.world/t/community.json')
+    }, [props.options])
 
     return (
         <Box
@@ -44,13 +34,13 @@ export const StreamPicker = (props: StreamPickerProps): JSX.Element => {
                 disableClearable
                 sx={{ width: 1 }}
                 multiple
-                value={selected}
-                options={props.options}
+                value={props.selected}
+                options={communities}
                 getOptionKey={(option: Timeline<CommunityTimelineSchema>) => option.id ?? ''}
                 getOptionLabel={(option: Timeline<CommunityTimelineSchema>) => option.document.body.name}
                 filterOptions={(options: Array<Timeline<CommunityTimelineSchema>>, state) => {
                     const filtered = options.filter((option) => {
-                        if (selected.some((e) => e.id === option.id)) {
+                        if (props.selected.some((e) => e.id === option.id)) {
                             return false
                         }
 

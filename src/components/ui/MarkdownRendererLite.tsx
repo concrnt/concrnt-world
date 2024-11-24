@@ -14,7 +14,7 @@ import {
 } from '../../util'
 import { CCUserChip } from './CCUserChip'
 import { LinkChip } from './LinkChip'
-import { StreamChip } from './StreamChip'
+import { TimelineChip } from './TimelineChip'
 import { useGlobalState } from '../../context/GlobalState'
 
 export interface MarkdownRendererProps {
@@ -116,7 +116,7 @@ export function MarkdownRendererLite(props: MarkdownRendererProps): JSX.Element 
                         return <CCUserChip ccid={ccid} />
                     },
                     streamlink: ({ streamId }) => {
-                        return <StreamChip streamID={streamId} />
+                        return <TimelineChip timelineID={streamId} />
                     },
                     social: ({ href, icon, service, children }) => {
                         return (

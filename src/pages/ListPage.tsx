@@ -53,7 +53,7 @@ export function ListPage(): JSX.Element {
     const postStreams = useMemo(() => {
         if (!list) return []
         return list.defaultPostStreams
-            .map((streamID) => allKnownTimelines.find((e) => e.id === streamID))
+            .map((streamID) => allKnownTimelines.find((e) => (e.cacheKey ?? e.id) === streamID))
             .filter((e) => e !== undefined) as Array<CoreTimeline<CommunityTimelineSchema>>
     }, [list, allKnownTimelines])
 

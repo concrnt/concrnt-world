@@ -25,7 +25,7 @@ export const UserSuggestion = (props: UserSuggestionProps): JSX.Element => {
     }
 
     const before = text.slice(0, cursorPos ?? 0) ?? ''
-    const query = /@([^\s]+)$/.exec(before)?.[1]
+    const query = /(^|\s+)@([^\s]+)$/.exec(before)?.[2]
 
     const [forceOff, setForceOff] = useState<boolean>(false)
     const enableSuggestions = query !== undefined && !forceOff
@@ -65,6 +65,7 @@ export const UserSuggestion = (props: UserSuggestionProps): JSX.Element => {
                 return
             }
             if (e.key === 'Enter') {
+                if (userSuggestions.length === 0) return
                 e.preventDefault()
                 onUserSuggestConfirm(selectedSuggestions)
             }

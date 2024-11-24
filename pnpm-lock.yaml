@@ -12,8 +12,8 @@ dependencies:
     specifier: ^3.592.0
     version: 3.592.0
   '@concurrent-world/client':
-    specifier: ^6.3.0
-    version: 6.3.0
+    specifier: ^6.5.1
+    version: 6.5.1
   '@cosmjs/encoding':
     specifier: ^0.32.4
     version: 0.32.4
@@ -2363,8 +2363,8 @@ packages:
     dev: true
     optional: true
 
-  /@concurrent-world/client@6.3.0:
-    resolution: {integrity: sha512-2Fp59IvuXUiUfWt4Z0wZnc1LyxnpORTyeH/stDHz+mZqL8Qudguvhp4itn7o/vgQy6/O47AjLofuZKaQ6p6XOA==}
+  /@concurrent-world/client@6.5.1:
+    resolution: {integrity: sha512-/szvBZ41gA1xERh8zir/wLwylZ5ftHx5ixW8hfb/pCHHJ9suv6XXcip221t5KTHDxQBM6FC5AjpfB1ebNDrMlQ==}
     dependencies:
       '@cosmjs/amino': 0.32.4
       '@cosmjs/crypto': 0.32.4

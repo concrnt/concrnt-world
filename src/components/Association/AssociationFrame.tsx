@@ -5,16 +5,21 @@ import {
     type LikeAssociationSchema,
     type ReplyAssociationSchema,
     type RerouteAssociationSchema,
-    Schemas
+    Schemas,
+    type ReadAccessRequestAssociationSchema
 } from '@concurrent-world/client'
 import { useClient } from '../../context/ClientContext'
-import { Box, ListItem, type SxProps, Typography } from '@mui/material'
+import { Box, ListItem, type SxProps, Typography, Button } from '@mui/material'
 import { MessageSkeleton } from '../MessageSkeleton'
 import { MessageContainer } from '../Message/MessageContainer'
 import { usePreference } from '../../context/PreferenceContext'
 import { FavoriteAssociation } from './FavoriteAssociation'
 import { ReactionAssociation } from './ReactionAssociation'
 import { MentionAssociation } from './MentionAssociation'
+import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
+import { TimelineChip } from '../ui/TimelineChip'
+import { Link } from 'react-router-dom'
+import { ReadAccessAssociation } from './ReadAccessAssociation'
 
 export interface AssociationFrameProp {
     associationID: string
@@ -123,6 +128,17 @@ export const AssociationFrame = memo<AssociationFrameProp>((props: AssociationFr
                         <MentionAssociation
                             association={association as Association<ReactionAssociationSchema>}
                             perspective={props.perspective ?? client.ccid ?? ''}
+                        />
+                    </Box>
+                    {props.after}
+                </>
+            )
+        case Schemas.readAccessRequestAssociation:
+            return (
+                <>
+                    <Box sx={props.sx}>
+                        <ReadAccessAssociation
+                            association={association as Association<ReadAccessRequestAssociationSchema>}
                         />
                     </Box>
                     {props.after}

@@ -13,7 +13,13 @@ import {
 } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import { useClient } from '../context/ClientContext'
-import { type CommunityTimelineSchema, type CoreTimeline } from '@concurrent-world/client'
+import {
+    type Timeline,
+    type CommunityTimelineSchema,
+    type Association,
+    type ReadAccessRequestAssociationSchema,
+    Schemas
+} from '@concurrent-world/client'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import { CCEditor, type CCEditorError } from './ui/cceditor'
 import { useSnackbar } from 'notistack'
@@ -24,6 +30,8 @@ import { CCUserChip } from './ui/CCUserChip'
 import { CCIconButton } from './ui/CCIconButton'
 import { CCComboBox } from './ui/CCComboBox'
 import { useConfirm } from '../context/Confirm'
+import { CCAvatar } from './ui/CCAvatar'
+import { WatchRequestAcceptButton } from './WatchRequestAccpetButton'
 
 export interface StreamInfoProps {
     id: string
@@ -36,7 +44,7 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
     const { client } = useClient()
     const confirm = useConfirm()
     const { enqueueSnackbar } = useSnackbar()
-    const [stream, setStream] = useState<CoreTimeline<CommunityTimelineSchema>>()
+    const [stream, setStream] = useState<Timeline<CommunityTimelineSchema>>()
     const isAuthor = stream?.author === client.ccid
 
     const [visible, setVisible] = useState(false)
@@ -47,18 +55,24 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
     const [policyParams, setPolicyParams] = useState<string | undefined>()
     const [policyErrors, setPolicyErrors] = useState<CCEditorError[] | undefined>()
 
+    const [requests, setRequests] = useState<Array<Association<ReadAccessRequestAssociationSchema>>>([])
+
     const [tab, setTab] = useState<'info' | 'edit'>('info')
 
     useEffect(() => {
         if (!props.id) return
-        client.api.getTimeline(props.id).then((e) => {
+        client.getTimeline<CommunityTimelineSchema>(props.id).then((e) => {
             if (!e) return
             setStream(e)
             setDocumentBody(e.document.body)
-            setPolicyParams(e.policyParams)
+            setPolicyParams(JSON.stringify(e.policyParams))
             setVisible(e.indexable)
             setSchemaDraft(e.schema)
             setPolicyDraft(e.policy || '')
+
+            e.getAssociations().then((assocs) => {
+                setRequests(assocs.filter((e) => e.schema === Schemas.readAccessRequestAssociation))
+            })
         })
     }, [props.id])
 
@@ -166,6 +180,24 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                                 p: 1
                             }}
                         >
+                            {isAuthor && (
+                                <>
+                                    <Typography variant="h3">閲覧リクエスト({requests.length})</Typography>
+                                    <Box>
+                                        {requests.map((request) => (
+                                            <WatchRequestAcceptButton
+                                                key={request.id}
+                                                request={request}
+                                                targetTimeline={stream}
+                                                onAccept={() => {
+                                                    setRequests(requests.filter((e) => e.id !== request.id))
+                                                }}
+                                            />
+                                        ))}
+                                    </Box>
+                                </>
+                            )}
+
                             <Typography variant="h3">Creator</Typography>
                             <Box
                                 sx={{

@@ -25,7 +25,7 @@ import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline'
 import { EmojipackCard } from '../EmojipackCard'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import { useGlobalActions } from '../../context/GlobalActions'
-import { StreamChip } from './StreamChip'
+import { TimelineChip } from './TimelineChip'
 import { useMediaViewer } from '../../context/MediaViewer'
 import { useGlobalState } from '../../context/GlobalState'
 
@@ -163,7 +163,7 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                         return <CCUserChip ccid={ccid} />
                     },
                     streamlink: ({ streamId }) => {
-                        return <StreamChip streamID={streamId} />
+                        return <TimelineChip timelineID={streamId} />
                     },
                     social: ({ href, icon, service, children }) => {
                         return (
@@ -325,7 +325,8 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                                 </LinkChip>
                             )
                         }
-                        const matchYoutubeVideo = href?.match(/https:\/\/www\.youtube\.com\/watch\?v=(\w+)$/)
+                        let matchYoutubeVideo = href?.match(/https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/)
+                        if (!matchYoutubeVideo) matchYoutubeVideo = href?.match(/https:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/)
                         if (matchYoutubeVideo) {
                             return (
                                 <Box
