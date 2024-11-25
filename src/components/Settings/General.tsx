@@ -69,8 +69,6 @@ export const GeneralSettings = (): JSX.Element => {
                     setSchemas(data.content.schemas)
                 })
             })
-
-        console.log('notification', notification)
     }, [reload])
 
     return (
@@ -292,7 +290,6 @@ export const GeneralSettings = (): JSX.Element => {
                                         }
                                     )
                                     .then((res) => {
-                                        console.log(res)
                                         enqueueSnackbar('通知を無効にしました', { variant: 'success' })
                                         setReload((prev) => prev + 1)
                                     })
@@ -313,17 +310,12 @@ export const GeneralSettings = (): JSX.Element => {
                                 }
 
                                 navigator.serviceWorker.ready.then((registration) => {
-                                    const vapidPublicKey =
-                                        'BEvaipDwxgRMpLtf2VN85Q_gBvEqCbIQgiTfIw2ENm521qt4nRCWLwlyQQABXEMfhQoLD4szmOo5LcVritTAP38'
                                     registration.pushManager
                                         .subscribe({
                                             userVisibleOnly: true,
-                                            applicationServerKey: vapidPublicKey
+                                            applicationServerKey: vapidKey
                                         })
                                         .then((subscription) => {
-                                            console.log('subscription', subscription)
-                                            console.log(JSON.stringify(subscription))
-
                                             if (!client.ccid || !client.user?.notificationTimeline) {
                                                 return
                                             }
@@ -336,8 +328,6 @@ export const GeneralSettings = (): JSX.Element => {
                                                 subscription: JSON.stringify(subscription)
                                             }
 
-                                            console.log(subscription)
-
                                             client.api
                                                 .fetchWithCredential(client.host, '/api/v1/notification', {
                                                     method: 'POST',
@@ -347,7 +337,6 @@ export const GeneralSettings = (): JSX.Element => {
                                                     body: JSON.stringify(notifySub)
                                                 })
                                                 .then((res) => {
-                                                    console.log(res)
                                                     enqueueSnackbar('通知設定を更新しました', { variant: 'success' })
                                                 })
                                                 .catch((err) => {
@@ -375,17 +364,12 @@ export const GeneralSettings = (): JSX.Element => {
                             }
 
                             navigator.serviceWorker.ready.then((registration) => {
-                                const vapidPublicKey =
-                                    'BEvaipDwxgRMpLtf2VN85Q_gBvEqCbIQgiTfIw2ENm521qt4nRCWLwlyQQABXEMfhQoLD4szmOo5LcVritTAP38'
                                 registration.pushManager
                                     .subscribe({
                                         userVisibleOnly: true,
-                                        applicationServerKey: vapidPublicKey
+                                        applicationServerKey: vapidKey
                                     })
                                     .then((subscription) => {
-                                        console.log('subscription', subscription)
-                                        console.log(JSON.stringify(subscription))
-
                                         if (!client.ccid || !client.user?.notificationTimeline) {
                                             return
                                         }
@@ -402,8 +386,6 @@ export const GeneralSettings = (): JSX.Element => {
                                             subscription: JSON.stringify(subscription)
                                         }
 
-                                        console.log(subscription)
-
                                         client.api
                                             .fetchWithCredential(client.host, '/api/v1/notification', {
                                                 method: 'POST',
@@ -413,7 +395,6 @@ export const GeneralSettings = (): JSX.Element => {
                                                 body: JSON.stringify(notifySub)
                                             })
                                             .then((res) => {
-                                                console.log(res)
                                                 enqueueSnackbar('通知を有効にしました', { variant: 'success' })
                                                 setReload((prev) => prev + 1)
                                             })
