@@ -5,6 +5,7 @@ import {
     AccordionSummary,
     Box,
     Button,
+    Checkbox,
     Divider,
     FormControlLabel,
     FormGroup,
@@ -20,8 +21,9 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { useClient } from '../../context/ClientContext'
 import { useEffect, useState } from 'react'
 import { useSnackbar } from 'notistack'
-import { IssueJWT } from '@concurrent-world/client'
+import { IssueJWT, Schemas } from '@concurrent-world/client'
 import { useTranslation } from 'react-i18next'
+import { type NotificationSubscription } from '../../model'
 
 export const GeneralSettings = (): JSX.Element => {
     const { client } = useClient()
@@ -42,9 +44,34 @@ export const GeneralSettings = (): JSX.Element => {
 
     const { t, i18n } = useTranslation('', { keyPrefix: 'settings.general' })
 
+    const [domainInfo, setDomainInfo] = useState<any>()
+    const vapidKey = domainInfo?.meta?.vapidKey
+
+    const [notification, setNotification] = useState<NotificationSubscription>()
+    const [schemas, setSchemas] = useState<string[]>([])
+
+    const [reload, setReload] = useState<number>(0)
+
     useEffect(() => {
         setCurrentLanguage(i18n.resolvedLanguage || 'en')
-    }, [])
+        fetch(`https://${client.api.host}/api/v1/domain`, {
+            cache: 'no-cache'
+        }).then((res) => {
+            res.json().then((data) => {
+                setDomainInfo(data.content)
+            })
+        })
+        client.api
+            .fetchWithCredential(client.host, `/api/v1/notification/${client.ccid}/concrnt.world`, {})
+            .then((res) => {
+                res.json().then((data) => {
+                    setNotification(data.content)
+                    setSchemas(data.content.schemas)
+                })
+            })
+
+        console.log('notification', notification)
+    }, [reload])
 
     return (
         <Box
@@ -131,7 +158,6 @@ export const GeneralSettings = (): JSX.Element => {
                     )}
                 </FormGroup>
             </Box>
-
             {tutorialCompleted && (
                 <Button
                     onClick={(_) => {
@@ -141,7 +167,269 @@ export const GeneralSettings = (): JSX.Element => {
                     メニューにチュートリアルを表示する
                 </Button>
             )}
+            <Typography variant="h3" gutterBottom>
+                通知(プレビュー)
+            </Typography>
+            通知機能は現在プレビュー版です。一部の通知には対応していません。また、通知の有効化にはブラウザでの通知許可が必要です。
+            {notification ? (
+                <>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={schemas.includes(Schemas.replyAssociation)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setSchemas((prev) => [...prev, Schemas.replyAssociation])
+                                        } else {
+                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.replyAssociation))
+                                        }
+                                    }}
+                                />
+                            }
+                            label="リプライ"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={schemas.includes(Schemas.mentionAssociation)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setSchemas((prev) => [...prev, Schemas.mentionAssociation])
+                                        } else {
+                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.mentionAssociation))
+                                        }
+                                    }}
+                                />
+                            }
+                            label="メンション"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={schemas.includes(Schemas.readAccessRequestAssociation)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setSchemas((prev) => [...prev, Schemas.readAccessRequestAssociation])
+                                        } else {
+                                            setSchemas((prev) =>
+                                                prev.filter((s) => s !== Schemas.readAccessRequestAssociation)
+                                            )
+                                        }
+                                    }}
+                                />
+                            }
+                            label="閲覧申請"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={schemas.includes(Schemas.likeAssociation)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setSchemas((prev) => [...prev, Schemas.likeAssociation])
+                                        } else {
+                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.likeAssociation))
+                                        }
+                                    }}
+                                />
+                            }
+                            label="お気に入り"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={schemas.includes(Schemas.reactionAssociation)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setSchemas((prev) => [...prev, Schemas.reactionAssociation])
+                                        } else {
+                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.reactionAssociation))
+                                        }
+                                    }}
+                                />
+                            }
+                            label="リアクション"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={schemas.includes(Schemas.rerouteAssociation)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setSchemas((prev) => [...prev, Schemas.rerouteAssociation])
+                                        } else {
+                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.rerouteAssociation))
+                                        }
+                                    }}
+                                />
+                            }
+                            label="リルート"
+                        />
+                    </FormGroup>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1,
+                            width: '100%',
+                            justifyContent: 'flex-end'
+                        }}
+                    >
+                        <Button
+                            color="error"
+                            variant="text"
+                            onClick={async () => {
+                                if (!client.ccid || !client.user?.notificationTimeline) {
+                                    return
+                                }
 
+                                client.api
+                                    .fetchWithCredential(
+                                        client.host,
+                                        `/api/v1/notification/${client.ccid}/concrnt.world`,
+                                        {
+                                            method: 'DELETE'
+                                        }
+                                    )
+                                    .then((res) => {
+                                        console.log(res)
+                                        enqueueSnackbar('通知を無効にしました', { variant: 'success' })
+                                        setReload((prev) => prev + 1)
+                                    })
+                                    .catch((err) => {
+                                        console.error(err)
+                                        enqueueSnackbar('通知の無効化に失敗しました', { variant: 'error' })
+                                    })
+                            }}
+                        >
+                            通知を無効にする
+                        </Button>
+
+                        <Button
+                            onClick={async () => {
+                                if (!('serviceWorker' in navigator)) {
+                                    console.error('Service Worker not supported')
+                                    return
+                                }
+
+                                navigator.serviceWorker.ready.then((registration) => {
+                                    const vapidPublicKey =
+                                        'BEvaipDwxgRMpLtf2VN85Q_gBvEqCbIQgiTfIw2ENm521qt4nRCWLwlyQQABXEMfhQoLD4szmOo5LcVritTAP38'
+                                    registration.pushManager
+                                        .subscribe({
+                                            userVisibleOnly: true,
+                                            applicationServerKey: vapidPublicKey
+                                        })
+                                        .then((subscription) => {
+                                            console.log('subscription', subscription)
+                                            console.log(JSON.stringify(subscription))
+
+                                            if (!client.ccid || !client.user?.notificationTimeline) {
+                                                return
+                                            }
+
+                                            const notifySub: NotificationSubscription = {
+                                                vendorID: 'concrnt.world',
+                                                owner: client.ccid,
+                                                schemas,
+                                                timelines: [client.user?.notificationTimeline],
+                                                subscription: JSON.stringify(subscription)
+                                            }
+
+                                            console.log(subscription)
+
+                                            client.api
+                                                .fetchWithCredential(client.host, '/api/v1/notification', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json'
+                                                    },
+                                                    body: JSON.stringify(notifySub)
+                                                })
+                                                .then((res) => {
+                                                    console.log(res)
+                                                    enqueueSnackbar('通知設定を更新しました', { variant: 'success' })
+                                                })
+                                                .catch((err) => {
+                                                    console.error(err)
+                                                    enqueueSnackbar('通知設定の更新に失敗しました', {
+                                                        variant: 'error'
+                                                    })
+                                                })
+                                        })
+                                })
+                            }}
+                        >
+                            更新
+                        </Button>
+                    </Box>
+                </>
+            ) : (
+                <>
+                    <Button
+                        disabled={!vapidKey}
+                        onClick={async () => {
+                            if (!('serviceWorker' in navigator)) {
+                                console.error('Service Worker not supported')
+                                return
+                            }
+
+                            navigator.serviceWorker.ready.then((registration) => {
+                                const vapidPublicKey =
+                                    'BEvaipDwxgRMpLtf2VN85Q_gBvEqCbIQgiTfIw2ENm521qt4nRCWLwlyQQABXEMfhQoLD4szmOo5LcVritTAP38'
+                                registration.pushManager
+                                    .subscribe({
+                                        userVisibleOnly: true,
+                                        applicationServerKey: vapidPublicKey
+                                    })
+                                    .then((subscription) => {
+                                        console.log('subscription', subscription)
+                                        console.log(JSON.stringify(subscription))
+
+                                        if (!client.ccid || !client.user?.notificationTimeline) {
+                                            return
+                                        }
+
+                                        const notifySub: NotificationSubscription = {
+                                            vendorID: 'concrnt.world',
+                                            owner: client.ccid,
+                                            schemas: [
+                                                Schemas.replyAssociation,
+                                                Schemas.mentionAssociation,
+                                                Schemas.readAccessRequestAssociation
+                                            ],
+                                            timelines: [client.user?.notificationTimeline],
+                                            subscription: JSON.stringify(subscription)
+                                        }
+
+                                        console.log(subscription)
+
+                                        client.api
+                                            .fetchWithCredential(client.host, '/api/v1/notification', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify(notifySub)
+                                            })
+                                            .then((res) => {
+                                                console.log(res)
+                                                enqueueSnackbar('通知を有効にしました', { variant: 'success' })
+                                                setReload((prev) => prev + 1)
+                                            })
+                                            .catch((err) => {
+                                                console.error(err)
+                                                enqueueSnackbar('通知の有効化に失敗しました', { variant: 'error' })
+                                            })
+                                    })
+                            })
+                        }}
+                    >
+                        {vapidKey ? '通知を有効にする' : 'お使いのドメインは通知をサポートしていません'}
+                    </Button>
+                </>
+            )}
+            {devMode && <>{vapidKey ?? 'no vapid key'}</>}
             {!enableConcord && (
                 <Accordion>
                     <AccordionSummary>
@@ -174,7 +462,6 @@ export const GeneralSettings = (): JSX.Element => {
                 </Accordion>
             )}
             <Divider />
-
             {devMode && (
                 <>
                     <Typography variant="h3" gutterBottom>
@@ -235,7 +522,6 @@ export const GeneralSettings = (): JSX.Element => {
                     <Typography>{JSON.stringify(client.domainServices)}</Typography>
                 </>
             )}
-
             {tags.includes('_invite') && (
                 <>
                     {invitationCode === '' ? (

@@ -156,3 +156,11 @@ export interface WorldMedia {
     blurhash?: string
     flag?: string
 }
+
+export interface NotificationSubscription {
+    vendorID: string
+    owner: string
+    schemas: string[]
+    timelines: string[]
+    subscription: string
+}

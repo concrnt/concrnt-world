@@ -105,7 +105,8 @@
         "typescript": "^5.0.4",
         "vite": "^5.2.8",
         "vite-plugin-info": "github:rassi0429/vite-plugin-info",
-        "vite-plugin-pwa": "^0.19.8"
+        "vite-plugin-pwa": "^0.19.8",
+        "workbox-precaching": "^7.3.0"
     },
     "lint-staged": {
         "src/**/*.{js,jsx,ts,tsx}": [

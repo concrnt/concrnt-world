@@ -16,6 +16,10 @@ export default defineConfig({
     plugins: [
         react(),
         VitePWA({
+            devOptions: {
+                enabled: true,
+                type: 'module',
+            },
             registerType: 'autoUpdate',
             includeAssets: [
                 'offline.html',
@@ -53,6 +57,7 @@ export default defineConfig({
                     }
                 ]
             },
+            strategies: 'injectManifest',
             workbox: {
                 cleanupOutdatedCaches: true,
                 skipWaiting: true,

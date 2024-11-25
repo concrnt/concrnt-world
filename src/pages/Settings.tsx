@@ -44,6 +44,7 @@ export function Settings(): JSX.Element {
                 paddingTop: 1,
                 backgroundColor: 'background.paper',
                 minHeight: '100%',
+                overflowX: 'hidden',
                 overflowY: 'scroll'
             }}
         >
