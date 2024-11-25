@@ -346,6 +346,14 @@ export const GeneralSettings = (): JSX.Element => {
                                                     })
                                                 })
                                         })
+                                        .catch((err) => {
+                                            console.error(err)
+                                            registration.pushManager.getSubscription().then((subscription) => {
+                                                subscription?.unsubscribe().then(() => {
+                                                    enqueueSnackbar('もう一度お試しください', { variant: 'error' })
+                                                })
+                                            })
+                                        })
                                 })
                             }}
                         >
@@ -364,6 +372,7 @@ export const GeneralSettings = (): JSX.Element => {
                             }
 
                             navigator.serviceWorker.ready.then((registration) => {
+                                // check if the registration is already subscribed
                                 registration.pushManager
                                     .subscribe({
                                         userVisibleOnly: true,
@@ -402,6 +411,14 @@ export const GeneralSettings = (): JSX.Element => {
                                                 console.error(err)
                                                 enqueueSnackbar('通知の有効化に失敗しました', { variant: 'error' })
                                             })
+                                    })
+                                    .catch((err) => {
+                                        console.error(err)
+                                        registration.pushManager.getSubscription().then((subscription) => {
+                                            subscription?.unsubscribe().then(() => {
+                                                enqueueSnackbar('もう一度お試しください', { variant: 'error' })
+                                            })
+                                        })
                                     })
                             })
                         }}
