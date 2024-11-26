@@ -32,10 +32,13 @@ self.addEventListener('push', event => {
 
         let title = '';
         let body = '';
+        let icon = '/192.png';
+        let badge = undefined;
 
+        let signer = undefined;
         let username = "非公開"
         try {
-            const signer = await getProfile(document.signer);
+            signer = await getProfile(document.signer);
             username = signer.body.username;
         } catch (error) {
             console.log(error);
@@ -58,6 +61,9 @@ self.addEventListener('push', event => {
                 try {
                     const message = await getMessage(document.target, document.owner);
                     body = message.body.body;
+                    if (document.body.imageUrl) {
+                        badge = `https://ariake.concrnt.net/image/96x/${document.body.imageUrl}`;
+                    }
                 } catch (error) {
                     console.log(error);
                 }
@@ -80,6 +86,9 @@ self.addEventListener('push', event => {
                 try {
                     const message = await getMessage(document.body.messageId, document.body.messageAuthor);
                     body = message.body.body;
+                    if (signer?.body?.avatar) {
+                        icon = `https://ariake.concrnt.net/image/128x/${signer.body.avatar}`;
+                    }
                 } catch (error) {
                     console.log(error);
                 }
@@ -91,6 +100,9 @@ self.addEventListener('push', event => {
                 try {
                     const message = await getMessage(document.target, document.owner);
                     body = message.body.body;
+                    if (signer?.body?.avatar) {
+                        icon = `https://ariake.concrnt.net/image/128x/${signer.body.avatar}`;
+                    }
                 } catch (error) {
                     console.log(error);
                 }
@@ -106,8 +118,11 @@ self.addEventListener('push', event => {
                 break;
         }
         return self.registration.showNotification(
-            title, {
-                body
+            title,
+            {
+                body,
+                icon,
+                badge,
             }
         )
     }
