@@ -323,7 +323,7 @@ export const ConcurrentDefaultTheme = {
                     overflowY: 'visible'
                 },
                 '.snackbar-container-mobile': {
-                    bottom: 'calc(55px + env(safe-area-inset-bottom))'
+                    bottom: 'calc(55px + env(safe-area-inset-bottom)) !important'
                 },
                 'p+p, figure+p': {
                     marginTop: '1.3em'

@@ -222,11 +222,11 @@ function App(): JSX.Element {
     }
 
     const providers = (childs: JSX.Element): JSX.Element => (
-        <SnackbarProvider
-            preventDuplicate
-            classes={isMobileSize ? { containerRoot: 'snackbar-container-mobile' } : undefined}
-        >
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <SnackbarProvider
+                preventDuplicate
+                classes={isMobileSize ? { containerRoot: 'snackbar-container-mobile' } : undefined}
+            >
                 <CssBaseline />
                 <TickerProvider>
                     <UrlSummaryProvider host={client.host}>
@@ -245,8 +245,8 @@ function App(): JSX.Element {
                         </MediaViewerProvider>
                     </UrlSummaryProvider>
                 </TickerProvider>
-            </ThemeProvider>
-        </SnackbarProvider>
+            </SnackbarProvider>
+        </ThemeProvider>
     )
 
     return providers(
