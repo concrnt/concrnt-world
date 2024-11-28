@@ -516,7 +516,7 @@ export default function Welcome(): JSX.Element {
             }
         >
             <Helmet>
-                <title>Concrnt</title>
+                <title>Concrnt | コンカレント</title>
                 <meta
                     name="description"
                     content="Concrntはあなたの世界をちょっとだけより豊かにする、新しい時代のSNSです"

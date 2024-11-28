@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import { defaultPreference } from '../context/PreferenceContext'
 import { GuestBase } from '../components/GuestBase'
+import { Helmet } from 'react-helmet-async'
 
 export default function Registration(): JSX.Element {
     const location = useLocation()
@@ -168,6 +169,9 @@ export default function Registration(): JSX.Element {
                 </>
             }
         >
+            <Helmet>
+                <meta name="robots" content="noindex" />
+            </Helmet>
             <ClientProvider client={client}>
                 <>
                     <Paper
