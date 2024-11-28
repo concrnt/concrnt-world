@@ -20,6 +20,7 @@ export interface TimelineProps {
     perspective?: string
     header?: JSX.Element
     onScroll?: (top: number) => void
+    noRealtime?: boolean
 }
 
 const PTR_HEIGHT = 60
@@ -69,27 +70,31 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
         let isCancelled = false
         if (props.streams.length === 0) return
         setTimelineLoading(true)
-        const mt = client.newTimelineReader({ withoutSocket: true }).then((t) => {
-            if (isCancelled) return
-            timeline.current = t
-            t.onUpdate = () => {
-                timelineChanged()
-            }
-            t.onRealtimeEvent = (event) => {
-                if (event.document?.type === 'message') {
-                    playBubbleRef.current()
+        const mt = client
+            .newTimelineReader({
+                withoutSocket: props.noRealtime ?? false
+            })
+            .then((t) => {
+                if (isCancelled) return
+                timeline.current = t
+                t.onUpdate = () => {
+                    timelineChanged()
                 }
-            }
-            timeline.current
-                .listen(props.streams)
-                .then((hasMore) => {
-                    setHasMoreData(hasMore)
-                })
-                .finally(() => {
-                    setTimelineLoading(false)
-                })
-            return t
-        })
+                t.onRealtimeEvent = (event) => {
+                    if (event.document?.type === 'message') {
+                        playBubbleRef.current()
+                    }
+                }
+                timeline.current
+                    .listen(props.streams)
+                    .then((hasMore) => {
+                        setHasMoreData(hasMore)
+                    })
+                    .finally(() => {
+                        setTimelineLoading(false)
+                    })
+                return t
+            })
         return () => {
             isCancelled = true
             mt.then((t) => {

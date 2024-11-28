@@ -209,6 +209,7 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
                                 </Box>
                             ) : (
                                 <Timeline
+                                    noRealtime
                                     ref={timelineRef}
                                     streams={targetStream}
                                     header={
