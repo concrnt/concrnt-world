@@ -30,7 +30,6 @@ import { CCUserChip } from './ui/CCUserChip'
 import { CCIconButton } from './ui/CCIconButton'
 import { CCComboBox } from './ui/CCComboBox'
 import { useConfirm } from '../context/Confirm'
-import { CCAvatar } from './ui/CCAvatar'
 import { WatchRequestAcceptButton } from './WatchRequestAccpetButton'
 
 export interface StreamInfoProps {

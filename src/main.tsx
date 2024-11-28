@@ -18,6 +18,7 @@ const Registration = lazy(() => import('./pages/Registration'))
 const AccountImport = lazy(() => import('./pages/AccountImport'))
 const GuestTimelinePage = lazy(() => import('./pages/GuestTimeline'))
 const GuestMessagePage = lazy(() => import('./pages/GuestMessage'))
+const GuestProfilePage = lazy(() => import('./pages/GuestProfile'))
 
 let domain = ''
 let prvkey = ''
@@ -57,9 +58,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             <Route path="/register" element={<Navigate to="/" />} />
                         )}
                         <Route path="/import" element={<AccountImport />} />
-                        {!logined && <Route path="/:id" element={<GuestTimelinePage page="entity" />} />}
+                        {!logined && <Route path="/:id" element={<GuestProfilePage />} />}
                         {!logined && <Route path="/:authorID/:messageID" element={<GuestMessagePage />} />}
-                        {!logined && <Route path="/timeline/:id" element={<GuestTimelinePage page="timeline" />} />}
+                        {!logined && <Route path="/timeline/:id" element={<GuestTimelinePage />} />}
                         <Route
                             path="*"
                             element={
