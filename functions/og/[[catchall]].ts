@@ -98,6 +98,8 @@ export const onRequest: PagesFunction = async (context) => {
 <html>
   <head>
     <meta charset="UTF-8">
+    <title>${username} on Concrnt</title>
+    <meta name="description" content="${content}">
     <meta property="og:title" content="${username} on Concrnt">
     <meta property="og:description" content="${content}">
     <meta property="twitter:card" content="${images.length > 0 ? 'summary_large_image' : 'summary'}">
@@ -110,6 +112,20 @@ export const onRequest: PagesFunction = async (context) => {
     <link rel="canonical" href="${originalPath}">
     <script>
         window.location.href = "${originalPath}"
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SocialMediaPosting",
+        "articleBody": "${content}",
+        "url": "${originalPath}",
+        "author": {
+            "@type": "Person",
+            "name": "${username}",
+            "image": "${avatar}"
+            "url": "https://concrnt.world/${ccid}"
+        }
+    }
     </script>
   </head>
 </html>

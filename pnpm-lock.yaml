@@ -12,8 +12,8 @@ dependencies:
     specifier: ^3.592.0
     version: 3.592.0
   '@concurrent-world/client':
-    specifier: ^6.5.1
-    version: 6.5.1
+    specifier: ^6.5.2
+    version: 6.5.2
   '@cosmjs/encoding':
     specifier: ^0.32.4
     version: 0.32.4
@@ -122,6 +122,9 @@ dependencies:
   react-error-boundary:
     specifier: ^4.0.10
     version: 4.0.10(react@18.2.0)
+  react-helmet-async:
+    specifier: ^2.0.5
+    version: 2.0.5(react@18.2.0)
   react-i18next:
     specifier: ^13.2.2
     version: 13.2.2(i18next@23.5.1)(react-dom@18.2.0)(react@18.2.0)
@@ -2366,8 +2369,8 @@ packages:
     dev: true
     optional: true
 
-  /@concurrent-world/client@6.5.1:
-    resolution: {integrity: sha512-/szvBZ41gA1xERh8zir/wLwylZ5ftHx5ixW8hfb/pCHHJ9suv6XXcip221t5KTHDxQBM6FC5AjpfB1ebNDrMlQ==}
+  /@concurrent-world/client@6.5.2:
+    resolution: {integrity: sha512-A0RJEfojrM7FuyJeIvUm8cUumE8jw/GMBQe6/UCqKh9zrUy2ffDlLyfExj6E7hfUwXFn1tlyb2FfhoUpBaAMNQ==}
     dependencies:
       '@cosmjs/amino': 0.32.4
       '@cosmjs/crypto': 0.32.4
@@ -8441,7 +8444,6 @@ packages:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
@@ -10377,6 +10379,21 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-fast-compare@3.2.2:
+    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
+    dev: false
+
+  /react-helmet-async@2.0.5(react@18.2.0):
+    resolution: {integrity: sha512-rYUYHeus+i27MvFE+Jaa4WsyBKGkL6qVgbJvSBoX8mbsWoABJXdEO0bZyi0F6i+4f0NuIb8AvqPMj3iXFHkMwg==}
+    peerDependencies:
+      react: ^16.6.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      invariant: 2.2.4
+      react: 18.2.0
+      react-fast-compare: 3.2.2
+      shallowequal: 1.1.0
+    dev: false
+
   /react-i18next@13.2.2(i18next@23.5.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-+nFUkbRByFwnrfDcYqvzBuaeZb+nACHx+fAWN/pZMddWOCJH5hoc21+Sa/N/Lqi6ne6/9wC/qRGOoQhJa6IkEQ==}
     peerDependencies:
@@ -11072,6 +11089,10 @@ packages:
     dependencies:
       kind-of: 6.0.3
     dev: true
+
+  /shallowequal@1.1.0:
+    resolution: {integrity: sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==}
+    dev: false
 
   /shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}

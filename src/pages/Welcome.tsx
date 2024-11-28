@@ -12,6 +12,7 @@ import { DummyMessageView } from '../components/Message/DummyMessageView'
 
 import { type Keyframes, keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
+import { Helmet } from 'react-helmet-async'
 
 const parallaxKeyframes = (amount: number): Keyframes => keyframes`
     from {
@@ -514,6 +515,13 @@ export default function Welcome(): JSX.Element {
                 </>
             }
         >
+            <Helmet>
+                <title>Concrnt</title>
+                <meta
+                    name="description"
+                    content="Concrntはあなたの世界をちょっとだけより豊かにする、新しい時代のSNSです"
+                />
+            </Helmet>
             <WelcomeBody />
         </GuestBase>
     )

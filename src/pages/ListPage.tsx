@@ -23,6 +23,7 @@ import { ListItemTimeline } from '../components/ui/ListItemTimeline'
 import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useEditorModal } from '../components/EditorModal'
 import { type StreamList } from '../model'
+import { Helmet } from 'react-helmet-async'
 
 export function ListPage(): JSX.Element {
     const { client } = useClient()
@@ -93,7 +94,6 @@ export function ListPage(): JSX.Element {
         client.api.getSubscription<ListSubscriptionSchema>(id).then((sub) => {
             if (!sub) return
             setSubscription(sub)
-            document.title = `${sub.document.body.name} - Concrnt`
         })
     }, [id, client, updater])
 
@@ -129,6 +129,10 @@ export function ListPage(): JSX.Element {
 
     return (
         <>
+            <Helmet>
+                <title>{`${subscription?.document.body.name ?? 'No Name'} - Concrnt`}</title>
+                <meta name="description" content={subscription?.document.body.description ?? ''} />
+            </Helmet>
             <Box
                 sx={{
                     width: '100%',

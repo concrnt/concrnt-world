@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Divider, Paper, Typography } from '@mui/material'
-import { useLocation, useParams, Link as NavLink } from 'react-router-dom'
+import { useParams, Link as NavLink } from 'react-router-dom'
 import {
     type Association,
     Client,
@@ -20,6 +20,7 @@ import { MediaViewerProvider } from '../context/MediaViewer'
 import { MessageView } from '../components/Message/MessageView'
 import { MediaMessageView } from '../components/Message/MediaMessageView'
 import { PlainMessageView } from '../components/Message/PlainMessageView'
+import { Helmet } from 'react-helmet-async'
 
 export default function GuestMessagePage(): JSX.Element {
     const { authorID, messageID } = useParams()
@@ -48,10 +49,6 @@ export default function GuestMessagePage(): JSX.Element {
         client.getMessage<any>(messageID, authorID).then((msg) => {
             if (!isMounted || !msg) return
             setMessage(msg)
-
-            document.title = `${msg.authorUser?.profile?.username || 'anonymous'}: "${
-                msg.document.body.body
-            }" - Concrnt`
 
             msg.getReplyMessages().then((replies) => {
                 if (!isMounted) return
@@ -82,129 +79,159 @@ export default function GuestMessagePage(): JSX.Element {
     if (!message) return <></>
 
     return providers(
-        <ClientProvider client={client}>
-            <GuestBase
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    overflow: 'hidden',
-                    gap: 1,
-                    flex: 1
-                }}
-                additionalButton={
-                    <Button component={NavLink} to="/register">
-                        はじめる
-                    </Button>
+        <>
+            <Helmet>
+                <title>{`${message.authorUser?.profile?.username || 'anonymous'}: "${
+                    message.document.body.body
+                }" - Concrnt`}</title>
+                <meta name="description" content={message.document.body.body} />
+                <script type="application/ld+json">
+                    {`
+            {
+                "@context": "https://schema.org",
+                "@type": "SocialMediaPosting",
+                "articleBody": ${JSON.stringify(message.document.body.body)},
+                "url": "${window.location.href}",
+                "author": {
+                    "@type": "Person",
+                    "name": "${message.authorUser?.profile?.username || 'anonymous'}",
+                    "url": "https://concrnt.world/${message.author}"
+                    "image": "${message.authorUser?.profile?.avatar}",
+                    "description": ${JSON.stringify(message.authorUser?.profile?.description || '')},
                 }
-            >
-                <Paper
+            }
+            `}
+                </script>
+            </Helmet>
+            <ClientProvider client={client}>
+                <GuestBase
                     sx={{
-                        flex: 1,
-                        margin: { xs: 0.5, sm: 1 },
-                        mb: { xs: 0, sm: '10px' },
                         display: 'flex',
-                        flexFlow: 'column',
-                        borderRadius: 2,
+                        flexDirection: 'column',
                         overflow: 'hidden',
-                        background: 'none'
+                        gap: 1,
+                        flex: 1
                     }}
+                    additionalButton={
+                        <Button component={NavLink} to="/register">
+                            はじめる
+                        </Button>
+                    }
                 >
-                    <Box
+                    <Paper
                         sx={{
+                            flex: 1,
+                            margin: { xs: 0.5, sm: 1 },
+                            mb: { xs: 0, sm: '10px' },
                             display: 'flex',
-                            flexDirection: 'column',
-                            gap: 1,
-                            padding: 1,
-                            backgroundColor: 'background.paper',
-                            minHeight: '100%',
-                            overflow: 'scroll',
-                            userSelect: 'text',
-                            flex: 1
+                            flexFlow: 'column',
+                            borderRadius: 2,
+                            overflow: 'hidden',
+                            background: 'none'
                         }}
                     >
-                        <Box>
-                            <Typography gutterBottom variant="h2">
-                                Message
-                            </Typography>
-                            <Divider />
-                        </Box>
-
-                        {replyTo && (
-                            <>
-                                <Box>
-                                    <MessageView message={replyTo} lastUpdated={lastUpdated} userCCID={client.ccid} />
-                                </Box>
-                                <Divider />
-                            </>
-                        )}
-
-                        {(message.schema === Schemas.markdownMessage || message.schema === Schemas.replyMessage) && (
-                            <>
-                                <Box>
-                                    <MessageView
-                                        forceExpanded
-                                        message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
-                                        lastUpdated={lastUpdated}
-                                        userCCID={client.ccid}
-                                    />
-                                </Box>
-                                <Divider />
-                            </>
-                        )}
-
-                        {message.schema === Schemas.plaintextMessage && (
-                            <>
-                                <Box>
-                                    <PlainMessageView
-                                        forceExpanded
-                                        message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
-                                        lastUpdated={lastUpdated}
-                                        userCCID={client.ccid}
-                                    />
-                                </Box>
-                                <Divider />
-                            </>
-                        )}
-
-                        {message.schema === Schemas.mediaMessage && (
-                            <>
-                                <Box>
-                                    <MediaMessageView
-                                        forceExpanded
-                                        message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
-                                        lastUpdated={lastUpdated}
-                                        userCCID={client.ccid}
-                                    />
-                                </Box>
-                                <Divider />
-                            </>
-                        )}
-
-                        {replies.length > 0 && (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 1,
+                                padding: 1,
+                                backgroundColor: 'background.paper',
+                                minHeight: '100%',
+                                overflow: 'scroll',
+                                userSelect: 'text',
+                                flex: 1
+                            }}
+                        >
                             <Box>
-                                <Typography variant="h2" gutterBottom>
-                                    Replies:
+                                <Typography gutterBottom variant="h2">
+                                    Message
                                 </Typography>
-                                <Box display="flex" flexDirection="column" gap={1}>
-                                    {replies.map(
-                                        (reply) =>
-                                            reply.message && (
-                                                <>
-                                                    <MessageView
-                                                        message={reply.message}
-                                                        lastUpdated={lastUpdated}
-                                                        userCCID={client.ccid}
-                                                    />
-                                                    <Divider />
-                                                </>
-                                            )
-                                    )}
-                                </Box>
+                                <Divider />
                             </Box>
-                        )}
-                    </Box>
-                </Paper>
-            </GuestBase>
-        </ClientProvider>
+
+                            {replyTo && (
+                                <>
+                                    <Box>
+                                        <MessageView
+                                            message={replyTo}
+                                            lastUpdated={lastUpdated}
+                                            userCCID={client.ccid}
+                                        />
+                                    </Box>
+                                    <Divider />
+                                </>
+                            )}
+
+                            {(message.schema === Schemas.markdownMessage ||
+                                message.schema === Schemas.replyMessage) && (
+                                <>
+                                    <Box>
+                                        <MessageView
+                                            forceExpanded
+                                            message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
+                                            lastUpdated={lastUpdated}
+                                            userCCID={client.ccid}
+                                        />
+                                    </Box>
+                                    <Divider />
+                                </>
+                            )}
+
+                            {message.schema === Schemas.plaintextMessage && (
+                                <>
+                                    <Box>
+                                        <PlainMessageView
+                                            forceExpanded
+                                            message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
+                                            lastUpdated={lastUpdated}
+                                            userCCID={client.ccid}
+                                        />
+                                    </Box>
+                                    <Divider />
+                                </>
+                            )}
+
+                            {message.schema === Schemas.mediaMessage && (
+                                <>
+                                    <Box>
+                                        <MediaMessageView
+                                            forceExpanded
+                                            message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
+                                            lastUpdated={lastUpdated}
+                                            userCCID={client.ccid}
+                                        />
+                                    </Box>
+                                    <Divider />
+                                </>
+                            )}
+
+                            {replies.length > 0 && (
+                                <Box>
+                                    <Typography variant="h2" gutterBottom>
+                                        Replies:
+                                    </Typography>
+                                    <Box display="flex" flexDirection="column" gap={1}>
+                                        {replies.map(
+                                            (reply) =>
+                                                reply.message && (
+                                                    <>
+                                                        <MessageView
+                                                            message={reply.message}
+                                                            lastUpdated={lastUpdated}
+                                                            userCCID={client.ccid}
+                                                        />
+                                                        <Divider />
+                                                    </>
+                                                )
+                                        )}
+                                    </Box>
+                                </Box>
+                            )}
+                        </Box>
+                    </Paper>
+                </GuestBase>
+            </ClientProvider>
+        </>
     )
 }

@@ -50,6 +50,8 @@ export const onRequest: PagesFunction = async (context) => {
 <html>
   <head>
     <meta charset="UTF-8">
+    <title>${username} on Concrnt</title>
+    <meta name="description" content="${description}">
     <meta property="og:title" content="${username} on Concrnt">
     <meta property="og:description" content="${description}">
     <meta property="og:image" content="${avatar}">
@@ -58,6 +60,16 @@ export const onRequest: PagesFunction = async (context) => {
     <link rel="canonical" href="${originalPath}">
     <script>
         window.location.href = "${originalPath}"
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "${username}",
+        "url": "${originalPath}",
+        "image": "${avatar}",
+        "description": "${description}"
+    }
     </script>
   </head>
 </html>`

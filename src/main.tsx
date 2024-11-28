@@ -8,6 +8,7 @@ import { FullScreenLoading } from './components/ui/FullScreenLoading'
 import { PreferenceProvider } from './context/PreferenceContext'
 import { GlobalStateProvider } from './context/GlobalState'
 import { ClientProvider } from './context/ClientContext'
+import { HelmetProvider } from 'react-helmet-async'
 
 import './i18n'
 
@@ -45,38 +46,40 @@ const logined = domain !== '' && (prvkey !== '' || subkey !== '')
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ErrorBoundary FallbackComponent={EmergencyKit}>
         <Suspense fallback={<FullScreenLoading message="Downloading Updates..." />}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/crash" element={<EmergencyKit error={null} resetErrorBoundary={() => {}} />} />
-                    <Route path="/welcome" element={<Welcome />} />
-                    {!logined ? (
-                        <Route path="/register" element={<Registration />} />
-                    ) : (
-                        <Route path="/register" element={<Navigate to="/" />} />
-                    )}
-                    <Route path="/import" element={<AccountImport />} />
-                    {!logined && <Route path="/:id" element={<GuestTimelinePage page="entity" />} />}
-                    {!logined && <Route path="/:authorID/:messageID" element={<GuestMessagePage />} />}
-                    {!logined && <Route path="/timeline/:id" element={<GuestTimelinePage page="timeline" />} />}
-                    <Route
-                        path="*"
-                        element={
-                            <LoginGuard
-                                component={
-                                    <ClientProvider>
-                                        <PreferenceProvider>
-                                            <GlobalStateProvider>
-                                                <AppPage />
-                                            </GlobalStateProvider>
-                                        </PreferenceProvider>
-                                    </ClientProvider>
-                                }
-                                redirect="/welcome"
-                            />
-                        }
-                    />
-                </Routes>
-            </BrowserRouter>
+            <HelmetProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/crash" element={<EmergencyKit error={null} resetErrorBoundary={() => {}} />} />
+                        <Route path="/welcome" element={<Welcome />} />
+                        {!logined ? (
+                            <Route path="/register" element={<Registration />} />
+                        ) : (
+                            <Route path="/register" element={<Navigate to="/" />} />
+                        )}
+                        <Route path="/import" element={<AccountImport />} />
+                        {!logined && <Route path="/:id" element={<GuestTimelinePage page="entity" />} />}
+                        {!logined && <Route path="/:authorID/:messageID" element={<GuestMessagePage />} />}
+                        {!logined && <Route path="/timeline/:id" element={<GuestTimelinePage page="timeline" />} />}
+                        <Route
+                            path="*"
+                            element={
+                                <LoginGuard
+                                    component={
+                                        <ClientProvider>
+                                            <PreferenceProvider>
+                                                <GlobalStateProvider>
+                                                    <AppPage />
+                                                </GlobalStateProvider>
+                                            </PreferenceProvider>
+                                        </ClientProvider>
+                                    }
+                                    redirect="/welcome"
+                                />
+                            }
+                        />
+                    </Routes>
+                </BrowserRouter>
+            </HelmetProvider>
         </Suspense>
     </ErrorBoundary>
 )

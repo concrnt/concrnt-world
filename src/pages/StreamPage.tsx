@@ -19,6 +19,7 @@ import { useGlobalState } from '../context/GlobalState'
 import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useEditorModal } from '../components/EditorModal'
 import { PrivateTimelineDoor } from '../components/PrivateTimelineDoor'
+import { Helmet } from 'react-helmet-async'
 
 export const StreamPage = memo((): JSX.Element => {
     const { client } = useClient()
@@ -66,7 +67,6 @@ export const StreamPage = memo((): JSX.Element => {
         client.getTimeline<CommunityTimelineSchema>(targetStreamID).then((stream) => {
             if (stream) {
                 setTargetStream(stream)
-                document.title = `#${stream.document.body.name} - Concrnt`
             }
         })
     }, [id])
@@ -85,6 +85,10 @@ export const StreamPage = memo((): JSX.Element => {
 
     return (
         <>
+            <Helmet>
+                <title>{`#${targetStream?.document.body.name ?? 'Not Found'} - Concrnt`}</title>
+                <meta name="description" content={targetStream?.document.body.description ?? ''} />
+            </Helmet>
             <Box
                 sx={{
                     width: '100%',

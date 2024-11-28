@@ -10,6 +10,7 @@ import { Profile } from '../components/Profile'
 import { QueryTimelineReader } from '../components/QueryTimeline'
 import { TimelineFilter } from '../components/TimelineFilter'
 import { PrivateTimelineDoor } from '../components/PrivateTimelineDoor'
+import { Helmet } from 'react-helmet-async'
 
 export function EntityPage(): JSX.Element {
     const { client } = useClient()
@@ -40,9 +41,6 @@ export function EntityPage(): JSX.Element {
         if (!id) return
         client.getUser(id).then((user) => {
             setUser(user)
-            document.title = `${user?.profile?.username || 'anonymous'}${
-                user?.alias ? `(@${user.alias})` : ''
-            } - Concrnt`
         })
     }, [id])
 
@@ -77,87 +75,102 @@ export function EntityPage(): JSX.Element {
     if (!user) return <></>
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                backgroundColor: 'background.paper',
-                minHeight: '100%',
-                position: 'relative'
-            }}
-        >
-            <Box position="absolute" top="0" left="0" width="100%" zIndex="1">
-                <Collapse in={showHeader}>
-                    <TimelineHeader
-                        title={user?.profile?.username || 'anonymous'}
-                        titleIcon={<AlternateEmailIcon />}
-                        onTitleClick={() => {
-                            timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
-                        }}
-                    />
-                </Collapse>
-            </Box>
-
-            {isPrivate ? (
-                <>
-                    <Profile
-                        user={user ?? undefined}
-                        id={id}
-                        overrideSubProfileID={subProfileID}
-                        onSubProfileClicked={(id) => {
-                            window.location.hash = id
-                        }}
-                    />
-                    <PrivateTimelineDoor timeline={timeline} />
-                </>
-            ) : (
-                <>
-                    {targetTimeline && (
-                        <QueryTimelineReader
-                            ref={timelineRef}
-                            timeline={targetTimeline}
-                            query={query}
-                            perspective={user?.ccid}
-                            onScroll={(top) => {
-                                setShowHeader(top > 180)
+        <>
+            <Helmet>
+                <title>{`${user?.profile?.username || 'anonymous'}${
+                    user?.alias ? `(@${user.alias})` : ''
+                } - Concrnt`}</title>
+                <meta name="description" content={user?.profile?.description || ''} />
+            </Helmet>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    backgroundColor: 'background.paper',
+                    minHeight: '100%',
+                    position: 'relative'
+                }}
+            >
+                <Box position="absolute" top="0" left="0" width="100%" zIndex="1">
+                    <Collapse in={showHeader}>
+                        <TimelineHeader
+                            title={user?.profile?.username || 'anonymous'}
+                            titleIcon={<AlternateEmailIcon />}
+                            onTitleClick={() => {
+                                timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
                             }}
-                            header={
-                                <>
-                                    <Profile
-                                        user={user ?? undefined}
-                                        id={id}
-                                        overrideSubProfileID={subProfileID}
-                                        onSubProfileClicked={(id) => {
-                                            window.location.hash = id
-                                        }}
-                                    />
-                                    <Tabs
-                                        value={tab}
-                                        onChange={(_, value) => {
-                                            if (value === '')
-                                                navigate(`/${id}` + (subProfileID ? '#' + subProfileID : ''))
-                                            else navigate(`/${id}/${value}` + (subProfileID ? '#' + subProfileID : ''))
-                                        }}
-                                        textColor="secondary"
-                                        indicatorColor="secondary"
-                                    >
-                                        <Tab label="カレント" value="" />
-                                        <Tab label="メディア" value="media" />
-                                        <Tab label="アクティビティ" value="activity" />
-                                    </Tabs>
-                                    <Divider />
-                                    {tab === 'activity' && (
-                                        <>
-                                            <TimelineFilter selected={filter} setSelected={setFilter} sx={{ px: 1 }} />
-                                            <Divider />
-                                        </>
-                                    )}
-                                </>
-                            }
                         />
-                    )}
-                </>
-            )}
-        </Box>
+                    </Collapse>
+                </Box>
+
+                {isPrivate ? (
+                    <>
+                        <Profile
+                            user={user ?? undefined}
+                            id={id}
+                            overrideSubProfileID={subProfileID}
+                            onSubProfileClicked={(id) => {
+                                window.location.hash = id
+                            }}
+                        />
+                        <PrivateTimelineDoor timeline={timeline} />
+                    </>
+                ) : (
+                    <>
+                        {targetTimeline && (
+                            <QueryTimelineReader
+                                ref={timelineRef}
+                                timeline={targetTimeline}
+                                query={query}
+                                perspective={user?.ccid}
+                                onScroll={(top) => {
+                                    setShowHeader(top > 180)
+                                }}
+                                header={
+                                    <>
+                                        <Profile
+                                            user={user ?? undefined}
+                                            id={id}
+                                            overrideSubProfileID={subProfileID}
+                                            onSubProfileClicked={(id) => {
+                                                window.location.hash = id
+                                            }}
+                                        />
+                                        <Tabs
+                                            value={tab}
+                                            onChange={(_, value) => {
+                                                if (value === '')
+                                                    navigate(`/${id}` + (subProfileID ? '#' + subProfileID : ''))
+                                                else
+                                                    navigate(
+                                                        `/${id}/${value}` + (subProfileID ? '#' + subProfileID : '')
+                                                    )
+                                            }}
+                                            textColor="secondary"
+                                            indicatorColor="secondary"
+                                        >
+                                            <Tab label="カレント" value="" />
+                                            <Tab label="メディア" value="media" />
+                                            <Tab label="アクティビティ" value="activity" />
+                                        </Tabs>
+                                        <Divider />
+                                        {tab === 'activity' && (
+                                            <>
+                                                <TimelineFilter
+                                                    selected={filter}
+                                                    setSelected={setFilter}
+                                                    sx={{ px: 1 }}
+                                                />
+                                                <Divider />
+                                            </>
+                                        )}
+                                    </>
+                                }
+                            />
+                        )}
+                    </>
+                )}
+            </Box>
+        </>
     )
 }

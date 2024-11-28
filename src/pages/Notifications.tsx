@@ -2,8 +2,9 @@ import { Box, Divider, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClient } from '../context/ClientContext'
 import { QueryTimelineReader } from '../components/QueryTimeline'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { TimelineFilter } from '../components/TimelineFilter'
+import { Helmet } from 'react-helmet-async'
 
 export function Notifications(): JSX.Element {
     const { t } = useTranslation('', { keyPrefix: 'pages.notifications' })
@@ -17,32 +18,34 @@ export function Notifications(): JSX.Element {
         return selected ? { schema: selected } : {}
     }, [selected])
 
-    useEffect(() => {
-        document.title = t('title') + ' - Concrnt'
-    })
-
     return (
-        <Box
-            sx={{
-                width: '100%',
-                minHeight: '100%',
-                backgroundColor: 'background.paper',
-                display: 'flex',
-                flexDirection: 'column'
-            }}
-        >
+        <>
+            <Helmet>
+                <title>{t('title')} - Concrnt</title>
+                <meta name="description" content={t('description')} />
+            </Helmet>
             <Box
                 sx={{
-                    paddingX: 1,
-                    paddingTop: 1
+                    width: '100%',
+                    minHeight: '100%',
+                    backgroundColor: 'background.paper',
+                    display: 'flex',
+                    flexDirection: 'column'
                 }}
             >
-                <Typography variant="h2">{t('title')}</Typography>
-                <Divider />
-                <TimelineFilter selected={selected} setSelected={setSelected} />
-                <Divider />
+                <Box
+                    sx={{
+                        paddingX: 1,
+                        paddingTop: 1
+                    }}
+                >
+                    <Typography variant="h2">{t('title')}</Typography>
+                    <Divider />
+                    <TimelineFilter selected={selected} setSelected={setSelected} />
+                    <Divider />
+                </Box>
+                {timeline && <QueryTimelineReader timeline={timeline} query={query} />}
             </Box>
-            {timeline && <QueryTimelineReader timeline={timeline} query={query} />}
-        </Box>
+        </>
     )
 }

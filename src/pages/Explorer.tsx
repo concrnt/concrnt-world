@@ -14,6 +14,7 @@ import { type StreamWithDomain } from '../model'
 import { StreamCard } from '../components/Stream/Card'
 import { SubProfileCard } from '../components/SubProfileCard'
 import { DomainCard } from '../components/ui/DomainCard'
+import { Helmet } from 'react-helmet-async'
 
 export function Explorer(): JSX.Element {
     const { t } = useTranslation('', { keyPrefix: 'pages.explore' })
@@ -35,10 +36,6 @@ export function Explorer(): JSX.Element {
         })
         return result
     }, [hash])
-
-    useEffect(() => {
-        document.title = t('title') + ' - Concrnt'
-    })
 
     const profileSchema = hashQuery.schema ?? Schemas.profile
 
@@ -172,165 +169,171 @@ export function Explorer(): JSX.Element {
     if (!client.api.host) return <>loading...</>
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 1,
-                paddingX: 1,
-                paddingTop: 1,
-                background: theme.palette.background.paper,
-                minHeight: '100%',
-                overflowY: 'scroll'
-            }}
-        >
-            <Box>
-                <Typography variant="h2">{t('title')}</Typography>
-                <Divider sx={{ mb: 1 }} />
-            </Box>
+        <>
+            <Helmet>
+                <title>{t('title')} - Concrnt</title>
+                <meta name="description" content={t('description')} />
+            </Helmet>
             <Box
                 sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                    gap: 2
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                    paddingX: 1,
+                    paddingTop: 1,
+                    background: theme.palette.background.paper,
+                    minHeight: '100%',
+                    overflowY: 'scroll'
                 }}
             >
-                {domains.map((e) => (
-                    <DomainCard
-                        key={e}
-                        domainFQDN={e}
-                        selected={selectedDomains.includes(e)}
-                        onClick={() => {
-                            updateHash('domains', e)
-                        }}
-                        onCheck={(state) => {
-                            if (state) updateHash('domains', [...new Set([...selectedDomains, e])].join(','))
-                            else updateHash('domains', selectedDomains.filter((f) => f !== e).join(','))
-                        }}
-                    />
-                ))}
-            </Box>
-            <Divider sx={{ mb: 2 }} />
-            <Tabs
-                value={tab}
-                onChange={(_, v) => {
-                    navigate(`/explorer/${v}#${hash}`)
-                }}
-            >
-                <Tab value={'timelines'} label={'タイムライン'} />
-                <Tab value={'users'} label={'ユーザー'} />
-            </Tabs>
-            <Divider sx={{ mb: 2 }} />
-            {tab === 'timelines' && (
-                <>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between'
-                        }}
-                    >
-                        <Typography variant="h3" gutterBottom>
-                            {t('community')}
-                        </Typography>
-                        <Button
+                <Box>
+                    <Typography variant="h2">{t('title')}</Typography>
+                    <Divider sx={{ mb: 1 }} />
+                </Box>
+                <Box
+                    sx={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                        gap: 2
+                    }}
+                >
+                    {domains.map((e) => (
+                        <DomainCard
+                            key={e}
+                            domainFQDN={e}
+                            selected={selectedDomains.includes(e)}
                             onClick={() => {
-                                setDrawerOpen(true)
+                                updateHash('domains', e)
+                            }}
+                            onCheck={(state) => {
+                                if (state) updateHash('domains', [...new Set([...selectedDomains, e])].join(','))
+                                else updateHash('domains', selectedDomains.filter((f) => f !== e).join(','))
+                            }}
+                        />
+                    ))}
+                </Box>
+                <Divider sx={{ mb: 2 }} />
+                <Tabs
+                    value={tab}
+                    onChange={(_, v) => {
+                        navigate(`/explorer/${v}#${hash}`)
+                    }}
+                >
+                    <Tab value={'timelines'} label={'タイムライン'} />
+                    <Tab value={'users'} label={'ユーザー'} />
+                </Tabs>
+                <Divider sx={{ mb: 2 }} />
+                {tab === 'timelines' && (
+                    <>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
                             }}
                         >
-                            {t('createNew')}
-                        </Button>
-                    </Box>
-                    <TextField
-                        label="search"
-                        variant="outlined"
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value)
-                        }}
-                    />
-                    <Box
-                        sx={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                            gap: 2
-                        }}
-                    >
-                        {searchResult.map((value) => {
-                            return (
-                                <StreamCard
-                                    key={value.stream.id}
-                                    streamID={value.stream.id}
-                                    name={value.stream.document.body.name}
-                                    description={value.stream.document.body.description ?? 'no description'}
-                                    banner={value.stream.document.body.banner ?? ''}
-                                    domain={value.domain}
-                                    isOwner={value.stream.author === client.ccid}
-                                />
-                            )
-                        })}
-                    </Box>
-                    <CCDrawer
-                        open={drawerOpen}
-                        onClose={() => {
-                            setDrawerOpen(false)
-                        }}
-                    >
-                        <Box p={1}>
                             <Typography variant="h3" gutterBottom>
-                                {t('createNewCommunity.title')}
+                                {t('community')}
                             </Typography>
-                            <Typography variant="body1" gutterBottom>
-                                {t('createNewCommunity.desc1')}
-                                {client.api.host}
-                                {t('createNewCommunity.desc2')}
-                            </Typography>
-                            <Divider />
-                            <CCEditor
-                                schemaURL={Schemas.communityTimeline}
-                                value={timelineDraft}
-                                setValue={setTimelineDraft}
-                            />
                             <Button
                                 onClick={() => {
-                                    if (timelineDraft) createNewTimeline(timelineDraft)
+                                    setDrawerOpen(true)
                                 }}
                             >
-                                作成
+                                {t('createNew')}
                             </Button>
                         </Box>
-                    </CCDrawer>
-                </>
-            )}
-            {tab === 'users' && (
-                <>
-                    <Typography variant="h3" gutterBottom>
-                        プロフィール
-                    </Typography>
-                    <TextField
-                        label="search"
-                        variant="outlined"
-                        value={profileSchema}
-                        onChange={(e) => {
-                            updateHash('schema', e.target.value)
-                        }}
-                    />
-                    <Box
-                        sx={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                            gap: 2
-                        }}
-                    >
-                        {characters.map((character) => (
-                            <Box key={character.id}>
-                                <SubProfileCard showccid character={character} />
+                        <TextField
+                            label="search"
+                            variant="outlined"
+                            value={search}
+                            onChange={(e) => {
+                                setSearch(e.target.value)
+                            }}
+                        />
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                                gap: 2
+                            }}
+                        >
+                            {searchResult.map((value) => {
+                                return (
+                                    <StreamCard
+                                        key={value.stream.id}
+                                        streamID={value.stream.id}
+                                        name={value.stream.document.body.name}
+                                        description={value.stream.document.body.description ?? 'no description'}
+                                        banner={value.stream.document.body.banner ?? ''}
+                                        domain={value.domain}
+                                        isOwner={value.stream.author === client.ccid}
+                                    />
+                                )
+                            })}
+                        </Box>
+                        <CCDrawer
+                            open={drawerOpen}
+                            onClose={() => {
+                                setDrawerOpen(false)
+                            }}
+                        >
+                            <Box p={1}>
+                                <Typography variant="h3" gutterBottom>
+                                    {t('createNewCommunity.title')}
+                                </Typography>
+                                <Typography variant="body1" gutterBottom>
+                                    {t('createNewCommunity.desc1')}
+                                    {client.api.host}
+                                    {t('createNewCommunity.desc2')}
+                                </Typography>
+                                <Divider />
+                                <CCEditor
+                                    schemaURL={Schemas.communityTimeline}
+                                    value={timelineDraft}
+                                    setValue={setTimelineDraft}
+                                />
+                                <Button
+                                    onClick={() => {
+                                        if (timelineDraft) createNewTimeline(timelineDraft)
+                                    }}
+                                >
+                                    作成
+                                </Button>
                             </Box>
-                        ))}
-                    </Box>
-                </>
-            )}
-        </Box>
+                        </CCDrawer>
+                    </>
+                )}
+                {tab === 'users' && (
+                    <>
+                        <Typography variant="h3" gutterBottom>
+                            プロフィール
+                        </Typography>
+                        <TextField
+                            label="search"
+                            variant="outlined"
+                            value={profileSchema}
+                            onChange={(e) => {
+                                updateHash('schema', e.target.value)
+                            }}
+                        />
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                                gap: 2
+                            }}
+                        >
+                            {characters.map((character) => (
+                                <Box key={character.id}>
+                                    <SubProfileCard showccid character={character} />
+                                </Box>
+                            ))}
+                        </Box>
+                    </>
+                )}
+            </Box>
+        </>
     )
 }
