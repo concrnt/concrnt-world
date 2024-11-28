@@ -91,6 +91,24 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
         </TickerProvider>
     )
 
+    const profilePageSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ProfilePage',
+        author: {
+            '@type': 'Person',
+            additionalName: user?.alias,
+            description: user?.profile?.description,
+            givenName: user?.profile?.username,
+            identifier: user?.ccid,
+            image: {
+                '@type': 'ImageObject',
+                contentUrl: user?.profile?.avatar,
+                thumbnailUrl: user?.profile?.avatar
+            },
+            url: `https://concrnt.world/${user?.ccid}`
+        }
+    }
+
     return providers(
         <>
             <Helmet>
@@ -107,18 +125,7 @@ export default function GuestTimelinePage(props: GuestPageProps): JSX.Element {
                             : timeline?.document.body.description || `Concrnt timeline ${title}`
                     }
                 />
-                {user && (
-                    <script type="application/ld+json">{`
-                {
-                    "@context": "https://schema.org",
-                    "@type": "Person",
-                    "name": "${user.profile?.username || 'anonymous'}",
-                    "url": "https://concrnt.world/${user.ccid}",
-                    "image": "${user.profile?.avatar}",
-                    "description": ${JSON.stringify(user.profile?.description || '')}
-                }
-                `}</script>
-                )}
+                {user && <script type="application/ld+json">{JSON.stringify(profilePageSchema)}</script>}
             </Helmet>
             <GuestBase
                 sx={{

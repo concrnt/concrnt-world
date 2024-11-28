@@ -39,8 +39,9 @@ export function Profile(props: ProfileProps): JSX.Element {
     const isSelf = props.id === client.ccid
 
     const [detailMode, setDetailMode] = useState<detail>('none')
-    const [ackingUsers, setAckingUsers] = useState<User[] | undefined>(undefined)
-    const [ackerUsers, setAckerUsers] = useState<User[] | undefined>(undefined)
+
+    const [ackingUserCount, setAckingUserCount] = useState<number | undefined>(undefined)
+    const [ackerUserCount, setAckerUserCount] = useState<number | undefined>(undefined)
 
     const [subProfile, setSubProfile] = useState<CoreProfile<any> | null>(null)
 
@@ -49,13 +50,13 @@ export function Profile(props: ProfileProps): JSX.Element {
     useEffect(() => {
         let unmounted = false
         if (!props.user) return
-        props.user.getAcker().then((ackers) => {
+        client.api.getAcking(props.user.ccid).then((ackers) => {
             if (unmounted) return
-            setAckerUsers(ackers)
+            setAckingUserCount(ackers.length)
         })
-        props.user.getAcking().then((acking) => {
+        client.api.getAcker(props.user.ccid).then((ackers) => {
             if (unmounted) return
-            setAckingUsers(acking)
+            setAckerUserCount(ackers.length)
         })
         return () => {
             unmounted = true
@@ -325,9 +326,9 @@ export function Profile(props: ProfileProps): JSX.Element {
                             setDetailMode('ack')
                         }}
                     >
-                        {ackingUsers ? (
+                        {ackingUserCount ? (
                             <>
-                                {ackingUsers.length} {t('follow')}
+                                {ackingUserCount} {t('follow')}
                             </>
                         ) : (
                             <Skeleton variant="text" width={80} />
@@ -340,9 +341,9 @@ export function Profile(props: ProfileProps): JSX.Element {
                             setDetailMode('acker')
                         }}
                     >
-                        {ackerUsers ? (
+                        {ackerUserCount ? (
                             <>
-                                {ackerUsers.length} {t('followers')}
+                                {ackerUserCount} {t('followers')}
                             </>
                         ) : (
                             <Skeleton variant="text" width={80} />
