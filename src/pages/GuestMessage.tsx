@@ -85,23 +85,6 @@ export default function GuestMessagePage(): JSX.Element {
                     message.document.body.body
                 }" - Concrnt`}</title>
                 <meta name="description" content={message.document.body.body} />
-                <script type="application/ld+json">
-                    {`
-            {
-                "@context": "https://schema.org",
-                "@type": "SocialMediaPosting",
-                "articleBody": ${JSON.stringify(message.document.body.body)},
-                "url": "${window.location.href}",
-                "author": {
-                    "@type": "Person",
-                    "name": "${message.authorUser?.profile?.username || 'anonymous'}",
-                    "url": "https://concrnt.world/${message.author}"
-                    "image": "${message.authorUser?.profile?.avatar}",
-                    "description": ${JSON.stringify(message.authorUser?.profile?.description || '')},
-                }
-            }
-            `}
-                </script>
             </Helmet>
             <ClientProvider client={client}>
                 <GuestBase
@@ -152,7 +135,16 @@ export default function GuestMessagePage(): JSX.Element {
 
                             {replyTo && (
                                 <>
-                                    <Box>
+                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                                        <meta itemProp="identifier" content={message.id} />
+                                        <meta
+                                            itemProp="url"
+                                            content={`https://concrnt.world/${message.author}/${message.id}`}
+                                        />
+                                        <meta
+                                            itemProp="datePublished"
+                                            content={new Date(message.cdate).toISOString()}
+                                        />
                                         <MessageView
                                             message={replyTo}
                                             lastUpdated={lastUpdated}
@@ -166,7 +158,16 @@ export default function GuestMessagePage(): JSX.Element {
                             {(message.schema === Schemas.markdownMessage ||
                                 message.schema === Schemas.replyMessage) && (
                                 <>
-                                    <Box>
+                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                                        <meta itemProp="identifier" content={message.id} />
+                                        <meta
+                                            itemProp="url"
+                                            content={`https://concrnt.world/${message.author}/${message.id}`}
+                                        />
+                                        <meta
+                                            itemProp="datePublished"
+                                            content={new Date(message.cdate).toISOString()}
+                                        />
                                         <MessageView
                                             forceExpanded
                                             message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
@@ -180,7 +181,16 @@ export default function GuestMessagePage(): JSX.Element {
 
                             {message.schema === Schemas.plaintextMessage && (
                                 <>
-                                    <Box>
+                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                                        <meta itemProp="identifier" content={message.id} />
+                                        <meta
+                                            itemProp="url"
+                                            content={`https://concrnt.world/${message.author}/${message.id}`}
+                                        />
+                                        <meta
+                                            itemProp="datePublished"
+                                            content={new Date(message.cdate).toISOString()}
+                                        />
                                         <PlainMessageView
                                             forceExpanded
                                             message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
@@ -194,7 +204,16 @@ export default function GuestMessagePage(): JSX.Element {
 
                             {message.schema === Schemas.mediaMessage && (
                                 <>
-                                    <Box>
+                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                                        <meta itemProp="identifier" content={message.id} />
+                                        <meta
+                                            itemProp="url"
+                                            content={`https://concrnt.world/${message.author}/${message.id}`}
+                                        />
+                                        <meta
+                                            itemProp="datePublished"
+                                            content={new Date(message.cdate).toISOString()}
+                                        />
                                         <MediaMessageView
                                             forceExpanded
                                             message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
@@ -216,11 +235,26 @@ export default function GuestMessagePage(): JSX.Element {
                                             (reply) =>
                                                 reply.message && (
                                                     <>
-                                                        <MessageView
-                                                            message={reply.message}
-                                                            lastUpdated={lastUpdated}
-                                                            userCCID={client.ccid}
-                                                        />
+                                                        <Box
+                                                            itemScope
+                                                            itemProp="hasPart"
+                                                            itemType="https://schema.org/SocialMediaPosting"
+                                                        >
+                                                            <meta itemProp="identifier" content={reply.message.id} />
+                                                            <meta
+                                                                itemProp="url"
+                                                                content={`https://concrnt.world/${reply.message.author}/${reply.message.id}`}
+                                                            />
+                                                            <meta
+                                                                itemProp="datePublished"
+                                                                content={new Date(reply.message.cdate).toISOString()}
+                                                            />
+                                                            <MessageView
+                                                                message={reply.message}
+                                                                lastUpdated={lastUpdated}
+                                                                userCCID={client.ccid}
+                                                            />
+                                                        </Box>
                                                         <Divider />
                                                     </>
                                                 )

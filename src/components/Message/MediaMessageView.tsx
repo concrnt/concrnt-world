@@ -113,7 +113,9 @@ export const MediaMessageView = (props: MediaMessageViewProps): JSX.Element => {
                         Show more
                     </Button>
                 </Box>
-                <SimpleNote message={props.message} />
+                <Box itemProp="articleBody">
+                    <SimpleNote message={props.message} />
+                </Box>
             </Box>
 
             {props.message.document.body.medias && <EmbeddedGallery medias={props.message.document.body.medias} />}

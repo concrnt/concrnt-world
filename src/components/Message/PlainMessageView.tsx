@@ -111,8 +111,8 @@ export const PlainMessageView = (props: PlainMessageViewProps): JSX.Element => {
                         Show more
                     </Button>
                 </Box>
-
                 <Typography
+                    itemProp="articleBody"
                     sx={{
                         whiteSpace: 'pre-wrap'
                     }}

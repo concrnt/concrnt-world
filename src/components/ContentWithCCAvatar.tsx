@@ -25,6 +25,20 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
             }}
             disablePadding
         >
+            <Box itemProp="author" itemScope itemType="https://schema.org/Person">
+                {props.author && (
+                    <>
+                        <meta itemProp="identifier" content={props.author.ccid} />
+                        <meta itemProp="url" content={'https://concrnt.world/' + props.author.ccid} />
+                    </>
+                )}
+                {props.author?.alias && <meta itemProp="alternateName" content={props.author.alias} />}
+                {props.author?.profile?.username && (
+                    <>
+                        <meta itemProp="name" content={props.author.profile.username} />
+                    </>
+                )}
+            </Box>
             <Tooltip
                 enterDelay={500}
                 enterNextDelay={500}

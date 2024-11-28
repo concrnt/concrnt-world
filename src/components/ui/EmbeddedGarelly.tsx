@@ -60,20 +60,34 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
             {!isHidden ? (
                 <>
                     {media.mediaType.startsWith('image') && (
-                        <img
-                            src={getImageURL(media.mediaURL, { maxWidth: 512 })}
-                            ref={imageRef}
-                            style={{
-                                display: isHidden ? 'none' : 'block',
+                        <Box
+                            itemScope
+                            itemProp="image"
+                            itemType="https://schema.org/ImageObject"
+                            sx={{
+                                position: 'relative',
                                 width: '100%',
                                 height: '100%',
-                                objectFit: 'cover',
-                                cursor: 'pointer'
+                                overflow: 'hidden'
                             }}
-                            onLoad={() => {
-                                setLoadded(true)
-                            }}
-                        />
+                        >
+                            <img
+                                src={getImageURL(media.mediaURL, { maxWidth: 512 })}
+                                ref={imageRef}
+                                style={{
+                                    display: isHidden ? 'none' : 'block',
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    cursor: 'pointer'
+                                }}
+                                onLoad={() => {
+                                    setLoadded(true)
+                                }}
+                            />
+                            <meta itemProp="contentUrl" content={media.mediaURL} />
+                            <meta itemProp="caption" content={media.flag} />
+                        </Box>
                     )}
 
                     {media.mediaType.startsWith('video') && (
@@ -97,7 +111,13 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             onClick={(e) => {
                                 e.stopPropagation()
                             }}
-                        />
+                            itemScope
+                            itemProp="video"
+                            itemType="https://schema.org/VideoObject"
+                        >
+                            <meta itemProp="contentUrl" content={media.mediaURL} />
+                            <meta itemProp="caption" content={media.flag} />
+                        </Box>
                     )}
 
                     <Box

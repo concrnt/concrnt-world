@@ -113,20 +113,6 @@ export const onRequest: PagesFunction = async (context) => {
     <script>
         window.location.href = "${originalPath}"
     </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SocialMediaPosting",
-        "articleBody": "${content}",
-        "url": "${originalPath}",
-        "author": {
-            "@type": "Person",
-            "name": "${username}",
-            "image": "${avatar}"
-            "url": "https://concrnt.world/${ccid}"
-        }
-    }
-    </script>
   </head>
 </html>
 `

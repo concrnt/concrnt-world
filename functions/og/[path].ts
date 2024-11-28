@@ -61,16 +61,6 @@ export const onRequest: PagesFunction = async (context) => {
     <script>
         window.location.href = "${originalPath}"
     </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "${username}",
-        "url": "${originalPath}",
-        "image": "${avatar}",
-        "description": "${description}"
-    }
-    </script>
   </head>
 </html>`
 

@@ -114,7 +114,9 @@ export const MessageView = (props: MessageViewProps): JSX.Element => {
                         Show more
                     </Button>
                 </Box>
-                <SimpleNote message={props.message} />
+                <Box itemProp="articleBody">
+                    <SimpleNote message={props.message} />
+                </Box>
             </Box>
             {(!props.simple && <MessageUrlPreview limit={1} messageBody={props.message.document.body.body} />) ||
                 undefined}

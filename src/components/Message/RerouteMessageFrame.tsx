@@ -188,13 +188,15 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                     </Tooltip>
                 </Box>
             )}
-            <MessageContainer
-                simple={props.simple}
-                messageID={props.message.document.body.rerouteMessageId}
-                messageOwner={props.message.document.body.rerouteMessageAuthor}
-                resolveHint={props.message.authorUser?.domain}
-                rerouted={props.message}
-            />
+            <Box itemProp="citation" itemScope itemType="https://schema.org/SocialMediaPosting">
+                <MessageContainer
+                    simple={props.simple}
+                    messageID={props.message.document.body.rerouteMessageId}
+                    messageOwner={props.message.document.body.rerouteMessageAuthor}
+                    resolveHint={props.message.authorUser?.domain}
+                    rerouted={props.message}
+                />
+            </Box>
             <Box
                 sx={{
                     display: 'flex',
