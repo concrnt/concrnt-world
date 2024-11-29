@@ -16,15 +16,7 @@ export interface ContentWithCCAvatarProps {
 
 export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Element => {
     return (
-        <ListItem
-            sx={{
-                wordBreak: 'break-word',
-                alignItems: 'flex-start',
-                flex: 1,
-                gap: 1
-            }}
-            disablePadding
-        >
+        <>
             <Box itemProp="author" itemScope itemType="https://schema.org/Person">
                 {props.author && (
                     <>
@@ -39,71 +31,81 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                     </>
                 )}
             </Box>
-            <Tooltip
-                enterDelay={500}
-                enterNextDelay={500}
-                leaveDelay={300}
-                placement="top"
-                components={{
-                    Tooltip: Paper
+            <ListItem
+                sx={{
+                    wordBreak: 'break-word',
+                    alignItems: 'flex-start',
+                    flex: 1,
+                    gap: 1
                 }}
-                componentsProps={{
-                    tooltip: {
-                        sx: {
-                            m: 1,
-                            border: '1px solid',
-                            borderColor: 'divider',
-                            minWidth: '300px'
-                        }
-                    }
-                }}
-                title={
-                    <UserProfileCard
-                        user={props.author}
-                        subProfileID={props.profileOverride?.profileID}
-                        profileOverride={props.characterOverride}
-                    />
-                }
+                disablePadding
             >
-                <IconButton
-                    sx={{
-                        width: { xs: '38px', sm: '48px' },
-                        height: { xs: '38px', sm: '48px' },
-                        mt: { xs: '3px', sm: '5px' }
+                <Tooltip
+                    enterDelay={500}
+                    enterNextDelay={500}
+                    leaveDelay={300}
+                    placement="top"
+                    components={{
+                        Tooltip: Paper
                     }}
-                    component={routerLink}
-                    to={
-                        props.profileOverride?.link ??
-                        '/' +
-                            (props.author?.ccid ?? '') +
-                            (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
+                    componentsProps={{
+                        tooltip: {
+                            sx: {
+                                m: 1,
+                                border: '1px solid',
+                                borderColor: 'divider',
+                                minWidth: '300px'
+                            }
+                        }
+                    }}
+                    title={
+                        <UserProfileCard
+                            user={props.author}
+                            subProfileID={props.profileOverride?.profileID}
+                            profileOverride={props.characterOverride}
+                        />
                     }
-                    target={props.profileOverride?.link ? '_blank' : undefined}
-                    rel={props.profileOverride?.link ? 'noopener noreferrer' : undefined}
                 >
-                    <CCAvatar
-                        avatarURL={props.author?.profile?.avatar}
-                        avatarOverride={props.avatarOverride || props.profileOverride?.avatar}
-                        identiconSource={props.author?.ccid ?? ''}
+                    <IconButton
                         sx={{
                             width: { xs: '38px', sm: '48px' },
-                            height: { xs: '38px', sm: '48px' }
+                            height: { xs: '38px', sm: '48px' },
+                            mt: { xs: '3px', sm: '5px' }
                         }}
-                    />
-                </IconButton>
-            </Tooltip>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flex: 1,
-                    flexDirection: 'column',
-                    width: '100%',
-                    overflow: 'hidden',
-                    ...props.sx
-                }}
-            >
-                {props.children}
-            </Box>
-        </ListItem>
+                        component={routerLink}
+                        to={
+                            props.profileOverride?.link ??
+                            '/' +
+                                (props.author?.ccid ?? '') +
+                                (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
+                        }
+                        target={props.profileOverride?.link ? '_blank' : undefined}
+                        rel={props.profileOverride?.link ? 'noopener noreferrer' : undefined}
+                    >
+                        <CCAvatar
+                            avatarURL={props.author?.profile?.avatar}
+                            avatarOverride={props.avatarOverride || props.profileOverride?.avatar}
+                            identiconSource={props.author?.ccid ?? ''}
+                            sx={{
+                                width: { xs: '38px', sm: '48px' },
+                                height: { xs: '38px', sm: '48px' }
+                            }}
+                        />
+                    </IconButton>
+                </Tooltip>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flex: 1,
+                        flexDirection: 'column',
+                        width: '100%',
+                        overflow: 'hidden',
+                        ...props.sx
+                    }}
+                >
+                    {props.children}
+                </Box>
+            </ListItem>
+        </>
     )
 }

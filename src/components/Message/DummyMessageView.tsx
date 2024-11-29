@@ -30,7 +30,7 @@ export const DummyMessageView = (props: DummyMessageViewProps): JSX.Element => {
                 wordBreak: 'break-word',
                 alignItems: 'flex-start',
                 flex: 1,
-                gap: { xs: 1, sm: 2 },
+                gap: 1,
                 ...props.sx
             }}
             disablePadding
