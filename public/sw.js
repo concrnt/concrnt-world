@@ -130,11 +130,6 @@ self.addEventListener('push', event => {
     event.waitUntil(notify());
 });
 
-self.addEventListener('install', _event => {
-    self.skipWaiting();
-    console.log('Service Worker installed');
-})
-
 const Schemas = {
     markdownMessage:     'https://schema.concrnt.world/m/markdown.json',
     replyMessage:        'https://schema.concrnt.world/m/reply.json',

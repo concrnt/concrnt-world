@@ -13,6 +13,16 @@ const buttonStyle = {
     maxWidth: '400px'
 }
 
+const messages = [
+    'インターネットは素晴らしいものですが、時々問題が発生します。以下のボタンをお試しください。',
+    'コンピューターは不思議なものです。再読み込みすると問題が解決するかもしれません。',
+    '時には不思議なことが起きますね。この現象を一緒に解決していきましょう。以下のボタンをお試しください。',
+    'システムに小さなつまずきがありました。もう一度試すことで乗り越えられるかもしれません。',
+    '何かが予定通りに進みませんでした。再読み込みを試してみてください。',
+    '一時的にうまく動いていないようです。再読み込みを試してみてください。',
+    'おおっと！何かがおかしいようです。再読み込みを試してみてください。'
+]
+
 export function EmergencyKit({ error }: FallbackProps): JSX.Element {
     const gracefulResetLocalStorage = (): void => {
         for (const key in localStorage) {
@@ -89,7 +99,7 @@ Viewport: ${window.innerWidth}x${window.innerHeight}
                 >
                     Crash Report
                 </h1>
-                予期しないエラーが発生しました。ごめんなさい...
+                {messages[(messages.length * Math.random()) | 0]}
                 <button
                     style={{
                         ...buttonStyle,
@@ -100,7 +110,23 @@ Viewport: ${window.innerWidth}x${window.innerHeight}
                         padding: '20px'
                     }}
                     onClick={(): void => {
-                        window.location.replace('/')
+                        // delete all caches
+                        if (window.caches) {
+                            window.caches
+                                .keys()
+                                .then((keys) => {
+                                    return Promise.all(
+                                        keys.map((key) => {
+                                            return caches.delete(key)
+                                        })
+                                    )
+                                })
+                                .then(() => {
+                                    window.location.replace('/')
+                                })
+                        } else {
+                            window.location.replace('/')
+                        }
                     }}
                 >
                     リロード
@@ -128,6 +154,9 @@ Viewport: ${window.innerWidth}x${window.innerHeight}
                 >
                     すべてリセットする(ログイン情報も失われます)
                 </button>
+                <h2 style={{ marginBottom: 0 }}>Support</h2>
+                リロードしても解決しない場合、何か重大な問題が発生中かもしれません。以下のリンクから最新情報を確認できます。
+                <a href="https://discord.gg/M2UbHquT8B">Discord</a>
                 <h2
                     style={{
                         marginBottom: 0
