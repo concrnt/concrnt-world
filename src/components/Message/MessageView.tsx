@@ -3,7 +3,6 @@ import { SimpleNote } from './SimpleNote'
 import { MessageHeader } from './MessageHeader'
 import { MessageActions } from './MessageActions'
 import { MessageReactions } from './MessageReactions'
-import { MessageUrlPreview } from './MessageUrlPreview'
 import {
     type RerouteMessageSchema,
     type Message,
@@ -18,6 +17,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ReplayIcon from '@mui/icons-material/Replay'
 import { useEffect, useMemo, useState } from 'react'
 import { useClient } from '../../context/ClientContext'
+import { UrlSummaryProvider } from '../../context/urlSummaryContext'
+import { AutoSummaryProvider } from '../../context/AutoSummaryContext'
 
 export interface MessageViewProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -81,45 +82,45 @@ export const MessageView = (props: MessageViewProps): JSX.Element => {
                 timeLink={props.message.document.meta?.apObjectRef}
             />
             {props.beforeMessage}
-            <Box
-                sx={{
-                    position: 'relative',
-                    maxHeight: expanded ? 'none' : `${clipHeight}px`,
-                    overflow: 'hidden'
-                }}
-            >
+            <AutoSummaryProvider limit={props.simple ? 0 : 1}>
                 <Box
                     sx={{
-                        display: expanded ? 'none' : 'flex',
-                        position: 'absolute',
-                        top: `${clipHeight - gradationHeight}px`,
-                        left: '0',
-                        width: '100%',
-                        height: `${gradationHeight}px`,
-                        background: `linear-gradient(${alpha(theme.palette.background.paper, 0)}, ${
-                            theme.palette.background.paper
-                        })`,
-                        alignItems: 'center',
-                        zIndex: 1,
-                        justifyContent: 'center'
+                        position: 'relative',
+                        maxHeight: expanded ? 'none' : `${clipHeight}px`,
+                        overflow: 'hidden'
                     }}
                 >
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => {
-                            setExpanded(true)
+                    <Box
+                        sx={{
+                            display: expanded ? 'none' : 'flex',
+                            position: 'absolute',
+                            top: `${clipHeight - gradationHeight}px`,
+                            left: '0',
+                            width: '100%',
+                            height: `${gradationHeight}px`,
+                            background: `linear-gradient(${alpha(theme.palette.background.paper, 0)}, ${
+                                theme.palette.background.paper
+                            })`,
+                            alignItems: 'center',
+                            zIndex: 1,
+                            justifyContent: 'center'
                         }}
                     >
-                        Show more
-                    </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                                setExpanded(true)
+                            }}
+                        >
+                            Show more
+                        </Button>
+                    </Box>
+                    <Box itemProp="articleBody">
+                        <SimpleNote message={props.message} />
+                    </Box>
                 </Box>
-                <Box itemProp="articleBody">
-                    <SimpleNote message={props.message} />
-                </Box>
-            </Box>
-            {(!props.simple && <MessageUrlPreview limit={1} messageBody={props.message.document.body.body} />) ||
-                undefined}
+            </AutoSummaryProvider>
             {(!props.simple && (
                 <>
                     <MessageReactions message={props.message} />

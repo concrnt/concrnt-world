@@ -96,7 +96,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             component="video"
                             muted
                             controls
-                            src={media.mediaURL}
+                            src={media.mediaURL + (media.mediaURL.includes('#') ? '' : '#t=0.1')}
                             preload="metadata"
                             style={{
                                 display: isHidden ? 'none' : 'block',
@@ -128,7 +128,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             width: '100%',
                             height: '100%',
                             backgroundColor: '#111',
-                            display: loadded ? 'none' : 'block'
+                            zIndex: -1
                         }}
                     >
                         {media.blurhash && (

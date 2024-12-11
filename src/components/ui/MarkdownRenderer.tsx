@@ -1,4 +1,4 @@
-import { type ImgHTMLAttributes, type DetailedHTMLProps, memo } from 'react'
+import { type ImgHTMLAttributes, type DetailedHTMLProps, memo, useEffect } from 'react'
 import { Box, Button, Divider, IconButton, Link, Tooltip, Typography } from '@mui/material'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import rehypeRaw from 'rehype-raw'
@@ -28,6 +28,7 @@ import { useGlobalActions } from '../../context/GlobalActions'
 import { TimelineChip } from './TimelineChip'
 import { useMediaViewer } from '../../context/MediaViewer'
 import { useGlobalState } from '../../context/GlobalState'
+import { useAutoSummary } from '../../context/AutoSummaryContext'
 
 export interface MarkdownRendererProps {
     messagebody: string
@@ -71,6 +72,11 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
     const { enqueueSnackbar } = useSnackbar()
     const [themeName, setThemeName] = usePreference('themeName')
     const [customThemes, setCustomThemes] = usePreference('customThemes')
+    const summary = useAutoSummary()
+
+    useEffect(() => {
+        summary.update()
+    }, [props.messagebody])
 
     return (
         <Box
@@ -528,6 +534,17 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                                     }}
                                 />
                             </>
+                        )
+                    },
+                    details: ({ children }) => {
+                        return (
+                            <details
+                                onToggle={() => {
+                                    summary.update()
+                                }}
+                            >
+                                {children}
+                            </details>
                         )
                     }
                 }}

@@ -4,62 +4,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { type Summary, useUrlSummary } from '../../context/urlSummaryContext'
 import { useGlobalState } from '../../context/GlobalState'
 
-export interface MessageUrlPreviewProps {
-    messageBody: string
-    limit?: number
-}
-
-export const MessageUrlPreview = (props: MessageUrlPreviewProps): JSX.Element | null => {
-    // strip markdown image syntax
-    let replaced = props.messageBody.replace(/!\[.*\]\(.*\)/g, '')
-
-    // strip codeblock
-    replaced = replaced.replace(/```[\s\S]*?```/g, '')
-
-    // strip inline code
-    replaced = replaced.replace(/`[\s\S]*?`/g, '')
-
-    // strip img tag
-    replaced = replaced.replace(/<img.*?>/g, '')
-
-    // strip social tag
-    replaced = replaced.replace(/<social.*?>.*?<\/social>/g, '')
-
-    // strip emojipack tag
-    replaced = replaced.replace(/<emojipack.*?\/>/g, '')
-
-    // replace markdown link syntax
-    replaced = replaced.replace(/\[(.*)\]\((.*)\)/g, '$2')
-
-    // strip a tag body
-    replaced = replaced.replace(/<a(.*?)>.*?<\/a>/g, '$1')
-
-    // extract urls
-    const urls = replaced.match(/(https?:\/\/[\w.\-?=/&%#,@]+)/g)
-
-    if (!urls) return null
-
-    if (props.limit && urls.length > props.limit) {
-        urls.length = props.limit
-    }
-
-    return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 1,
-                py: 1
-            }}
-        >
-            {urls.map((url, i) => {
-                return <UrlPreview key={i} url={url} />
-            })}
-        </Box>
-    )
-}
-
-export const UrlPreview = (props: { url: string }): JSX.Element | null => {
+export const UrlSummaryCard = (props: { url: string }): JSX.Element | null => {
     const service = useUrlSummary()
     if (!service) return null
     const [preview, setPreview] = useState<Summary | undefined>(undefined)
