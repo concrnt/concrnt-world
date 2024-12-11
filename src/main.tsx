@@ -11,6 +11,7 @@ import { ClientProvider } from './context/ClientContext'
 import { HelmetProvider } from 'react-helmet-async'
 
 import './i18n'
+import { GA4Provider } from './context/GA4'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
@@ -44,6 +45,8 @@ try {
 
 const logined = domain !== '' && (prvkey !== '' || subkey !== '')
 
+const tag = 'G-CMXEE671V6'
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ErrorBoundary FallbackComponent={EmergencyKit}>
         <Suspense fallback={<FullScreenLoading message="Downloading Updates..." />}>
@@ -51,31 +54,81 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                 <BrowserRouter>
                     <Routes>
                         <Route path="/crash" element={<EmergencyKit error={null} resetErrorBoundary={() => {}} />} />
-                        <Route path="/welcome" element={<Welcome />} />
+                        <Route
+                            path="/welcome"
+                            element={
+                                <GA4Provider tag={tag}>
+                                    <Welcome />
+                                </GA4Provider>
+                            }
+                        />
                         {!logined ? (
-                            <Route path="/register" element={<Registration />} />
+                            <Route
+                                path="/register"
+                                element={
+                                    <GA4Provider tag={tag}>
+                                        <Registration />
+                                    </GA4Provider>
+                                }
+                            />
                         ) : (
                             <Route path="/register" element={<Navigate to="/" />} />
                         )}
-                        <Route path="/import" element={<AccountImport />} />
-                        {!logined && <Route path="/:id" element={<GuestProfilePage />} />}
-                        {!logined && <Route path="/:authorID/:messageID" element={<GuestMessagePage />} />}
-                        {!logined && <Route path="/timeline/:id" element={<GuestTimelinePage />} />}
+                        <Route
+                            path="/import"
+                            element={
+                                <GA4Provider tag={tag}>
+                                    <AccountImport />
+                                </GA4Provider>
+                            }
+                        />
+                        {!logined && (
+                            <Route
+                                path="/:id"
+                                element={
+                                    <GA4Provider tag={tag}>
+                                        <GuestProfilePage />
+                                    </GA4Provider>
+                                }
+                            />
+                        )}
+                        {!logined && (
+                            <Route
+                                path="/:authorID/:messageID"
+                                element={
+                                    <GA4Provider tag={tag}>
+                                        <GuestMessagePage />
+                                    </GA4Provider>
+                                }
+                            />
+                        )}
+                        {!logined && (
+                            <Route
+                                path="/timeline/:id"
+                                element={
+                                    <GA4Provider tag={tag}>
+                                        <GuestTimelinePage />
+                                    </GA4Provider>
+                                }
+                            />
+                        )}
                         <Route
                             path="*"
                             element={
-                                <LoginGuard
-                                    component={
-                                        <ClientProvider>
-                                            <PreferenceProvider>
-                                                <GlobalStateProvider>
-                                                    <AppPage />
-                                                </GlobalStateProvider>
-                                            </PreferenceProvider>
-                                        </ClientProvider>
-                                    }
-                                    redirect="/welcome"
-                                />
+                                <GA4Provider tag={tag}>
+                                    <LoginGuard
+                                        component={
+                                            <ClientProvider>
+                                                <PreferenceProvider>
+                                                    <GlobalStateProvider>
+                                                        <AppPage />
+                                                    </GlobalStateProvider>
+                                                </PreferenceProvider>
+                                            </ClientProvider>
+                                        }
+                                        redirect="/welcome"
+                                    />
+                                </GA4Provider>
                             }
                         />
                     </Routes>

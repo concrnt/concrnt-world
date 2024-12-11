@@ -35,7 +35,7 @@ import { useGlobalState } from '../../context/GlobalState'
 
 export interface EditorActionsProps {
     post: () => void
-    sending: boolean
+    disablePostButton?: boolean
     draft: string
     setDraft: (draft: string) => void
     textInputRef: React.RefObject<HTMLInputElement>
@@ -358,7 +358,7 @@ ${props.draft.trim() || '内容を入力...'}
                 <Box>
                     <Button
                         color="primary"
-                        disabled={props.sending}
+                        disabled={props.disablePostButton}
                         onClick={(_) => {
                             props.post()
                         }}
