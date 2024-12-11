@@ -1,6 +1,5 @@
 import { createContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import ReactGA from 'react-ga4'
 
 const GA4Context = createContext({})
 
@@ -13,16 +12,17 @@ export const GA4Provider = (props: GA4ProviderProps): JSX.Element => {
     const location = useLocation()
 
     useEffect(() => {
-        ReactGA.initialize(props.tag)
-    }, [])
-
-    useEffect(() => {
         setTimeout(() => {
-            ReactGA.send({
-                hitType: 'pageview',
-                page: location.pathname,
-                title: document.title
-            })
+            const gtag = (window as any).gtag
+            if (typeof gtag === 'function') {
+                gtag('config', props.tag, {
+                    // debug_mode: true,
+                    page_path: location.pathname,
+                    page_title: document.title
+                })
+            } else {
+                console.error('gtag not found')
+            }
         }, 100)
     }, [location.pathname])
 
