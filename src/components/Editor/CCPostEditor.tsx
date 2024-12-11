@@ -943,6 +943,28 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         <MenuItem value="video/mov">MOV</MenuItem>
                     </Select>
                 </FormControl>
+                {['video/mp4', 'video/mov'].includes(medias[selectedMediaIndex]?.mediaType) && (
+                    <FormControl>
+                        <InputLabel>Loop</InputLabel>
+                        <Select
+                            label="Loop"
+                            value={medias[selectedMediaIndex]?.loop ? 'enabled' : 'disabled'}
+                            onChange={(e) => {
+                                setMedias((medias) => {
+                                    const newMedias = [...medias]
+                                    newMedias[selectedMediaIndex] = {
+                                        ...newMedias[selectedMediaIndex],
+                                        loop: e.target.value === 'enabled'
+                                    }
+                                    return newMedias
+                                })
+                            }}
+                        >
+                            <MenuItem value="enabled">Enabled</MenuItem>
+                            <MenuItem value="disabled">Disabled</MenuItem>
+                        </Select>
+                    </FormControl>
+                )}
                 <CCComboBox
                     label="フラグ設定(任意)"
                     options={{

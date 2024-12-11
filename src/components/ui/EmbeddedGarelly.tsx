@@ -96,6 +96,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             component="video"
                             muted
                             controls
+                            loop={media.loop}
                             src={media.mediaURL}
                             preload="metadata"
                             style={{
