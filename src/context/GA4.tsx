@@ -17,7 +17,6 @@ export const GA4Provider = (props: GA4ProviderProps): JSX.Element => {
     }, [])
 
     useEffect(() => {
-        console.log('page navigated', location.pathname)
         setTimeout(() => {
             ReactGA.send({
                 hitType: 'pageview',

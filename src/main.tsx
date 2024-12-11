@@ -45,7 +45,7 @@ try {
 
 const logined = domain !== '' && (prvkey !== '' || subkey !== '')
 
-const tag = 'G-CMXEE671V6'
+const tag = 'G-Y4V0V7XYWX'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ErrorBoundary FallbackComponent={EmergencyKit}>
