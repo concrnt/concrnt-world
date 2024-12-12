@@ -47,7 +47,7 @@
                 "forceReload": "Force reload",
                 "logout": "Logout",
                 "areYouSure": "Are you sure?",
-                "logoutWarn": "You cannot log in again without the secret"
+                "logoutWarn": "To log in again, you will need the master key or QR code."
             }
         },
         "lists": {

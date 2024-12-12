@@ -17,32 +17,12 @@ export interface SwitchMasterToSubProps {
 
 export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.Element {
     const { client } = useClient()
-    const [mnemonicTest1, setMnemonicTest1] = useState<string>('')
-    const [mnemonicTest2, setMnemonicTest2] = useState<string>('')
     const [processing, setProcessing] = useState(false)
 
     const [ownMode, setMode] = useState<'test' | 'memo'>('test')
     const mode = props.mode ?? ownMode
 
     const { t, i18n } = useTranslation('', { keyPrefix: 'settings.identity.switchMasterToSub' })
-
-    const [testIndex, setTestIndex] = useState<{ first: number; second: number }>({ first: 0, second: 0 })
-
-    useEffect(() => {
-        const first = Math.floor(Math.random() * 6)
-        const second = Math.floor(Math.random() * 6 + 6)
-        setTestIndex({ first, second })
-    }, [])
-
-    const testOK = useMemo(() => {
-        const ok1 =
-            mnemonicTest1 === props.identity.mnemonic.split(' ')[testIndex.first] ||
-            mnemonicTest1 === props.identity.mnemonic_ja.split(' ')[testIndex.first]
-        const ok2 =
-            mnemonicTest2 === props.identity.mnemonic.split(' ')[testIndex.second] ||
-            mnemonicTest2 === props.identity.mnemonic_ja.split(' ')[testIndex.second]
-        return ok1 && ok2
-    }, [props.identity, mnemonicTest1, mnemonicTest2])
 
     const [keyFormat, setKeyFormat] = useState<'ja' | 'en'>(i18n.language === 'ja' ? 'ja' : 'en')
 
@@ -58,6 +38,31 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
 
     return (
         <Box display="flex" flexDirection="column" gap={1}>
+            {props.mode === undefined && (
+                <Box display="flex" flexDirection="row" gap={1} alignItems="center" justifyContent="flex-end">
+                    {mode === 'test' && (
+                        <Button
+                            variant="text"
+                            onClick={() => {
+                                setMode('memo')
+                            }}
+                        >
+                            マスターキーを確認する
+                        </Button>
+                    )}
+                    {mode === 'memo' && (
+                        <Button
+                            variant="text"
+                            onClick={() => {
+                                setMode('test')
+                            }}
+                        >
+                            切り替えに戻る
+                        </Button>
+                    )}
+                </Box>
+            )}
+
             {mode === 'memo' && (
                 <>
                     <Box display="flex" gap={1} flexDirection="column">
@@ -73,17 +78,6 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
                                 <MenuItem value="ja">日本語</MenuItem>
                                 <MenuItem value="en">English</MenuItem>
                             </Select>
-                            <Box flex={1} />
-                            {props.mode === undefined && (
-                                <Button
-                                    variant="text"
-                                    onClick={() => {
-                                        setMode('test')
-                                    }}
-                                >
-                                    切り替えに戻る
-                                </Button>
-                            )}
                         </Box>
                         <Button
                             fullWidth
@@ -386,54 +380,11 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
             )}
             {mode === 'test' && (
                 <>
-                    <Box display="flex" flexDirection="row" gap={1} alignItems="center" justifyContent="space-between">
-                        <Typography>
-                            特権モードを抜けるには、マスターキーの{testIndex.first + 1}番目と{testIndex.second + 1}
-                            番目の単語を入力してください
-                        </Typography>
-                        {props.mode === undefined && (
-                            <Button
-                                variant="text"
-                                onClick={() => {
-                                    setMode('memo')
-                                }}
-                            >
-                                マスターキーを確認する
-                            </Button>
-                        )}
-                    </Box>
-                    <Box display="flex" flexDirection="row" gap={1}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            label={`${testIndex.first + 1}番目の単語`}
-                            onChange={(e) => {
-                                setMnemonicTest1(e.target.value.normalize('NFKD').trim())
-                            }}
-                            error={
-                                mnemonicTest1 !== '' &&
-                                mnemonicTest1 !== props.identity.mnemonic.split(' ')[testIndex.first] &&
-                                mnemonicTest1 !== props.identity.mnemonic_ja.split(' ')[testIndex.first]
-                            }
-                        />
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            label={`${testIndex.second + 1}番目の単語`}
-                            onChange={(e) => {
-                                setMnemonicTest2(e.target.value.normalize('NFKD').trim())
-                            }}
-                            error={
-                                mnemonicTest2 !== '' &&
-                                mnemonicTest2 !== props.identity.mnemonic.split(' ')[testIndex.second] &&
-                                mnemonicTest2 !== props.identity.mnemonic_ja.split(' ')[testIndex.second]
-                            }
-                        />
-                    </Box>
-                    <Button
-                        fullWidth
-                        disabled={processing || !testOK}
-                        onClick={() => {
+                    <TestMasterkey
+                        text={processing ? t('processing') : '通常モードへ切り替える'}
+                        identity={props.identity}
+                        disabled={processing}
+                        onConfirm={() => {
                             setProcessing(true)
 
                             const newIdentity = GenerateIdentity()
@@ -453,11 +404,78 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
                                     console.error('error: ', e)
                                 })
                         }}
-                    >
-                        {processing ? t('processing') : '通常モードへ切り替える'}
-                    </Button>
+                    />
                 </>
             )}
         </Box>
+    )
+}
+
+export interface TestMasterkeyProps {
+    identity: Identity
+    onConfirm: () => void
+    disabled?: boolean
+    text: string
+}
+
+export const TestMasterkey = (props: TestMasterkeyProps): JSX.Element => {
+    const [testIndex, setTestIndex] = useState<{ first: number; second: number }>({ first: 0, second: 0 })
+
+    const [mnemonicTest1, setMnemonicTest1] = useState<string>('')
+    const [mnemonicTest2, setMnemonicTest2] = useState<string>('')
+
+    const testOK = useMemo(() => {
+        const ok1 =
+            mnemonicTest1 === props.identity.mnemonic.split(' ')[testIndex.first] ||
+            mnemonicTest1 === props.identity.mnemonic_ja.split(' ')[testIndex.first]
+        const ok2 =
+            mnemonicTest2 === props.identity.mnemonic.split(' ')[testIndex.second] ||
+            mnemonicTest2 === props.identity.mnemonic_ja.split(' ')[testIndex.second]
+        return ok1 && ok2
+    }, [props.identity, mnemonicTest1, mnemonicTest2])
+
+    useEffect(() => {
+        const first = Math.floor(Math.random() * 6)
+        const second = Math.floor(Math.random() * 6 + 6)
+        setTestIndex({ first, second })
+    }, [])
+
+    return (
+        <>
+            <Typography>
+                進むには、マスターキーの{testIndex.first + 1}番目と{testIndex.second + 1}番目の単語を入力してください
+            </Typography>
+            <Box display="flex" flexDirection="row" gap={1}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label={`${testIndex.first + 1}番目の単語`}
+                    onChange={(e) => {
+                        setMnemonicTest1(e.target.value.normalize('NFKD').trim())
+                    }}
+                    error={
+                        mnemonicTest1 !== '' &&
+                        mnemonicTest1 !== props.identity.mnemonic.split(' ')[testIndex.first] &&
+                        mnemonicTest1 !== props.identity.mnemonic_ja.split(' ')[testIndex.first]
+                    }
+                />
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label={`${testIndex.second + 1}番目の単語`}
+                    onChange={(e) => {
+                        setMnemonicTest2(e.target.value.normalize('NFKD').trim())
+                    }}
+                    error={
+                        mnemonicTest2 !== '' &&
+                        mnemonicTest2 !== props.identity.mnemonic.split(' ')[testIndex.second] &&
+                        mnemonicTest2 !== props.identity.mnemonic_ja.split(' ')[testIndex.second]
+                    }
+                />
+            </Box>
+            <Button fullWidth disabled={props.disabled || !testOK} onClick={props.onConfirm}>
+                {props.text}
+            </Button>
+        </>
     )
 }

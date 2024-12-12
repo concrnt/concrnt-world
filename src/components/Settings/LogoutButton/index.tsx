@@ -1,12 +1,17 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Box, Button, Modal, Typography, useTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { type Identity } from '@concurrent-world/client'
+import { TestMasterkey } from '../../SwitchMasterToSub'
 
 export const LogoutButton = (): JSX.Element => {
     const [openLogoutModal, setOpenLogoutModal] = useState(false)
     const theme = useTheme()
     const navigate = useNavigate()
+
+    const identity: Identity = JSON.parse(localStorage.getItem('Identity') || 'null')
+    const [override, setOverride] = useState(false)
 
     const { t } = useTranslation('', { keyPrefix: 'pages.settings.actions' })
 
@@ -14,7 +19,30 @@ export const LogoutButton = (): JSX.Element => {
         for (const key in localStorage) {
             localStorage.removeItem(key)
         }
+        setOpenLogoutModal(false)
+        navigate('/welcome')
     }
+
+    const onKeyDown = useCallback((e: KeyboardEvent): void => {
+        if (e.key === 'Shift') {
+            setOverride(true)
+        }
+    }, [])
+
+    const onKeyUp = useCallback((e: KeyboardEvent): void => {
+        if (e.key === 'Shift') {
+            setOverride(false)
+        }
+    }, [])
+
+    useEffect(() => {
+        document.addEventListener('keydown', onKeyDown)
+        document.addEventListener('keyup', onKeyUp)
+        return () => {
+            document.removeEventListener('keydown', onKeyDown)
+            document.removeEventListener('keyup', onKeyUp)
+        }
+    }, [])
 
     return (
         <>
@@ -43,16 +71,25 @@ export const LogoutButton = (): JSX.Element => {
                         {t('areYouSure')}
                     </Typography>
                     <Typography sx={{ color: theme.palette.text.primary }}>{t('logoutWarn')}</Typography>
-                    <Button
-                        color="error"
-                        onClick={() => {
-                            logout()
-                            setOpenLogoutModal(false)
-                            navigate('/welcome')
-                        }}
-                    >
-                        {t('logout')}
-                    </Button>
+
+                    {identity && !override ? (
+                        <TestMasterkey
+                            identity={identity}
+                            onConfirm={() => {
+                                logout()
+                            }}
+                            text={t('logout')}
+                        />
+                    ) : (
+                        <Button
+                            color="error"
+                            onClick={() => {
+                                logout()
+                            }}
+                        >
+                            {t('logout')}
+                        </Button>
+                    )}
                 </Box>
             </Modal>
             <Button

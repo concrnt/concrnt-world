@@ -9,15 +9,12 @@ import {
     Divider,
     FormControlLabel,
     FormGroup,
-    IconButton,
     MenuItem,
     Select,
     Switch,
     Typography
 } from '@mui/material'
 import { usePreference } from '../../context/PreferenceContext'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { useClient } from '../../context/ClientContext'
 import { useEffect, useState } from 'react'
 import { useSnackbar } from 'notistack'
@@ -27,7 +24,6 @@ import { type NotificationSubscription } from '../../model'
 
 export const GeneralSettings = (): JSX.Element => {
     const { client } = useClient()
-    const [showPrivateKey, setShowPrivateKey] = useState(false)
     const [invitationCode, setInvitationCode] = useState<string>('')
 
     const [showEditorOnTop, setShowEditorOnTop] = usePreference('showEditorOnTop')
@@ -427,7 +423,6 @@ export const GeneralSettings = (): JSX.Element => {
                     </Button>
                 </>
             )}
-            {devMode && <>{vapidKey ?? 'no vapid key'}</>}
             {!enableConcord && (
                 <Accordion>
                     <AccordionSummary>
@@ -459,69 +454,9 @@ export const GeneralSettings = (): JSX.Element => {
                     </AccordionActions>
                 </Accordion>
             )}
-            <Divider />
-            {devMode && (
-                <>
-                    <Typography variant="h3" gutterBottom>
-                        CCID
-                    </Typography>
-                    <Typography>{client.ccid}</Typography>
-
-                    <Typography variant="h3" gutterBottom>
-                        Host
-                    </Typography>
-                    <Typography>{client.api.host}</Typography>
-
-                    <Typography variant="h3" gutterBottom>
-                        Privatekey
-                    </Typography>
-                    <Typography
-                        sx={{
-                            wordBreak: 'break-all',
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}
-                    >
-                        {showPrivateKey ? client.api.privatekey : '•••••••••••••••••••••••••••••••••••••••••••••••••'}
-                        <IconButton
-                            sx={{ ml: 'auto' }}
-                            onClick={() => {
-                                setShowPrivateKey(!showPrivateKey)
-                            }}
-                        >
-                            {!showPrivateKey ? (
-                                <VisibilityIcon sx={{ color: 'text.primary' }} />
-                            ) : (
-                                <VisibilityOffIcon sx={{ color: 'text.primary' }} />
-                            )}
-                        </IconButton>
-                    </Typography>
-
-                    <Typography variant="h3" gutterBottom>
-                        HomeStream
-                    </Typography>
-                    <Typography gutterBottom>{client.user?.homeTimeline}</Typography>
-
-                    <Typography variant="h3" gutterBottom>
-                        NotificationStream
-                    </Typography>
-                    <Typography gutterBottom>{client.user?.notificationTimeline}</Typography>
-
-                    <Typography variant="h3" gutterBottom>
-                        AssociationStream
-                    </Typography>
-                    <Typography gutterBottom>{client.user?.associationTimeline}</Typography>
-
-                    <Divider />
-                    <Typography variant="h3" gutterBottom>
-                        Services
-                    </Typography>
-
-                    <Typography>{JSON.stringify(client.domainServices)}</Typography>
-                </>
-            )}
             {tags.includes('_invite') && (
                 <>
+                    <Typography variant="h3">招待</Typography>
                     {invitationCode === '' ? (
                         <Button
                             onClick={(_) => {

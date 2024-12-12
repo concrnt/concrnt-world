@@ -17,14 +17,14 @@ export const GA4Provider = (props: GA4ProviderProps): JSX.Element => {
             if (typeof gtag === 'function') {
                 gtag('config', props.tag, {
                     // debug_mode: true,
-                    page_path: location.pathname,
+                    page_path: location.pathname + location.hash,
                     page_title: document.title
                 })
             } else {
                 console.error('gtag not found')
             }
         }, 100)
-    }, [location.pathname])
+    }, [location.pathname, location.hash])
 
     return <GA4Context.Provider value={{}}>{props.children}</GA4Context.Provider>
 }

@@ -1,6 +1,4 @@
-import { Typography, Box, ButtonBase, Button, Paper } from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
-import { CCAvatar } from '../ui/CCAvatar'
+import { Typography, Box, Button, Paper, Alert, AlertTitle } from '@mui/material'
 import { useClient } from '../../context/ClientContext'
 import SettingsIcon from '@mui/icons-material/Settings'
 import PaletteIcon from '@mui/icons-material/Palette'
@@ -23,12 +21,16 @@ import { useMemo } from 'react'
 import buildTime from '~build/time'
 // @ts-expect-error vite dynamic import
 import { branch, sha } from '~build/info'
+import { useGlobalState } from '../../context/GlobalState'
+import { type Identity } from '@concurrent-world/client'
 
 const branchName = branch || window.location.host.split('.')[0]
 
 export function SettingsIndex(): JSX.Element {
     const { client } = useClient()
     const { enqueueSnackbar } = useSnackbar()
+    const globalState = useGlobalState()
+    const identity: Identity = JSON.parse(localStorage.getItem('Identity') || 'null')
 
     const { t } = useTranslation('', { keyPrefix: '' })
 
@@ -58,49 +60,29 @@ export function SettingsIndex(): JSX.Element {
                 gap: 1
             }}
         >
-            <Box /* header */ display="flex" flexDirection="row" justifyContent="space-between" width="100%">
-                <ButtonBase
-                    component={RouterLink}
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'left',
-                        gap: 1
-                    }}
-                    to={'/settings/profile'}
+            {identity && (
+                <Alert
+                    severity="info"
+                    action={
+                        <Button
+                            variant="text"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                globalState.setSwitchToSub(true)
+                            }}
+                        >
+                            通常モードへ移行する
+                        </Button>
+                    }
                 >
-                    <CCAvatar
-                        avatarURL={client?.user?.profile?.avatar}
-                        identiconSource={client.ccid}
-                        sx={{
-                            width: '40px',
-                            height: '40px'
-                        }}
-                    />
-                    <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', flexFlow: 'column' }}>
-                        <Typography color="contrastText">{client?.user?.profile?.username}</Typography>
-                        <Typography variant="caption" color="background.contrastText">
-                            {client.api.host}
-                        </Typography>
-                    </Box>
-                </ButtonBase>
-                {/*
-                <Button
-                    onClick={(_) => {
-                        if (client.api.host === undefined) {
-                            return
-                        }
-                        window.open(
-                            `https://${client.api.host}/web/login?token=${client.api.generateApiToken()}`,
-                            '_blank',
-                            'noreferrer'
-                        )
-                    }}
-                >
-                    Goto Domain Home
-                </Button>
-                */}
-            </Box>
+                    <AlertTitle>現在特権モードでログインしています</AlertTitle>
+                    特権モードは、アカウントの削除など強い操作が可能なモードです。
+                    <br />
+                    特権の利用が終ったら、通常モードへ戻ることをお勧めします。
+                </Alert>
+            )}
+
             <Paper /* menu */
                 variant="outlined"
                 sx={{
@@ -174,6 +156,7 @@ export function SettingsIndex(): JSX.Element {
                 <Typography variant="h2" gutterBottom>
                     {t('pages.settings.actions.title')}
                 </Typography>
+
                 <Button
                     onClick={(_) => {
                         deleteAllCache()
