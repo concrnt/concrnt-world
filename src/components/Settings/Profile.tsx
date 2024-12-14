@@ -458,6 +458,22 @@ export const ProfileSettings = (): JSX.Element => {
                     </Box>
                 </>
             )}
+            {enableConcord && badges.length > 0 && (
+                <Button
+                    variant="outlined"
+                    onClick={() => {
+                        confirm.open('バッジを全部外しますか？', () => {
+                            client
+                                .setProfile({
+                                    badges: []
+                                })
+                                .then((_) => {
+                                    load()
+                                })
+                        })
+                    }}
+                >{`バッジを全部外す(現在${latestProfile?.badges?.length ?? 0}個)`}</Button>
+            )}
 
             <Box
                 sx={{
