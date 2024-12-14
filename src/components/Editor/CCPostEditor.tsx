@@ -323,20 +323,10 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                     video.oncanplay = async () => {
                         if (rendered || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) return
                         rendered = true
-                        video.pause()
-                        canvas.width = video.videoWidth
-                        canvas.height = video.videoHeight
-                        const ctx = canvas.getContext('2d')
-                        if (!ctx) return
-                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-                        const thumbnailURL = canvas.toDataURL('image/jpeg')
-                        url = thumbnailURL
-                        try {
-                            blurhash = (await genBlurHash(thumbnailURL)) ?? ''
-                        } catch (e) {
-                            console.error('Failed to generate blurhash:', e)
-                        }
-                        resolve()
+                        setTimeout(() => {
+                            video.pause()
+                            resolve()
+                        }, 33)
                     }
 
                     setTimeout(() => {
@@ -346,6 +336,19 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                     }, 3000)
                     video.play()
                 })
+
+                canvas.width = video.videoWidth
+                canvas.height = video.videoHeight
+                const ctx = canvas.getContext('2d')
+                if (!ctx) return
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+                const thumbnailURL = canvas.toDataURL('image/jpeg')
+                url = thumbnailURL
+                try {
+                    blurhash = (await genBlurHash(thumbnailURL)) ?? ''
+                } catch (e) {
+                    console.error('Failed to generate blurhash:', e)
+                }
             }
 
             setMedias((medias) => [
