@@ -4,7 +4,6 @@ import { type BadgeRef, type Message } from '@concurrent-world/client'
 import { type Emoji, type Badge } from '../model'
 import { Alert, AlertTitle, Box, Button, Divider, Paper, TextField, Typography } from '@mui/material'
 import { CCUserChip } from '../components/ui/CCUserChip'
-import { useNavigate } from 'react-router-dom'
 import { type StdFee, coins, type DeliverTxResponse } from '@cosmjs/stargate'
 
 import { useSnackbar } from 'notistack'
@@ -75,8 +74,8 @@ interface ConcordContextProps {
 const chainInfo = {
     chainId: 'concord',
     chainName: 'Concord',
-    rpc: 'https://concord-testseed.concrnt.net:26657',
-    rest: 'https://concord-testseed.concrnt.net',
+    rpc: 'https://concord-testseed-rpc.concrnt.net',
+    rest: 'https://concord-testseed-api.concrnt.net',
     bip44: {
         coinType: 118
     },
@@ -110,7 +109,6 @@ const chainInfo = {
 }
 
 export const ConcordProvider = ({ children }: ConcordContextProps): JSX.Element => {
-    const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { client } = useClient()
     const emojiPicker = useEmojiPicker()
@@ -119,18 +117,19 @@ export const ConcordProvider = ({ children }: ConcordContextProps): JSX.Element 
     const inspectBadge = useCallback((ref: BadgeRef) => {
         setInspectingBadgeRef(ref)
     }, [])
-    const endpoint = 'https://concord-testseed.concrnt.net'
-    const balanceAPI = `${endpoint}/cosmos/bank/v1beta1/balances`
-    const badgesAPI = `${endpoint}/concrnt/concord/badge/get_badges_by_owner`
-    const seriesAPI = `${endpoint}/concrnt/concord/badge/get_series_by_owner`
-    const badgeAPI = `${endpoint}/concrnt/concord/badge/get_badge/${inspectingBadgeRef?.seriesId}/${inspectingBadgeRef?.badgeId}`
-    const ownersAPI = `${endpoint}/concrnt/concord/badge/get_badges_by_series/${inspectingBadgeRef?.seriesId}`
-    const txQuery = 'https://concord-testseed.concrnt.net:26657/tx_search?query='
+    const apiEndpoint = 'https://concord-testseed-api.concrnt.net'
+    const rpcEndpoint = 'https://concord-testseed-rpc.concrnt.net'
+
+    const balanceAPI = `${apiEndpoint}/cosmos/bank/v1beta1/balances`
+    const badgesAPI = `${apiEndpoint}/concrnt/concord/badge/get_badges_by_owner`
+    const seriesAPI = `${apiEndpoint}/concrnt/concord/badge/get_series_by_owner`
+    const badgeAPI = `${apiEndpoint}/concrnt/concord/badge/get_badge/${inspectingBadgeRef?.seriesId}/${inspectingBadgeRef?.badgeId}`
+    const ownersAPI = `${apiEndpoint}/concrnt/concord/badge/get_badges_by_series/${inspectingBadgeRef?.seriesId}`
+    const txQuery = `${rpcEndpoint}/tx_search?query=`
     const [badge, setBadge] = useState<Badge | null>(null)
     const [mintedTx, setMintedTx] = useState<any | null>(null)
     const [owners, setOwners] = useState<Badge[]>([])
 
-    const rpcEndpoint = 'https://concord-testseed.concrnt.net:26657'
     const [cosmJS, setCosmJS] = useState<SigningStargateClient | undefined>(undefined)
     const [address, setAddress] = useState<string | undefined>(undefined)
 
@@ -253,7 +252,7 @@ export const ConcordProvider = ({ children }: ConcordContextProps): JSX.Element 
         if (cacheKey in badgeCache) {
             return await badgeCache[cacheKey]
         }
-        const badgeAPI = `${endpoint}/concrnt/concord/badge/get_badge/${seriesId}/${badgeId}`
+        const badgeAPI = `${apiEndpoint}/concrnt/concord/badge/get_badge/${seriesId}/${badgeId}`
         badgeCache[cacheKey] = fetch(badgeAPI, {
             cache: 'force-cache'
         })
