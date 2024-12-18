@@ -1,0 +1,357 @@
+{
+	"test": "測試",
+	"common": {
+		"watch": "關注",
+		"watching": "關注中",
+		"unwatch": "取消關注",
+		"follow": "追蹤",
+		"following": "追蹤中",
+		"unfollow": "取消追蹤",
+		"followers": "追蹤者"
+	},
+	"pages": {
+		"home": {
+			"title": "首頁"
+		},
+		"notifications": {
+			"title": "通知"
+		},
+		"associations": {
+			"title": "社群關聯"
+		},
+		"contacts": {
+			"title": "聯絡"
+		},
+		"explore": {
+			"title": "探索",
+			"domains": "網域",
+			"community": "社群",
+			"createNew": "建立新的",
+			"createNewCommunity": {
+				"title": "建立新社群",
+				"desc1": "在 ",
+				"desc2": " 上建立新的資訊流，使用以下設定。"
+			}
+		},
+		"devtool": {
+			"title": "開發者工具"
+		},
+		"tutorial": {
+			"title": "教學"
+		},
+		"settings": {
+			"title": "設定",
+			"actions": {
+				"title": "操作",
+				"clearCache": "清除快取",
+				"forceReload": "強制重新載入",
+				"logout": "登出",
+				"areYouSure": "確定嗎？",
+				"logoutWarn": "若要再次登入，您需要主金鑰或 QR Code。"
+			}
+		},
+		"lists": {
+			"title": "清單"
+		},
+		"manageSubs": {
+			"title": "清單"
+		}
+	},
+	"time": {
+		"seconds": "秒",
+		"minutes": "分鐘",
+		"hours": "小時",
+		"before": "前",
+		"after": "後",
+		"separator": " ",
+		"now": "剛剛"
+	},
+	"ui": {
+		"postButton": {
+			"plaintext": "發佈",
+			"markdown": "發佈",
+			"media": "發佈",
+			"reply": "回覆",
+			"reroute": "轉發"
+		},
+		"profileEditor": {
+			"update": "更新",
+			"updateSuccess": "更新成功",
+			"updateFailed": "更新失敗",
+			"createNew": "建立"
+		},
+		"draft": {
+			"placeholder": "有什麼新鮮事嗎？",
+			"attachImage": "上傳圖片",
+			"cantAttachImage": "請在設定中設定 Imgur Client ID。",
+			"preview": "預覽",
+			"openPreview": "開啟預覽",
+			"closePreview": "關閉預覽",
+			"emoji": "貼圖",
+			"clearDraft": "清空草稿",
+			"postToHome": "同時發佈在主時間軸中",
+			"noPostToHome": "不發佈在主時間軸中",
+			"current": "發佈",
+			"whisper": "私密訊息"
+		},
+		"secret": {
+			"clickToReveal": "點擊顯示",
+			"warn": "請確保沒有人正在窺視你的螢幕，注意周遭的攝影機和環境安全。",
+			"copy": "複製"
+		},
+		"listSettings": {
+			"title": "清單設定",
+			"name": "清單名稱",
+			"update": "更新",
+			"defaultDest": "預設目的地",
+			"stream": "資訊流",
+			"community": "社群",
+			"user": "使用者",
+			"pin": "釘選",
+			"delete": "刪除"
+		}
+	},
+	"settings": {
+		"title": "設定",
+		"general": {
+			"title": "一般設定",
+			"basic": "基本",
+			"showEditorOnTop": "在頂部顯示編輯器",
+			"showEditorOnTopMobile": "在頂部顯示編輯器（行動裝置）",
+			"developerMode": "開發者模式",
+			"generateInviteCode": "產生邀請碼",
+			"inviteCode": "邀請碼（24 小時內有效）",
+			"copyInviteCode": "複製邀請碼",
+			"copied": "已複製",
+			"language": "語言"
+		},
+		"profile": {
+			"title": "個人資料",
+			"update": "更新",
+			"updated": "已更新",
+			"secret": "金鑰代碼",
+			"secretCannotBeRestored": "由於該帳號是使用私鑰而非金鑰代碼匯入的，因此無法還原金鑰代碼。"
+		},
+		"identity": {
+			"title": "身分",
+			"loginType": {
+				"masterKey": "您目前使用主金鑰登入，請切換到更安全的子金鑰登入。",
+				"subKey": "您目前正在使用子金鑰登入。",
+				"secret": "您目前已透過直接輸入金鑰的方式使用主金鑰登入。"
+			},
+			"hideSubKey": "隱藏已停用的子金鑰",
+			"deactivate": "停用",
+			"switchMasterToSub": {
+				"masterKeyFormat": "主金鑰格式：",
+				"sendEmail": "寄送到我的信箱",
+				"copyToClipboard": "複製到剪貼簿",
+				"mailHerf": "mailto:?subject=concrnt secret&body=**請將該郵件的收件人設定為您自己並發送。**%0D%0A%0D%0A=== 識別資訊 ===%0D%0A識別碼：{{ ccid }}%0D%0A主金鑰：{{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0A主金鑰是證明您擁有此識別碼所標識的帳號的唯一方式。%0D%0A如果該主金鑰被惡意的第三方知悉，該帳號的安全性將受到損害，您將需要採取措施自行凍結該帳號。%0D%0A%0D%0A主金鑰將用於移轉您的帳號或還原遺失的子金鑰等重要操作。%0D%0A在此之前，請將其安全地儲存，例如列印出來並保存在安全的實體位置。%0D%0A",
+				"downloadPDF": "下載 PDF",
+				"processing": "處理中...",
+				"ready": "從此裝置中完全移除主金鑰並切換到子金鑰",
+				"identification": "識別資訊",
+				"confidential": "機密資訊",
+				"identifier": "識別碼",
+				"undifined": "未定義",
+				"masterKey": "主金鑰",
+				"aboutMasterKey": "主金鑰是證明您是此識別碼所標識帳號所有者的唯一方式。<br/>如果惡意第三方獲知此金鑰，則此帳號的安全性將受到威脅，您需要採取措施自行凍結帳號。<br/>主金鑰將用於重要操作，例如移轉您的帳號或還原遺失的子金鑰。在此之前，請以安全可靠的方式保存它，例如將其列印出來並保存在安全的實體位置。",
+				"reference": "參考資訊",
+				"name": "名稱",
+				"unset": "未設定",
+				"domain": "所在網域",
+				"addition": "以上參考資訊來自此檔案簽發時，此後可能已發生變化。",
+				"date": "簽發於:"
+			}
+		},
+		"theme": {
+			"title": "主題"
+		},
+		"sound": {
+			"title": "聲音",
+			"sound": "聲音",
+			"volume": "音量",
+			"override": {
+				"title": "覆蓋",
+				"postSound": "發佈音效",
+				"notificationSound": "通知音效"
+			}
+		},
+		"emoji": {
+			"title": "貼圖",
+			"emojiPackage": "貼圖包",
+			"emojiPackageURL": "貼圖包網址",
+			"packageNotFound": "沒有找到貼圖包",
+			"copied": "已複製",
+			"alreadyAdded": "貼圖包已新增"
+		},
+		"media": {
+			"title": "位置",
+			"storageProviderLabel": "使用的儲存提供者",
+			"corsSettings": "CORS 設定",
+			"imagePostSettings": "媒體發佈設定",
+			"afterRegisteringImgur": "在 Imgur 註冊後，前往 ",
+			"thisPage": "該頁面",
+			"deleteCompletely": "徹底刪除",
+			"copyURL": "複製網址",
+			"copyID": "複製 ID",
+			"oauth2": " 並使用「OAuth 2 授權，無需回呼網址」選項建立應用程式",
+			"descs": {
+				"domain": "網域儲存是指此網域提供的儲存空間，無需設定即可使用，但有最大容量限制。此外，管理員可以查看檔案清單，違反條款的檔案可能會被刪除。",
+				"imgur": "將圖片上傳到 Imgur，設定起來相對簡單。上傳的內容需遵守 Imgur 的條款。",
+				"s3": "將圖片上傳到 S3。也可以使用與 S3 協定相容的服務，例如 CloudFlare R2、Backblaze B2 等。它需要設定更多的選項，但可以讓您自行控制檔案。根據服務提供商的不同，可能會收取費用，但在大多數情況下，許多服務提供商都提供免費方案和額度。"
+			}
+		},
+		"ap": {
+			"title": "ActivityPub",
+			"setup": "ActivityPub ID 設定",
+			"cantBeChangedOnceRegistered": "**一旦註冊將不可更改！",
+			"confirming": "確認中...",
+			"register": "註冊",
+			"helperText": "可以使用以下字元：a-z、A-Z、0-9",
+			"alreadyRegistered": "該使用者已被註冊。",
+			"tryAnotherID": "請嘗試其他 ID。"
+		},
+		"qr": {
+			"title": "登入碼",
+			"createNew": "建立",
+			"showInstalled": "已設定",
+			"tip1": "該 QR Code 僅顯示一次，請僅在需要時才產生新的 QR Code。",
+			"tip2": "您可以在「設定」>「身分」頁面中檢查建立的金鑰。",
+			"createNewSubKey": "建立新的子金鑰"
+		},
+		"importexport": {
+			"title": "匯入匯出",
+			"import": "匯入",
+			"export": "匯出"
+		},
+		"jobs": {
+			"title": "任務"
+		}
+	},
+	"welcome": {
+		"start": "快速開始",
+		"guide": "使用者指南",
+		"gettingStarted": "讓我們來開始吧！",
+		"import": "登入",
+
+		"catch": "如果社群網路像是這樣...",
+		"wish1": "可以即時了解你的朋友和你感興趣的人在做什麼",
+		"wish2": "可以使用一個帳號與多個社群互動",
+		"wish3": "可以選擇平台管理者，而不是被獨裁的單一實體控制",
+		"wish4": "如果有一個這樣的社群網路，不是很棒嗎？",
+		"wish5": "Concrnt 就是為了實現這些期待而開發。",
+		"wish6": "歡迎來到社群網路的新紀元。",
+
+		"feature1title": "與人人共享的社群網路",
+		"feature1subtitle": "厭倦了充滿陌生人的推薦時間軸嗎？",
+		"feature1p1": "你是否更希望了解你喜歡的人，而不是看到充滿陌生人的推薦？",
+		"feature1p2": "在 Concrnt，你可以使用自訂清單來存取對你真正重要的資訊，而不是依賴演算法。選擇你喜歡的人和你感興趣的社群，並建立一個完美適合你的時間軸。",
+		"feature1p3": "Concrnt 是一個專注於對你真正重要的人際關係的社群網路，讓每個人都能享受其中。",
+
+		"feature2title": "你的帳號真正屬於你",
+		"feature2subtitle": "再見，擔心帳號被封鎖的日子 👋",
+		"feature2p1": "Concrnt 是一個去中心化的社群網路，優先考慮使用者自由和安全。它擺脫了單一公司或組織的獨裁，每個獨立的個人和組織都可以執行他們自己的伺服器。",
+		"feature2p2": "這意味著你不再需要擔心帳號被突然封鎖。即使你在某個伺服器上受到不公平對待，你也可以輕鬆轉移到另一個伺服器，保留你的貼文和追蹤者，並繼續你的活動。在這裡，你會發現一種前所未有的安全和自由，你可以管理你自己的帳號。",
+		"feature2p3": "在 Concrnt，你的帳號真正屬於你。",
+
+		"feature3title": "無數社群在一個社群網路中",
+		"feature3subtitle": "為不同興趣使用不同帳號的時代已經結束了",
+		"feature3p1": "在 Concrnt，除了首頁時間軸，你可以在多個社群時間軸之間切換。發佈時，你可以同時分享到多個社群，輕鬆地與多個社群鬆散地連接，這符合人類的自然屬性。",
+		"feature3p2": "這不像是 X 那樣過於關注世界，也不像 Discord 那樣過於封閉。Concrnt 的魅力在於你可以在適度連接其他社群的同時，找到屬於自己的位置。",
+		"crnt1": "這是一種新的使用社群網路的方式，但一旦習慣了，就會覺得很舒服！",
+		"crnt2": "我依賴的東西必須是開放的！",
+		"crnt3": "我想同時向多個社群廣播！",
+		"crnt4": "也許我會嘗試建立自己的伺服器？",
+		"crnt5": "我想要一個我不需要去中心化的去中心化社群網路！",
+		"crnt6": "你在做什麼？",
+		"crnt7": "太棒了！",
+		"crnt8": "晚安！",
+		"crnt9": "有人想一起出去嗎？",
+		"crnt10": "自訂主題太有趣了！",
+		"crnt11": "因為我的帳號真正掌握在自己手中，<br/> 我可以自信地將其用作我的網路身分。",
+		"crnt12": "用貼圖反應來交流真是順暢！",
+		"crnt13": "即使我在的伺服器關閉了，<br/> 我也可以輕鬆地將我的關係轉移到一個新的伺服器，所以不用擔心！",
+		"crnt14": "肚子餓了 嘿",
+
+		"crnt_totegamma": "就是這個！"
+	},
+
+	"mock": {
+		"home": {
+			"title": "首頁",
+			"crnt1": "我真的很喜歡這個時候的安靜。假期裡的獨處時光是最棒的。",
+			"crnt2": "說到音樂，最近總是忘不了動畫歌曲。它們真的讓我很振奮。",
+			"crnt3": "下午的音樂選擇——今天聽什麼？真是個難的選擇。",
+			"crnt4": "新書到了！時候泡杯茶，專心閱讀了。完美的假期。",
+			"crnt5": "好久沒看了，今天重播我最喜歡的動畫。時候放鬆一下，看看吧。"
+		},
+		"game": {
+			"title": "遊戲場景",
+			"crnt1": "在《地下世界冒險家》裡遺失了存檔資料……我想哭。",
+			"crnt2": "新的 VR 遊戲非常逼真！我要小心不要暈眩。",
+			"crnt3": "昨晚的線上戰鬥團隊合作完美無缺。團隊，我們再來一次！",
+			"crnt4": "找到了一台老街機遊戲。投幣玩遊戲的感覺真令人懷念。",
+			"crnt5": "收集遊戲原聲帶是我的興趣。今天又得到了一個新的！"
+		},
+		"food": {
+			"title": "美食",
+			"crnt1": "嘗試自製素食料理。今天是番茄和藜麥沙拉。",
+			"crnt2": "發現了一家新的香料店！時候嘗試一些異國風味了。",
+			"crnt3": "今天吃的拉麵真是太棒了。辣度剛剛好。",
+			"crnt4": "自製冷萃咖啡，夏日必備。選擇咖啡豆是關鍵。",
+			"crnt5": "餐廳裡的烤雞肉串外酥內嫩。下次我要帶朋友一起來！"
+		}
+	},
+
+	"registration": {
+		"welcome": {
+			"title": "來建立你的 Concrnt 帳號吧！",
+			"desc1": "Concrnt 是一個去中心化的社群網路，",
+			"desc2": "請選擇一個伺服器以註冊。",
+			"infoTitle": "任何伺服器都可以！",
+			"info1": "在 Concrnt，伺服器之間沒有障礙。就像選擇電信業者一樣，",
+			"info2": "你可以隨時在伺服器之間切換，所以如果你沒有特別偏好，就交給我們來選擇吧！",
+			"auto1": "替我選擇一個伺服器",
+			"auto2": "開始",
+			"custom": "自己選擇伺服器"
+		},
+		"chooseDomain": {
+			"title": "選擇網域",
+			"chooseFromList": "從清單中選擇",
+			"or": "或",
+			"directInput": "直接輸入網址",
+			"tips": "提示：如果你要設定自己的伺服器，請點擊這裡",
+			"jump": "跳轉到註冊頁面",
+			"notRegistered": "在該網域上的註冊尚未確認。請在你跳轉到的網域上進行註冊。",
+			"nextDisabled": "在網域註冊完成後，你可以進入下一步",
+			"next": "下一步：建立個人資料"
+		},
+		"createProfile": {
+			"title": "建立個人資料",
+			"desc": "在這裡設定你的名稱、大頭貼和自我介紹。"
+		},
+		"ready": {
+			"title": "準備好了！",
+			"next": "開始"
+		},
+		"alreadyHaveAccount": "已有帳號？",
+		"importAccount": "登入"
+	},
+	"import": {
+		"scan": "掃描",
+		"manual": "手動",
+		"searching": "搜尋中…",
+		"notFound": "無法找到你的伺服器，您可以嘗試手動輸入",
+		"invalidSecret": "金鑰代碼不正確。",
+		"notFoundOnServer": "在指定伺服器上找不到你的帳號。",
+		"connectionError": "無法連接到指定的伺服器。",
+		"input": "輸入金鑰代碼或私鑰",
+		"withSubkey": "使用子金鑰登入",
+		"secretPlaceholder": "這是由 12 個單字組成的咒語",
+		"welcome": "歡迎",
+		"domain": "網域",
+		"import": "登入",
+		"noAccount": "還沒有帳號？",
+		"createAccount": "建立帳號"
+	}
+}

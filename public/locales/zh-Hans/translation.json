@@ -1,0 +1,357 @@
+{
+    "test": "测试",
+    "common": {
+        "watch": "关注",
+        "watching": "关注中",
+        "unwatch": "取消关注",
+        "follow": "跟随",
+        "following": "跟随中",
+        "unfollow": "取消跟随",
+        "followers": "跟随者"
+    },
+    "pages": {
+        "home": {
+            "title": "主页"
+        },
+        "notifications": {
+            "title": "通知"
+        },
+        "associations": {
+            "title": "Associations"
+        },
+        "contacts": {
+            "title": "联系"
+        },
+        "explore": {
+            "title": "探索",
+            "domains": "域",
+            "community": "社区",
+            "createNew": "创建新的",
+            "createNewCommunity": {
+                "title": "创建新的社区",
+                "desc1": "创建一个新的信息流在 ",
+                "desc2": " 上，使用以下设置。"
+            }
+        },
+        "devtool": {
+            "title": "开发者工具"
+        },
+        "tutorial": {
+            "title": "教学"
+        },
+        "settings": {
+            "title": "设置",
+            "actions": {
+                "title": "操作",
+                "clearCache": "清除缓存",
+                "forceReload": "强制重新加载",
+                "logout": "登出",
+                "areYouSure": "确定吗?",
+                "logoutWarn": "若要再次登录，您需要主密钥或二维码。"
+            }
+        },
+        "lists": {
+            "title": "列表"
+        },
+        "manageSubs": {
+            "title": "列表"
+        }
+    },
+    "time": {
+        "seconds": "秒",
+        "minutes": "分钟",
+        "hours": "小时",
+        "before": "前",
+        "after": "后",
+        "separator": " ",
+        "now": "刚刚"
+    },
+    "ui": {
+        "postButton": {
+            "plaintext": "发布",
+            "markdown": "发布",
+            "media": "发布",
+            "reply": "回复",
+            "reroute": "转发"
+        },
+        "profileEditor": {
+            "update": "更新",
+            "updateSuccess": "更新成功",
+            "updateFailed": "更新失败",
+            "createNew": "创建"
+        },
+        "draft": {
+            "placeholder": "有什么新鲜事吗？",
+            "attachImage": "上传图片",
+            "cantAttachImage": "请在设置中设置 Imgur Client ID。",
+            "preview": "预览",
+            "openPreview": "打开预览",
+            "closePreview": "关闭预览",
+            "emoji": "标签",
+            "clearDraft": "清空草稿",
+            "postToHome": "同时发布在主时间线中",
+            "noPostToHome": "不发布在主时间线中",
+            "current": "发布",
+            "whisper": "悄悄话"
+        },
+        "secret": {
+            "clickToReveal": "点击显示",
+            "warn": "请确保没有人正在窥视你的屏幕，注意周围的摄像头和环境安全。",
+            "copy": "复制"
+        },
+        "listSettings": {
+            "title": "列表实在",
+            "name": "列表名称",
+            "update": "更新",
+            "defaultDest": "默认目的地",
+            "stream": "信息流",
+            "community": "社区",
+            "user": "用户",
+            "pin": "固定",
+            "delete": "删除"
+        }
+    },
+    "settings": {
+        "title": "设置",
+        "general": {
+            "title": "通用设置",
+            "basic": "基本",
+            "showEditorOnTop": "在顶部显示编辑器",
+            "showEditorOnTopMobile": "在顶部显示编辑器（移动端）",
+            "developerMode": "开发者模式",
+            "generateInviteCode": "生成邀请码",
+            "inviteCode": "邀请码（24 小时内有效）",
+            "copyInviteCode": "复制邀请码",
+            "copied": "已复制",
+            "language": "语言"
+        },
+        "profile": {
+            "title": "个人信息",
+            "update": "更新",
+            "updated": "已更新",
+            "secret": "密钥代码",
+            "secretCannotBeRestored": "由于该账户是使用私钥而不是密钥代码导入的，因此无法恢复密钥代码。"
+        },
+        "identity": {
+            "title": "身份",
+            "loginType": {
+                "masterKey": "您当前使用主密钥登录，请切换到更安全的子密钥登录。",
+                "subKey": "您当前正在使用子密钥登录。",
+                "secret": "您当前已通过直接输入密钥的方式使用主密钥登录。"
+            },
+            "hideSubKey": "隐藏已停用的子密钥",
+            "deactivate": "停用",
+            "switchMasterToSub": {
+                "masterKeyFormat": "主密钥格式：",
+                "sendEmail": "发送到我的邮箱",
+                "copyToClipboard": "复制到剪贴板",
+                "mailHerf": "mailto:?subject=concrnt secret&body=**请将该邮件的收件人设置为您自己并发送。**%0D%0A%0D%0A=== Identification Info ===%0D%0AIdentifier: {{ ccid }}%0D%0AMaster Key: {{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0A主密钥是证明您拥有此标识符所标识的帐户的唯一方式。%0D%0A如果该主密钥被恶意的第三方知晓，该帐户的安全性将受到损害，您将需要采取措施自行冻结该帐户。%0D%0A%0D%0A主密钥将用于迁移您的帐户或恢复丢失的子密钥等重要操作。%0D%0A在此之前，请将其安全地存储，例如打印出来并保存在安全的物理位置。%0D%0A",
+                "downloadPDF": "下载 PDF",
+                "processing": "处理中...",
+                "ready": "从此设备中完全移除主密钥并切换到子密钥",
+                "identification": "标识信息",
+                "confidential": "机密信息",
+                "identifier": "标识符",
+                "undifined": "未定义",
+                "masterKey": "主密钥",
+                "aboutMasterKey": "主密钥是证明您是此标识符所标识帐户所有者的唯一方式。<br/>如果恶意第三方获知此密钥，则此帐户的安全性将受到威胁，您需要采取措施自行冻结帐户。<br/>主密钥将用于重要操作，例如迁移您的帐户或恢复丢失的子密钥。在此之前，请以安全可靠的方式保存它，例如将其打印出来并保存在安全的物理位置。",
+                "reference": "参考信息",
+                "name": "名称",
+                "unset": "未设置",
+                "domain": "所在域",
+                "addition": "以上参考信息来自此文件签发时，此后可能已发生变化。",
+                "date": "签发于:"
+            }
+        },
+        "theme": {
+            "title": "主题"
+        },
+        "sound": {
+            "title": "声音",
+            "sound": "声音",
+            "volume": "音量",
+            "override": {
+                "title": "覆盖",
+                "postSound": "发布音效",
+                "notificationSound": "通知音效"
+            }
+        },
+        "emoji": {
+            "title": "标签",
+            "emojiPackage": "表情包",
+            "emojiPackageURL": "表情包地址",
+            "packageNotFound": "没有找到表情包",
+            "copied": "已复制",
+            "alreadyAdded": "表情包已添加"
+        },
+        "media": {
+            "title": "位置",
+            "storageProviderLabel": "使用的存储提供者",
+            "corsSettings": "CORS 设置",
+            "imagePostSettings": "媒体发布设置",
+            "afterRegisteringImgur": "在 Imgur 注册后，前往 ",
+            "thisPage": "该页面",
+            "deleteCompletely": "彻底删除",
+            "copyURL": "复制 URL",
+            "copyID": "复制 ID",
+            "oauth2": " 并使用“OAuth 2 授权，无需回调 URL“选项创建应用程序”",
+            "descs": {
+                "domain": "域存储是指此域提供的存储空间，无需设置即可使用，但有最大容量限制。此外，管理员可以查看文件列表，违反条款的文件可能会被删除。",
+                "imgur": "将图片上传到 Imgur，设置起来相对简单。上传的内容需遵守 Imgur 的条款。",
+                "s3": "将图片上传到 S3。也可以使用与 S3 协议兼容的服务，例如 CloudFlare R2、Backblaze B2 等。它需要设置更多的选项，但可以让您自行控制文件。根据服务提供商的不同，可能会收取费用，但在大多数情况下，许多服务提供商都提供免费套餐和额度。"
+            }
+        },
+        "ap": {
+            "title": "ActivityPub",
+            "setup": "ActivityPub ID 设置.",
+            "cantBeChangedOnceRegistered": "**一旦注册将不可更改！",
+            "confirming": "确认中...",
+            "register": "注册",
+            "helperText": "可以使用以下字符：a-z、A-Z、0-9",
+            "alreadyRegistered": "该用户已被注册。",
+            "tryAnotherID": "请尝试其他 ID。"
+        },
+        "qr": {
+            "title": "登录码",
+            "createNew": "创建",
+            "showInstalled": "已设置",
+            "tip1": "该二维码仅显示一次，请仅在需要时才生成新二维码。",
+            "tip2": "您可以在“设置”>“身份”页面中检查创建的密钥。",
+            "createNewSubKey": "创建新的子密钥"
+        },
+        "importexport": {
+            "title": "导入导出",
+            "import": "导入",
+            "export": "导出"
+        },
+        "jobs": {
+            "title": "任务"
+        }
+    },
+  "welcome": {
+    "start": "快速开始",
+    "guide": "用户指南",
+    "gettingStarted": "让我们来开始吧！",
+    "import": "登录",
+
+    "catch": "如果社交网络像是这样...",
+    "wish1": "可以即时了解你的朋友和你感兴趣的人在做什么",
+    "wish2": "可以使用一个账户与多个社区互动",
+    "wish3": "可以选择平台管理者，而不是被独裁的单一实体控制",
+    "wish4": "如果有一个这样的社交网络，不是很棒吗？",
+    "wish5": "Concrnt 就是为了实现这些期待而开发。",
+    "wish6": "欢迎来到社交网络的新纪元。",
+
+    "feature1title": "与人人共享的社交网络",
+    "feature1subtitle": "厌倦了充满陌生人的推荐时间线吗？",
+    "feature1p1": "你是否更希望了解你喜欢的人，而不是看到充满陌生人的推荐？",
+    "feature1p2": "在 Concrnt，你可以使用自定义列表来访问对你真正重要的信息，而不是依赖算法。选择你喜欢的人和你感兴趣的社区，并创建一个完美适合你的时间线。",
+    "feature1p3": "Concrnt 是一个专注于对你真正重要的人际关系的社交网络，让每个人都能享受其中。",
+
+    "feature2title": "你的账户真正属于你",
+    "feature2subtitle": "再见，担心账户被封禁的日子 👋",
+    "feature2p1": "Concrnt 是一个去中心化的社交网络，优先考虑用户自由和安全。它摆脱了单一公司或组织的独裁，每个独立的个人和组织都可以运行他们自己的自己服务器。",
+    "feature2p2": "这意味着你不再需要担心账户被突然封禁。即使你在某个服务器上受到不公正对待，你也可以轻松转移到另一个服务器，保留你的帖子和关注者，并继续你的活动。在这里，你会发现一种前所未有的安全和自由，你可以管理你自己的账户。",
+    "feature2p3": "在 Concrnt，你的账户真正属于你。",
+
+    "feature3title": "无数社区在一个社交网络中",
+    "feature3subtitle": "为不同兴趣使用不同账户的时代已经结束了",
+    "feature3p1": "在 Concrnt，除了首页时间线，你可以在多个社区时间线之间切换。发布时，你可以同时分享到多个社区，轻松地与多个社区松散地连接，这符合人类的自然属性。",
+    "feature3p2": "这不像是 X 那样过于关注世界，也不像 Discord 那样过于封闭。Concrnt 的魅力在于你可以在适度连接其他社区的同时，找到属于自己的位置。",
+    "crnt1": "这是一种新的使用社交网络的方式，但一旦习惯了，就会觉得很舒服！",
+    "crnt2": "我依赖的东西必须是开放的！",
+    "crnt3": "我想同时向多个社区广播！",
+    "crnt4": "也许我会尝试建立自己的服务器？",
+    "crnt5": "我想要一个我不需要去中心化的去中心化社交网络！",
+    "crnt6": "你在做什么？",
+    "crnt7": "太棒了！",
+    "crnt8": "晚上好！",
+    "crnt9": "有人想一起出去吗？",
+    "crnt10": "定制主题太有趣了！",
+    "crnt11": "因为我的账户真正掌握在自己手中，<br/> 我可以自信地将其用作我的网络身份。",
+    "crnt12": "用表情反应来交流真是顺畅！",
+    "crnt13": "即使我在的服务器关闭了，<br/> 我也可以轻松地将我的关系转移到一个新的服务器，所以不用担心！",
+    "crnt14": "饿了 嘿",
+
+    "crnt_totegamma": "就是这个！"
+  },
+
+  "mock": {
+    "home": {
+      "title": "首页",
+      "crnt1": "我真的很喜欢这个时候的安静。假期里的独处时光是最好的。",
+      "crnt2": "说到音乐，最近总是忘不了动画歌曲。它们真的让我很振奋。",
+      "crnt3": "下午的音乐选择——今天听什么？真是个难的选择。",
+      "crnt4": "新书到了！时候泡杯茶，潜心阅读了。完美的假期。",
+      "crnt5": "好久没看了，今天重播我最喜欢的动画。时候放松一下，看看吧。"
+    },
+    "game": {
+      "title": "游戏场景",
+      "crnt1": "在《地下世界冒险家》里失去了存档数据……我想哭。",
+      "crnt2": "新的 VR 游戏非常逼真！我要小心不要晕眩。",
+      "crnt3": "昨晚的线上战斗团队合作完美无缺。团队，我们再来一次！",
+      "crnt4": "找到了一台老街机游戏。插入硬币玩游戏的感觉真令人怀念。",
+      "crnt5": "收集游戏原声带是我的爱好。今天又得到了一个新的！"
+    },
+    "food": {
+      "title": "美食",
+      "crnt1": "尝试自制素食菜肴。今天是番茄和藜麦沙拉。",
+      "crnt2": "发现了一家新的香料店！时候尝试一些异国风味了。",
+      "crnt3": "今天吃的拉面真是太棒了。辣度刚刚好。",
+      "crnt4": "自制冷萃咖啡，夏日必备。选择咖啡豆是关键。",
+      "crnt5": "餐厅里的烤鸡肉串外脆里嫩。下次我要带朋友一起来！"
+    }
+  },
+
+  "registration": {
+    "welcome": {
+      "title": "来创建你的 Concrnt 账户吧！",
+      "desc1": "Concrnt 是一个去中心化的社交网络，",
+      "desc2": "请选择一个服务器以注册。",
+      "infoTitle": "任何服务器都可以！",
+      "info1": "在 Concrnt，服务器之间没有障碍。就像选择移动运营商一样，",
+      "info2": "你可以随时在服务器之间切换，所以如果你没有特别偏好，就交给我们来选择吧！",
+      "auto1": "替我选择一个服务器",
+      "auto2": "开始",
+      "custom": "自己选择服务器"
+    },
+    "chooseDomain": {
+      "title": "选择域",
+      "chooseFromList": "从列表中选择",
+      "or": "或",
+      "directInput": "直接输入 URL",
+      "tips": "提示：如果你要设置自己的服务器，请点击这里",
+      "jump": "跳转到注册页面",
+      "notRegistered": "在该域上的注册尚未确认。请在你跳转到的域上进行注册。",
+      "nextDisabled": "在域注册完成后，你可以进入下一步",
+      "next": "下一步：创建个人资料"
+    },
+    "createProfile": {
+      "title": "创建个人资料",
+      "desc": "在这里设置你的名称、头像和自我介绍。"
+    },
+    "ready": {
+      "title": "准备好了！",
+      "next": "开始"
+    },
+    "alreadyHaveAccount": "已有账户？",
+    "importAccount": "登录"
+  },
+  "import": {
+    "scan": "扫描",
+    "manual": "手动",
+    "searching": "搜索中…",
+    "notFound": "无法找到你的服务器，您可以尝试手动输入",
+    "invalidSecret": "密钥代码不正确。",
+    "notFoundOnServer": "在指定服务器上找不到你的账户。",
+    "connectionError": "无法连接到指定的服务器。",
+    "input": "输入密钥代码或私钥",
+    "withSubkey": "使用子密钥登录",
+    "secretPlaceholder": "这是由 12 个单词组成的咒语",
+    "welcome": "欢迎",
+    "domain": "域",
+    "import": "登录",
+    "noAccount": "还没有账户？",
+    "createAccount": "创建账户"
+  }
+}

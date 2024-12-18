@@ -1,5 +1,12 @@
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+    await page.route(`https://www.googletagmanager.com/**`, route => {
+        console.log('try to access:', route.request().url());
+        route.abort()
+    });
+})
+
 test(`detect-crash`, async ({ page }) => {
     await page.goto(`http://localhost:5173/crash`);
     await page.waitForLoadState('networkidle');
