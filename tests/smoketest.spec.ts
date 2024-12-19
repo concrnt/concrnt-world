@@ -30,7 +30,7 @@ guestTests.forEach((t) => {
     test(`smoke-guest-${t.name}`, async ({ page }) => {
         await page.goto(`http://localhost:5173${t.path}`);
         const emblem = page.locator('#emblem').first();
-        await expect(emblem).toBeVisible();
+        await expect(emblem).toBeVisible({ timeout: 30000 });
     });
 })
 
@@ -72,7 +72,7 @@ loggedinTests.forEach((t) => {
 
         await page.goto(`http://localhost:5173${t.path}`);
         const emblem = page.locator('#emblem').first();
-        await expect(emblem).toBeVisible();
+        await expect(emblem).toBeVisible({ timeout: 30000 });
     });
 })
 

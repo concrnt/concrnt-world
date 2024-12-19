@@ -175,7 +175,9 @@ export function MessagePage(): JSX.Element {
 
                 {replyTo && (
                     <>
-                        <MessageView message={replyTo} lastUpdated={lastUpdated} userCCID={client.ccid} />
+                        <Box>
+                            <MessageView message={replyTo} lastUpdated={lastUpdated} userCCID={client.ccid} />
+                        </Box>
                         <Divider />
                     </>
                 )}
