@@ -2,10 +2,10 @@
     "test": "测试",
     "common": {
         "watch": "关注",
-        "watching": "关注中",
+        "watching": "正在关注",
         "unwatch": "取消关注",
         "follow": "跟随",
-        "following": "跟随中",
+        "following": "正在跟随",
         "unfollow": "取消跟随",
         "followers": "跟随者"
     },
@@ -87,7 +87,7 @@
             "preview": "预览",
             "openPreview": "打开预览",
             "closePreview": "关闭预览",
-            "emoji": "标签",
+            "emoji": "表情",
             "clearDraft": "清空草稿",
             "postToHome": "同时发布在主时间线中",
             "noPostToHome": "不发布在主时间线中",
@@ -177,7 +177,7 @@
             }
         },
         "emoji": {
-            "title": "标签",
+            "title": "表情",
             "emojiPackage": "表情包",
             "emojiPackageURL": "表情包地址",
             "packageNotFound": "没有找到表情包",
@@ -185,7 +185,7 @@
             "alreadyAdded": "表情包已添加"
         },
         "media": {
-            "title": "位置",
+            "title": "媒体位置",
             "storageProviderLabel": "使用的存储提供者",
             "corsSettings": "CORS 设置",
             "imagePostSettings": "媒体发布设置",
@@ -194,7 +194,7 @@
             "deleteCompletely": "彻底删除",
             "copyURL": "复制 URL",
             "copyID": "复制 ID",
-            "oauth2": " 并使用“OAuth 2 授权，无需回调 URL“选项创建应用程序”",
+            "oauth2": " 并使用“OAuth 2 授权，无需回调 URL”选项创建应用程序",
             "descs": {
                 "domain": "域存储是指此域提供的存储空间，无需设置即可使用，但有最大容量限制。此外，管理员可以查看文件列表，违反条款的文件可能会被删除。",
                 "imgur": "将图片上传到 Imgur，设置起来相对简单。上传的内容需遵守 Imgur 的条款。",
@@ -309,7 +309,7 @@
       "desc1": "Concrnt 是一个去中心化的社交网络，",
       "desc2": "请选择一个服务器以注册。",
       "infoTitle": "任何服务器都可以！",
-      "info1": "在 Concrnt，服务器之间没有障碍。就像选择移动运营商一样，",
+      "info1": "在 Concrnt，服务器之间没有障碍。就像选择手机运营商一样，",
       "info2": "你可以随时在服务器之间切换，所以如果你没有特别偏好，就交给我们来选择吧！",
       "auto1": "替我选择一个服务器",
       "auto2": "开始",

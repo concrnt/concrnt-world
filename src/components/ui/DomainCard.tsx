@@ -23,7 +23,11 @@ export const DomainCard = (props: DomainCardProps): JSX.Element | null => {
     }, [props.domainFQDN])
 
     if (!domain) {
-        return <></>
+        return null
+    }
+
+    if (props.domainFQDN !== domain.fqdn) {
+        return null
     }
 
     return (
@@ -49,7 +53,7 @@ export const DomainCard = (props: DomainCardProps): JSX.Element | null => {
                         {domain.meta.nickname}
                     </Typography>
                     <Typography variant="subtitle1" lineHeight="1">
-                        {domain.fqdn}
+                        {props.domainFQDN}
                     </Typography>
                 </Box>
             </Box>

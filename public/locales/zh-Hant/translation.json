@@ -2,10 +2,10 @@
 	"test": "測試",
 	"common": {
 		"watch": "關注",
-		"watching": "關注中",
+		"watching": "正在關注",
 		"unwatch": "取消關注",
 		"follow": "追蹤",
-		"following": "追蹤中",
+		"following": "正在追蹤",
 		"unfollow": "取消追蹤",
 		"followers": "追蹤者"
 	},
@@ -185,7 +185,7 @@
 			"alreadyAdded": "貼圖包已新增"
 		},
 		"media": {
-			"title": "位置",
+			"title": "媒體位置",
 			"storageProviderLabel": "使用的儲存提供者",
 			"corsSettings": "CORS 設定",
 			"imagePostSettings": "媒體發佈設定",

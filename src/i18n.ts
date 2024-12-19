@@ -8,7 +8,12 @@ i18n.use(Backend)
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        fallbackLng: 'en',
+        fallbackLng: {
+            'zh-CN': ['zh-Hans', 'en'],
+            'zh-HK': ['zh-Hant', 'en'],
+            'zh-TW': ['zh-Hant', 'en'],
+            'default': ['en']
+        },
         interpolation: {
             escapeValue: false // not needed for react as it escapes by default
         }
