@@ -79,14 +79,14 @@ export function ManageSubsPage(): JSX.Element {
                                 justifyContent: 'space-between'
                             }}
                         >
-                            <Typography variant="h3">表示中のリスト</Typography>
+                            <Typography variant="h3">{t('listed')}</Typography>
                             <Button
                                 onClick={() => {
                                     client.api
                                         .upsertSubscription(
                                             Schemas.listSubscription,
                                             {
-                                                name: '新しいリスト'
+                                                name: t('newlist')
                                             },
                                             {
                                                 indexable: false
@@ -101,7 +101,7 @@ export function ManageSubsPage(): JSX.Element {
                                 }}
                                 endIcon={<AddIcon />}
                             >
-                                新規作成
+                                {t('new')}
                             </Button>
                         </Box>
 
@@ -182,7 +182,7 @@ export function ManageSubsPage(): JSX.Element {
                         }}
                     >
                         <Typography variant="h3" gutterBottom>
-                            非表示のリスト
+                            {t('unlisted')}
                         </Typography>
                         <List dense disablePadding>
                             {unlistedSubs.map((sub) => (

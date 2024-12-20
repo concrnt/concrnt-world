@@ -126,7 +126,7 @@ export const GeneralSettings = (): JSX.Element => {
                                 }}
                             />
                         }
-                        label={'画像添付時に自動的に投稿タイプを切り替える'}
+                        label={t('autoSwitchMediaPostType')}
                     />
                     <FormControlLabel
                         control={
@@ -160,13 +160,12 @@ export const GeneralSettings = (): JSX.Element => {
                         setTutorialCompleted(false)
                     }}
                 >
-                    メニューにチュートリアルを表示する
+                    {t('showTutorial')}
                 </Button>
             )}
             <Typography variant="h3" gutterBottom>
-                通知(プレビュー)
+                {t('notification.title')}
             </Typography>
-            通知機能は現在プレビュー版です。一部の通知には対応していません。また、通知の有効化にはブラウザでの通知許可が必要です。
             {notification ? (
                 <>
                     <FormGroup>
@@ -183,7 +182,7 @@ export const GeneralSettings = (): JSX.Element => {
                                     }}
                                 />
                             }
-                            label="リプライ"
+                            label={t('notification.reply')}
                         />
                         <FormControlLabel
                             control={
@@ -198,7 +197,7 @@ export const GeneralSettings = (): JSX.Element => {
                                     }}
                                 />
                             }
-                            label="メンション"
+                            label={t('notification.mention')}
                         />
                         <FormControlLabel
                             control={
@@ -215,7 +214,7 @@ export const GeneralSettings = (): JSX.Element => {
                                     }}
                                 />
                             }
-                            label="閲覧申請"
+                            label={t('notification.viewerRequest')}
                         />
                         <FormControlLabel
                             control={
@@ -230,7 +229,7 @@ export const GeneralSettings = (): JSX.Element => {
                                     }}
                                 />
                             }
-                            label="お気に入り"
+                            label={t('notification.fav')}
                         />
                         <FormControlLabel
                             control={
@@ -245,7 +244,7 @@ export const GeneralSettings = (): JSX.Element => {
                                     }}
                                 />
                             }
-                            label="リアクション"
+                            label={t('notification.reaction')}
                         />
                         <FormControlLabel
                             control={
@@ -260,7 +259,7 @@ export const GeneralSettings = (): JSX.Element => {
                                     }}
                                 />
                             }
-                            label="リルート"
+                            label={t('notification.reroute')}
                         />
                     </FormGroup>
                     <Box
@@ -288,16 +287,16 @@ export const GeneralSettings = (): JSX.Element => {
                                         }
                                     )
                                     .then((res) => {
-                                        enqueueSnackbar('通知を無効にしました', { variant: 'success' })
+                                        enqueueSnackbar(t('notification.disabled'), { variant: 'success' })
                                         setReload((prev) => prev + 1)
                                     })
                                     .catch((err) => {
                                         console.error(err)
-                                        enqueueSnackbar('通知の無効化に失敗しました', { variant: 'error' })
+                                        enqueueSnackbar(t('notification.failed'), { variant: 'error' })
                                     })
                             }}
                         >
-                            通知を無効にする
+                            {t('notification.disable')}
                         </Button>
 
                         <Button
@@ -335,11 +334,11 @@ export const GeneralSettings = (): JSX.Element => {
                                                     body: JSON.stringify(notifySub)
                                                 })
                                                 .then((res) => {
-                                                    enqueueSnackbar('通知設定を更新しました', { variant: 'success' })
+                                                    enqueueSnackbar(t('notification.updated'), { variant: 'success' })
                                                 })
                                                 .catch((err) => {
                                                     console.error(err)
-                                                    enqueueSnackbar('通知設定の更新に失敗しました', {
+                                                    enqueueSnackbar(t('notification.failed'), {
                                                         variant: 'error'
                                                     })
                                                 })
@@ -348,14 +347,14 @@ export const GeneralSettings = (): JSX.Element => {
                                             console.error(err)
                                             registration.pushManager.getSubscription().then((subscription) => {
                                                 subscription?.unsubscribe().then(() => {
-                                                    enqueueSnackbar('もう一度お試しください', { variant: 'error' })
+                                                    enqueueSnackbar(t('notification.tryAgain'), { variant: 'error' })
                                                 })
                                             })
                                         })
                                 })
                             }}
                         >
-                            更新
+                            {t('notification.update')}
                         </Button>
                     </Box>
                 </>
@@ -402,26 +401,26 @@ export const GeneralSettings = (): JSX.Element => {
                                                 body: JSON.stringify(notifySub)
                                             })
                                             .then((res) => {
-                                                enqueueSnackbar('通知を有効にしました', { variant: 'success' })
+                                                enqueueSnackbar(t('notification.enabled'), { variant: 'success' })
                                                 setReload((prev) => prev + 1)
                                             })
                                             .catch((err) => {
                                                 console.error(err)
-                                                enqueueSnackbar('通知の有効化に失敗しました', { variant: 'error' })
+                                                enqueueSnackbar(t('notification.failed'), { variant: 'error' })
                                             })
                                     })
                                     .catch((err) => {
                                         console.error(err)
                                         registration.pushManager.getSubscription().then((subscription) => {
                                             subscription?.unsubscribe().then(() => {
-                                                enqueueSnackbar('もう一度お試しください', { variant: 'error' })
+                                                enqueueSnackbar(t('notification.tryAgain'), { variant: 'error' })
                                             })
                                         })
                                     })
                             })
                         }}
                     >
-                        {vapidKey ? '通知を有効にする' : 'お使いのドメインは通知をサポートしていません'}
+                        {vapidKey ? t('notification.enable') : t('notification.notsupported')}
                     </Button>
                 </>
             )}

@@ -11,10 +11,13 @@ import { QueryTimelineReader } from '../components/QueryTimeline'
 import { TimelineFilter } from '../components/TimelineFilter'
 import { PrivateTimelineDoor } from '../components/PrivateTimelineDoor'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 export function EntityPage(): JSX.Element {
     const { client } = useClient()
     const { id } = useParams()
+
+    const { t } = useTranslation('', { keyPrefix: 'common' })
 
     const path = useLocation()
     const tab = path.pathname.split('/')[2] ?? ''
@@ -149,9 +152,9 @@ export function EntityPage(): JSX.Element {
                                             textColor="secondary"
                                             indicatorColor="secondary"
                                         >
-                                            <Tab label="カレント" value="" />
-                                            <Tab label="メディア" value="media" />
-                                            <Tab label="アクティビティ" value="activity" />
+                                            <Tab label={t('crnt')} value="" />
+                                            <Tab label={t('media')} value="media" />
+                                            <Tab label={t('activity')} value="activity" />
                                         </Tabs>
                                         <Divider />
                                         {tab === 'activity' && (

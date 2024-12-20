@@ -15,11 +15,19 @@ import { Helmet } from 'react-helmet-async'
 
 const SwitchMasterToSub = lazy(() => import('../components/SwitchMasterToSub'))
 
-const tabs = ['パスワードとログイン', '投稿', 'フォローとウォッチ', 'コミュニティ', 'リスト', 'カスタマイズ', '完了！']
-
 export function Tutorial(): JSX.Element {
-    const { t } = useTranslation('', { keyPrefix: 'pages.tutorial' })
+    const { t } = useTranslation('', { keyPrefix: 'tutorial' })
     const { client } = useClient()
+
+    const tabs = [
+        t('tabs.login'),
+        t('tabs.post'),
+        t('tabs.follow&watch'),
+        t('tabs.community'),
+        t('tabs.list'),
+        t('tabs.customize'),
+        t('tabs.done')
+    ]
 
     const [progress, setProgress] = usePreference('tutorialProgress')
     const [tutorialCompleted, setTutorialCompleted] = usePreference('tutorialCompleted')
@@ -96,61 +104,42 @@ export function Tutorial(): JSX.Element {
                                                         goNext()
                                                     }}
                                                 >
-                                                    次へ
+                                                    {t('common.next')}
                                                 </Button>
                                             }
                                         >
-                                            無事に特権モードから通常モードに切り替えることができました！すばらしい！
+                                            {t('login.congrat')}
                                         </Alert>
                                     </>
                                 )}
 
-                                <Typography variant="h1">パスワードとログイン</Typography>
-                                <Typography>
-                                    コンカレントでは、ログインするときに自分で決めるパスワードではなく、決まったパスワードを使います。このパスワードは非常に重要な為、「マスターキー」と呼ばれています。マスターキーは、他人に知られてしまうと取り返しがつかないことになるので、絶対に他人に教えないでください。
-                                </Typography>
-                                <Typography>
-                                    また、マスターキーを無くしてしまった場合、復旧することは決してできず、アカウントを新しく作り直す必要があります。そのため、マスターキーは印刷したりメモしたりして、貴重品として大切に保管してください。
-                                </Typography>
+                                <Typography variant="h1">{t('login.password&login.title')}</Typography>
+                                <Typography>{t('login.password&login.desc1')}</Typography>
+                                <Typography>{t('login.password&login.desc2')}</Typography>
 
                                 {identity && (
                                     <>
-                                        <Typography variant="h2">マスターキーを保存しよう</Typography>
-                                        下のボタンから、自分の好きな方法でマスターキーを安全な場所に保存してください。
+                                        <Typography variant="h2">{t('login.password&login.handsonTitle')}</Typography>
+                                        {t('login.password&login.handsonDesc')}
                                         <Suspense fallback={<>loading...</>}>
                                             <SwitchMasterToSub identity={identity} mode="memo" />
                                         </Suspense>
                                     </>
                                 )}
 
-                                <Typography variant="h2">ログイン方法</Typography>
+                                <Typography variant="h2">{t('login.howtologin.title')}</Typography>
 
-                                <Typography>
-                                    ログインは、トップページのログイン画面からマスターキーを入力して行います。
-                                    他にも、QRコードを使ったログイン方法もあります。
-                                </Typography>
-                                <Typography>
-                                    すでにログイン済みの端末の設定&gt;ログインQRからQRコードを表示させ、新しい端末でQRコードを読み取ります。
-                                </Typography>
+                                <Typography>{t('login.howtologin.desc1')}</Typography>
+                                <Typography>{t('login.howtologin.desc2')}</Typography>
 
-                                <Typography variant="h2">特権モード</Typography>
-                                <Typography>
-                                    コンカレントでは、マスターキーを入力してログインするとき、特権モードでログインすることができます。
-                                    特権モードでは、アカウントの引っ越しや削除など、重要な操作が行えるモードです。
-                                </Typography>
-
-                                <Typography>
-                                    特権モードである必要がない場合は、画面上部の「特権モード」をクリックすることで端末から秘密情報を忘れさせて、通常モードに切り替えることができます。
-                                </Typography>
-
-                                <Typography>
-                                    通常モードから特権モードに切り替えるには、一度ログアウトして再度マスターキーを入力してログインする必要があります。
-                                </Typography>
-
+                                <Typography variant="h2">{t('login.privmode.title')}</Typography>
+                                <Typography>{t('login.privmode.desc1')}</Typography>
+                                <Typography>{t('login.privmode.desc2')}</Typography>
+                                <Typography>{t('login.privmode.desc3')}</Typography>
                                 {identity && (
                                     <>
-                                        <Typography variant="h2">特権モードから抜けてみよう</Typography>
-                                        登録直後はまだ特権モードになっています。特権モードから通常モードに切り替えてみましょう。
+                                        <Typography variant="h2">{t('login.privmode.handsonTitle')}</Typography>
+                                        {t('login.privmode.handsonDesc')}
                                         <Suspense fallback={<>loading...</>}>
                                             <SwitchMasterToSub identity={identity} mode="test" />
                                         </Suspense>
@@ -190,53 +179,28 @@ export function Tutorial(): JSX.Element {
                                             goNext()
                                         }}
                                     >
-                                        次へ
+                                        {t('common.next')}
                                     </Button>
                                 ) : (
-                                    <Button disabled>
-                                        次へ進む前に、特権モードから通常モードへ切り替えてみましょう。
-                                    </Button>
+                                    <Button disabled>{t('login.block')}</Button>
                                 )}
                             </>
                         )}
 
                         {page === 1 && (
                             <>
-                                <Typography variant="h1">投稿</Typography>
-
-                                <Typography>
-                                    デスクトップではデフォルトで画面上部に投稿UIがあります。スマートフォンでは右下のボタンを押すことで投稿画面を表示することができます。
-                                    まずは試しに1つ投稿してみましょう。
-                                </Typography>
+                                <Typography variant="h1">{t('post.title')}</Typography>
+                                <Typography>{t('post.desc')}</Typography>
 
                                 <Button
                                     onClick={() => {
-                                        editorModal.open({ draft: 'ハロー！コンカレント！' })
+                                        editorModal.open({ draft: t('post.handsonContent') })
                                     }}
                                 >
-                                    ハロー！コンカレント！ する
+                                    {t('post.handsonButton')}
                                 </Button>
 
-                                <MarkdownRenderer
-                                    messagebody={`
-## 装飾とプレビュー
-
-コンカレントでは、投稿に記号を使うことで装飾を行うことができます。
-
-例えば、\`**太字**\`と書くことで**太字**にすることができます。
-
-実際に記法がどのように表示されるかは、投稿画面の下部のプレビューでリアルタイムに確認することができます。
-
-## 記法の一覧
-
-- \`# 見出し\`: 見出し (#の数で大きさが変わります)
-- \`**太字**\`: **太字**
-- \`*斜体*\`: *斜体*
-- \`~~取り消し線~~\`: ~~取り消し線~~
-
-`}
-                                    emojiDict={{}}
-                                />
+                                <MarkdownRenderer messagebody={t('post.syntax')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 1}
                                     onClick={() => {
@@ -250,21 +214,7 @@ export function Tutorial(): JSX.Element {
 
                         {page === 2 && (
                             <>
-                                <MarkdownRenderer
-                                    messagebody={`
-# フォローとウォッチ
-
-コンカレントではいわゆる「フォロー」が、一般的なSNSとは異なる仕組みになっています。
-コンカレントでの「フォロー」は、いわゆる「連絡先に追加」のようなものです。知ってる人・興味のある人は積極的にフォローしてみましょう。
-
-一方、「ウォッチ」は、その人を特定のリストに追加し、その人の投稿すべてを見るためのものです。
-
-コンカレントはコミュニティベースなSNSでもあるので、いろんな人を直接ウォッチしてしまうと、タイムラインが雑多に埋まってしまいがちです。
-ウォッチは本当に興味のある人だけにするのがおすすめです。
-
-`}
-                                    emojiDict={{}}
-                                />
+                                <MarkdownRenderer messagebody={t('follow&watch.desc')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 2}
                                     onClick={() => {
@@ -278,11 +228,8 @@ export function Tutorial(): JSX.Element {
 
                         {page === 3 && (
                             <>
-                                <Typography variant="h1">コミュニティ</Typography>
-                                <Typography>
-                                    コンカレントにはコミュニティタイムラインがあります。
-                                    コミュニティタイムラインは「探索」タブから探すことができます。1つみつけてみましょう。無ければ、新しく自分で作ってみるのもいいですね。
-                                </Typography>
+                                <Typography variant="h1">{t('community.title')}</Typography>
+                                <Typography>{t('community.desc1')}</Typography>
 
                                 <StreamCard
                                     sx={{ minWidth: '300px' }}
@@ -294,7 +241,7 @@ export function Tutorial(): JSX.Element {
                                 />
 
                                 <Typography>
-                                    みつけたら、
+                                    {t('community.desc2before')}
                                     {
                                         <PlaylistAddIcon
                                             sx={{
@@ -303,13 +250,11 @@ export function Tutorial(): JSX.Element {
                                             }}
                                         />
                                     }
-                                    ボタンを押すことでそのコミュニティをリストに追加する(ウォッチする)ことができます。
+                                    {t('community.desc2after')}
                                 </Typography>
 
-                                <Typography variant="h2">コミュニティへの投稿</Typography>
-                                <Typography>
-                                    コミュニティをリストに追加していると、普段の投稿UIの投稿先一覧にその候補が追加されます。投稿先はいくつも選ぶことができます。
-                                </Typography>
+                                <Typography variant="h2">{t('community.postToCommunity.title')}</Typography>
+                                <Typography>{t('community.postToCommunity.desc')}</Typography>
 
                                 <Box
                                     component="img"
@@ -320,11 +265,10 @@ export function Tutorial(): JSX.Element {
                                     }}
                                 />
 
-                                <Typography variant="h2">デフォルト投稿先の設定</Typography>
+                                <Typography variant="h2">{t('community.changeDefault.title')}</Typography>
 
                                 <Typography>
-                                    自分の腰を据えるコミュニティがあれば、そのコミュニティをデフォルト投稿先に設定しておくと便利でしょう。
-                                    リストを表示した状態で、右上の
+                                    {t('community.changeDefault.descbefore')}
                                     {
                                         <TuneIcon
                                             sx={{
@@ -333,7 +277,7 @@ export function Tutorial(): JSX.Element {
                                             }}
                                         />
                                     }
-                                    を押すことで、デフォルト投稿先の設定を行うことができます。
+                                    {t('community.changeDefault.descafter')}
                                 </Typography>
 
                                 <Box
@@ -358,99 +302,43 @@ export function Tutorial(): JSX.Element {
 
                         {page === 4 && (
                             <>
-                                <MarkdownRenderer
-                                    messagebody={`
-# リスト
-
-複数コミュニティをウォッチしていると、タイムラインが雑多になりすぎてしまうことがあります。
-そういう時は、リストを増やして整理しましょう。 メニューの「リスト」からリストの管理画面を開くことができます。
-
-## リストのピン止め
-
-リスト設定から特定のリストをピン止めすることができます。ピン止めをすると、画面上部のタブからいつでもそのリストにアクセスすることができます。
-
-## プリセットとしてのリスト
-
-コンカレントのリストはただまとめるだけではなく、プリセットとして強力に機能します。
-たとえば、複数のリストにそれぞれ別のデフォルト投稿先を設定しておくことで、素早く投稿先を切り替えることができます。
-
-
-`}
-                                    emojiDict={{}}
-                                />
+                                <MarkdownRenderer messagebody={t('list.desc')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 4}
                                     onClick={() => {
                                         goNext()
                                     }}
                                 >
-                                    次へ
+                                    {t('common.next')}
                                 </Button>
                             </>
                         )}
 
                         {page === 5 && (
                             <>
-                                <MarkdownRenderer
-                                    messagebody={`
-# カスタマイズ
-
-コンカレントでは、様々なカスタマイズ機能があります。
-
-## カラーテーマ
-コンカレントのカラーテーマは、設定画面のテーマから変更することができます。また、自分で新しいテーマを作成することも、そしてそのテーマを共有することもできます。
-共有されたテーマはタイムライン上でこのように表示されます。
-\`\`\`theme
-{"meta":{"name":"おりーぶ","author":"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2"},"palette":{"primary":{"main":"#292e24","contrastText":"#ffffff"},"secondary":{"main":"#265E2C"},"background":{"default":"#12a129","paper":"#fffcfa","contrastText":"#292e24"},"text":{"primary":"#292e24","secondary":"#265E2C","hint":"rgba(41, 46, 36, 0.5)","disabled":"rgba(41, 46, 36, 0.5)"},"divider":"rgba(41, 46, 36, 0.12)"},"components":{"MuiButton":{"defaultProps":{"variant":"contained","disableElevation":false}},"MuiPaper":{"defaultProps":{"variant":"elevation"}},"MuiAppBar":{"defaultProps":{"color":"primary"}}}}
-\`\`\`
-
-テーマのインストールボタンを押すことで、すぐにそのテーマを適用することができます。
-
-## 絵文字パック
-
-コンカレントでは投稿の本文やリアクションとして絵文字を使うことができますが、この絵文字は絵文字パックをインストールすることで追加することができます。
-
-共有された絵文字パックはタイムライン上でこのように表示されます。実際にクリックして、絵文字パックをインストールしてみましょう。
-
-<emojipack src="https://emojis.worldfile.cc/worldpack/emojis.json"></emojipack>
-
-また、少し手間が必要ですが、自分で絵文字パックを作成することもできます。詳細は[こちら](https://square.concrnt.net/general/world/emojipack/)を参照してください。
-
-
-`}
-                                    emojiDict={{}}
-                                />
+                                <MarkdownRenderer messagebody={t('customize.desc')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 5}
                                     onClick={() => {
                                         goNext()
                                     }}
                                 >
-                                    次へ
+                                    {t('common.next')}
                                 </Button>
                             </>
                         )}
 
                         {page === 6 && (
                             <>
-                                <MarkdownRenderer
-                                    emojiDict={{}}
-                                    messagebody={`
-# 完了！
-
-これで、コンカレントの基本的な使い方をマスターしました！
-
-これからは、自分の好きなようにコンカレントを使ってみてください。
-`}
-                                />
+                                <MarkdownRenderer emojiDict={{}} messagebody={t('done.desc')} />
 
                                 <Button
                                     disabled={progress !== 6}
                                     onClick={() => {
-                                        editorModal.open({ draft: 'コンカレントの使い方をマスターした！' })
+                                        editorModal.open({ draft: t('done.handsonContent') })
                                     }}
                                 >
-                                    マスターした！ する
+                                    {t('done.handsonButton')}
                                 </Button>
 
                                 <Button
@@ -459,40 +347,10 @@ export function Tutorial(): JSX.Element {
                                         setTutorialCompleted(!tutorialCompleted)
                                     }}
                                 >
-                                    {tutorialCompleted
-                                        ? 'メニューにチュートリアルを表示する'
-                                        : 'メニューからチュートリアルを非表示にする'}
+                                    {tutorialCompleted ? t('done.showTutorial') : t('done.hideTutorial')}
                                 </Button>
 
-                                <MarkdownRenderer
-                                    emojiDict={{}}
-                                    messagebody={`
-
-## その他Tips
-
-### パスワードマネージャをお使いの方・頻繁にログインする方へ
-
-パスワードマネージャーを使ってコンカレントにログインする場合は、マスターキーではなくサブキーを使う方がオススメです。
-これは、パスワードマネージャーが日本語をパスワードとして取り扱う際に難があることがある為・マスターキーによるログインは新しいセッションを作成してしまう為です。
-
-サブキーは、通常モードログイン時に、設定/ID管理からコピーして控えることができます。ログインは、マスターキーによるログインと同じ画面にサブキー向けの入力欄あがるので、そこからログイン可能です。
-
-
-## その他の機能
-
-### サブプロフィール
-コンカレントでは、自分のプロフィールを複数作ることができます。投稿する際に、どのプロフィールで投稿するか選ぶことができます。
-
-### Activitypubとの連携
-コンカレントでは、Activitypub連携を有効化することで、ほかのActivitypubに対応したSNS(Mastodon, Misskey, Pleromaなど)と連携することができます。
-
-### データ管理と引っ越し
-コンカレントは分散型SNSです。自分のデータを自分で管理することができます。
-サーバーがいつ消滅してもいいように、定期的に「設定>データ管理」からデータをエクスポートして、自分の手元に保存しておくと安心です。
-また、自分がいるサーバーがサービス終了するときは、ほかのサーバーに引っ越すことができます。
-
-`}
-                                />
+                                <MarkdownRenderer emojiDict={{}} messagebody={t('done.otherTips')} />
                             </>
                         )}
                     </Box>

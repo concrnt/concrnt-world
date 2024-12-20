@@ -72,14 +72,12 @@ export function SettingsIndex(): JSX.Element {
                                 globalState.setSwitchToSub(true)
                             }}
                         >
-                            通常モードへ移行する
+                            {t('settings.privileged.action')}
                         </Button>
                     }
                 >
-                    <AlertTitle>現在特権モードでログインしています</AlertTitle>
-                    特権モードは、アカウントの削除など強い操作が可能なモードです。
-                    <br />
-                    特権の利用が終ったら、通常モードへ戻ることをお勧めします。
+                    <AlertTitle>{t('settings.privileged.title')}</AlertTitle>
+                    {t('settings.privileged.desc')}
                 </Alert>
             )}
 

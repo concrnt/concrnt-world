@@ -121,14 +121,14 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                             setSelected={(value) => {
                                 updateList(props.subscription.id, {
                                     ...list,
-                                    defaultPostStreams: value.map((e) => e.id)
+                                    defaultPostStreams: value.map((e) => e.cacheKey ?? e.id)
                                 })
                                 setPostStreams(value)
                             }}
-                            placeholder="デフォルト投稿先の追加"
+                            placeholder={t('addDefaultDest')}
                         />
                     </Box>
-                    <Typography variant="h3">ホーム投稿</Typography>
+                    <Typography variant="h3">{t('postWithHome')}</Typography>
                     <Switch
                         checked={list.defaultPostHome === undefined ? true : list.defaultPostHome}
                         onChange={(_) => {
@@ -138,7 +138,7 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                             })
                         }}
                     />
-                    <Typography variant="h3">デフォルトプロフィール</Typography>
+                    <Typography variant="h3">{t('defaultProfile')}</Typography>
                     <ProfilePicker
                         selected={allProfiles.find((p) => p.id === list.defaultProfile)}
                         setSelected={(p) => {
@@ -164,7 +164,7 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                 color="error"
                 onClick={(_) => {
                     confirm.open(
-                        'リストを削除しますか？',
+                        t('reallyDelete'),
                         () => {
                             if (lists[props.subscription.id]) {
                                 const old = lists
@@ -175,7 +175,10 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                                 props.onModified?.()
                             })
                         },
-                        { confirmText: '削除' }
+                        {
+                            description: props.subscription.document.body.name,
+                            confirmText: t('confirmDelete')
+                        }
                     )
                 }}
             >

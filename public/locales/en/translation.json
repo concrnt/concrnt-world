@@ -7,7 +7,15 @@
         "follow": "Follow",
         "following": "Following",
         "unfollow": "Unfollow",
-        "followers": "Followers"
+        "followers": "Followers",
+        "crnt": "Post",
+        "media": "Media",
+        "activity": "Activity",
+        "reply": "Reply",
+        "mention": "Mention",
+        "reroute": "Reroute",
+        "fav": "Favorite",
+        "reaction": "Reaction"
     },
     "pages": {
         "home": {
@@ -54,7 +62,11 @@
             "title": "Lists"
         },
         "manageSubs": {
-            "title": "List Management"
+            "title": "List Management",
+            "new": "Create New",
+            "listed": "Listed",
+            "unlisted": "Unlisted",
+            "newlist": "New List"
         }
     },
     "time": {
@@ -104,11 +116,16 @@
             "name": "List name",
             "update": "Update",
             "defaultDest": "Default destination",
+            "addDefaultDest": "Add default destination",
+            "postWithHome": "Post With Home",
+            "defaultProfile": "Default profile",
             "stream": "Stream",
             "community": "Community",
             "user": "User",
             "pin": "Pin",
-            "delete": "Delete"
+            "delete": "Delete",
+            "reallyDelete": "Really delete this list?",
+            "confirmDelete": "Confirm"
         }
     },
     "settings": {
@@ -118,12 +135,38 @@
             "basic": "Basic",
             "showEditorOnTop": "Show editor on top",
             "showEditorOnTopMobile": "Show editor on top (mobile)",
+            "autoSwitchMediaType": "Automatically switch the post type when an image is attached",
             "developerMode": "Developer mode",
             "generateInviteCode": "Generate invite code",
             "inviteCode": "Invite code (valid for 24 hours)",
             "copyInviteCode": "Copy invite code",
             "copied": "Copied",
-            "language": "Language"
+            "language": "Language",
+            "showTutorial": "Show tutorial in the menu",
+            "notification": {
+                "title": "Notification",
+                "notsupported": "Your domain does not support notifications",
+                "enable": "Enable Notifications",
+                "enabled": "Notifications have been enabled",
+                "disable": "Disable Notifications",
+                "disabled": "Notifications have been disabled",
+                "tryAgain": "Please try again",
+                "failed": "Failed",
+                "updated": "Notification settings updated",
+                "updateFailed": "Failed to update notification settings",
+                "update": "Update",
+                "reply": "Reply",
+                "mention": "Mention",
+                "viewerRequest": "View Request",
+                "fav": "Favorite",
+                "reaction": "Reaction",
+                "reroute": "Reroute"
+            }
+        },
+        "privileged": {
+            "title": "You are currently logged in with Privileged Mode",
+            "desc": "Privileged Mode allows for powerful actions such as account deletion.\nIt is recommended to switch back to Normal Mode after completing your privileged actions.",
+            "action": "Switch to Normal Mode"
         },
         "profile": {
             "title": "Profile",
@@ -160,7 +203,14 @@
                 "unset": "Unset",
                 "domain": "Governing Domain",
                 "addition": "The reference information is from when this certificate was issued and may have changed since then.",
-                "date": "Issued on:"
+                "date": "Issued on:",
+                "checkMasterKey": "Backup Master Key",
+                "backToSwitch": "Back to Switching",
+                "testPrompt": "To proceed, enter the {{first}}th and {{second}}th words of your master key",
+                "nthWord": "{{nth}}th word",
+                "switchToNormalMode": "Switch to Normal Mode",
+                "exitPrivilegedMode": "Exit Privileged Mode",
+                "privilegeModeDesc": "Privileged Mode allows for critical actions such as account deletion."
             }
         },
         "theme": {
@@ -353,6 +403,96 @@
         "domain": "Domain",
         "import": "Sign in",
         "noAccount": "Don't have an account yet?",
-        "createAccount": "Create an Account"
+        "createAccount": "Create an Account",
+        "masterKeyDesc": "Enter the master key as 12 words separated by spaces",
+        "privLogin": "Log in with Privileged Mode",
+        "normalLogin": "Log in with Normal Mode"
+    },
+
+    "tutorial": {
+        "title": "Tutorial",
+        "common": {
+            "next": "Next"
+        },
+        "tabs": {
+            "login": "Password & Login",
+            "post": "Posting",
+            "follow&watch": "Follow & Watch",
+            "community": "Community",
+            "list": "Lists",
+            "customize": "Customize",
+            "done": "Done!"
+        },
+
+        "login": {
+            "congrat": "Successfully switched from privilege mode to normal mode! Well done!",
+            "block": "Before proceeding, let's switch from privilege mode to normal mode.",
+            "password&login": {
+                "title": "Password & Login",
+                "desc1": "In , instead of a password you choose yourself, you use a predefined password to log in. This password is extremely important and is referred to as the 'Master Key.' If your Master Key is exposed to others, it can lead to irreversible consequences. Never share it with anyone.",
+                "desc2": "Additionally, if you lose your Master Key, it cannot be recovered, and you'll need to create a new account. Therefore, make sure to print or write it down and store it securely as a valuable item.",
+                "handsonTitle": "Save Your Master Key",
+                "handsonDesc": "Use the button below to securely save your Master Key in your preferred way."
+            },
+            "howtologin": {
+                "title": "How to Log In",
+                "desc1": "To log in, enter your Master Key on the login screen of the homepage. Alternatively, you can log in using a QR code.",
+                "desc2": "On a device where you're already logged in, go to Settings > Login QR to display the QR code and scan it with a new device."
+            },
+            "privmode": {
+                "title": "Privilege Mode",
+                "desc1": "When you log in with the Master Key in , you can access privilege mode. This mode allows you to perform critical actions such as migrating or deleting your account.",
+                "desc2": "If privilege mode is not needed, you can click 'Privilege Mode' at the top of the screen to forget sensitive information and switch to normal mode.",
+                "desc3": "To switch back to privilege mode from normal mode, log out and log in again by entering your Master Key.",
+                "handsonTitle": "Exit Privilege Mode",
+                "handsonDesc": "Right after registration, you're still in privilege mode. Let's switch to normal mode."
+            }
+        },
+
+        "post": {
+            "title": "Posting",
+            "desc": "On desktop, the posting UI is located at the top of the screen by default. On smartphones, you can access the posting screen by pressing the button at the bottom right. Let's try making your first post.",
+            "handsonButton": "Say Hello!",
+            "handsonContent": "Hello! Concrnt!",
+            "syntax": "## Formatting and Preview\n\nIn , you can use symbols in your posts to apply formatting.\nFor example, typing `**bold**` will make the text **bold**.\nYou can check how your formatting looks in real-time using the preview at the bottom of the posting UI.\n\n## Formatting Guide\n- `# Heading`: Heading (size changes with the number of #)\n- `**Bold**`: **Bold**\n- `*Italic*`: *Italic*\n- `~~Strikethrough~~`: ~~Strikethrough~~"
+        },
+
+        "follow&watch": {
+            "desc": "# Follow & Watch\n\nIn , the concept of 'Follow' works differently compared to typical social media.\n'Follow' in Concrnt is more like 'Add to Contacts.' Actively follow people you know or find interesting.\n\nOn the other hand, 'Watch' allows you to add someone to a specific list and view all their posts.\n\nSince Concrnt is community-based, directly watching too many people can clutter your timeline. It's recommended to watch only those you're genuinely interested in."
+        },
+
+        "community": {
+            "title": "Community",
+            "desc1": " has community timelines that can be discovered via the 'Explore' tab. Find one and check it out. If there isn't one, consider creating your own.",
+            "desc2before": "Once you find one, press the ",
+            "desc2after": " button to add the community to your list (watch it).",
+            "postToCommunity": {
+                "title": "Posting to a Community",
+                "desc": "Once you've added a community to your list, it will appear as an option in the posting UI. You can select multiple destinations for your post."
+            },
+            "changeDefault": {
+                "title": "Setting a Default Posting Destination",
+                "descbefore": "If you find a community to settle into, setting it as your default posting destination can be convenient. While viewing the list, press the ",
+                "descafter": " button at the top right to set your default posting destination."
+            }
+        },
+
+        "list": {
+            "desc": "# Lists\n\nWatching multiple communities can make your timeline too cluttered.\nIn such cases, create more lists to organize them.\nYou can access the list management screen from 'Lists' in the menu.\n\n## Pinning Lists\n\nFrom the list settings, you can pin specific lists. Pinned lists are always accessible from the tabs at the top of the screen.\n\n## Lists as Presets\n\nLists in  are more than just collections; they serve as powerful presets.\nFor example, you can assign different default posting destinations to multiple lists, allowing you to switch between them quickly."
+        },
+
+        "customize": {
+            "desc": "# Advanced Usage\n\n## App Installation\n uses PWA technology, enabling you to use this web page like a smartphone app.\n\n<Illustration>\n\n### Notification Settings\n\nInstalling the app lets you configure notifications. By default, all notifications are turned off, but you can enable them in Settings > General by pressing the 'Enable Notifications' button. Once enabled, you can customize which events trigger notifications.\n\nOnly one device can have notifications enabled at a time. Enabling notifications on a new device will disable them on the previous one.\n\n## Customization\n\nConcrnt offers a variety of customization features.\n### Color Themes\nYou can change the color theme in the Settings > Theme menu. You can also create your own themes and share them. Shared themes appear on the timeline like this:\n```theme\n{\"meta\":{\"name\":\"Olive\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\nPress the install button to instantly apply the theme.\n\n### Emoji Packs\n\nConcrnt allows you to use emojis in posts and reactions by installing emoji packs.\nShared emoji packs appear on the timeline like this:\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\nYou can also create your own emoji packs, though it requires some effort. See [here](https://square.concrnt.net/general/world/emojipack/) for details."
+        },
+
+        "done": {
+            "desc": "# Done!\n\nYou've now mastered the basics of using !\n\nFrom here on, feel free to explore and use Concrnt however you like.",
+            "handsonButton": "I've mastered!",
+            "handsonContent": "I've mastered Concrnt!",
+            "showTutorial": "Show tutorial in the menu",
+            "hideTutorial": "Hide tutorial from the menu",
+            "otherTips": "## Additional Tips\n\n### For Password Manager Users & Frequent Logins\n\nIf you're using a password manager to log in to , it's recommended to use a Sub Key instead of the Master Key.\nThis is because:\n1. Some password managers struggle with handling Japanese characters as passwords.\n2. Logging in with the Master Key creates a new session.\n\nYou can copy your Sub Key from Settings > ID Management while logged in under normal mode. Sub Key login works via the same login screen as the Master Key, with a dedicated input field.\n\n## Other Features\n\n### Sub-Profiles\nConcrnt lets you create multiple profiles. You can choose which profile to use when posting.\n\n### ActivityPub Integration\nBy enabling ActivityPub integration, you can interact with other ActivityPub-compatible platforms (Mastodon, Misskey, Pleroma, etc.).\n\n### Data Management & Migration\nConcrnt is a decentralized SNS, allowing you to manage your own data.\nTo safeguard against server shutdowns, regularly export your data from Settings > Data Management and keep it securely.\nYou can also migrate to a different server if your current one shuts down."
+        }
     }
+
 }

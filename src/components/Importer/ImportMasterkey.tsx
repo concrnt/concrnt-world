@@ -166,7 +166,7 @@ export function ImportMasterKey(): JSX.Element {
                         </InputAdornment>
                     )
                 }}
-                helperText={'マスターキーは、12個の単語をスペース区切りで入力します'}
+                helperText={t('masterKeyDesc')}
             />
             {keypair && (
                 <Typography sx={{ wordBreak: 'break-all' }}>
@@ -191,10 +191,10 @@ export function ImportMasterKey(): JSX.Element {
                     disabled={!keypair || !registrationOK || logining}
                     onClick={accountImport}
                 >
-                    特権モードでログイン
+                    {t('privLogin')}
                 </Button>
                 <Button disabled={!keypair || !registrationOK || logining} onClick={accountImportWithSubkey}>
-                    通常モードでログイン
+                    {t('normalLogin')}
                 </Button>
             </Box>
         </Box>

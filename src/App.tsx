@@ -446,9 +446,11 @@ function App(): JSX.Element {
                     }}
                 >
                     <Box>
-                        <Typography variant="h2">特権モードから抜ける</Typography>
+                        <Typography variant="h2">
+                            {t('settings.identity.switchMasterToSub.exitPrivilegedMode')}
+                        </Typography>
                         <Typography variant="caption">
-                            特権モードは、アカウントの削除など重要な操作が可能なモードです。
+                            {t('settings.identity.switchMasterToSub.privilegeModeDesc')}
                         </Typography>
                     </Box>
                     <Suspense fallback={<>loading...</>}>

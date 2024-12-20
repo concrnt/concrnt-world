@@ -47,7 +47,7 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
                                 setMode('memo')
                             }}
                         >
-                            マスターキーを確認する
+                            {t('checkMasterKey')}
                         </Button>
                     )}
                     {mode === 'memo' && (
@@ -57,7 +57,7 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
                                 setMode('test')
                             }}
                         >
-                            切り替えに戻る
+                            {t('backToSwitch')}
                         </Button>
                     )}
                 </Box>
@@ -381,7 +381,7 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
             {mode === 'test' && (
                 <>
                     <TestMasterkey
-                        text={processing ? t('processing') : '通常モードへ切り替える'}
+                        text={processing ? t('processing') : t('switchToNormalMode')}
                         identity={props.identity}
                         disabled={processing}
                         onConfirm={() => {
@@ -440,16 +440,16 @@ export const TestMasterkey = (props: TestMasterkeyProps): JSX.Element => {
         setTestIndex({ first, second })
     }, [])
 
+    const { t } = useTranslation('', { keyPrefix: 'settings.identity.switchMasterToSub' })
+
     return (
         <>
-            <Typography>
-                進むには、マスターキーの{testIndex.first + 1}番目と{testIndex.second + 1}番目の単語を入力してください
-            </Typography>
+            <Typography>{t('testPrompt', { first: testIndex.first + 1, second: testIndex.second + 1 })}</Typography>
             <Box display="flex" flexDirection="row" gap={1}>
                 <TextField
                     fullWidth
                     variant="outlined"
-                    label={`${testIndex.first + 1}番目の単語`}
+                    label={t('nthWord', { nth: testIndex.first + 1 })}
                     onChange={(e) => {
                         setMnemonicTest1(e.target.value.normalize('NFKD').trim())
                     }}
@@ -462,7 +462,7 @@ export const TestMasterkey = (props: TestMasterkeyProps): JSX.Element => {
                 <TextField
                     fullWidth
                     variant="outlined"
-                    label={`${testIndex.second + 1}番目の単語`}
+                    label={t('nthWord', { nth: testIndex.second + 1 })}
                     onChange={(e) => {
                         setMnemonicTest2(e.target.value.normalize('NFKD').trim())
                     }}
