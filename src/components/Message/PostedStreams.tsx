@@ -80,7 +80,8 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                     borderColor: 'divider',
                                     display: 'flex',
                                     flexDirection: 'row',
-                                    alignItems: 'center'
+                                    alignItems: 'center',
+                                    flexShrink: 0
                                 }}
                             >
                                 {isPrivate ? (

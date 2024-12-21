@@ -126,6 +126,17 @@
             "delete": "リストを削除",
             "reallyDelete": "本当にこのリストを削除しますか？",
             "confirmDelete": "削除"
+        },
+        "messageActions": {
+            "linkCopied": "リンクをコピーしました",
+            "copyLink": "共有リンクをコピー",
+            "copySource": "ソースをコピー",
+            "superReaction": "スーパーリアクション",
+            "translate": "翻訳",
+            "inspect": "詳細",
+            "delete": "削除",
+            "reallyDelete": "本当にこのメッセージを削除しますか？",
+            "confirmDelete": "削除"
         }
     },
     "settings": {

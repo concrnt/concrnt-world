@@ -42,14 +42,16 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 0.5
+                    gap: 0.5,
+                    overflow: 'hidden'
                 }}
             >
                 <Typography
                     component="span"
                     sx={{
                         fontWeight: '700',
-                        fontSize: { xs: '0.9rem', sm: '0.95rem' }
+                        fontSize: { xs: '0.9rem', sm: '0.95rem' },
+                        flexShrink: 0
                     }}
                 >
                     {props.usernameOverride ||
@@ -84,7 +86,8 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                         component="span"
                         sx={{
                             color: 'text.secondary',
-                            fontSize: '0.75rem'
+                            fontSize: '0.75rem',
+                            flexShrink: 0
                         }}
                     >
                         @{props.message.authorUser.alias}

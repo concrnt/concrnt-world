@@ -5,6 +5,17 @@ import { inspect } from 'unist-util-inspect'
 import { Sign, type CCDocument, type Timeline } from '@concurrent-world/client'
 import { encode } from 'blurhash'
 
+export const convertToGoogleTranslateCode = (lang: string): string => {
+    switch (lang) {
+        case 'zh-Hans':
+            return 'zh-CN'
+        case 'zh-Hant':
+            return 'zh-TW'
+        default:
+            return lang
+    }
+}
+
 const loadImage = async (src: string): Promise<HTMLImageElement> =>
     await new Promise((resolve, reject) => {
         const img = new Image()

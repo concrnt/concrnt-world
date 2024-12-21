@@ -86,7 +86,7 @@ export const GeneralSettings = (): JSX.Element => {
                 >
                     <MenuItem value={'en'}>English</MenuItem>
                     <MenuItem value={'ja'}>日本語</MenuItem>
-                    <MenuItem value={'kr'}>한국어 (translated by @Alternative)</MenuItem>
+                    <MenuItem value={'ko'}>한국어</MenuItem>
                     <MenuItem value={'th'}>ภาษาไทย</MenuItem>
                     <MenuItem value={'zh-Hans'}>简体中文</MenuItem>
                     <MenuItem value={'zh-Hant'}>繁體中文</MenuItem>

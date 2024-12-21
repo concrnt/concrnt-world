@@ -1,4 +1,4 @@
-import { Box, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
+import { Box, Link, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 import ReplyIcon from '@mui/icons-material/Reply'
 import { CCAvatar } from '../ui/CCAvatar'
 import StarIcon from '@mui/icons-material/Star'
@@ -8,12 +8,13 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import LinkIcon from '@mui/icons-material/Link'
+import GTranslateIcon from '@mui/icons-material/GTranslate'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import {
     type Association,
     type LikeAssociationSchema,
     type Message,
     type ReplyMessageSchema,
-    type RerouteMessageSchema,
     Schemas,
     type MarkdownMessageSchema
 } from '@concurrent-world/client'
@@ -32,6 +33,8 @@ import { useConcord } from '../../context/ConcordContext'
 import { useEditorModal } from '../EditorModal'
 import { useConfirm } from '../../context/Confirm'
 import { MessageView } from './MessageView'
+import { useTranslation } from 'react-i18next'
+import { convertToGoogleTranslateCode } from '../../util'
 
 export interface MessageActionsProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -65,6 +68,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
         })
     }
 
+    const { t, i18n } = useTranslation('', { keyPrefix: 'ui.messageActions' })
+
     return (
         <>
             <Box
@@ -73,8 +78,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    maxWidth: '400px',
-                    flex: 1
+                    width: { xs: '60vw', sm: '50vw', md: '40vw' },
+                    flexShrink: 0
                 }}
             >
                 {/* left */}
@@ -206,13 +211,13 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     onClick={() => {
                         const userid = props.message.authorUser?.alias ?? props.message.author
                         navigator.clipboard.writeText('https://concrnt.world/' + userid + '/' + props.message.id)
-                        enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
+                        enqueueSnackbar(t('linkCopied'), { variant: 'success' })
                     }}
                 >
                     <ListItemIcon>
                         <LinkIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
-                    <ListItemText>共有リンクをコピー</ListItemText>
+                    <ListItemText>{t('copyLink')}</ListItemText>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {
@@ -224,7 +229,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     <ListItemIcon>
                         <ContentPasteIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
-                    <ListItemText>ソースをコピー</ListItemText>
+                    <ListItemText>{t('copySource')}</ListItemText>
                 </MenuItem>
                 {enableConcord && (
                     <MenuItem
@@ -236,9 +241,30 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                         <ListItemIcon>
                             <AutoAwesomeIcon sx={{ color: 'text.primary' }} />
                         </ListItemIcon>
-                        <ListItemText>スーパーリアクション</ListItemText>
+                        <ListItemText>{t('superReaction')}</ListItemText>
                     </MenuItem>
                 )}
+                <MenuItem
+                    component={Link}
+                    href={`https://translate.google.com/?sl=auto&tl=${convertToGoogleTranslateCode(
+                        i18n.language
+                    )}&text=${props.message.document.body.body}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <ListItemIcon>
+                        <GTranslateIcon sx={{ color: 'text.primary' }} />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {t('translate')}{' '}
+                        <OpenInNewIcon
+                            sx={{
+                                fontSize: 'small',
+                                verticalAlign: 'middle'
+                            }}
+                        />
+                    </ListItemText>
+                </MenuItem>
                 <MenuItem
                     onClick={() => {
                         inspector.inspectItem({ messageId: props.message.id, author: props.message.author })
@@ -248,7 +274,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     <ListItemIcon>
                         <ManageSearchIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
-                    <ListItemText>詳細</ListItemText>
+                    <ListItemText>{t('inspect')}</ListItemText>
                 </MenuItem>
                 {/*
                     {service?.removeFromStream && props.message.author.ccid === props.userCCID && (
@@ -268,21 +294,21 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     <MenuItem
                         onClick={() => {
                             confirm.open(
-                                'メッセージを削除しますか？',
+                                t('reallyDelete'),
                                 () => {
                                     props.message.delete()
                                 },
                                 {
-                                    confirmText: '削除',
+                                    confirmText: t('confirmDelete'),
                                     description: <MessageView message={props.message} simple />
                                 }
                             )
                         }}
                     >
                         <ListItemIcon>
-                            <DeleteForeverIcon sx={{ color: 'text.primary' }} />
+                            <DeleteForeverIcon color="error" />
                         </ListItemIcon>
-                        <ListItemText>メッセージを削除</ListItemText>
+                        <ListItemText sx={{ color: 'error.main' }}>{t('delete')}</ListItemText>
                     </MenuItem>
                 )}
             </Menu>

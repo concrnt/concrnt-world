@@ -130,9 +130,9 @@ export const MediaMessageView = (props: MediaMessageViewProps): JSX.Element => {
                             display: 'flex',
                             flexDirection: 'row-reverse',
                             justifyContent: 'space-between',
-                            alignItems: 'center',
-                            gap: 1,
+                            alignItems: 'flex-start',
                             flexWrap: 'wrap',
+                            gap: 1,
                             mt: 1
                         }}
                     >
@@ -148,7 +148,15 @@ export const MediaMessageView = (props: MediaMessageViewProps): JSX.Element => {
                                     </>
                                 ))}
                         </Box>
-                        <MessageActions message={props.message} userCCID={props.userCCID} />
+                        <Box
+                            flex={1}
+                            display="flex"
+                            flexDirection="row"
+                            alignItems="center"
+                            justifyContent="flex-start"
+                        >
+                            <MessageActions message={props.message} userCCID={props.userCCID} />
+                        </Box>
                     </Box>
                 </>
             )) ||

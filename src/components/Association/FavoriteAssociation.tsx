@@ -17,6 +17,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useClient } from '../../context/ClientContext'
 import { MarkdownRendererLite } from '../ui/MarkdownRendererLite'
 
+import { FaTheaterMasks } from 'react-icons/fa'
+
 export interface FavoriteAssociationProps {
     association: Association<LikeAssociationSchema>
     perspective?: string
@@ -28,31 +30,39 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
     const [target, setTarget] = useState<Message<MarkdownMessageSchema | ReplyMessageSchema> | null>(null)
     const isMeToOther = props.association?.authorUser?.ccid !== props.perspective
 
-    const Nominative = props.association?.authorUser?.profile?.username ?? 'anonymous'
+    const Nominative =
+        props.association.document.body.profileOverride?.username ??
+        props.association?.authorUser?.profile?.username ??
+        'anonymous'
     const Possessive =
         (target?.document.body.profileOverride?.username ?? target?.authorUser?.profile?.username ?? 'anonymous') + "'s"
 
     const actionUser: User | undefined = isMeToOther ? props.association.authorUser : target?.authorUser
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
+    const masked =
+        (isMeToOther ? props.association.document.body.profileOverride : target?.document.body.profileOverride) !==
+        undefined
+
     useEffect(() => {
         props.association.getTargetMessage().then(setTarget)
     }, [props.association])
 
     return (
-        <ContentWithCCAvatar author={actionUser} profileOverride={target?.document.body.profileOverride}>
-            <Box display="flex" justifyContent="space-between">
-                <Typography>
-                    {isMeToOther ? (
-                        <>
-                            <b>{Nominative}</b> favorited {Possessive} message
-                        </>
-                    ) : (
-                        <>
-                            {Nominative} favorited <b>{Possessive}</b>&apos;s message
-                        </>
-                    )}
-                </Typography>
+        <ContentWithCCAvatar
+            author={actionUser}
+            profileOverride={
+                isMeToOther ? props.association.document.body.profileOverride : target?.document.body.profileOverride
+            }
+        >
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Box display="flex" alignItems="center" flexShrink={0} gap={0.5}>
+                    <Typography style={{ fontWeight: isMeToOther ? 600 : 'inherit' }}>{Nominative}</Typography>
+                    {masked && <FaTheaterMasks />}
+                    <Typography>favorited</Typography>
+                    <Typography style={{ fontWeight: !isMeToOther ? 600 : 'inherit' }}>{Possessive}</Typography>
+                    <Typography>message</Typography>
+                </Box>
                 <Box display="flex" gap={0.5}>
                     {(props.association.author === client?.ccid || props.association.owner === client?.ccid) && (
                         <IconButton

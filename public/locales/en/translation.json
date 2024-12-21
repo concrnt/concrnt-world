@@ -126,6 +126,17 @@
             "delete": "Delete",
             "reallyDelete": "Really delete this list?",
             "confirmDelete": "Confirm"
+        },
+        "messageActions": {
+            "linkCopied": "Link copied",
+            "copyLink": "Copy share link",
+            "copySource": "Copy source",
+            "superReaction": "Super reaction",
+            "translate": "Translate",
+            "inspect": "Inspect",
+            "delete": "Delete",
+            "reallyDelete": "Really delete this message?",
+            "confirmDelete": "Confirm"
         }
     },
     "settings": {
