@@ -36,12 +36,18 @@ self.addEventListener('push', event => {
         let badge = undefined;
 
         let signer = undefined;
-        let username = "非公開"
-        try {
-            signer = await getProfile(document.signer);
-            username = signer.body.username;
-        } catch (error) {
-            console.log(error);
+        let username = document.body.profileOverride?.username
+        if (!username) {
+            try {
+                signer = await getProfile(document.signer);
+                username = signer.body.username;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        if (!username) {
+            username = 'Anonymouse';
         }
 
         switch (document.schema) {

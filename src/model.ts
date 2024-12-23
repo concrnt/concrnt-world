@@ -96,11 +96,6 @@ export interface userHomeStream {
     userID: string
 }
 
-export interface StreamWithDomain {
-    domain: string
-    stream: Timeline<CommunityTimelineSchema>
-}
-
 export type CCID = string
 
 export interface ApEntity {

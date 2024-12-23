@@ -132,46 +132,58 @@ function App(): JSX.Element {
                 }
 
                 if (a.schema === Schemas.likeAssociation) {
-                    client?.api.getMessageWithAuthor(a.target, event.item.owner).then((m) => {
-                        m &&
-                            client.api.getProfileBySemanticID<ProfileSchema>('world.concrnt.p', a.signer).then((c) => {
-                                playNotificationRef.current()
-                                const profile = c?.document.body
-                                enqueueSnackbar(
-                                    <Box display="flex" flexDirection="column">
-                                        <Typography>{profile?.username ?? 'anonymous'} favorited</Typography>
-                                        <MarkdownRendererLite
-                                            messagebody={m.document.body.body as string}
-                                            emojiDict={m.document.body.emojis ?? {}}
-                                            limit={128}
-                                        />
-                                    </Box>
-                                )
-                            })
+                    client?.api.getMessageWithAuthor(a.target, event.item.owner).then(async (m) => {
+                        if (!m) return
+                        let username = a.body.profileOverride?.username
+                        if (!username) {
+                            const profile = await client.api.getProfileBySemanticID<ProfileSchema>(
+                                'world.concrnt.p',
+                                a.signer
+                            )
+                            username = profile?.document.body.username
+                        }
+
+                        playNotificationRef.current()
+                        enqueueSnackbar(
+                            <Box display="flex" flexDirection="column">
+                                <Typography>{username ?? 'anonymous'} liked your message: </Typography>
+                                <MarkdownRendererLite
+                                    messagebody={m.document.body.body as string}
+                                    emojiDict={m.document.body.emojis ?? {}}
+                                    limit={128}
+                                />
+                            </Box>
+                        )
                     })
                     return
                 }
 
                 if (a.schema === Schemas.reactionAssociation) {
-                    client.api.getMessageWithAuthor(a.target, event.item.owner).then((m) => {
-                        m &&
-                            client.api.getProfileBySemanticID<ProfileSchema>('world.concrnt.p', a.signer).then((c) => {
-                                playNotificationRef.current()
-                                const profile = c?.document.body
-                                enqueueSnackbar(
-                                    <Box display="flex" flexDirection="column">
-                                        <Typography>
-                                            {profile?.username ?? 'anonymous'} reacted{' '}
-                                            <img src={a.body.imageUrl as string} style={{ height: '1em' }} />
-                                        </Typography>
-                                        <MarkdownRendererLite
-                                            messagebody={m.document.body.body as string}
-                                            emojiDict={m.document.body.emojis ?? {}}
-                                            limit={128}
-                                        />
-                                    </Box>
-                                )
-                            })
+                    client.api.getMessageWithAuthor(a.target, event.item.owner).then(async (m) => {
+                        if (!m) return
+                        let username = a.body.profileOverride?.username
+                        if (!username) {
+                            const profile = await client.api.getProfileBySemanticID<ProfileSchema>(
+                                'world.concrnt.p',
+                                a.signer
+                            )
+                            username = profile?.document.body.username
+                        }
+
+                        playNotificationRef.current()
+                        enqueueSnackbar(
+                            <Box display="flex" flexDirection="column">
+                                <Typography>
+                                    {username ?? 'anonymous'} reacted{' '}
+                                    <img src={a.body.imageUrl as string} style={{ height: '1em' }} />
+                                </Typography>
+                                <MarkdownRendererLite
+                                    messagebody={m.document.body.body as string}
+                                    emojiDict={m.document.body.emojis ?? {}}
+                                    limit={128}
+                                />
+                            </Box>
+                        )
                     })
                 }
 

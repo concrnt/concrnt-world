@@ -16,6 +16,7 @@ export interface SubProfileCardProps {
     character: CoreProfile<any>
     additionalMenuItems?: JSX.Element | JSX.Element[]
     children?: JSX.Element | JSX.Element[]
+    resolveHint?: string
 }
 
 export const SubProfileCard = (props: SubProfileCardProps): JSX.Element => {
@@ -24,10 +25,12 @@ export const SubProfileCard = (props: SubProfileCardProps): JSX.Element => {
 
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
+    const hint = props.resolveHint ? '@' + props.resolveHint : ''
+
     const link =
         props.character.schema === Schemas.profile
-            ? '/' + props.character.author
-            : '/' + props.character.author + '#' + props.character.id
+            ? '/' + props.character.author + hint
+            : '/' + props.character.author + hint + '#' + props.character.id
 
     return (
         <Paper variant="outlined">

@@ -6,7 +6,8 @@
     "scripts": {
         "postinstall": "husky install",
         "dev": "vite dev",
-        "build": "tsc && vite build",
+        "build": "pnpm prebuild && tsc && vite build",
+        "prebuild": "./prebuild.sh",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
         "test": "playwright test --project=chromium",
@@ -15,7 +16,7 @@
     "dependencies": {
         "@aws-sdk/client-s3": "^3.592.0",
         "@aws-sdk/s3-request-presigner": "^3.592.0",
-        "@concurrent-world/client": "^6.5.4",
+        "@concurrent-world/client": "^6.5.5",
         "@cosmjs/encoding": "^0.32.4",
         "@cosmjs/proto-signing": "^0.32.4",
         "@cosmjs/stargate": "^0.32.4",

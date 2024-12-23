@@ -55,9 +55,9 @@ export const ReactionAssociation = (props: ReactionAssociationProps): JSX.Elemen
                 isMeToOther ? props.association.document.body.profileOverride : target?.document.body.profileOverride
             }
         >
-            <Box display="flex" justifyContent="space-between">
-                <Box display="flex" alignItems="center" flexShrink={0} gap={0.5}>
-                    <Box display="flex" alignItems="center" gap={0.5}>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Box display="flex" overflow="hidden">
+                    <Box display="flex" alignItems="center" flexShrink={0} gap={0.5}>
                         <Typography style={{ fontWeight: isMeToOther ? 600 : 'inherit' }}>{Nominative}</Typography>
                         {masked && <FaTheaterMasks />}
                         <Typography>reacted</Typography>

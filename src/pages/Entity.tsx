@@ -15,7 +15,11 @@ import { useTranslation } from 'react-i18next'
 
 export function EntityPage(): JSX.Element {
     const { client } = useClient()
-    const { id } = useParams()
+    const params = useParams()
+
+    const idparamSplit = params.id?.split('@')
+    const id: string | undefined = idparamSplit?.[0]
+    const hint: string | undefined = idparamSplit?.[1]
 
     const { t } = useTranslation('', { keyPrefix: 'common' })
 
@@ -42,7 +46,7 @@ export function EntityPage(): JSX.Element {
 
     useEffect(() => {
         if (!id) return
-        client.getUser(id).then((user) => {
+        client.getUser(id, hint).then((user) => {
             setUser(user)
         })
     }, [id])

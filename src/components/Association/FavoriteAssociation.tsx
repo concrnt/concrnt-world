@@ -56,12 +56,14 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
             }
         >
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Box display="flex" alignItems="center" flexShrink={0} gap={0.5}>
-                    <Typography style={{ fontWeight: isMeToOther ? 600 : 'inherit' }}>{Nominative}</Typography>
-                    {masked && <FaTheaterMasks />}
-                    <Typography>favorited</Typography>
-                    <Typography style={{ fontWeight: !isMeToOther ? 600 : 'inherit' }}>{Possessive}</Typography>
-                    <Typography>message</Typography>
+                <Box display="flex" overflow="hidden">
+                    <Box display="flex" alignItems="center" flexShrink={0} gap={0.5}>
+                        <Typography style={{ fontWeight: isMeToOther ? 600 : 'inherit' }}>{Nominative}</Typography>
+                        {masked && <FaTheaterMasks />}
+                        <Typography>favorited</Typography>
+                        <Typography style={{ fontWeight: !isMeToOther ? 600 : 'inherit' }}>{Possessive}</Typography>
+                        <Typography>message</Typography>
+                    </Box>
                 </Box>
                 <Box display="flex" gap={0.5}>
                     {(props.association.author === client?.ccid || props.association.owner === client?.ccid) && (

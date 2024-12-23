@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Tab, Tabs, TextField, Typography, useTheme } from '@mui/material'
-import { type CommunityTimelineSchema, Schemas, type CoreProfile } from '@concurrent-world/client'
+import { type CommunityTimelineSchema, Schemas, type CoreProfile, type Timeline } from '@concurrent-world/client'
 import { useClient } from '../context/ClientContext'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
@@ -10,11 +10,20 @@ import Fuzzysort from 'fuzzysort'
 import { CCDrawer } from '../components/ui/CCDrawer'
 import { CCEditor } from '../components/ui/cceditor'
 import { useSnackbar } from 'notistack'
-import { type StreamWithDomain } from '../model'
 import { StreamCard } from '../components/Stream/Card'
 import { SubProfileCard } from '../components/SubProfileCard'
 import { DomainCard } from '../components/ui/DomainCard'
 import { Helmet } from 'react-helmet-async'
+
+interface StreamWithDomain {
+    domain: string
+    stream: Timeline<CommunityTimelineSchema>
+}
+
+interface ProfileWithDomain {
+    domain: string
+    profile: CoreProfile<any>
+}
 
 export function Explorer(): JSX.Element {
     const { t } = useTranslation('', { keyPrefix: 'pages.explore' })
@@ -45,7 +54,7 @@ export function Explorer(): JSX.Element {
     const [searchResult, setSearchResult] = useState<StreamWithDomain[]>([])
     const [search, setSearch] = useState<string>('')
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
-    const [characters, setProfiles] = useState<Array<CoreProfile<any>>>([])
+    const [profiles, setProfiles] = useState<ProfileWithDomain[]>([])
     const [timelineDraft, setTimelineDraft] = useState<CommunityTimelineSchema>()
 
     const { enqueueSnackbar } = useSnackbar()
@@ -106,11 +115,13 @@ export function Explorer(): JSX.Element {
         const timer = setTimeout(() => {
             Promise.all(
                 selectedDomains.map(async (e) => {
-                    return (
-                        ((await client.api.getProfiles({ schema: profileSchema, domain: e }))?.filter(
-                            (e) => e
-                        ) as Array<CoreProfile<any>>) ?? []
-                    )
+                    const profiles = await client.api.getProfiles<any>({ schema: profileSchema, domain: e })
+                    return profiles.map((profile) => {
+                        return {
+                            domain: e,
+                            profile
+                        }
+                    })
                 })
             ).then((e) => {
                 if (unmounted) return
@@ -119,11 +130,11 @@ export function Explorer(): JSX.Element {
                         .flat()
                         .reverse()
                         .filter((e) => {
-                            return 'username' in e.document.body && 'avatar' in e.document.body
+                            return 'username' in e.profile.document.body && 'avatar' in e.profile.document.body
                         })
                         .sort((a, b) => {
-                            if (a.cdate < b.cdate) return 1
-                            if (a.cdate > b.cdate) return -1
+                            if (a.profile.cdate < b.profile.cdate) return 1
+                            if (a.profile.cdate > b.profile.cdate) return -1
                             return 0
                         })
                 )
@@ -325,9 +336,14 @@ export function Explorer(): JSX.Element {
                                 gap: 2
                             }}
                         >
-                            {characters.map((character) => (
-                                <Box key={character.id}>
-                                    <SubProfileCard showccid character={character} />
+                            {profiles.map((p) => (
+                                <Box
+                                    key={p.profile.id}
+                                    sx={{
+                                        contentVisibility: 'auto'
+                                    }}
+                                >
+                                    <SubProfileCard showccid character={p.profile} resolveHint={p.domain} />
                                 </Box>
                             ))}
                         </Box>

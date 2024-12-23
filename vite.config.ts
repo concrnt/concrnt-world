@@ -23,7 +23,6 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: [
                 'offline.html',
-                'favicon.svg',
                 'favicon.ico',
                 'robots.txt',
                 'apple-touch-icon.png',
