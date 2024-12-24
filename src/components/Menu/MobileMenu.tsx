@@ -19,7 +19,7 @@ export const MobileMenu = (): JSX.Element => {
     const actions = useGlobalActions()
     const editorModal = useEditorModal()
 
-    const globalState = useGlobalState()
+    const { isMasterSession } = useGlobalState()
     const [progress] = usePreference('tutorialProgress')
     const [tutorialCompleted] = usePreference('tutorialCompleted')
 
@@ -102,7 +102,7 @@ export const MobileMenu = (): JSX.Element => {
                     component={NavLink}
                     to="/tutorial"
                 >
-                    <Badge color="secondary" variant="dot" invisible={progress !== 0 || !globalState.isMasterSession}>
+                    <Badge color="secondary" variant="dot" invisible={progress !== 0 || !isMasterSession}>
                         <MenuBookIcon
                             sx={{
                                 color: 'background.contrastText'

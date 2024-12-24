@@ -12,6 +12,7 @@ import { HelmetProvider } from 'react-helmet-async'
 
 import './i18n'
 import { GA4Provider } from './context/GA4'
+import { ConcrntThemeProvider } from './context/Theme'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
@@ -120,9 +121,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                         component={
                                             <ClientProvider>
                                                 <PreferenceProvider>
-                                                    <GlobalStateProvider>
-                                                        <AppPage />
-                                                    </GlobalStateProvider>
+                                                    <ConcrntThemeProvider>
+                                                        <GlobalStateProvider>
+                                                            <AppPage />
+                                                        </GlobalStateProvider>
+                                                    </ConcrntThemeProvider>
                                                 </PreferenceProvider>
                                             </ClientProvider>
                                         }

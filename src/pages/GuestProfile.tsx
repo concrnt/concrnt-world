@@ -84,6 +84,7 @@ export default function GuestProfilePage(): JSX.Element {
                         name="description"
                         content={user.profile?.description || `Concrnt user ${user.profile?.username}`}
                     />
+                    {user?.alias && <link rel="canonical" href={`https://concrnt.com/${user.alias}`} />}
                     <script type="application/ld+json">{JSON.stringify(profilePageSchema)}</script>
                 </Helmet>
                 <GuestBase

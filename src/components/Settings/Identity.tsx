@@ -204,7 +204,7 @@ export const KeyTree = (props: KeyTreeProps): JSX.Element => {
 
 export const IdentitySettings = (): JSX.Element => {
     const { client } = useClient()
-    const globalState = useGlobalState()
+    const { isMasterSession } = useGlobalState()
     const identity: Identity = JSON.parse(localStorage.getItem('Identity') || 'null')
 
     const [hideDisabledSubKey, setHideDisabledSubKey] = usePreference('hideDisabledSubKey')
@@ -324,7 +324,7 @@ export const IdentitySettings = (): JSX.Element => {
                             gap: 1
                         }}
                     >
-                        {globalState.isMasterSession ? (
+                        {isMasterSession ? (
                             <>
                                 <Typography gutterBottom>
                                     ドメインをお持ちの場合、以下のtxtレコードを作成することで自身のアカウントにエイリアスを設定できます。

@@ -27,7 +27,7 @@ export interface PostedStreamsProps {
 
 export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
     const { client } = useClient()
-    const globalState = useGlobalState()
+    const { allKnownTimelines } = useGlobalState()
 
     const postedStreams = useMemo(() => {
         const streams =
@@ -37,7 +37,7 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                         (stream.author === client.ccid || stream.indexable)) ||
                     stream.schema === Schemas.emptyTimeline ||
                     stream.schema === Schemas.subprofileTimeline ||
-                    globalState.allKnownTimelines.map((t) => t.id).includes(stream.id)
+                    allKnownTimelines.map((t) => t.id).includes(stream.id)
             ) ?? []
         const uniq = [...new Set(streams)]
         return uniq

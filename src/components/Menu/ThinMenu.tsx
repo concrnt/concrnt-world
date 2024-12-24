@@ -30,7 +30,7 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const [devMode] = usePreference('devMode')
     const [showEditorOnTop] = usePreference('showEditorOnTop')
 
-    const globalState = useGlobalState()
+    const { isMasterSession } = useGlobalState()
     const [progress] = usePreference('tutorialProgress')
     const [tutorialCompleted] = usePreference('tutorialCompleted')
 
@@ -109,11 +109,7 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                     </IconButton>
                     {!tutorialCompleted && (
                         <IconButton sx={{ p: 0.5 }} component={Link} to="/tutorial" onClick={props.onClick}>
-                            <Badge
-                                color="secondary"
-                                variant="dot"
-                                invisible={progress !== 0 || !globalState.isMasterSession}
-                            >
+                            <Badge color="secondary" variant="dot" invisible={progress !== 0 || !isMasterSession}>
                                 <MenuBookIcon
                                     sx={{
                                         color: 'background.contrastText'

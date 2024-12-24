@@ -29,7 +29,7 @@ const branchName = branch || window.location.host.split('.')[0]
 export function SettingsIndex(): JSX.Element {
     const { client } = useClient()
     const { enqueueSnackbar } = useSnackbar()
-    const globalState = useGlobalState()
+    const { setSwitchToSub } = useGlobalState()
     const identity: Identity = JSON.parse(localStorage.getItem('Identity') || 'null')
 
     const { t } = useTranslation('', { keyPrefix: '' })
@@ -69,7 +69,7 @@ export function SettingsIndex(): JSX.Element {
                             color="inherit"
                             size="small"
                             onClick={() => {
-                                globalState.setSwitchToSub(true)
+                                setSwitchToSub(true)
                             }}
                         >
                             {t('settings.privileged.action')}

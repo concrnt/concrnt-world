@@ -38,7 +38,7 @@ const RowEmojiCount = 6
 
 export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element => {
     const { client } = useClient()
-    const globalState = useGlobalState()
+    const { isRegistered, isCanonicalUser, reloadList } = useGlobalState()
     const [lists, setLists] = usePreference('lists')
     const [emojiPackages, setEmojiPackages] = usePreference('emojiPackages')
     const { enqueueSnackbar } = useSnackbar()
@@ -84,7 +84,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
                         }
                     }
                     setLists(list)
-                    globalState.reloadList()
+                    reloadList()
                 })
         },
         [client]
@@ -130,7 +130,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
         >
             <InspectorProvider>
                 <>{props.children}</>
-                <Modal open={!globalState.isRegistered} onClose={() => {}}>
+                <Modal open={!isRegistered} onClose={() => {}}>
                     <Paper
                         sx={{
                             ...style,
@@ -146,10 +146,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
                         <LogoutButton />
                     </Paper>
                 </Modal>
-                <Modal
-                    open={globalState.isCanonicalUser && setupAccountRequired && globalState.isRegistered}
-                    onClose={() => {}}
-                >
+                <Modal open={isCanonicalUser && setupAccountRequired && isRegistered} onClose={() => {}}>
                     <Paper
                         sx={{
                             ...style,
@@ -166,7 +163,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
                     </Paper>
                 </Modal>
 
-                <Modal open={globalState.isCanonicalUser && noListDetected} onClose={() => {}}>
+                <Modal open={isCanonicalUser && noListDetected} onClose={() => {}}>
                     <Paper sx={style}>
                         <Box
                             sx={{

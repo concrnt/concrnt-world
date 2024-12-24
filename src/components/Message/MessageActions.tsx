@@ -10,6 +10,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import LinkIcon from '@mui/icons-material/Link'
 import GTranslateIcon from '@mui/icons-material/GTranslate'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import IosShareIcon from '@mui/icons-material/IosShare'
 import {
     type Association,
     type LikeAssociationSchema,
@@ -35,6 +36,7 @@ import { useConfirm } from '../../context/Confirm'
 import { MessageView } from './MessageView'
 import { useTranslation } from 'react-i18next'
 import { convertToGoogleTranslateCode } from '../../util'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface MessageActionsProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -46,6 +48,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
     const concord = useConcord()
     const [enableConcord] = usePreference('enableConcord')
     const editorModal = useEditorModal()
+    const { isMobileSize } = useGlobalState()
 
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
@@ -207,18 +210,36 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     setMenuAnchor(null)
                 }}
             >
-                <MenuItem
-                    onClick={() => {
-                        const userid = props.message.authorUser?.alias ?? props.message.author
-                        navigator.clipboard.writeText('https://concrnt.world/' + userid + '/' + props.message.id)
-                        enqueueSnackbar(t('linkCopied'), { variant: 'success' })
-                    }}
-                >
-                    <ListItemIcon>
-                        <LinkIcon sx={{ color: 'text.primary' }} />
-                    </ListItemIcon>
-                    <ListItemText>{t('copyLink')}</ListItemText>
-                </MenuItem>
+                {isMobileSize ? (
+                    <MenuItem
+                        onClick={() => {
+                            navigator.share({
+                                title: props.message.document.body.body,
+                                text: props.message.document.body.body,
+                                url: 'https://concrnt.world/' + props.message.author + '/' + props.message.id
+                            })
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <IosShareIcon sx={{ color: 'text.primary' }} />
+                        </ListItemIcon>
+                        <ListItemText>{t('share')}</ListItemText>
+                    </MenuItem>
+                ) : (
+                    <MenuItem
+                        onClick={() => {
+                            const userid = props.message.authorUser?.alias ?? props.message.author
+                            navigator.clipboard.writeText('https://concrnt.world/' + userid + '/' + props.message.id)
+                            enqueueSnackbar(t('linkCopied'), { variant: 'success' })
+                        }}
+                    >
+                        <ListItemIcon>
+                            <LinkIcon sx={{ color: 'text.primary' }} />
+                        </ListItemIcon>
+                        <ListItemText>{t('copyLink')}</ListItemText>
+                    </MenuItem>
+                )}
                 <MenuItem
                     onClick={() => {
                         props.message.document.body.body &&

@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Menu, Tab, Tabs, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useNavigate, Link as RouterLink } from 'react-router-dom'
+import { useLocation, useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom'
 import { usePreference } from '../context/PreferenceContext'
 import { Timeline } from '../components/Timeline'
 import { useClient } from '../context/ClientContext'
@@ -38,6 +38,12 @@ export function ListPage(): JSX.Element {
     const id = lists[rawid] ? rawid : Object.keys(lists)[0]
     const [tab, setTab] = useState<string>(id)
     const [subscription, setSubscription] = useState<CoreSubscription<ListSubscriptionSchema> | null>(null)
+    const [params] = useSearchParams()
+    const title = params.get('title')
+    const text = params.get('text')
+    const url = params.get('url')
+
+    const [intentDraft, setIntentDraft] = useState<string | undefined>(undefined)
 
     const [listSettingsOpen, setListSettingsOpen] = useState<boolean>(false)
 
@@ -64,12 +70,31 @@ export function ListPage(): JSX.Element {
     }, [list])
 
     useEffect(() => {
+        if (title || text || url) {
+            let draft = ''
+            if (title) draft += `${title}\n`
+            if (text) draft += `${text}\n\n`
+            if (url) draft += `${url}`
+            if (draft.trim() !== '') setIntentDraft(draft)
+        }
+    }, [title, text, url, postStreams])
+
+    useEffect(() => {
+        if (list?.defaultPostStreams.length !== postStreams.length) return
         const opts = {
             streamPickerInitial: postStreams,
             defaultPostHome,
             profile: list?.defaultProfile
         }
         editorModal.registerOptions(opts)
+
+        if (intentDraft && postStreams.length > 0) {
+            editorModal.open({
+                draft: intentDraft
+            })
+            setIntentDraft(undefined)
+        }
+
         return () => {
             editorModal.unregisterOptions(opts)
         }
@@ -260,7 +285,7 @@ export function ListPage(): JSX.Element {
                     setListSettingsOpen(false)
                 }}
             >
-                {subscription ? (
+                {listSettingsOpen && subscription ? (
                     <ListSettings
                         subscription={subscription}
                         onModified={() => {

@@ -8,12 +8,14 @@ import {
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { useClient } from './ClientContext'
 import { usePreference } from './PreferenceContext'
+import { useMediaQuery, useTheme } from '@mui/material'
 
 export interface GlobalState {
     isCanonicalUser: boolean
     isRegistered: boolean
     isDomainOffline: boolean
     isMasterSession: boolean
+    isMobileSize: boolean
 
     allKnownTimelines: Array<Timeline<CommunityTimelineSchema>>
     allKnownSubscriptions: Array<CoreSubscription<any>>
@@ -41,6 +43,8 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
     const [isRegistered, setIsRegistered] = useState<boolean>(true)
     const identity = JSON.parse(localStorage.getItem('Identity') || 'null')
     const isMasterSession = identity !== null
+    const theme = useTheme()
+    const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
 
     const [allProfiles, setAllProfiles] = useState<Array<CoreProfile<any>>>([])
     const [allKnownTimelines, setAllKnownTimelines] = useState<Array<Timeline<CommunityTimelineSchema>>>([])
@@ -176,6 +180,7 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
                 isCanonicalUser,
                 isRegistered,
                 isDomainOffline,
+                isMobileSize,
                 isMasterSession,
                 allKnownTimelines,
                 allKnownSubscriptions,
@@ -200,6 +205,7 @@ export function useGlobalState(): GlobalState {
             isRegistered: false,
             isDomainOffline: false,
             isMasterSession: false,
+            isMobileSize: false,
             allKnownTimelines: [],
             allKnownSubscriptions: [],
             listedSubscriptions: {},

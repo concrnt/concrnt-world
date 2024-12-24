@@ -9,8 +9,6 @@ import {
     ListItemText,
     Typography,
     Link,
-    useMediaQuery,
-    useTheme,
     Badge
 } from '@mui/material'
 import CreateIcon from '@mui/icons-material/Create'
@@ -43,9 +41,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const [devMode] = usePreference('devMode')
     const [enableConcord] = usePreference('enableConcord')
     const [showEditorOnTop] = usePreference('showEditorOnTop')
-    const theme = useTheme()
-    const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
-    const globalState = useGlobalState()
+    const { isMasterSession, isMobileSize } = useGlobalState()
     const [progress] = usePreference('tutorialProgress')
     const [tutorialCompleted] = usePreference('tutorialCompleted')
 
@@ -183,7 +179,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                     <Badge
                                         color="secondary"
                                         variant="dot"
-                                        invisible={progress !== 0 || !globalState.isMasterSession}
+                                        invisible={progress !== 0 || !isMasterSession}
                                     >
                                         <MenuBookIcon
                                             sx={{

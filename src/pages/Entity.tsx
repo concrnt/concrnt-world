@@ -88,6 +88,7 @@ export function EntityPage(): JSX.Element {
                     user?.alias ? `(@${user.alias})` : ''
                 } - Concrnt`}</title>
                 <meta name="description" content={user?.profile?.description || ''} />
+                {user?.alias && <link rel="canonical" href={`https://concrnt.com/${user.alias}`} />}
             </Helmet>
             <Box
                 sx={{

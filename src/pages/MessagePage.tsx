@@ -1,17 +1,4 @@
-import {
-    Box,
-    Divider,
-    List,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    Paper,
-    Tab,
-    Tabs,
-    Typography,
-    useMediaQuery,
-    useTheme
-} from '@mui/material'
+import { Box, Divider, List, ListItemIcon, ListItemText, MenuItem, Paper, Tab, Tabs, Typography } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { useClient } from '../context/ClientContext'
 import { useEffect, useState } from 'react'
@@ -44,7 +31,7 @@ export function MessagePage(): JSX.Element {
     const { client } = useClient()
     const lastUpdated = 0
 
-    const { allKnownTimelines } = useGlobalState()
+    const { allKnownTimelines, isMobileSize } = useGlobalState()
 
     const [message, setMessage] = useState<Message<
         MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema
@@ -76,8 +63,6 @@ export function MessagePage(): JSX.Element {
     const [replyTo, setReplyTo] = useState<Message<ReplyMessageSchema> | null>(null)
 
     const tab = (location.hash.slice(1) as 'replies' | 'reroutes' | 'favorites' | 'reactions') || 'replies'
-    const theme = useTheme()
-    const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
 
     const [forceUpdate, setForceUpdate] = useState(0) // FIXME: use more elegant way to force update
 

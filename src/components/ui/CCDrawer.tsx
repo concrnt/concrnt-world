@@ -1,5 +1,6 @@
-import { Box, SwipeableDrawer, styled, useMediaQuery, useTheme } from '@mui/material'
+import { Box, SwipeableDrawer, styled } from '@mui/material'
 import grey from '@mui/material/colors/grey'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface CCDrawerProps {
     children?: JSX.Element | JSX.Element[]
@@ -19,13 +20,12 @@ const Puller = styled(Box)(({ theme }) => ({
 }))
 
 export const CCDrawer = (props: CCDrawerProps): JSX.Element => {
-    const theme = useTheme()
-    const greaterThanSm = useMediaQuery(theme.breakpoints.up('sm'))
+    const { isMobileSize } = useGlobalState()
 
     return (
         <SwipeableDrawer
             disableSwipeToOpen
-            anchor={greaterThanSm ? 'right' : 'bottom'}
+            anchor={isMobileSize ? 'bottom' : 'right'}
             open={props.open}
             onOpen={() => {
                 props.onOpen?.()
@@ -58,7 +58,7 @@ export const CCDrawer = (props: CCDrawerProps): JSX.Element => {
                 }
             }}
         >
-            <Box display={greaterThanSm ? 'none' : 'flex'} height="20px" width="100%" position="relative">
+            <Box display={isMobileSize ? 'flex' : 'none'} height="20px" width="100%" position="relative">
                 <Puller />
             </Box>
             <Box

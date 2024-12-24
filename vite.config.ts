@@ -35,7 +35,8 @@ export default defineConfig({
                 "start_url" : "/",
                 "name" : "Concrnt",
                 "short_name" : "Concrnt",
-                icons: [
+                "description" : "Concrnt is a next-gen decentralized social network platform designed to make your world richer.",
+                "icons": [
                     {
                         "src": "192.png",
                         "sizes": "192x192",
@@ -54,7 +55,31 @@ export default defineConfig({
                         "type": "image/png",
                         "purpose": "any"
                     }
-                ]
+                ],
+                "screenshots": [
+                    {
+                        "src": "screenshot_narrow.jpg",
+                        "type": "image/jpeg",
+                        "sizes": "1170x2532",
+                        "form_factor": "narrow"
+                    },
+                    {
+                        "src": "screenshot_wide.png",
+                        "type": "image/png",
+                        "sizes": "1419x1260",
+                        "form_factor": "wide"
+                    }
+                ],
+                "share_target": {
+                    "action": "/intent",
+                    "method": "GET",
+                    "enctype": "application/x-www-form-urlencoded",
+                    "params": {
+                        "title": "text",
+                        "text": "text",
+                        "url": "url"
+                    }
+                }
             },
             strategies: 'injectManifest',
             workbox: {

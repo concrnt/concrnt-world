@@ -9,11 +9,10 @@ import {
     Divider,
     IconButton,
     alpha,
-    useTheme,
     Button,
-    useMediaQuery,
     Slide,
-    Modal
+    Modal,
+    useTheme
 } from '@mui/material'
 import { usePreference } from './PreferenceContext'
 import { type EmojiPackage, type Emoji, type RawEmojiPackage } from '../model'
@@ -44,10 +43,9 @@ interface EmojiPickerProps {
 }
 
 export const EmojiPickerProvider = (props: EmojiPickerProps): JSX.Element => {
-    const [emojiPackageURLs, setEmojiPackageURLs] = usePreference('emojiPackages')
     const theme = useTheme()
-    const isMobileSize = useMediaQuery(theme.breakpoints.down('sm')) // TODO: globalStateみたいなところに置くべき
-    const { getImageURL } = useGlobalState()
+    const [emojiPackageURLs, setEmojiPackageURLs] = usePreference('emojiPackages')
+    const { getImageURL, isMobileSize } = useGlobalState()
 
     const [viewportHeight, setViewportHeight] = useState<number>(visualViewport?.height ?? 0)
     useEffect(() => {

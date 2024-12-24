@@ -1,14 +1,4 @@
-import {
-    Box,
-    Button,
-    CircularProgress,
-    IconButton,
-    ImageList,
-    ImageListItem,
-    Modal,
-    useMediaQuery,
-    useTheme
-} from '@mui/material'
+import { Box, Button, CircularProgress, IconButton, ImageList, ImageListItem, Modal } from '@mui/material'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { type ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
@@ -41,7 +31,7 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
 
     const [mode, setMode] = useState<'single' | 'gallery'>('single')
 
-    const { getImageURL } = useGlobalState()
+    const { isMobileSize, getImageURL } = useGlobalState()
 
     const openSingle = (src?: string): void => {
         setMode('single')
@@ -55,8 +45,6 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
         setPreviewImage(medias[startIndex ?? 0].mediaURL)
     }
 
-    const theme = useTheme()
-    const isMobileSize = useMediaQuery(theme.breakpoints.down('sm'))
     const padding = isMobileSize ? 20 : 100
 
     const [container, setContainer] = useState<HTMLDivElement | null>(null)
