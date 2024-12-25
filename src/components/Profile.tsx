@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Link, Divider, Skeleton, useTheme, alpha } from '@mui/material'
+import { Box, Button, Typography, Link, Skeleton, useTheme, alpha } from '@mui/material'
 
 import { CCAvatar } from '../components/ui/CCAvatar'
 import { WatchButton } from '../components/WatchButton'
@@ -326,12 +326,12 @@ export function Profile(props: ProfileProps): JSX.Element {
                             setDetailMode('ack')
                         }}
                     >
-                        {ackingUserCount ? (
-                            <>
-                                {ackingUserCount} {t('follow')}
-                            </>
-                        ) : (
+                        {ackingUserCount === undefined ? (
                             <Skeleton variant="text" width={80} />
+                        ) : (
+                            <Typography>
+                                {ackingUserCount} {t('follow')}
+                            </Typography>
                         )}
                     </Typography>
                     <Typography
@@ -341,23 +341,17 @@ export function Profile(props: ProfileProps): JSX.Element {
                             setDetailMode('acker')
                         }}
                     >
-                        {ackerUserCount ? (
-                            <>
-                                {ackerUserCount} {t('followers')}
-                            </>
-                        ) : (
+                        {ackerUserCount === undefined ? (
                             <Skeleton variant="text" width={80} />
+                        ) : (
+                            <Typography>
+                                {ackerUserCount} {t('followers')}
+                            </Typography>
                         )}
                     </Typography>
                 </Box>
 
-                {subProfile && (
-                    <>
-                        <Divider sx={{ mb: 1 }} />
-                        <ProfileProperties showCreateLink character={subProfile} />
-                        <Divider />
-                    </>
-                )}
+                {subProfile && <ProfileProperties showCreateLink character={subProfile} />}
             </Box>
 
             {props.user && (

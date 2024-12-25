@@ -1,4 +1,4 @@
-import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip } from '@mui/material'
+import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 
 import { type CoreProfile, type Message, type RerouteMessageSchema } from '@concurrent-world/client'
 import RepeatIcon from '@mui/icons-material/Repeat'
@@ -110,15 +110,9 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                     >
                         <MoreHorizIcon sx={{ fontSize: '80%' }} />
                     </IconButton>
-                    <Link
-                        component={RouterLink}
-                        underline="hover"
-                        color="inherit"
-                        fontSize="0.75rem"
-                        to={`/${props.message.author}/${props.message.id}`}
-                    >
+                    <Typography color="inherit" fontSize="0.75rem">
                         <TimeDiff date={new Date(props.message.cdate)} />
-                    </Link>
+                    </Typography>
                 </Box>
             </Box>
             <Menu

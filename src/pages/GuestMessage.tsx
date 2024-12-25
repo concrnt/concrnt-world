@@ -21,11 +21,13 @@ import { MessageView } from '../components/Message/MessageView'
 import { MediaMessageView } from '../components/Message/MediaMessageView'
 import { PlainMessageView } from '../components/Message/PlainMessageView'
 import { Helmet } from 'react-helmet-async'
+import { MessageSkeleton } from '../components/MessageSkeleton'
 
 export default function GuestMessagePage(): JSX.Element {
     const { authorID, messageID } = useParams()
     const lastUpdated = 0
 
+    const [isFetching, setIsFetching] = useState<boolean>(true)
     const [message, setMessage] = useState<Message<
         MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema
     > | null>()
@@ -46,22 +48,28 @@ export default function GuestMessagePage(): JSX.Element {
         initializeClient(client)
 
         let isMounted = true
-        client.getMessage<any>(messageID, authorID).then((msg) => {
-            if (!isMounted || !msg) return
-            setMessage(msg)
+        client
+            .getMessage<any>(messageID, authorID)
+            .then((msg) => {
+                if (!isMounted || !msg) return
+                setMessage(msg)
 
-            msg.getReplyMessages().then((replies) => {
-                if (!isMounted) return
-                setReplies(replies)
-            })
-
-            if (msg.schema === Schemas.replyMessage) {
-                msg.getReplyTo().then((replyTo) => {
+                msg.getReplyMessages().then((replies) => {
                     if (!isMounted) return
-                    setReplyTo(replyTo)
+                    setReplies(replies)
                 })
-            }
-        })
+
+                if (msg.schema === Schemas.replyMessage) {
+                    msg.getReplyTo().then((replyTo) => {
+                        if (!isMounted) return
+                        setReplyTo(replyTo)
+                    })
+                }
+            })
+            .finally(() => {
+                if (!isMounted) return
+                setIsFetching(false)
+            })
 
         return () => {
             isMounted = false
@@ -76,16 +84,20 @@ export default function GuestMessagePage(): JSX.Element {
         </TickerProvider>
     )
 
-    if (!message) return <></>
-
     return providers(
         <>
-            <Helmet>
-                <title>{`${message.authorUser?.profile?.username || 'anonymous'}: "${
-                    message.document.body.body
-                }" - Concrnt`}</title>
-                <meta name="description" content={message.document.body.body} />
-            </Helmet>
+            {message && (
+                <Helmet>
+                    <title>{`${message.authorUser?.profile?.username || 'anonymous'}: "${
+                        message.document.body.body
+                    }" - Concrnt`}</title>
+                    <link
+                        rel="canonical"
+                        href={`https://concrnt.world/${message.authorUser?.alias ?? message.author}/${message.id}`}
+                    />
+                    <meta name="description" content={message.document.body.body} />
+                </Helmet>
+            )}
             <ClientProvider client={client}>
                 <GuestBase
                     sx={{
@@ -133,134 +145,193 @@ export default function GuestMessagePage(): JSX.Element {
                                 <Divider />
                             </Box>
 
-                            {replyTo && (
+                            {isFetching && (
                                 <>
-                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
-                                        <meta itemProp="identifier" content={message.id} />
-                                        <meta
-                                            itemProp="url"
-                                            content={`https://concrnt.world/${message.author}/${message.id}`}
-                                        />
-                                        <meta
-                                            itemProp="datePublished"
-                                            content={new Date(message.cdate).toISOString()}
-                                        />
-                                        <MessageView
-                                            message={replyTo}
-                                            lastUpdated={lastUpdated}
-                                            userCCID={client.ccid}
-                                        />
+                                    <Box>
+                                        <MessageSkeleton />
                                     </Box>
                                     <Divider />
                                 </>
                             )}
 
-                            {(message.schema === Schemas.markdownMessage ||
-                                message.schema === Schemas.replyMessage) && (
-                                <>
-                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
-                                        <meta itemProp="identifier" content={message.id} />
-                                        <meta
-                                            itemProp="url"
-                                            content={`https://concrnt.world/${message.author}/${message.id}`}
-                                        />
-                                        <meta
-                                            itemProp="datePublished"
-                                            content={new Date(message.cdate).toISOString()}
-                                        />
-                                        <MessageView
-                                            forceExpanded
-                                            message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
-                                            lastUpdated={lastUpdated}
-                                            userCCID={client.ccid}
-                                        />
-                                    </Box>
-                                    <Divider />
-                                </>
-                            )}
-
-                            {message.schema === Schemas.plaintextMessage && (
-                                <>
-                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
-                                        <meta itemProp="identifier" content={message.id} />
-                                        <meta
-                                            itemProp="url"
-                                            content={`https://concrnt.world/${message.author}/${message.id}`}
-                                        />
-                                        <meta
-                                            itemProp="datePublished"
-                                            content={new Date(message.cdate).toISOString()}
-                                        />
-                                        <PlainMessageView
-                                            forceExpanded
-                                            message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
-                                            lastUpdated={lastUpdated}
-                                            userCCID={client.ccid}
-                                        />
-                                    </Box>
-                                    <Divider />
-                                </>
-                            )}
-
-                            {message.schema === Schemas.mediaMessage && (
-                                <>
-                                    <Box itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
-                                        <meta itemProp="identifier" content={message.id} />
-                                        <meta
-                                            itemProp="url"
-                                            content={`https://concrnt.world/${message.author}/${message.id}`}
-                                        />
-                                        <meta
-                                            itemProp="datePublished"
-                                            content={new Date(message.cdate).toISOString()}
-                                        />
-                                        <MediaMessageView
-                                            forceExpanded
-                                            message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
-                                            lastUpdated={lastUpdated}
-                                            userCCID={client.ccid}
-                                        />
-                                    </Box>
-                                    <Divider />
-                                </>
-                            )}
-
-                            {replies.length > 0 && (
-                                <Box>
-                                    <Typography variant="h2" gutterBottom>
-                                        Replies:
+                            {!message && !isFetching && (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 1,
+                                        padding: 1,
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                    <Typography fontSize="4rem" fontWeight="bold">
+                                        404
                                     </Typography>
-                                    <Box display="flex" flexDirection="column" gap={1}>
-                                        {replies.map(
-                                            (reply) =>
-                                                reply.message && (
-                                                    <>
-                                                        <Box
-                                                            itemScope
-                                                            itemProp="hasPart"
-                                                            itemType="https://schema.org/SocialMediaPosting"
-                                                        >
-                                                            <meta itemProp="identifier" content={reply.message.id} />
-                                                            <meta
-                                                                itemProp="url"
-                                                                content={`https://concrnt.world/${reply.message.author}/${reply.message.id}`}
-                                                            />
-                                                            <meta
-                                                                itemProp="datePublished"
-                                                                content={new Date(reply.message.cdate).toISOString()}
-                                                            />
-                                                            <MessageView
-                                                                message={reply.message}
-                                                                lastUpdated={lastUpdated}
-                                                                userCCID={client.ccid}
-                                                            />
-                                                        </Box>
-                                                        <Divider />
-                                                    </>
-                                                )
-                                        )}
-                                    </Box>
+                                    <Typography fontSize="2rem" fontWeight="bold">
+                                        Message not found
+                                    </Typography>
                                 </Box>
+                            )}
+
+                            {message && (
+                                <>
+                                    {replyTo && (
+                                        <>
+                                            <Box
+                                                itemScope
+                                                itemProp="hasPart"
+                                                itemType="https://schema.org/SocialMediaPosting"
+                                            >
+                                                <meta itemProp="identifier" content={message.id} />
+                                                <meta
+                                                    itemProp="url"
+                                                    content={`https://concrnt.world/${message.author}/${message.id}`}
+                                                />
+                                                <meta
+                                                    itemProp="datePublished"
+                                                    content={new Date(message.cdate).toISOString()}
+                                                />
+                                                <MessageView
+                                                    message={replyTo}
+                                                    lastUpdated={lastUpdated}
+                                                    userCCID={client.ccid}
+                                                />
+                                            </Box>
+                                            <Divider />
+                                        </>
+                                    )}
+
+                                    {(message.schema === Schemas.markdownMessage ||
+                                        message.schema === Schemas.replyMessage) && (
+                                        <>
+                                            <Box
+                                                itemScope
+                                                itemProp="hasPart"
+                                                itemType="https://schema.org/SocialMediaPosting"
+                                            >
+                                                <meta itemProp="identifier" content={message.id} />
+                                                <meta
+                                                    itemProp="url"
+                                                    content={`https://concrnt.world/${message.author}/${message.id}`}
+                                                />
+                                                <meta
+                                                    itemProp="datePublished"
+                                                    content={new Date(message.cdate).toISOString()}
+                                                />
+                                                <MessageView
+                                                    forceExpanded
+                                                    message={
+                                                        message as Message<MarkdownMessageSchema | ReplyMessageSchema>
+                                                    }
+                                                    lastUpdated={lastUpdated}
+                                                    userCCID={client.ccid}
+                                                />
+                                            </Box>
+                                            <Divider />
+                                        </>
+                                    )}
+
+                                    {message.schema === Schemas.plaintextMessage && (
+                                        <>
+                                            <Box
+                                                itemScope
+                                                itemProp="hasPart"
+                                                itemType="https://schema.org/SocialMediaPosting"
+                                            >
+                                                <meta itemProp="identifier" content={message.id} />
+                                                <meta
+                                                    itemProp="url"
+                                                    content={`https://concrnt.world/${message.author}/${message.id}`}
+                                                />
+                                                <meta
+                                                    itemProp="datePublished"
+                                                    content={new Date(message.cdate).toISOString()}
+                                                />
+                                                <PlainMessageView
+                                                    forceExpanded
+                                                    message={
+                                                        message as Message<MarkdownMessageSchema | ReplyMessageSchema>
+                                                    }
+                                                    lastUpdated={lastUpdated}
+                                                    userCCID={client.ccid}
+                                                />
+                                            </Box>
+                                            <Divider />
+                                        </>
+                                    )}
+
+                                    {message.schema === Schemas.mediaMessage && (
+                                        <>
+                                            <Box
+                                                itemScope
+                                                itemProp="hasPart"
+                                                itemType="https://schema.org/SocialMediaPosting"
+                                            >
+                                                <meta itemProp="identifier" content={message.id} />
+                                                <meta
+                                                    itemProp="url"
+                                                    content={`https://concrnt.world/${message.author}/${message.id}`}
+                                                />
+                                                <meta
+                                                    itemProp="datePublished"
+                                                    content={new Date(message.cdate).toISOString()}
+                                                />
+                                                <MediaMessageView
+                                                    forceExpanded
+                                                    message={
+                                                        message as Message<MarkdownMessageSchema | ReplyMessageSchema>
+                                                    }
+                                                    lastUpdated={lastUpdated}
+                                                    userCCID={client.ccid}
+                                                />
+                                            </Box>
+                                            <Divider />
+                                        </>
+                                    )}
+
+                                    {replies.length > 0 && (
+                                        <Box>
+                                            <Typography variant="h2" gutterBottom>
+                                                Replies:
+                                            </Typography>
+                                            <Box display="flex" flexDirection="column" gap={1}>
+                                                {replies.map(
+                                                    (reply) =>
+                                                        reply.message && (
+                                                            <>
+                                                                <Box
+                                                                    itemScope
+                                                                    itemProp="hasPart"
+                                                                    itemType="https://schema.org/SocialMediaPosting"
+                                                                >
+                                                                    <meta
+                                                                        itemProp="identifier"
+                                                                        content={reply.message.id}
+                                                                    />
+                                                                    <meta
+                                                                        itemProp="url"
+                                                                        content={`https://concrnt.world/${reply.message.author}/${reply.message.id}`}
+                                                                    />
+                                                                    <meta
+                                                                        itemProp="datePublished"
+                                                                        content={new Date(
+                                                                            reply.message.cdate
+                                                                        ).toISOString()}
+                                                                    />
+                                                                    <MessageView
+                                                                        message={reply.message}
+                                                                        lastUpdated={lastUpdated}
+                                                                        userCCID={client.ccid}
+                                                                    />
+                                                                </Box>
+                                                                <Divider />
+                                                            </>
+                                                        )
+                                                )}
+                                            </Box>
+                                        </Box>
+                                    )}
+                                </>
                             )}
                         </Box>
                     </Paper>

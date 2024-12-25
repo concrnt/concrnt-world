@@ -39,9 +39,9 @@ export function ListPage(): JSX.Element {
     const [tab, setTab] = useState<string>(id)
     const [subscription, setSubscription] = useState<CoreSubscription<ListSubscriptionSchema> | null>(null)
     const [params] = useSearchParams()
-    const title = params.get('title')
-    const text = params.get('text')
-    const url = params.get('url')
+    const title = params.get('title')?.trim()
+    const text = params.get('text')?.trim()
+    const url = params.get('url')?.trim()
 
     const [intentDraft, setIntentDraft] = useState<string | undefined>(undefined)
 

@@ -336,7 +336,9 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                         if (matchYoutubeVideo) {
                             return (
                                 <Box
+                                    component="span"
                                     sx={{
+                                        display: 'block',
                                         aspectRatio: '16 / 9',
                                         overflow: 'hidden',
                                         width: '100%',

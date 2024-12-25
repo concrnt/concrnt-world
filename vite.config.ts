@@ -75,7 +75,7 @@ export default defineConfig({
                     "method": "GET",
                     "enctype": "application/x-www-form-urlencoded",
                     "params": {
-                        "title": "text",
+                        "title": "title",
                         "text": "text",
                         "url": "url"
                     }

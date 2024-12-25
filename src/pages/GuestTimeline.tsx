@@ -59,6 +59,7 @@ export default function GuestTimelinePage(): JSX.Element {
                             `Concrnt timeline ${timeline.document.body.name || 'No Title'}`
                         }
                     />
+                    <link rel="canonical" href={`https://concrnt.com/timeline/${id}`} />
                 </Helmet>
                 <GuestBase
                     sx={{
