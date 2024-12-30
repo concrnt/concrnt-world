@@ -6,6 +6,7 @@ import rehypeSanitize, { defaultSchema } from 'rehype-sanitize'
 import { type ReactMarkdownProps } from 'react-markdown/lib/ast-to-react'
 import breaks from 'remark-breaks'
 import { Codeblock } from './Codeblock'
+import { Link as RouterLink } from 'react-router-dom'
 
 import type { EmojiLite } from '../../model'
 import {
@@ -259,6 +260,8 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                         </blockquote>
                     ),
                     a: ({ children, href }) => {
+                        if (!href) return <></>
+
                         const matchTwitter = href?.match(/https:\/\/twitter\.com\/(\w+)\/?$/)
                         if (matchTwitter) {
                             return (
@@ -360,11 +363,26 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                                 </Box>
                             )
                         }
-                        return (
-                            <Link href={href} target="_blank" color="secondary" underline="hover">
-                                {children}
-                            </Link>
-                        )
+
+                        const isInternalLink = new URL(href).host === 'concrnt.world'
+                        if (isInternalLink) {
+                            return (
+                                <Link
+                                    component={RouterLink}
+                                    to={href.replace('https://concrnt.world', '')}
+                                    color="secondary"
+                                    underline="hover"
+                                >
+                                    {children}
+                                </Link>
+                            )
+                        } else {
+                            return (
+                                <Link href={href} target="_blank" color="secondary" underline="hover">
+                                    {children}
+                                </Link>
+                            )
+                        }
                     },
                     code: ({ node, children, inline }) => {
                         const language = node.position
