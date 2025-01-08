@@ -7,7 +7,7 @@ import {
 } from '@concurrent-world/client'
 import { Box, IconButton, ListItem, Paper, type SxProps, Tooltip } from '@mui/material'
 import { UserProfileCard } from './UserProfileCard'
-import { Link as routerLink, useNavigate } from 'react-router-dom'
+import { Link as routerLink, useNavigate, useLocation } from 'react-router-dom'
 import { CCAvatar } from './ui/CCAvatar'
 import { type ProfileOverride } from '@concurrent-world/client/dist/types/model/core'
 
@@ -24,6 +24,10 @@ export interface ContentWithCCAvatarProps {
 
 export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Element => {
     const navigate = useNavigate()
+    const location = useLocation()
+
+    const navigateTo = props.linkTo ?? `/${props.message?.author}/${props.message?.id}`
+
     return (
         <>
             <Box itemProp="author" itemScope itemType="https://schema.org/Person">
@@ -41,11 +45,11 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                 )}
             </Box>
             <Box
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: location.pathname !== navigateTo ? 'pointer' : 'auto' }}
                 onClick={() => {
                     const selectedString = window.getSelection()?.toString()
                     if (selectedString !== '') return
-                    navigate(`/${props.author?.ccid}/${props.message?.id}`)
+                    navigate(navigateTo)
                 }}
             >
                 <ListItem
