@@ -274,6 +274,7 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
                                   case 'm':
                                       element = (
                                           <MessageContainer
+                                              dimOnHover
                                               sx={timelineElemSx}
                                               messageID={e.resourceID}
                                               messageOwner={e.owner}
@@ -287,6 +288,7 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
                                   case 'a':
                                       element = (
                                           <AssociationFrame
+                                              dimOnHover
                                               sx={timelineElemSx}
                                               associationID={e.resourceID}
                                               associationOwner={e.owner}

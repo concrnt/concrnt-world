@@ -58,12 +58,16 @@ export const UrlSummaryCard = (props: { url: string }): JSX.Element | null => {
                 height: '100px',
                 width: '100%',
                 overflow: 'hidden',
-                textDecoration: 'none'
+                textDecoration: 'none',
+                background: 'none'
             }}
             component={RouterLink}
             to={props.url}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => {
+                e.stopPropagation()
+            }}
         >
             {(preview.thumbnail || preview.icon) && (
                 <Box

@@ -17,7 +17,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ReplayIcon from '@mui/icons-material/Replay'
 import { useEffect, useMemo, useState } from 'react'
 import { useClient } from '../../context/ClientContext'
-import { UrlSummaryProvider } from '../../context/urlSummaryContext'
 import { AutoSummaryProvider } from '../../context/AutoSummaryContext'
 
 export interface MessageViewProps {
@@ -70,6 +69,7 @@ export const MessageView = (props: MessageViewProps): JSX.Element => {
 
     return (
         <ContentWithCCAvatar
+            message={props.message}
             author={props.message.authorUser}
             profileOverride={props.message.document.body.profileOverride}
             avatarOverride={characterOverride?.document.body.avatar}
@@ -79,7 +79,7 @@ export const MessageView = (props: MessageViewProps): JSX.Element => {
                 usernameOverride={characterOverride?.document.body.username}
                 message={props.message}
                 additionalMenuItems={props.additionalMenuItems}
-                timeLink={props.message.document.meta?.apObjectRef}
+                timeLink={props.message.document.meta?.apObjectRef} // Link to external message
             />
             {props.beforeMessage}
             <AutoSummaryProvider limit={props.simple ? 0 : 1}>

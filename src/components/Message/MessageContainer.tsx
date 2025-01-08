@@ -8,11 +8,11 @@ import {
     type PlaintextMessageSchema
 } from '@concurrent-world/client'
 import { useClient } from '../../context/ClientContext'
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { ReplyMessageFrame } from './ReplyMessageFrame'
 import { RerouteMessageFrame } from './RerouteMessageFrame'
 import { MessageSkeleton } from '../MessageSkeleton'
-import { Box, type SxProps, Typography, Button } from '@mui/material'
+import { Box, type SxProps, Typography, Button, useTheme, alpha } from '@mui/material'
 import { MessageView } from './MessageView'
 import { usePreference } from '../../context/PreferenceContext'
 import { ContentWithUserFetch } from '../ContentWithUserFetch'
@@ -33,10 +33,12 @@ interface MessageContainerProps {
     rerouted?: Message<RerouteMessageSchema>
     simple?: boolean
     sx?: SxProps
+    dimOnHover?: boolean
 }
 
 export const MessageContainer = memo<MessageContainerProps>((props: MessageContainerProps): JSX.Element | null => {
     const { client } = useClient()
+    const theme = useTheme()
     const [message, setMessage] = useState<Message<
         MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema | PlaintextMessageSchema | MediaMessageSchema
     > | null>()
@@ -65,6 +67,17 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                 setIsFetching(false)
             })
     }, [props.messageID, props.messageOwner, props.lastUpdated, forceUpdateCount])
+
+    const style = useMemo(() => {
+        if (!props.dimOnHover) return props.sx
+        return {
+            ...props.sx,
+            '&:hover': {
+                backgroundColor: alpha(theme.palette.divider, 0.05),
+                transition: 'background-color 0.2s'
+            }
+        }
+    }, [props.sx])
 
     if (isFetching) {
         return (
@@ -167,7 +180,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
     switch (message?.schema) {
         case Schemas.markdownMessage:
             body = (
-                <Box sx={props.sx} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                <Box sx={style} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
                     <meta itemProp="identifier" content={message.id} />
                     <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
                     <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
@@ -183,7 +196,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
             break
         case Schemas.replyMessage:
             body = (
-                <Box sx={props.sx} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                <Box sx={style} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
                     <meta itemProp="identifier" content={message.id} />
                     <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
                     <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
@@ -199,7 +212,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
             break
         case Schemas.rerouteMessage:
             body = (
-                <Box sx={props.sx} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                <Box sx={style} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
                     <meta itemProp="identifier" content={message.id} />
                     <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
                     <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
@@ -213,7 +226,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
             break
         case Schemas.plaintextMessage:
             body = (
-                <Box sx={props.sx} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                <Box sx={style} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
                     <meta itemProp="identifier" content={message.id} />
                     <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
                     <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
@@ -229,7 +242,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
             break
         case Schemas.mediaMessage:
             body = (
-                <Box sx={props.sx} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                <Box sx={style} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
                     <meta itemProp="identifier" content={message.id} />
                     <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
                     <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />

@@ -2,7 +2,7 @@
 name: Feature
 about: 新しい機能の提案
 title: ''
-labels: "\U0001F4A1new feature"
+labels: "awaiting-triage/feature💡"
 assignees: ''
 
 ---

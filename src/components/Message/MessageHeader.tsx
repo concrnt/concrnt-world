@@ -1,6 +1,5 @@
-import { Box, Typography, Link, Tooltip, Menu, IconButton } from '@mui/material'
+import { Box, Typography, Tooltip, Menu, IconButton } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'
-import { Link as RouterLink } from 'react-router-dom'
 import { useMemo, useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { type Message, type ReplyMessageSchema, type MarkdownMessageSchema } from '@concurrent-world/client'
@@ -11,6 +10,7 @@ import { ConcordBadge } from '../ui/Badge'
 import LockIcon from '@mui/icons-material/Lock'
 import { CCUserChip } from '../ui/CCUserChip'
 import { FaTheaterMasks } from 'react-icons/fa'
+import { CCLink } from '../ui/CCLink'
 
 export interface MessageHeaderProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -46,19 +46,26 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                     overflow: 'hidden'
                 }}
             >
-                <Typography
-                    component="span"
-                    sx={{
-                        fontWeight: '700',
-                        fontSize: { xs: '0.9rem', sm: '0.95rem' },
-                        flexShrink: 0
-                    }}
+                <CCLink
+                    underline="hover"
+                    color="inherit"
+                    to={props.message.document.body.profileOverride?.link ?? `/${props.message.author}`}
+                    target={props.message.document.body.profileOverride?.link ? '_blank' : '_self'}
                 >
-                    {props.usernameOverride ||
-                        props.message.document.body.profileOverride?.username ||
-                        props.message.authorUser?.profile?.username ||
-                        'anonymous'}
-                </Typography>
+                    <Typography
+                        component="span"
+                        sx={{
+                            fontWeight: '700',
+                            fontSize: { xs: '0.9rem', sm: '0.95rem' },
+                            flexShrink: 0
+                        }}
+                    >
+                        {props.usernameOverride ||
+                            props.message.document.body.profileOverride?.username ||
+                            props.message.authorUser?.profile?.username ||
+                            'anonymous'}
+                    </Typography>
+                </CCLink>
                 {props.message.document.body.profileOverride &&
                     Object.keys(props.message.document.body.profileOverride).length > 0 && <FaTheaterMasks />}{' '}
                 {myAck && (
@@ -139,16 +146,14 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                         />
                     </Tooltip>
                 )}
-                <Link
-                    component={RouterLink}
+                <CCLink
                     underline="hover"
                     color="inherit"
                     fontSize="0.75rem"
                     to={props.timeLink ?? `/${props.message.author}/${props.message.id}`}
-                    target={props.timeLink ? '_blank' : '_self'}
                 >
                     <TimeDiff date={new Date(props.message.document.signedAt)} base={new Date(props.message.cdate)} />
-                </Link>
+                </CCLink>
             </Box>
             <Menu
                 anchorEl={menuAnchor}

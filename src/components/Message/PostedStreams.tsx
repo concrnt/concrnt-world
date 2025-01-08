@@ -5,10 +5,9 @@ import {
     type MarkdownMessageSchema,
     type RerouteMessageSchema
 } from '@concurrent-world/client'
-import { Box, Link, Tooltip } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 import { useMemo } from 'react'
 
-import { Link as RouterLink } from 'react-router-dom'
 import { useClient } from '../../context/ClientContext'
 import { CCUserIcon } from '../ui/CCUserIcon'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
@@ -19,6 +18,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import { isPrivateTimeline } from '../../util'
 import { useGlobalState } from '../../context/GlobalState'
 import { SubprofileBadge } from '../ui/SubprofileBadge'
+import { CCLink } from '../ui/CCLink'
 
 export interface PostedStreamsProps {
     useUserIcon?: boolean
@@ -68,9 +68,8 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                 switch (e.schema) {
                     case Schemas.communityTimeline:
                         return (
-                            <Link
+                            <CCLink
                                 key={e.id}
-                                component={RouterLink}
                                 to={'/timeline/' + e.cacheKey ?? e.id}
                                 underline="hover"
                                 sx={{
@@ -90,7 +89,7 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                     <TagIcon sx={{ height: '1rem', width: '1rem' }} />
                                 )}
                                 {e.document.body.shortname || e.document.body.name}
-                            </Link>
+                            </CCLink>
                         )
                     case Schemas.emptyTimeline:
                         return props.useUserIcon ? (

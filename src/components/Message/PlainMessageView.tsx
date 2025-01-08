@@ -67,6 +67,7 @@ export const PlainMessageView = (props: PlainMessageViewProps): JSX.Element => {
 
     return (
         <ContentWithCCAvatar
+            message={props.message}
             author={props.message.authorUser}
             profileOverride={props.message.document.body.profileOverride}
             avatarOverride={characterOverride?.document.body.avatar}
@@ -75,7 +76,7 @@ export const PlainMessageView = (props: PlainMessageViewProps): JSX.Element => {
                 usernameOverride={characterOverride?.document.body.username}
                 message={props.message}
                 additionalMenuItems={props.additionalMenuItems}
-                timeLink={props.message.document.meta?.apObjectRef}
+                timeLink={props.message.document.meta?.apObjectRef} // Link to external message
             />
             {props.beforeMessage}
             <AutoSummaryProvider limit={props.simple ? 0 : 1}>

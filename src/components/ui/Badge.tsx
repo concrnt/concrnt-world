@@ -23,7 +23,8 @@ export const ConcordBadge = (props: ConcordBadgeProps): JSX.Element => {
     return (
         <Tooltip arrow title={badge?.name} placement="top">
             <Box
-                onClick={() => {
+                onClick={(e) => {
+                    e.stopPropagation()
                     concord.inspectBadge(props.badgeRef)
                 }}
                 component="img"

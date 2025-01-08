@@ -227,6 +227,9 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                                                 ? 'noopener noreferrer'
                                                 : undefined
                                         }
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                        }}
                                     >
                                         <CCAvatar
                                             avatarURL={
@@ -270,7 +273,8 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                                 borderColor: theme.palette.primary.main
                             }}
                             variant="outlined"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation()
                                 if (ownReactions[imageUrl]) {
                                     props.message.deleteAssociation(ownReactions[imageUrl])
                                 } else {

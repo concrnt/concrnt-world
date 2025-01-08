@@ -2,7 +2,7 @@
 name: Style update
 about: デザイン・スタイルの微調整
 title: ''
-labels: "\U0001F3A8style"
+labels: "awaiting-triage/style🎨"
 assignees: ''
 
 ---

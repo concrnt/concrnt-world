@@ -16,6 +16,7 @@ import { CCUserChip } from './CCUserChip'
 import { LinkChip } from './LinkChip'
 import { TimelineChip } from './TimelineChip'
 import { useGlobalState } from '../../context/GlobalState'
+import { CCLink } from './CCLink'
 
 export interface MarkdownRendererProps {
     messagebody: string
@@ -227,21 +228,12 @@ export function MarkdownRendererLite(props: MarkdownRendererProps): JSX.Element 
                         </blockquote>
                     ),
                     a: ({ children, href }) => {
-                        if (href?.endsWith('.wav') || href?.endsWith('.mp3')) {
-                            return (
-                                <audio controls src={href}>
-                                    <Link href={href} target="_blank">
-                                        {children}
-                                    </Link>
-                                </audio>
-                            )
-                        } else {
-                            return (
-                                <Link href={href} target="_blank" color="secondary" underline="hover">
-                                    {children}
-                                </Link>
-                            )
-                        }
+                        if (!href) return <></>
+                        return (
+                            <CCLink to={href} target="_blank" color="secondary" underline="hover">
+                                {children}
+                            </CCLink>
+                        )
                     },
                     code: ({ node, children, inline }) => {
                         const language = node.position

@@ -2,7 +2,7 @@
 name: Bug
 about: 意図しない挙動
 title: ''
-labels: "\U0001F41Ebug"
+labels: "awaiting-triage/bug🐞"
 assignees: ''
 
 ---

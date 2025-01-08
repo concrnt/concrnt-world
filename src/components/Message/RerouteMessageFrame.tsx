@@ -1,9 +1,9 @@
-import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 
 import { type CoreProfile, type Message, type RerouteMessageSchema } from '@concurrent-world/client'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import { CCAvatar } from '../ui/CCAvatar'
-import { Link as routerLink, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { TimeDiff } from '../ui/TimeDiff'
 import { MessageContainer } from './MessageContainer'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
@@ -16,6 +16,7 @@ import { MarkdownRendererLite } from '../ui/MarkdownRendererLite'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'
 import { FaTheaterMasks } from 'react-icons/fa'
 import { useConfirm } from '../../context/Confirm'
+import { CCLink } from '../ui/CCLink'
 
 export interface RerouteMessageFrameProp {
     message: Message<RerouteMessageSchema>
@@ -65,7 +66,7 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                             width: { xs: '12px', sm: '18px' },
                             height: { xs: '12px', sm: '18px' }
                         }}
-                        component={routerLink}
+                        component={RouterLink}
                         to={link}
                     >
                         <CCAvatar
@@ -93,7 +94,9 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                         gap: 0.5
                     }}
                 >
-                    {username}
+                    <CCLink to={link} underline="hover" color="inherit">
+                        {username}
+                    </CCLink>
                     {profileOverride?.avatar && <FaTheaterMasks />} rerouted{' '}
                     {props.message.document.body.body && 'with comment:'}
                 </Box>

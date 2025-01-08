@@ -52,7 +52,8 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                 overflow: 'hidden',
                 userSelect: 'none'
             }}
-            onClick={() => {
+            onClick={(e) => {
+                e.stopPropagation()
                 if (isHidden) setAllowedUrl(media.mediaURL)
                 else onExpand?.()
             }}
@@ -240,7 +241,8 @@ export const EmbeddedGallery = (props: EmbeddedGalleryProps): JSX.Element => {
             {overflowed && (
                 <>
                     <IconButton
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation()
                             listRef.current?.scrollToIndex(range.start, {
                                 align: 'center',
                                 smooth: true
@@ -260,7 +262,8 @@ export const EmbeddedGallery = (props: EmbeddedGalleryProps): JSX.Element => {
                         <KeyboardArrowLeftIcon />
                     </IconButton>
                     <IconButton
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation()
                             listRef.current?.scrollToIndex(range.end, {
                                 align: 'center',
                                 smooth: true

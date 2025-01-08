@@ -1,5 +1,5 @@
-import { Box, Link, IconButton, Tooltip } from '@mui/material'
-import { Link as routerLink, Link as RouterLink } from 'react-router-dom'
+import { Box, IconButton, Tooltip } from '@mui/material'
+import { Link as routerLink } from 'react-router-dom'
 import { CCAvatar } from '../ui/CCAvatar'
 import { TimeDiff } from '../ui/TimeDiff'
 import {
@@ -12,6 +12,7 @@ import { MarkdownRendererLite } from '../ui/MarkdownRendererLite'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'
 import { useEffect, useState } from 'react'
 import { useClient } from '../../context/ClientContext'
+import { CCLink } from '../ui/CCLink'
 
 export interface OneLineMessageViewProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -21,6 +22,8 @@ export const OneLineMessageView = (props: OneLineMessageViewProps): JSX.Element 
     const { client } = useClient()
 
     const [characterOverride, setProfileOverride] = useState<CoreProfile<any> | undefined>(undefined)
+
+    const externalLink = props.message.document.meta?.apObjectRef // Link to external message
 
     useEffect(() => {
         if (!(client && props.message.document.body.profileOverride?.profileID)) return
@@ -71,35 +74,41 @@ export const OneLineMessageView = (props: OneLineMessageViewProps): JSX.Element 
                     minWidth={0}
                     sx={{ fontSize: { xs: '0.8rem', sm: '0.9rem' } }}
                 >
-                    <Tooltip
-                        arrow
-                        placement="top"
-                        title={
-                            <MarkdownRenderer
-                                messagebody={props.message.document.body.body}
-                                emojiDict={props.message.document.body.emojis ?? {}}
-                            />
-                        }
+                    <CCLink
+                        underline="none"
+                        color="inherit"
+                        fontSize="0.75rem"
+                        to={externalLink ?? `/${props.message.author}/${props.message.id}`}
                     >
-                        <Box>
-                            <MarkdownRendererLite
-                                messagebody={props.message.document.body.body}
-                                emojiDict={props.message.document.body.emojis ?? {}}
-                                forceOneline={true}
-                            />
-                        </Box>
-                    </Tooltip>
+                        <Tooltip
+                            arrow
+                            placement="top"
+                            title={
+                                <MarkdownRenderer
+                                    messagebody={props.message.document.body.body}
+                                    emojiDict={props.message.document.body.emojis ?? {}}
+                                />
+                            }
+                        >
+                            <Box>
+                                <MarkdownRendererLite
+                                    messagebody={props.message.document.body.body}
+                                    emojiDict={props.message.document.body.emojis ?? {}}
+                                    forceOneline={true}
+                                />
+                            </Box>
+                        </Tooltip>
+                    </CCLink>
                 </Box>
             </Box>
-            <Link
-                component={RouterLink}
+            <CCLink
                 underline="hover"
                 color="inherit"
                 fontSize="0.75rem"
-                to={`/${props.message.author}/${props.message.id}`}
+                to={externalLink ?? `/${props.message.author}/${props.message.id}`}
             >
                 <TimeDiff date={new Date(props.message.cdate)} />
-            </Link>
+            </CCLink>
         </Box>
     )
 }

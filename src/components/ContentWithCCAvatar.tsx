@@ -1,11 +1,19 @@
-import { type ProfileSchema, type User } from '@concurrent-world/client'
+import {
+    type MarkdownMessageSchema,
+    type Message,
+    type ReplyMessageSchema,
+    type ProfileSchema,
+    type User
+} from '@concurrent-world/client'
 import { Box, IconButton, ListItem, Paper, type SxProps, Tooltip } from '@mui/material'
 import { UserProfileCard } from './UserProfileCard'
-import { Link as routerLink } from 'react-router-dom'
+import { Link as routerLink, useNavigate } from 'react-router-dom'
 import { CCAvatar } from './ui/CCAvatar'
 import { type ProfileOverride } from '@concurrent-world/client/dist/types/model/core'
 
 export interface ContentWithCCAvatarProps {
+    message?: Message<MarkdownMessageSchema | ReplyMessageSchema>
+    linkTo?: string
     author?: User
     profileOverride?: ProfileOverride
     characterOverride?: ProfileSchema
@@ -15,6 +23,7 @@ export interface ContentWithCCAvatarProps {
 }
 
 export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Element => {
+    const navigate = useNavigate()
     return (
         <>
             <Box itemProp="author" itemScope itemType="https://schema.org/Person">
@@ -31,81 +40,96 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                     </>
                 )}
             </Box>
-            <ListItem
-                sx={{
-                    wordBreak: 'break-word',
-                    alignItems: 'flex-start',
-                    flex: 1,
-                    gap: 1
+            <Box
+                sx={{ cursor: 'pointer' }}
+                onClick={() => {
+                    const selectedString = window.getSelection()?.toString()
+                    if (selectedString !== '') return
+                    navigate(`/${props.author?.ccid}/${props.message?.id}`)
                 }}
-                disablePadding
             >
-                <Tooltip
-                    enterDelay={500}
-                    enterNextDelay={500}
-                    leaveDelay={300}
-                    placement="top"
-                    components={{
-                        Tooltip: Paper
-                    }}
-                    componentsProps={{
-                        tooltip: {
-                            sx: {
-                                m: 1,
-                                border: '1px solid',
-                                borderColor: 'divider',
-                                minWidth: '300px'
-                            }
-                        }
-                    }}
-                    title={
-                        <UserProfileCard
-                            user={props.author}
-                            subProfileID={props.profileOverride?.profileID}
-                            profileOverride={props.characterOverride}
-                        />
-                    }
-                >
-                    <IconButton
-                        sx={{
-                            width: { xs: '38px', sm: '48px' },
-                            height: { xs: '38px', sm: '48px' },
-                            mt: { xs: '3px', sm: '5px' }
-                        }}
-                        component={routerLink}
-                        to={
-                            props.profileOverride?.link ??
-                            '/' +
-                                (props.author?.ccid ?? '') +
-                                (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
-                        }
-                        target={props.profileOverride?.link ? '_blank' : undefined}
-                        rel={props.profileOverride?.link ? 'noopener noreferrer' : undefined}
-                    >
-                        <CCAvatar
-                            avatarURL={props.author?.profile?.avatar}
-                            avatarOverride={props.avatarOverride || props.profileOverride?.avatar}
-                            identiconSource={props.author?.ccid ?? ''}
-                            sx={{
-                                width: { xs: '38px', sm: '48px' },
-                                height: { xs: '38px', sm: '48px' }
-                            }}
-                        />
-                    </IconButton>
-                </Tooltip>
-                <Box
+                <ListItem
                     sx={{
-                        display: 'flex',
+                        wordBreak: 'break-word',
+                        alignItems: 'flex-start',
                         flex: 1,
-                        flexDirection: 'column',
-                        width: '100%',
-                        overflow: 'hidden',
-                        ...props.sx
+                        gap: 1
                     }}
+                    disablePadding
                 >
-                    {props.children}
-                </Box>
-            </ListItem>
+                    <Box
+                        onClick={(e) => {
+                            e.stopPropagation() // prevent to navigate other page
+                        }}
+                    >
+                        <Tooltip
+                            enterDelay={500}
+                            enterNextDelay={500}
+                            leaveDelay={300}
+                            placement="top"
+                            components={{
+                                Tooltip: Paper
+                            }}
+                            componentsProps={{
+                                tooltip: {
+                                    sx: {
+                                        m: 1,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        minWidth: '300px'
+                                    }
+                                }
+                            }}
+                            title={
+                                <UserProfileCard
+                                    user={props.author}
+                                    subProfileID={props.profileOverride?.profileID}
+                                    profileOverride={props.characterOverride}
+                                />
+                            }
+                        >
+                            <IconButton
+                                sx={{
+                                    width: { xs: '38px', sm: '48px' },
+                                    height: { xs: '38px', sm: '48px' },
+                                    mt: { xs: '3px', sm: '5px' }
+                                }}
+                                component={routerLink}
+                                to={
+                                    props.profileOverride?.link ??
+                                    '/' +
+                                        (props.author?.ccid ?? '') +
+                                        (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
+                                }
+                                target={props.profileOverride?.link ? '_blank' : undefined}
+                                rel={props.profileOverride?.link ? 'noopener noreferrer' : undefined}
+                            >
+                                <CCAvatar
+                                    avatarURL={props.author?.profile?.avatar}
+                                    avatarOverride={props.avatarOverride || props.profileOverride?.avatar}
+                                    identiconSource={props.author?.ccid ?? ''}
+                                    sx={{
+                                        width: { xs: '38px', sm: '48px' },
+                                        height: { xs: '38px', sm: '48px' }
+                                    }}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flex: 1,
+                            flexDirection: 'column',
+                            width: '100%',
+                            overflow: 'hidden',
+                            ...props.sx
+                        }}
+                    >
+                        {props.children}
+                    </Box>
+                </ListItem>
+            </Box>
         </>
     )
 }

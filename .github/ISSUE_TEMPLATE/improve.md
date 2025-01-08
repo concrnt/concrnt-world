@@ -2,7 +2,7 @@
 name: Improve
 about: 既存機能の改善
 title: ''
-labels: "✨improve"
+labels: "awaiting-triage/improve✨"
 assignees: ''
 
 ---

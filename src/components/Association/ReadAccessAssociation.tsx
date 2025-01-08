@@ -6,6 +6,7 @@ import { type ReactElement, useEffect, useState } from 'react'
 import { TimelineChip } from '../ui/TimelineChip'
 import { useClient } from '../../context/ClientContext'
 import { WatchRequestAcceptButton } from '../WatchRequestAccpetButton'
+import { CCLink } from '../ui/CCLink'
 
 export interface ReadAccessAssociationProps {
     association: Association<ReadAccessRequestAssociationSchema>
@@ -23,7 +24,10 @@ export const ReadAccessAssociation = (props: ReadAccessAssociationProps): ReactE
         <ContentWithCCAvatar author={props.association.authorUser}>
             <Box display="flex" justifyContent="space-between">
                 <Typography>
-                    {props.association.authorUser?.profile?.username} さんが
+                    <CCLink to={`/${props.association.author}`}>
+                        {props.association.authorUser?.profile?.username}
+                    </CCLink>{' '}
+                    さんが
                     <TimelineChip timelineID={props.association.target + '@' + props.association.owner} />
                     への読み取りアクセスを希望しています
                 </Typography>
@@ -32,7 +36,13 @@ export const ReadAccessAssociation = (props: ReadAccessAssociationProps): ReactE
             </Box>
             <Box>
                 {timeline && (
-                    <WatchRequestAcceptButton noAvatar request={props.association} targetTimeline={timeline} />
+                    <Box
+                        onClick={(e) => {
+                            e.stopPropagation() // prevent to navigate other page
+                        }}
+                    >
+                        <WatchRequestAcceptButton noAvatar request={props.association} targetTimeline={timeline} />
+                    </Box>
                 )}
             </Box>
         </ContentWithCCAvatar>

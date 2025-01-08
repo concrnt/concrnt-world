@@ -88,7 +88,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                 {/* left */}
                 <IconButtonWithNumber
                     icon={<ReplyIcon sx={{ fontSize: { xs: '70%', sm: '80%' } }} />}
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation()
                         editorModal.open({
                             mode: 'reply',
                             target: props.message,
@@ -101,7 +102,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                 />
                 <IconButtonWithNumber
                     icon={<RepeatIcon sx={{ fontSize: { xs: '70%', sm: '80%' } }} />}
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation()
                         editorModal.open({
                             mode: 'reroute',
                             target: props.message
@@ -171,7 +173,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                 <StarOutlineIcon sx={{ fontSize: { xs: '70%', sm: '80%' } }} />
                             )
                         }
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation()
                             if (ownFavorite) {
                                 props.message.deleteAssociation(ownFavorite)
                             } else {
@@ -186,6 +189,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                 <IconButtonWithNumber
                     icon={<AddReactionIcon sx={{ fontSize: { xs: '70%', sm: '80%' } }} />}
                     onClick={(e) => {
+                        e.stopPropagation()
                         emojiPicker.open(e.currentTarget, (emoji) => {
                             props.message.reaction(emoji.shortcode, emoji.imageURL).catch(() => {
                                 enqueueSnackbar('通信に失敗しました', { variant: 'error' })
@@ -209,10 +213,14 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                 onClose={() => {
                     setMenuAnchor(null)
                 }}
+                onClick={(e) => {
+                    e.stopPropagation()
+                }}
             >
                 {isMobileSize ? (
                     <MenuItem
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation()
                             navigator.share({
                                 title: props.message.document.body.body,
                                 text: props.message.document.body.body,
@@ -228,10 +236,11 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     </MenuItem>
                 ) : (
                     <MenuItem
-                        onClick={() => {
+                        onClick={(e) => {
                             const userid = props.message.authorUser?.alias ?? props.message.author
                             navigator.clipboard.writeText('https://concrnt.world/' + userid + '/' + props.message.id)
                             enqueueSnackbar(t('linkCopied'), { variant: 'success' })
+                            setMenuAnchor(null)
                         }}
                     >
                         <ListItemIcon>
@@ -241,7 +250,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     </MenuItem>
                 )}
                 <MenuItem
-                    onClick={() => {
+                    onClick={(e) => {
                         props.message.document.body.body &&
                             navigator.clipboard.writeText(props.message.document.body.body)
                         setMenuAnchor(null)
@@ -254,7 +263,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                 </MenuItem>
                 {enableConcord && (
                     <MenuItem
-                        onClick={() => {
+                        onClick={(e) => {
                             concord.draftSuperReaction(props.message)
                             setMenuAnchor(null)
                         }}
@@ -272,6 +281,9 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     )}&text=${props.message.document.body.body}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => {
+                        setMenuAnchor(null)
+                    }}
                 >
                     <ListItemIcon>
                         <GTranslateIcon sx={{ color: 'text.primary' }} />
@@ -287,7 +299,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     </ListItemText>
                 </MenuItem>
                 <MenuItem
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation()
                         inspector.inspectItem({ messageId: props.message.id, author: props.message.author })
                         setMenuAnchor(null)
                     }}
@@ -313,7 +326,8 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                 */}
                 {props.message.author === props.userCCID && (
                     <MenuItem
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation()
                             confirm.open(
                                 t('reallyDelete'),
                                 () => {

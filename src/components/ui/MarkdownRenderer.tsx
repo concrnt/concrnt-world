@@ -30,6 +30,7 @@ import { TimelineChip } from './TimelineChip'
 import { useMediaViewer } from '../../context/MediaViewer'
 import { useGlobalState } from '../../context/GlobalState'
 import { useAutoSummary } from '../../context/AutoSummaryContext'
+import { CCLink } from './CCLink'
 
 export interface MarkdownRendererProps {
     messagebody: string
@@ -364,25 +365,11 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                             )
                         }
 
-                        const isInternalLink = new URL(href).host === 'concrnt.world'
-                        if (isInternalLink) {
-                            return (
-                                <Link
-                                    component={RouterLink}
-                                    to={href.replace('https://concrnt.world', '')}
-                                    color="secondary"
-                                    underline="hover"
-                                >
-                                    {children}
-                                </Link>
-                            )
-                        } else {
-                            return (
-                                <Link href={href} target="_blank" color="secondary" underline="hover">
-                                    {children}
-                                </Link>
-                            )
-                        }
+                        return (
+                            <CCLink to={href} target="_blank" color="secondary" underline="hover">
+                                {children}
+                            </CCLink>
+                        )
                     },
                     code: ({ node, children, inline }) => {
                         const language = node.position
@@ -561,6 +548,9 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                             <details
                                 onToggle={() => {
                                     summary.update()
+                                }}
+                                onClick={(e) => {
+                                    e.stopPropagation()
                                 }}
                             >
                                 {children}

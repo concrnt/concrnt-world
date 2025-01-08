@@ -18,10 +18,13 @@ const _IconButtonWithNumber: ForwardRefRenderFunction<HTMLDivElement, IconButton
                 alignItems: 'center'
             }}
             ref={ref}
+            onClick={(e) => {
+                e.stopPropagation()
+            }}
         >
             <IconButton
                 sx={{
-                    p: '0',
+                    p: 0.5,
                     color: theme.palette.text.secondary
                 }}
                 color="primary"

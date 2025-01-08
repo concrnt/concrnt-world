@@ -1,4 +1,4 @@
-import { Avatar, Chip, Link } from '@mui/material'
+import { Avatar } from '@mui/material'
 import PublicIcon from '@mui/icons-material/Public'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -17,6 +17,7 @@ import {
     faXTwitter,
     faTelegram
 } from '@fortawesome/free-brands-svg-icons'
+import { CCChip } from './CCChip'
 
 const iconMap: Record<string, JSX.Element> = {
     discord: <FontAwesomeIcon icon={faDiscord} />,
@@ -46,13 +47,12 @@ export const LinkChip = ({ href, service, icon, children }: LinkChipProps): JSX.
     const useAvatar = icon !== undefined && icon !== ''
 
     return (
-        <Chip
+        <CCChip
             clickable={href !== undefined && href !== ''}
             size="small"
             icon={useAvatar ? undefined : iconMap[service] ?? <PublicIcon />}
             avatar={useAvatar ? <Avatar src={icon} /> : undefined}
-            component={Link}
-            href={href}
+            to={href}
             label={children}
             target="_blank"
             rel="noreferrer noopener"

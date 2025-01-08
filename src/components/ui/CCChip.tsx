@@ -3,12 +3,16 @@ import { type ForwardRefRenderFunction, type Ref, forwardRef } from 'react'
 import { Link as NavLink } from 'react-router-dom'
 
 export interface CCChipProps {
+    clickable?: boolean
     label: string
     onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void
     sx?: SxProps
     to?: string
     size?: 'small' | 'medium'
     icon?: JSX.Element
+    avatar?: React.ReactElement
+    target?: string
+    rel?: string
 }
 
 const _CCChip: ForwardRefRenderFunction<HTMLDivElement | HTMLAnchorElement, CCChipProps> = (props, ref) => {
@@ -28,6 +32,9 @@ const _CCChip: ForwardRefRenderFunction<HTMLDivElement | HTMLAnchorElement, CCCh
                     backgroundColor: alpha(theme.palette.text.primary, 0.1)
                 }}
                 label={props.label}
+                onClick={(e) => {
+                    e.stopPropagation()
+                }}
                 onDelete={props.onDelete}
                 icon={props.icon}
             />
@@ -44,6 +51,9 @@ const _CCChip: ForwardRefRenderFunction<HTMLDivElement | HTMLAnchorElement, CCCh
                 backgroundColor: alpha(theme.palette.text.primary, 0.1)
             }}
             label={props.label}
+            onClick={(e) => {
+                e.stopPropagation()
+            }}
             onDelete={props.onDelete}
             icon={props.icon}
         />

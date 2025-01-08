@@ -11,6 +11,7 @@ import { Box, Link, Typography } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'
 import { Link as RouterLink } from 'react-router-dom'
 import { type ReactElement, useEffect, useState } from 'react'
+import { CCLink } from '../ui/CCLink'
 
 export interface MentionAssociationProps {
     association: Association<ReactionAssociationSchema>
@@ -28,6 +29,7 @@ export const MentionAssociation = (props: MentionAssociationProps): ReactElement
 
     const actionUser: User | undefined = isMeToOther ? props.association.authorUser : target?.authorUser
 
+    const targetLink = target ? `/${target.author}/${target.id}` : '#' // Link to mention message
     useEffect(() => {
         props.association.getTargetMessage().then(setTarget)
     }, [props.association])
@@ -35,13 +37,17 @@ export const MentionAssociation = (props: MentionAssociationProps): ReactElement
     return (
         <ContentWithCCAvatar
             author={actionUser}
+            linkTo={targetLink}
             profileOverride={!isMeToOther ? target?.document.body.profileOverride : undefined}
         >
             <Box display="flex" justifyContent="space-between">
                 <Typography>
                     {isMeToOther ? (
                         <>
-                            <b>{Nominative}</b> mentioned You in message with{' '}
+                            <CCLink to={actionUser ? `/${actionUser?.ccid}` : '#'}>
+                                <b>{Nominative}</b>
+                            </CCLink>{' '}
+                            mentioned You in message with{' '}
                             <img
                                 height="13px"
                                 src={props.association.document.body.imageUrl}
@@ -59,15 +65,9 @@ export const MentionAssociation = (props: MentionAssociationProps): ReactElement
                         </>
                     )}
                 </Typography>
-                <Link
-                    component={RouterLink}
-                    underline="hover"
-                    color="inherit"
-                    fontSize="0.75rem"
-                    to={`/${target?.author ?? ''}/${target?.id ?? ''}`}
-                >
+                <CCLink to={targetLink}>
                     <TimeDiff date={new Date(props.association.cdate)} />
-                </Link>
+                </CCLink>
             </Box>
             {(!props.withoutContent && (
                 <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '4px solid #ccc' }}>
