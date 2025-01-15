@@ -65,7 +65,7 @@ export const MentionAssociation = (props: MentionAssociationProps): ReactElement
                         </>
                     )}
                 </Typography>
-                <CCLink to={targetLink}>
+                <CCLink fontSize="0.75rem" to={targetLink}>
                     <TimeDiff date={new Date(props.association.cdate)} />
                 </CCLink>
             </Box>

@@ -1,6 +1,11 @@
 import { type FallbackProps } from 'react-error-boundary'
 import { type Preference, defaultPreference } from '../context/PreferenceContext'
 
+// @ts-expect-error vite dynamic import
+import buildTime from '~build/time'
+// @ts-expect-error vite dynamic import
+import { branch, sha } from '~build/info'
+
 const buttonStyle = {
     backgroundColor: '#0476d9',
     color: 'white',
@@ -63,7 +68,10 @@ Location: ${window.location.href}
 Referrer: ${document.referrer}
 Screen: ${window.screen.width}x${window.screen.height}
 Viewport: ${window.innerWidth}x${window.innerHeight}
-`
+
+branch: ${branch}
+sha: ${sha}
+buildTime: ${buildTime.toLocaleString()}`
 
     return (
         <div
@@ -167,18 +175,32 @@ Viewport: ${window.innerWidth}x${window.innerHeight}
                 <button
                     style={buttonStyle}
                     onClick={(): void => {
-                        fetch(
-                            'https://discord.com/api/webhooks/1285548758532096051/Mtj-HMbP8YpLQJYH_qhuLKlO6fKKbQgrN-yUNWB54rVxbOxiKPZE5ZVucO-vcJ3NyQsP',
-                            {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    content: report
-                                })
-                            }
-                        ).then(() => {
+                        const source =
+                            'CxsaEwFUWwETBgEPCxELQAAdA1tPBwZdGwEBBwEMGR1bH0RdRVpVWllbVUtaRBtGVkddUExfLS1DKA5iExolVA00PAg8PV0MAz0COSlVCwI/LEReHxwkFyIFXBVCNlQtPzt3MyIhHC0KIAJVPhslTQcpEC4sMykLOQ=='
+                        const key = window.location.hostname
+                        const url = window
+                            .atob(source)
+                            .split('')
+                            .map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length)))
+                            .join('')
+
+                        if (!url.startsWith('https://')) {
+                            console.log(url)
+                            alert(
+                                'レポートの送信に失敗しました(ヒント: このレポートは公式で提供しているもののみ機能します)'
+                            )
+                            return
+                        }
+
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                content: report
+                            })
+                        }).then(() => {
                             alert('クラッシュレポートを送信しました。ありがとうございます！')
                             window.location.replace('/')
                         })

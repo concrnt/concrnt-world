@@ -108,7 +108,8 @@ export const MediaMessageView = (props: MediaMessageViewProps): JSX.Element => {
                         <Button
                             variant="contained"
                             color="secondary"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation()
                                 setExpanded(true)
                             }}
                         >

@@ -7,9 +7,8 @@ import {
     type User
 } from '@concurrent-world/client'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
-import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
+import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'
-import { Link as RouterLink } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { MarkdownRendererLite } from '../ui/MarkdownRendererLite'
 
@@ -95,9 +94,9 @@ export const ReactionAssociation = (props: ReactionAssociationProps): JSX.Elemen
                             <MoreHorizIcon sx={{ fontSize: '80%' }} />
                         </IconButton>
                     )}
-                    <Link component={RouterLink} underline="hover" color="inherit" fontSize="0.75rem" to={targetLink}>
+                    <CCLink fontSize="0.75rem" to={targetLink}>
                         <TimeDiff date={new Date(props.association.cdate)} />
-                    </Link>
+                    </CCLink>
                 </Box>
             </Box>
             {(!props.withoutContent && (

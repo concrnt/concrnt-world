@@ -106,7 +106,8 @@ export const PlainMessageView = (props: PlainMessageViewProps): JSX.Element => {
                         <Button
                             variant="contained"
                             color="secondary"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation()
                                 setExpanded(true)
                             }}
                         >

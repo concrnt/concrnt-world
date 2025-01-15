@@ -91,7 +91,7 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
                             <MoreHorizIcon sx={{ fontSize: '80%' }} />
                         </IconButton>
                     )}
-                    <CCLink underline="hover" color="inherit" fontSize="0.75rem" to={targetLink}>
+                    <CCLink fontSize="0.75rem" to={targetLink}>
                         <TimeDiff date={new Date(props.association.cdate)} />
                     </CCLink>
                 </Box>
