@@ -30,7 +30,10 @@ export const ThemeCard = (props: ThemeCardProps): JSX.Element => {
                     justifyContent: 'flex-start'
                 }}
                 color="info"
-                onClick={props.onClick}
+                onClick={(e) => {
+                    props.onClick?.()
+                    e.stopPropagation()
+                }}
                 variant="outlined"
             >
                 <Box

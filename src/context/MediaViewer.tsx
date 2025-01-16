@@ -8,16 +8,20 @@ import AppsIcon from '@mui/icons-material/Apps'
 import { type WorldMedia } from '../model'
 import { useGlobalState } from './GlobalState'
 
+import '@google/model-viewer'
+
 const zoomFactor = 8
 
 export interface MediaViewerState {
     openSingle: (src?: string) => void
     openMedias: (medias: WorldMedia[], startIndex?: number) => void
+    openModel: (src?: string) => void
 }
 
 const MediaViewerContext = createContext<MediaViewerState>({
     openSingle: () => {},
-    openMedias: () => {}
+    openMedias: () => {},
+    openModel: () => {}
 })
 
 interface MediaViewerProviderProps {
@@ -28,6 +32,7 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
     const [previewImage, setPreviewImage] = useState<string | undefined>()
     const [previewIndex, setPreviewIndex] = useState<number>(0)
     const [medias, setMedias] = useState<WorldMedia[]>([])
+    const [previewModel, setPreviewModel] = useState<string | undefined>()
 
     const [mode, setMode] = useState<'single' | 'gallery'>('single')
 
@@ -43,6 +48,11 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
         setMedias(medias)
         setPreviewIndex(startIndex ?? 0)
         setPreviewImage(medias[startIndex ?? 0].mediaURL)
+    }
+
+    const openModel = (src?: string): void => {
+        setMode('single')
+        setPreviewModel(src)
     }
 
     const padding = isMobileSize ? 20 : 100
@@ -114,13 +124,14 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
     const close = (): void => {
         setPreviewImage(undefined)
         setMedias([])
+        setPreviewModel(undefined)
     }
 
     return (
-        <MediaViewerContext.Provider value={{ openSingle, openMedias }}>
+        <MediaViewerContext.Provider value={{ openSingle, openMedias, openModel }}>
             {props.children}
             <Modal
-                open={!!previewImage}
+                open={!!previewImage || !!previewModel}
                 onClose={close}
                 sx={{
                     display: 'flex',
@@ -132,124 +143,143 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
             >
                 {mode === 'single' ? (
                     <>
-                        <Box
-                            flex={1}
-                            position="absolute"
-                            width="100vw"
-                            height="100dvh"
-                            top={0}
-                            left={0}
-                            ref={(el: HTMLDivElement | null) => {
-                                setContainer(el)
-                            }}
-                            onClick={(e) => {
-                                if (e.target !== imageRef.current) {
-                                    close()
-                                }
-                            }}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                        >
-                            {imageScale > 0 ? (
-                                <TransformWrapper
-                                    initialScale={imageScale}
-                                    initialPositionX={centerPosition.x}
-                                    initialPositionY={centerPosition.y}
-                                    minScale={imageScale}
-                                    maxScale={imageScale * zoomFactor}
-                                    ref={transformComponentRef}
+                        {previewImage && (
+                            <>
+                                <Box
+                                    flex={1}
+                                    position="absolute"
+                                    width="100vw"
+                                    height="100dvh"
+                                    top={0}
+                                    left={0}
+                                    ref={(el: HTMLDivElement | null) => {
+                                        setContainer(el)
+                                    }}
+                                    onClick={(e) => {
+                                        if (e.target !== imageRef.current) {
+                                            close()
+                                        }
+                                    }}
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
                                 >
-                                    <TransformComponent
-                                        wrapperStyle={{
-                                            width: '100%',
-                                            height: '100%'
-                                        }}
-                                    >
-                                        <img
-                                            src={getImageURL(previewImage)}
-                                            style={{
-                                                pointerEvents: 'auto'
-                                            }}
-                                            alt="preview"
-                                            ref={(el: HTMLImageElement | null) => {
-                                                imageRef.current = el
+                                    {imageScale > 0 ? (
+                                        <TransformWrapper
+                                            initialScale={imageScale}
+                                            initialPositionX={centerPosition.x}
+                                            initialPositionY={centerPosition.y}
+                                            minScale={imageScale}
+                                            maxScale={imageScale * zoomFactor}
+                                            ref={transformComponentRef}
+                                        >
+                                            <TransformComponent
+                                                wrapperStyle={{
+                                                    width: '100%',
+                                                    height: '100%'
+                                                }}
+                                            >
+                                                <img
+                                                    src={getImageURL(previewImage)}
+                                                    style={{
+                                                        pointerEvents: 'auto'
+                                                    }}
+                                                    alt="preview"
+                                                    ref={(el: HTMLImageElement | null) => {
+                                                        imageRef.current = el
+                                                    }}
+                                                />
+                                            </TransformComponent>
+                                        </TransformWrapper>
+                                    ) : (
+                                        <CircularProgress
+                                            sx={{
+                                                color: 'white'
                                             }}
                                         />
-                                    </TransformComponent>
-                                </TransformWrapper>
-                            ) : (
-                                <CircularProgress
-                                    sx={{
-                                        color: 'white'
+                                    )}
+                                </Box>
+
+                                {medias.length > 1 && (
+                                    <IconButton
+                                        disabled={previewIndex === 0}
+                                        onClick={() => {
+                                            setPreviewIndex(previewIndex - 1)
+                                            setPreviewImage(medias[previewIndex - 1].mediaURL)
+                                        }}
+                                        sx={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '4px',
+                                            transform: 'translateY(-50%)',
+                                            zIndex: 1,
+                                            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                                            '&:hover': {
+                                                backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                                            }
+                                        }}
+                                    >
+                                        <KeyboardArrowLeftIcon />
+                                    </IconButton>
+                                )}
+
+                                {medias.length > 1 && (
+                                    <IconButton
+                                        disabled={previewIndex === medias.length - 1}
+                                        onClick={() => {
+                                            setPreviewIndex(previewIndex + 1)
+                                            setPreviewImage(medias[previewIndex + 1].mediaURL)
+                                        }}
+                                        sx={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            right: '4px',
+                                            transform: 'translateY(-50%)',
+                                            zIndex: 1,
+                                            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                                            '&:hover': {
+                                                backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                                            }
+                                        }}
+                                    >
+                                        <KeyboardArrowRightIcon />
+                                    </IconButton>
+                                )}
+                                {medias.length > 1 && (
+                                    <IconButton
+                                        onClick={() => {
+                                            setMode('gallery')
+                                        }}
+                                        sx={{
+                                            position: 'absolute',
+                                            top: '3%',
+                                            right: '3%',
+                                            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                                            '&:hover': {
+                                                backgroundColor: 'rgba(255, 255, 255, 5)'
+                                            }
+                                        }}
+                                    >
+                                        <AppsIcon />
+                                    </IconButton>
+                                )}
+                            </>
+                        )}
+
+                        {previewModel && (
+                            <>
+                                <model-viewer
+                                    src={previewModel}
+                                    camera-controls
+                                    style={{
+                                        backgroundColor: '#3f3f3f',
+                                        width: '90vw',
+                                        height: '90vh'
                                     }}
                                 />
-                            )}
-                        </Box>
-
-                        {medias.length > 1 && (
-                            <IconButton
-                                disabled={previewIndex === 0}
-                                onClick={() => {
-                                    setPreviewIndex(previewIndex - 1)
-                                    setPreviewImage(medias[previewIndex - 1].mediaURL)
-                                }}
-                                sx={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '4px',
-                                    transform: 'translateY(-50%)',
-                                    zIndex: 1,
-                                    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.5)'
-                                    }
-                                }}
-                            >
-                                <KeyboardArrowLeftIcon />
-                            </IconButton>
+                            </>
                         )}
 
-                        {medias.length > 1 && (
-                            <IconButton
-                                disabled={previewIndex === medias.length - 1}
-                                onClick={() => {
-                                    setPreviewIndex(previewIndex + 1)
-                                    setPreviewImage(medias[previewIndex + 1].mediaURL)
-                                }}
-                                sx={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    right: '4px',
-                                    transform: 'translateY(-50%)',
-                                    zIndex: 1,
-                                    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.5)'
-                                    }
-                                }}
-                            >
-                                <KeyboardArrowRightIcon />
-                            </IconButton>
-                        )}
-                        {medias.length > 1 && (
-                            <IconButton
-                                onClick={() => {
-                                    setMode('gallery')
-                                }}
-                                sx={{
-                                    position: 'absolute',
-                                    top: '3%',
-                                    right: '3%',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 5)'
-                                    }
-                                }}
-                            >
-                                <AppsIcon />
-                            </IconButton>
-                        )}
                         <Box
                             width="100%"
                             display="flex"

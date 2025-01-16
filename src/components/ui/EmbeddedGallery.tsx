@@ -9,10 +9,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { type WorldMedia } from '../../model'
 import { Blurhash } from 'react-blurhash'
 import { useGlobalState } from '../../context/GlobalState'
+import FullscreenIcon from '@mui/icons-material/Fullscreen'
 
 import poster from '../../resources/view-3dmodel.png'
 
 import '@google/model-viewer'
+import { CCIconButton } from './CCIconButton'
 
 export interface EmbeddedGalleryProps {
     medias: WorldMedia[]
@@ -22,6 +24,8 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
     const [_, setForceUpdate] = useState(0)
     const imageRef = useRef<HTMLImageElement>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
+
+    const mediaViewer = useMediaViewer()
 
     const { getImageURL } = useGlobalState()
 
@@ -127,7 +131,8 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             }}
                             sx={{
                                 backgroundCorlor: '#eee',
-                                height: '100%'
+                                height: '100%',
+                                position: 'relative'
                             }}
                         >
                             {showModel ? (
@@ -155,6 +160,20 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                     }}
                                 />
                             )}
+
+                            <CCIconButton
+                                sx={{
+                                    position: 'absolute',
+                                    bottom: 5,
+                                    right: 5,
+                                    backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                                }}
+                                onClick={(e) => {
+                                    mediaViewer.openModel(media.mediaURL)
+                                }}
+                            >
+                                <FullscreenIcon />
+                            </CCIconButton>
                         </Box>
                     )}
 
