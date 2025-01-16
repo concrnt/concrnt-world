@@ -31,7 +31,9 @@ jobs:
         node-version: lts/*
 
     - name: Install dependencies
-      run: npm install -g pnpm && pnpm install
+      run: |
+        corepack enable pnpm
+        pnpm i
 
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps ${{ matrix.browser }}

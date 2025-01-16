@@ -1,5 +1,4 @@
 import { type SxProps, Link, type TypographyOwnProps } from '@mui/material'
-import { type HTMLAttributeAnchorTarget } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
 export interface CCLinkProps {
@@ -9,13 +8,17 @@ export interface CCLinkProps {
     children?: JSX.Element | Array<JSX.Element | undefined> | React.ReactNode | string
     color?: TypographyOwnProps['color']
     fontSize?: string
-    target?: HTMLAttributeAnchorTarget
 }
 
 export const CCLink = (props: CCLinkProps): JSX.Element => {
     const isInternal = props.to.startsWith('/') || props.to.startsWith('https://concrnt.world')
 
     if (isInternal) {
+        let link = props.to
+        if (link.startsWith('https://concrnt.world')) {
+            link = link.replace('https://concrnt.world', '')
+        }
+
         return (
             <Link
                 component={RouterLink}
@@ -23,8 +26,7 @@ export const CCLink = (props: CCLinkProps): JSX.Element => {
                 sx={props.sx}
                 color={props.color ?? 'inherit'}
                 fontSize={props.fontSize}
-                to={props.to}
-                target={props.target ?? '_self'}
+                to={link}
                 onClick={(e) => {
                     e.stopPropagation()
                 }}
@@ -40,7 +42,8 @@ export const CCLink = (props: CCLinkProps): JSX.Element => {
                 color={props.color ?? 'inherit'}
                 fontSize={props.fontSize}
                 href={props.to}
-                target={props.target ?? '_blank'}
+                target={'_blank'}
+                rel={'noreferrer noopener'}
                 onClick={(e) => {
                     e.stopPropagation()
                 }}

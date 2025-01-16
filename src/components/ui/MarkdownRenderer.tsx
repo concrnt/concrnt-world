@@ -1,12 +1,11 @@
 import { type ImgHTMLAttributes, type DetailedHTMLProps, memo, useEffect } from 'react'
-import { Box, Button, Divider, IconButton, Link, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Divider, IconButton, Tooltip, Typography } from '@mui/material'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize'
 import { type ReactMarkdownProps } from 'react-markdown/lib/ast-to-react'
 import breaks from 'remark-breaks'
 import { Codeblock } from './Codeblock'
-import { Link as RouterLink } from 'react-router-dom'
 
 import type { EmojiLite } from '../../model'
 import {
@@ -366,7 +365,7 @@ export const MarkdownRenderer = memo<MarkdownRendererProps>((props: MarkdownRend
                         }
 
                         return (
-                            <CCLink to={href} target="_blank" color="secondary" underline="hover">
+                            <CCLink to={href} color="secondary" underline="hover">
                                 {children}
                             </CCLink>
                         )

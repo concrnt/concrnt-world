@@ -134,6 +134,9 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                     to={fav.document.body.profileOverride?.link ?? '/' + fav.author}
                                     target={fav.document.body.profileOverride?.link ? '_blank' : undefined}
                                     rel={fav.document.body.profileOverride?.link ? 'noopener noreferrer' : undefined}
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                    }}
                                 >
                                     <CCAvatar
                                         sx={{

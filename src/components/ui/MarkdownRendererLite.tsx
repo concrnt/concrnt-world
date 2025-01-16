@@ -230,7 +230,7 @@ export function MarkdownRendererLite(props: MarkdownRendererProps): JSX.Element 
                     a: ({ children, href }) => {
                         if (!href) return <></>
                         return (
-                            <CCLink to={href} target="_blank" color="secondary" underline="hover">
+                            <CCLink to={href} color="secondary" underline="hover">
                                 {children}
                             </CCLink>
                         )

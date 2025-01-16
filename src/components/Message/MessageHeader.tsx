@@ -50,7 +50,6 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                     underline="hover"
                     color="inherit"
                     to={props.message.document.body.profileOverride?.link ?? `/${props.message.author}`}
-                    target={props.message.document.body.profileOverride?.link ? '_blank' : '_self'}
                 >
                     <Typography
                         component="span"

@@ -10,6 +10,10 @@ import { type WorldMedia } from '../../model'
 import { Blurhash } from 'react-blurhash'
 import { useGlobalState } from '../../context/GlobalState'
 
+import poster from '../../resources/view-3dmodel.png'
+
+import '@google/model-viewer'
+
 export interface EmbeddedGalleryProps {
     medias: WorldMedia[]
 }
@@ -18,28 +22,29 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
     const [_, setForceUpdate] = useState(0)
     const imageRef = useRef<HTMLImageElement>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
-    const [loadded, setLoadded] = useState(imageRef.current?.complete || videoRef.current?.readyState === 4)
 
     const { getImageURL } = useGlobalState()
 
     const setAllowedUrl = (url: string): void => {
         const key = 'reveal:' + url
-        localStorage.setItem(key, 'true')
+        sessionStorage.setItem(key, 'true')
         setForceUpdate((prev) => prev + 1)
     }
 
     const resetAllowedUrls = (url: string): void => {
         const key = 'reveal:' + url
-        localStorage.removeItem(key)
+        sessionStorage.removeItem(key)
         setForceUpdate((prev) => prev + 1)
     }
 
     const checkUrlAllowed = (url: string): boolean => {
         const key = 'reveal:' + url
-        return localStorage.getItem(key) === 'true'
+        return sessionStorage.getItem(key) === 'true'
     }
 
     const isHidden = media.flag && !checkUrlAllowed(media.mediaURL)
+
+    const [showModel, setShowModel] = useState(false)
 
     return (
         <Box
@@ -82,9 +87,6 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                     objectFit: 'cover',
                                     cursor: 'pointer'
                                 }}
-                                onLoad={() => {
-                                    setLoadded(true)
-                                }}
                             />
                             <meta itemProp="contentUrl" content={media.mediaURL} />
                             <meta itemProp="caption" content={media.flag} />
@@ -106,9 +108,6 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                 objectFit: 'contain',
                                 cursor: 'pointer'
                             }}
-                            onLoadedMetadata={() => {
-                                setLoadded(true)
-                            }}
                             onClick={(e) => {
                                 e.stopPropagation()
                             }}
@@ -118,6 +117,44 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                         >
                             <meta itemProp="contentUrl" content={media.mediaURL} />
                             <meta itemProp="caption" content={media.flag} />
+                        </Box>
+                    )}
+
+                    {media.mediaType.startsWith('model') && (
+                        <Box
+                            onClick={(e) => {
+                                e.stopPropagation()
+                            }}
+                            sx={{
+                                backgroundCorlor: '#eee',
+                                height: '100%'
+                            }}
+                        >
+                            {showModel ? (
+                                <model-viewer
+                                    src={media.mediaURL}
+                                    camera-controls
+                                    style={{
+                                        backgroundColor: '#3f3f3f',
+                                        width: '100%',
+                                        height: '100%'
+                                    }}
+                                />
+                            ) : (
+                                <Box
+                                    component="img"
+                                    src={poster}
+                                    sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        cursor: 'pointer',
+                                        objectFit: 'cover'
+                                    }}
+                                    onClick={() => {
+                                        setShowModel(true)
+                                    }}
+                                />
+                            )}
                         </Box>
                     )}
 
@@ -286,4 +323,19 @@ export const EmbeddedGallery = (props: EmbeddedGalleryProps): JSX.Element => {
             )}
         </Box>
     )
+}
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace JSX {
+        interface IntrinsicElements {
+            'model-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+                src: string
+                alt?: string
+                'camera-controls'?: boolean
+                'auto-rotate'?: boolean
+                ar?: boolean
+            }
+        }
+    }
 }

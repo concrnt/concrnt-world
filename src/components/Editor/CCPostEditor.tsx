@@ -49,6 +49,8 @@ import { CCComboBox } from '../ui/CCComboBox'
 import { genBlurHash } from '../../util'
 import { SubprofileSelector } from '../SubprofileSelector'
 
+import modelPoster from '../../resources/view-3dmodel.png'
+
 const ModeSets = {
     plaintext: {
         icon: <TextFieldsIcon />,
@@ -295,23 +297,36 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
             })
     }
 
-    const uploadImage = async (imageFile: File): Promise<void> => {
+    const uploadMedia = async (file: File): Promise<void> => {
+        let fileType = file.type
+
+        if (!fileType) {
+            if (file.name.endsWith('.glb')) {
+                fileType = 'model/gltf-binary'
+            }
+        }
+
+        if (!fileType) {
+            enqueueSnackbar('Invalid file type', { variant: 'error' })
+            return
+        }
+
         const mediaExists = draft.match(/!\[[^\]]*\]\([^)]*\)/g)
         if (!mediaExists && mode === 'markdown' && autoSwitchMediaPostType) {
             setMode((mode = 'media'))
         }
 
         if (mode === 'media') {
-            let url = URL.createObjectURL(imageFile)
+            let url = URL.createObjectURL(file)
             let blurhash = ''
 
-            if (imageFile.type.startsWith('image')) {
+            if (fileType.startsWith('image')) {
                 try {
                     blurhash = (await genBlurHash(url)) ?? ''
                 } catch (e) {
                     console.error('Failed to generate blurhash:', e)
                 }
-            } else if (imageFile.type.startsWith('video')) {
+            } else if (fileType.startsWith('video')) {
                 const canvas = document.createElement('canvas')
                 const video = document.createElement('video')
                 video.src = url
@@ -358,13 +373,13 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                     progress: 0,
                     media: {
                         mediaURL: '',
-                        mediaType: imageFile.type,
+                        mediaType: fileType,
                         blurhash
                     }
                 }
             ])
 
-            await uploadFile(imageFile, (progress) => {
+            await uploadFile(file, (progress) => {
                 setMedias((medias) => {
                     const newMedias = [...medias]
                     const index = newMedias.findIndex((media) => media.key === url)
@@ -403,11 +418,11 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         } else {
             const uploadingText = ' ![uploading...]()'
             setDraft((before) => before + uploadingText)
-            const result = await uploadFile(imageFile)
+            const result = await uploadFile(file)
             if (!result) {
                 setDraft((before) => before.replace(uploadingText, '') + `\n![upload failed]()`)
             } else {
-                if (imageFile.type.startsWith('video')) {
+                if (fileType.startsWith('video')) {
                     setDraft(
                         (before) =>
                             before.replace(uploadingText, '') +
@@ -420,12 +435,12 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         }
     }
 
-    const handlePasteImage = async (event: any): Promise<void> => {
+    const handlePasteFile = async (event: any): Promise<void> => {
         if (!event.clipboardData) return
         for (const item of event.clipboardData.items) {
-            const imageFile = item.getAsFile()
-            if (!imageFile) continue
-            await uploadImage(imageFile)
+            const file = item.getAsFile()
+            if (!file) continue
+            await uploadMedia(file)
         }
     }
 
@@ -456,7 +471,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                 const files = e.dataTransfer.files
                 if (files.length > 0) {
                     for (const file of files) {
-                        await uploadImage(file)
+                        await uploadMedia(file)
                     }
                 }
             }}
@@ -597,7 +612,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 setDraft(e.target.value)
                             }}
                             onPaste={(e) => {
-                                handlePasteImage(e)
+                                handlePasteFile(e)
                             }}
                             sx={{
                                 width: 1,
@@ -633,8 +648,11 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 position: 'relative',
                                 width: '75px',
                                 height: '75px',
-                                backgroundImage: `url(${media.key})`,
-                                backgroundSize: 'cover'
+                                backgroundImage: `url(${
+                                    media.media.mediaType.startsWith('model') ? modelPoster : media.key
+                                })`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center'
                             }}
                             onClick={(e) => {
                                 setMediaMenuAnchorEl(e.currentTarget)
@@ -746,7 +764,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             draft={draft}
                             setDraft={setDraft}
                             textInputRef={textInputRef}
-                            uploadImage={uploadImage}
+                            uploadImage={uploadMedia}
                             insertEmoji={insertEmoji}
                             setEmojiDict={setEmojiDict}
                             submitButtonLabel={et(mode)}
@@ -797,7 +815,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             draft={draft}
                             setDraft={setDraft}
                             textInputRef={textInputRef}
-                            uploadImage={uploadImage}
+                            uploadImage={uploadMedia}
                             insertEmoji={insertEmoji}
                             setEmojiDict={setEmojiDict}
                             submitButtonLabel={et(mode)}
@@ -957,6 +975,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         <MenuItem value="image/gif">GIF</MenuItem>
                         <MenuItem value="video/mp4">MP4</MenuItem>
                         <MenuItem value="video/mov">MOV</MenuItem>
+                        <MenuItem value="model/gltf-binary">GLB</MenuItem>
                     </Select>
                 </FormControl>
                 <CCComboBox
