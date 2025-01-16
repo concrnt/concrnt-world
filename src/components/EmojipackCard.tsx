@@ -37,6 +37,9 @@ export const EmojipackCard = (props: EmojipackCardProps): JSX.Element => {
                 gap: 1,
                 justifyContent: 'space-between'
             }}
+            onClick={(e) => {
+                e.stopPropagation()
+            }}
         >
             <Box display="flex">
                 <Box component="img" src={preview?.iconURL} alt={preview?.name} height="3rem" />
