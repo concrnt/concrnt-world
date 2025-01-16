@@ -138,6 +138,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             {showModel ? (
                                 <model-viewer
                                     src={media.mediaURL}
+                                    autoplay
                                     camera-controls
                                     style={{
                                         backgroundColor: '#3f3f3f',
@@ -168,7 +169,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                     right: 5,
                                     backgroundColor: 'rgba(255, 255, 255, 0.5)'
                                 }}
-                                onClick={(e) => {
+                                onClick={() => {
                                     mediaViewer.openModel(media.mediaURL)
                                 }}
                             >
@@ -354,6 +355,7 @@ declare global {
                 'camera-controls'?: boolean
                 'auto-rotate'?: boolean
                 ar?: boolean
+                autoplay?: boolean
             }
         }
     }

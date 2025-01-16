@@ -270,6 +270,7 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
                             <>
                                 <model-viewer
                                     src={previewModel}
+                                    autoplay
                                     camera-controls
                                     style={{
                                         backgroundColor: '#3f3f3f',
