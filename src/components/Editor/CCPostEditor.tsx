@@ -108,17 +108,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     let [sending, setSending] = useState<boolean>(false)
     const [selectedSubprofile, setSelectedSubprofile] = useState<string | undefined>(undefined)
 
-    // mode handling
-    let [mode, setMode] = useState<EditorMode>('markdown')
-    const [modeMenuAnchor, setModeMenuAnchor] = useState<null | HTMLElement>(null)
-    useEffect(() => {
-        if (props.mode) {
-            setMode(props.mode)
-        } else {
-            setMode('markdown')
-        }
-    }, [props.mode])
-
     // destination handling
     const [destTimelines, setDestTimelines] = useState<Array<Timeline<CommunityTimelineSchema>>>(
         props.streamPickerInitial
@@ -173,6 +162,21 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         []
     )
     const uploading = medias.some((media) => media.media.mediaURL === '')
+
+    // mode handling
+    let [mode, setMode] = useState<EditorMode>('markdown')
+    const [modeMenuAnchor, setModeMenuAnchor] = useState<null | HTMLElement>(null)
+    useEffect(() => {
+        if (props.mode) {
+            setMode(props.mode)
+        } else {
+            if (medias.length > 0) {
+                setMode('media')
+            } else {
+                setMode('markdown')
+            }
+        }
+    }, [props.mode])
 
     const reset = (): void => {
         setMode('markdown')
