@@ -24,10 +24,13 @@ import { useEmojiPicker } from '../../context/EmojiPickerContext'
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import CachedIcon from '@mui/icons-material/Cached'
+import { useGlobalActions } from '../../context/GlobalActions'
+import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 
 export const EmojiSettings = (): JSX.Element => {
     const picker = useEmojiPicker()
     const path = useLocation()
+    const actions = useGlobalActions()
     const { enqueueSnackbar } = useSnackbar()
 
     const [addingPackageURL, setAddingPackageURL] = useState<string>('')
@@ -109,8 +112,9 @@ export const EmojiSettings = (): JSX.Element => {
                                 cursor: 'pointer'
                             }}
                             onClick={() => {
-                                navigator.clipboard.writeText(e.packageURL)
-                                enqueueSnackbar(t('copied'), { variant: 'success' })
+                                actions.openEmojipack(e)
+                                // navigator.clipboard.writeText(e.packageURL)
+                                // enqueueSnackbar(t('copied'), { variant: 'success' })
                             }}
                         >
                             <Box display="flex">
@@ -155,6 +159,18 @@ export const EmojiSettings = (): JSX.Element => {
                         <CachedIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
                     <ListItemText>更新</ListItemText>
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        if (selectedPackageURL) navigator.clipboard.writeText(selectedPackageURL)
+                        enqueueSnackbar(t('copied'), { variant: 'success' })
+                        setMenuAnchor(null)
+                    }}
+                >
+                    <ListItemIcon>
+                        <ContentPasteIcon sx={{ color: 'text.primary' }} />
+                    </ListItemIcon>
+                    <ListItemText>URLをコピー</ListItemText>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {

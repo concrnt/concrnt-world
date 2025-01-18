@@ -276,6 +276,15 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                         <Link
                             underline="hover"
                             color="background.contrastText"
+                            href="https://github.com/orgs/concrnt/discussions"
+                            target="_blank"
+                        >
+                            フォーラム
+                        </Link>
+                        {' / '}
+                        <Link
+                            underline="hover"
+                            color="background.contrastText"
                             href="https://github.com/totegamma/concurrent-world"
                             target="_blank"
                         >
