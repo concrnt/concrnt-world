@@ -254,7 +254,7 @@ export const InspectorProvider = (props: InspectorProps): JSX.Element => {
                         )}
 
                         <Typography variant="h2" sx={{ mt: 1 }}>
-                            Timeliens:
+                            Timelines:
                         </Typography>
 
                         <List>

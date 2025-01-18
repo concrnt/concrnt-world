@@ -1,6 +1,6 @@
 import { useEffect, useRef, Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { darken, Box, Paper, Typography, Modal, useTheme } from '@mui/material'
+import { darken, Box, Paper, Typography, Modal, useTheme, Button } from '@mui/material'
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 import { ConcordProvider } from './context/ConcordContext'
 
@@ -57,6 +57,80 @@ function App(): JSX.Element {
     const [progress] = usePreference('tutorialProgress')
 
     const { t } = useTranslation()
+
+    useEffect(() => {
+        if (!('serviceWorker' in navigator)) return
+
+        const doUpdate = (): void => {
+            enqueueSnackbar(t('app.updateAvailable'), {
+                persist: true,
+                variant: 'info',
+                anchorOrigin: {
+                    horizontal: 'center',
+                    vertical: 'top'
+                },
+                action: (
+                    <Button
+                        onClick={() => {
+                            navigator.serviceWorker.getRegistration().then((registration) => {
+                                console.log('registration', registration)
+                                if (!registration) {
+                                    console.error('No active service worker')
+                                    return
+                                }
+                                registration.waiting?.postMessage({ type: 'SKIP_WAITING' })
+                                registration.waiting?.addEventListener('statechange', (e: any) => {
+                                    if (e.target?.state === 'activated') {
+                                        if (window.caches) {
+                                            caches.keys().then((names) => {
+                                                // Delete all the cache files
+                                                names.forEach((name) => {
+                                                    caches.delete(name)
+                                                })
+                                            })
+                                        }
+
+                                        window.location.reload()
+                                    } else {
+                                        console.log('State Change', e.target?.state)
+                                    }
+                                })
+                            })
+                        }}
+                    >
+                        {t('app.updateNow')}
+                    </Button>
+                )
+            })
+        }
+
+        navigator.serviceWorker.ready.then((registration) => {
+            console.log('Service Worker Ready', registration)
+
+            if (registration.waiting) {
+                doUpdate()
+            }
+
+            registration.addEventListener('updatefound', () => {
+                console.log('Update Found')
+                const installingWorker = registration.installing
+                if (installingWorker == null) return
+
+                installingWorker.addEventListener('statechange', () => {
+                    console.log('State Change', installingWorker.state)
+                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        console.log('New update available')
+                    }
+
+                    doUpdate()
+                })
+            })
+
+            setInterval(() => {
+                registration.update()
+            }, 1000 * 60 * 10) // 10 minutes
+        })
+    }, [])
 
     useEffect(() => {
         if (!client) return

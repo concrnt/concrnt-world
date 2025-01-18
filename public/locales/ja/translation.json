@@ -17,6 +17,10 @@
         "fav": "お気に入り",
         "reaction": "リアクション"
     },
+    "app": {
+        "updateAvailable": "新しいバージョンが利用可能です",
+        "updateNow": "更新"
+    },
     "pages": {
         "home": {
             "title": "ホーム"

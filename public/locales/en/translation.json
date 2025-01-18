@@ -17,6 +17,10 @@
         "fav": "Favorite",
         "reaction": "Reaction"
     },
+    "app": {
+        "updateAvailable": "New version available",
+        "updateNow": "Update"
+    },
     "pages": {
         "home": {
             "title": "Home"
