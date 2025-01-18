@@ -1,7 +1,7 @@
 import { useEffect, useRef, Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { darken, Box, Paper, Typography, Modal, useTheme, Button } from '@mui/material'
-import { SnackbarProvider, enqueueSnackbar } from 'notistack'
+import { SnackbarProvider, closeSnackbar, enqueueSnackbar } from 'notistack'
 import { ConcordProvider } from './context/ConcordContext'
 
 import { Menu } from './components/Menu/Menu'
@@ -69,13 +69,14 @@ function App(): JSX.Element {
                     horizontal: 'center',
                     vertical: 'top'
                 },
-                action: (
+                action: (key) => (
                     <Button
                         onClick={() => {
                             navigator.serviceWorker.getRegistration().then((registration) => {
                                 console.log('registration', registration)
                                 if (!registration) {
                                     console.error('No active service worker')
+                                    key && closeSnackbar(key)
                                     return
                                 }
                                 registration.waiting?.postMessage({ type: 'SKIP_WAITING' })

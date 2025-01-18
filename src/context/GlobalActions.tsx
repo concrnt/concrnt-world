@@ -31,7 +31,9 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, 0%)',
     width: '700px',
-    maxWidth: '90vw'
+    maxWidth: '90vw',
+    maxHeight: '80vh',
+    overflowY: 'auto'
 }
 
 const RowEmojiCount = 6

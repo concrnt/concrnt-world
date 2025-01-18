@@ -46,6 +46,11 @@ export function Explorer(): JSX.Element {
         return result
     }, [hash])
 
+    const [itr, setItr] = useState<{ mode: 'since' | 'until'; cursor: string | null }>({
+        mode: 'since',
+        cursor: null
+    })
+
     const profileSchema = hashQuery.schema ?? Schemas.profile
 
     const [domains, setDomains] = useState<string[]>([])
@@ -115,7 +120,11 @@ export function Explorer(): JSX.Element {
         const timer = setTimeout(() => {
             Promise.all(
                 selectedDomains.map(async (e) => {
-                    const profiles = await client.api.getProfiles<any>({ schema: profileSchema, domain: e })
+                    const query: Record<string, any> = { schema: profileSchema, domain: e, limit: 12 }
+                    if (itr.cursor) {
+                        query[itr.mode] = Math.floor(new Date(itr.cursor).getTime() / 1000)
+                    }
+                    const profiles = await client.api.getProfiles<any>(query)
                     return profiles.map((profile) => {
                         return {
                             domain: e,
@@ -145,7 +154,7 @@ export function Explorer(): JSX.Element {
             unmounted = true
             clearTimeout(timer)
         }
-    }, [profileSchema, selectedDomains, tab])
+    }, [profileSchema, selectedDomains, tab, itr])
 
     const createNewTimeline = (body: CommunityTimelineSchema): void => {
         client
@@ -346,6 +355,31 @@ export function Explorer(): JSX.Element {
                                     <SubProfileCard showccid character={p.profile} resolveHint={p.domain} />
                                 </Box>
                             ))}
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                gap: '1em'
+                            }}
+                        >
+                            <Button
+                                onClick={() => {
+                                    setItr({ mode: 'since', cursor: profiles[0]?.profile.cdate ?? null })
+                                }}
+                            >
+                                prev
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setItr({
+                                        mode: 'until',
+                                        cursor: profiles[profiles.length - 1]?.profile.cdate ?? null
+                                    })
+                                }}
+                            >
+                                next
+                            </Button>
                         </Box>
                     </>
                 )}
