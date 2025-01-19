@@ -111,6 +111,7 @@ export const APSettings = (): JSX.Element => {
                 <>
                     <Box
                         display="flex"
+                        flexWrap="wrap"
                         flexDirection="row"
                         justifyContent="space-between"
                         gap={1}
@@ -122,7 +123,7 @@ export const APSettings = (): JSX.Element => {
                                 @{entity.id}@{client.host}
                             </Typography>
                         </Box>
-                        <Box display="flex" flexDirection="row" justifyContent="flex-end" gap={1} width="100%">
+                        <Box display="flex" flexDirection="row" justifyContent="flex-end" flex="1" gap={1}>
                             <IconButton>
                                 <TravelExploreIcon
                                     onClick={() => {

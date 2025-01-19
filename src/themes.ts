@@ -246,7 +246,7 @@ export const ConcurrentDefaultTheme = {
         }
     },
     typography: {
-        fontSize: 14,
+        fontSize: 16,
         body1: {
             fontSize: '1rem'
         },
@@ -287,7 +287,7 @@ export const ConcurrentDefaultTheme = {
     breakpoints: {
         values: {
             xs: 0,
-            sm: 450,
+            sm: 550,
             md: 960,
             lg: 1280,
             xl: 1920
@@ -316,7 +316,8 @@ export const ConcurrentDefaultTheme = {
                 },
                 html: {
                     overscrollBehaviorY: 'none',
-                    userSelect: 'none'
+                    userSelect: 'none',
+                    fontSize: '16px'
                 },
                 body: {
                     overflowX: 'hidden',
@@ -356,7 +357,7 @@ export function deepMerge(target: Record<string, any>, source: Record<string, an
     return output as ConcurrentTheme
 }
 
-export const createConcurrentThemeFromObject = (base: any): ConcurrentTheme => {
+export const createConcurrentThemeFromObject = (base: any, options?: any): ConcurrentTheme => {
     if (base.palette.text !== undefined) {
         if (base.palette.text.hint === undefined) base.palette.text.hint = alpha(base.palette.text.primary, 0.5)
         if (base.palette.text.disabled === undefined) base.palette.text.disabled = alpha(base.palette.text.primary, 0.5)
@@ -374,14 +375,20 @@ export const createConcurrentThemeFromObject = (base: any): ConcurrentTheme => {
             }
         }
 
-    const theme: ConcurrentTheme = deepMerge(ConcurrentDefaultTheme, base)
+    const defaultTheme = ConcurrentDefaultTheme
+    if (options?.fontSize) {
+        defaultTheme.components.MuiCssBaseline.styleOverrides.html.fontSize = `${options.fontSize}px`
+    }
+
+    const theme: ConcurrentTheme = deepMerge(defaultTheme, base)
     return createTheme(theme) as ConcurrentTheme
 }
 
 export const loadConcurrentTheme = (
     name: string,
-    customs: Record<string, DeepPartial<ConcurrentTheme>> = {}
+    customs: Record<string, DeepPartial<ConcurrentTheme>> = {},
+    options?: { fontSize?: number }
 ): ConcurrentTheme => {
     const base = customs[name] ?? Themes[name] ?? Themes.blue
-    return createConcurrentThemeFromObject(base)
+    return createConcurrentThemeFromObject(base, options)
 }

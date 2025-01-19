@@ -6,11 +6,11 @@ import {
     Box,
     Button,
     Checkbox,
-    Divider,
     FormControlLabel,
     FormGroup,
     MenuItem,
     Select,
+    Slider,
     Switch,
     Typography
 } from '@mui/material'
@@ -22,6 +22,9 @@ import { IssueJWT, Schemas } from '@concurrent-world/client'
 import { useTranslation } from 'react-i18next'
 import { type NotificationSubscription } from '../../model'
 
+import TextIncreaseIcon from '@mui/icons-material/TextIncrease'
+import TextDecreaseIcon from '@mui/icons-material/TextDecrease'
+
 export const GeneralSettings = (): JSX.Element => {
     const { client } = useClient()
     const [invitationCode, setInvitationCode] = useState<string>('')
@@ -32,6 +35,7 @@ export const GeneralSettings = (): JSX.Element => {
     const [enableConcord, setEnableConcord] = usePreference('enableConcord')
     const [autoSwitchMediaPostType, setAutoSwitchMediaPostType] = usePreference('autoSwitchMediaPostType')
     const [tutorialCompleted, setTutorialCompleted] = usePreference('tutorialCompleted')
+    const [baseFontSize, setBaseFontSize] = usePreference('baseFontSize')
 
     const tags = client?.user?.tag ? client.user.tag.split(',') : []
     const { enqueueSnackbar } = useSnackbar()
@@ -72,7 +76,7 @@ export const GeneralSettings = (): JSX.Element => {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 1
+                gap: 2
             }}
         >
             <Box>
@@ -82,6 +86,9 @@ export const GeneralSettings = (): JSX.Element => {
                     onChange={(e) => {
                         i18n.changeLanguage(e.target.value)
                         setCurrentLanguage(e.target.value)
+                    }}
+                    sx={{
+                        marginLeft: 2
                     }}
                 >
                     <MenuItem value={'en'}>English</MenuItem>
@@ -94,7 +101,11 @@ export const GeneralSettings = (): JSX.Element => {
             </Box>
             <Box>
                 <Typography variant="h3">{t('basic')}</Typography>
-                <FormGroup>
+                <FormGroup
+                    sx={{
+                        marginLeft: 2
+                    }}
+                >
                     <FormControlLabel
                         control={
                             <Switch
@@ -163,143 +174,256 @@ export const GeneralSettings = (): JSX.Element => {
                     {t('showTutorial')}
                 </Button>
             )}
-            <Typography variant="h3" gutterBottom>
-                {t('notification.title')}
-            </Typography>
-            {notification ? (
-                <>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={schemas.includes(Schemas.replyAssociation)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSchemas((prev) => [...prev, Schemas.replyAssociation])
-                                        } else {
-                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.replyAssociation))
-                                        }
-                                    }}
-                                />
-                            }
-                            label={t('notification.reply')}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={schemas.includes(Schemas.mentionAssociation)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSchemas((prev) => [...prev, Schemas.mentionAssociation])
-                                        } else {
-                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.mentionAssociation))
-                                        }
-                                    }}
-                                />
-                            }
-                            label={t('notification.mention')}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={schemas.includes(Schemas.readAccessRequestAssociation)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSchemas((prev) => [...prev, Schemas.readAccessRequestAssociation])
-                                        } else {
-                                            setSchemas((prev) =>
-                                                prev.filter((s) => s !== Schemas.readAccessRequestAssociation)
-                                            )
-                                        }
-                                    }}
-                                />
-                            }
-                            label={t('notification.viewerRequest')}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={schemas.includes(Schemas.likeAssociation)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSchemas((prev) => [...prev, Schemas.likeAssociation])
-                                        } else {
-                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.likeAssociation))
-                                        }
-                                    }}
-                                />
-                            }
-                            label={t('notification.fav')}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={schemas.includes(Schemas.reactionAssociation)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSchemas((prev) => [...prev, Schemas.reactionAssociation])
-                                        } else {
-                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.reactionAssociation))
-                                        }
-                                    }}
-                                />
-                            }
-                            label={t('notification.reaction')}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={schemas.includes(Schemas.rerouteAssociation)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setSchemas((prev) => [...prev, Schemas.rerouteAssociation])
-                                        } else {
-                                            setSchemas((prev) => prev.filter((s) => s !== Schemas.rerouteAssociation))
-                                        }
-                                    }}
-                                />
-                            }
-                            label={t('notification.reroute')}
-                        />
-                    </FormGroup>
-                    <Box
+            <Box>
+                <Typography variant="h3">{'文字サイズ'}</Typography>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 1,
+                        alignItems: 'center',
+                        width: '80%',
+                        marginLeft: 2
+                    }}
+                >
+                    <TextDecreaseIcon
                         sx={{
-                            display: 'flex',
-                            gap: 1,
-                            width: '100%',
-                            justifyContent: 'flex-end'
+                            fontSize: '18px'
                         }}
-                    >
-                        <Button
-                            color="error"
-                            variant="text"
-                            onClick={async () => {
-                                if (!client.ccid || !client.user?.notificationTimeline) {
-                                    return
-                                }
+                    />
+                    <Slider
+                        value={baseFontSize}
+                        onChange={(_, value) => {
+                            setBaseFontSize(value as number)
+                        }}
+                        aria-labelledby="discrete-slider"
+                        valueLabelDisplay="auto"
+                        step={2}
+                        marks
+                        min={12}
+                        max={20}
+                    />
+                    <TextIncreaseIcon
+                        sx={{
+                            fontSize: '30px'
+                        }}
+                    />
+                </Box>
+            </Box>
 
-                                client.api
-                                    .fetchWithCredential(
-                                        client.host,
-                                        `/api/v1/notification/${client.ccid}/concrnt.world`,
-                                        {
-                                            method: 'DELETE'
-                                        }
-                                    )
-                                    .then((res) => {
-                                        enqueueSnackbar(t('notification.disabled'), { variant: 'success' })
-                                        setReload((prev) => prev + 1)
-                                    })
-                                    .catch((err) => {
-                                        console.error(err)
-                                        enqueueSnackbar(t('notification.failed'), { variant: 'error' })
-                                    })
+            <Box>
+                <Typography variant="h3" gutterBottom>
+                    {t('notification.title')}
+                </Typography>
+                {notification ? (
+                    <>
+                        <FormGroup
+                            sx={{
+                                marginLeft: 2
                             }}
                         >
-                            {t('notification.disable')}
-                        </Button>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={schemas.includes(Schemas.replyAssociation)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSchemas((prev) => [...prev, Schemas.replyAssociation])
+                                            } else {
+                                                setSchemas((prev) => prev.filter((s) => s !== Schemas.replyAssociation))
+                                            }
+                                        }}
+                                    />
+                                }
+                                label={t('notification.reply')}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={schemas.includes(Schemas.mentionAssociation)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSchemas((prev) => [...prev, Schemas.mentionAssociation])
+                                            } else {
+                                                setSchemas((prev) =>
+                                                    prev.filter((s) => s !== Schemas.mentionAssociation)
+                                                )
+                                            }
+                                        }}
+                                    />
+                                }
+                                label={t('notification.mention')}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={schemas.includes(Schemas.readAccessRequestAssociation)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSchemas((prev) => [...prev, Schemas.readAccessRequestAssociation])
+                                            } else {
+                                                setSchemas((prev) =>
+                                                    prev.filter((s) => s !== Schemas.readAccessRequestAssociation)
+                                                )
+                                            }
+                                        }}
+                                    />
+                                }
+                                label={t('notification.viewerRequest')}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={schemas.includes(Schemas.likeAssociation)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSchemas((prev) => [...prev, Schemas.likeAssociation])
+                                            } else {
+                                                setSchemas((prev) => prev.filter((s) => s !== Schemas.likeAssociation))
+                                            }
+                                        }}
+                                    />
+                                }
+                                label={t('notification.fav')}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={schemas.includes(Schemas.reactionAssociation)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSchemas((prev) => [...prev, Schemas.reactionAssociation])
+                                            } else {
+                                                setSchemas((prev) =>
+                                                    prev.filter((s) => s !== Schemas.reactionAssociation)
+                                                )
+                                            }
+                                        }}
+                                    />
+                                }
+                                label={t('notification.reaction')}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={schemas.includes(Schemas.rerouteAssociation)}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setSchemas((prev) => [...prev, Schemas.rerouteAssociation])
+                                            } else {
+                                                setSchemas((prev) =>
+                                                    prev.filter((s) => s !== Schemas.rerouteAssociation)
+                                                )
+                                            }
+                                        }}
+                                    />
+                                }
+                                label={t('notification.reroute')}
+                            />
+                        </FormGroup>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                gap: 1,
+                                width: '100%',
+                                justifyContent: 'flex-end'
+                            }}
+                        >
+                            <Button
+                                color="error"
+                                variant="text"
+                                onClick={async () => {
+                                    if (!client.ccid || !client.user?.notificationTimeline) {
+                                        return
+                                    }
 
+                                    client.api
+                                        .fetchWithCredential(
+                                            client.host,
+                                            `/api/v1/notification/${client.ccid}/concrnt.world`,
+                                            {
+                                                method: 'DELETE'
+                                            }
+                                        )
+                                        .then((res) => {
+                                            enqueueSnackbar(t('notification.disabled'), { variant: 'success' })
+                                            setReload((prev) => prev + 1)
+                                        })
+                                        .catch((err) => {
+                                            console.error(err)
+                                            enqueueSnackbar(t('notification.failed'), { variant: 'error' })
+                                        })
+                                }}
+                            >
+                                {t('notification.disable')}
+                            </Button>
+
+                            <Button
+                                onClick={async () => {
+                                    if (!('serviceWorker' in navigator)) {
+                                        console.error('Service Worker not supported')
+                                        return
+                                    }
+
+                                    navigator.serviceWorker.ready.then((registration) => {
+                                        registration.pushManager
+                                            .subscribe({
+                                                userVisibleOnly: true,
+                                                applicationServerKey: vapidKey
+                                            })
+                                            .then((subscription) => {
+                                                if (!client.ccid || !client.user?.notificationTimeline) {
+                                                    return
+                                                }
+
+                                                const notifySub: NotificationSubscription = {
+                                                    vendorID: 'concrnt.world',
+                                                    owner: client.ccid,
+                                                    schemas,
+                                                    timelines: [client.user?.notificationTimeline],
+                                                    subscription: JSON.stringify(subscription)
+                                                }
+
+                                                client.api
+                                                    .fetchWithCredential(client.host, '/api/v1/notification', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json'
+                                                        },
+                                                        body: JSON.stringify(notifySub)
+                                                    })
+                                                    .then((res) => {
+                                                        enqueueSnackbar(t('notification.updated'), {
+                                                            variant: 'success'
+                                                        })
+                                                    })
+                                                    .catch((err) => {
+                                                        console.error(err)
+                                                        enqueueSnackbar(t('notification.failed'), {
+                                                            variant: 'error'
+                                                        })
+                                                    })
+                                            })
+                                            .catch((err) => {
+                                                console.error(err)
+                                                registration.pushManager.getSubscription().then((subscription) => {
+                                                    subscription?.unsubscribe().then(() => {
+                                                        enqueueSnackbar(t('notification.tryAgain'), {
+                                                            variant: 'error'
+                                                        })
+                                                    })
+                                                })
+                                            })
+                                    })
+                                }}
+                            >
+                                {t('notification.update')}
+                            </Button>
+                        </Box>
+                    </>
+                ) : (
+                    <>
                         <Button
+                            disabled={!vapidKey}
                             onClick={async () => {
                                 if (!('serviceWorker' in navigator)) {
                                     console.error('Service Worker not supported')
@@ -307,6 +431,7 @@ export const GeneralSettings = (): JSX.Element => {
                                 }
 
                                 navigator.serviceWorker.ready.then((registration) => {
+                                    // check if the registration is already subscribed
                                     registration.pushManager
                                         .subscribe({
                                             userVisibleOnly: true,
@@ -320,7 +445,11 @@ export const GeneralSettings = (): JSX.Element => {
                                             const notifySub: NotificationSubscription = {
                                                 vendorID: 'concrnt.world',
                                                 owner: client.ccid,
-                                                schemas,
+                                                schemas: [
+                                                    Schemas.replyAssociation,
+                                                    Schemas.mentionAssociation,
+                                                    Schemas.readAccessRequestAssociation
+                                                ],
                                                 timelines: [client.user?.notificationTimeline],
                                                 subscription: JSON.stringify(subscription)
                                             }
@@ -334,13 +463,12 @@ export const GeneralSettings = (): JSX.Element => {
                                                     body: JSON.stringify(notifySub)
                                                 })
                                                 .then((res) => {
-                                                    enqueueSnackbar(t('notification.updated'), { variant: 'success' })
+                                                    enqueueSnackbar(t('notification.enabled'), { variant: 'success' })
+                                                    setReload((prev) => prev + 1)
                                                 })
                                                 .catch((err) => {
                                                     console.error(err)
-                                                    enqueueSnackbar(t('notification.failed'), {
-                                                        variant: 'error'
-                                                    })
+                                                    enqueueSnackbar(t('notification.failed'), { variant: 'error' })
                                                 })
                                         })
                                         .catch((err) => {
@@ -354,76 +482,11 @@ export const GeneralSettings = (): JSX.Element => {
                                 })
                             }}
                         >
-                            {t('notification.update')}
+                            {vapidKey ? t('notification.enable') : t('notification.notsupported')}
                         </Button>
-                    </Box>
-                </>
-            ) : (
-                <>
-                    <Button
-                        disabled={!vapidKey}
-                        onClick={async () => {
-                            if (!('serviceWorker' in navigator)) {
-                                console.error('Service Worker not supported')
-                                return
-                            }
-
-                            navigator.serviceWorker.ready.then((registration) => {
-                                // check if the registration is already subscribed
-                                registration.pushManager
-                                    .subscribe({
-                                        userVisibleOnly: true,
-                                        applicationServerKey: vapidKey
-                                    })
-                                    .then((subscription) => {
-                                        if (!client.ccid || !client.user?.notificationTimeline) {
-                                            return
-                                        }
-
-                                        const notifySub: NotificationSubscription = {
-                                            vendorID: 'concrnt.world',
-                                            owner: client.ccid,
-                                            schemas: [
-                                                Schemas.replyAssociation,
-                                                Schemas.mentionAssociation,
-                                                Schemas.readAccessRequestAssociation
-                                            ],
-                                            timelines: [client.user?.notificationTimeline],
-                                            subscription: JSON.stringify(subscription)
-                                        }
-
-                                        client.api
-                                            .fetchWithCredential(client.host, '/api/v1/notification', {
-                                                method: 'POST',
-                                                headers: {
-                                                    'Content-Type': 'application/json'
-                                                },
-                                                body: JSON.stringify(notifySub)
-                                            })
-                                            .then((res) => {
-                                                enqueueSnackbar(t('notification.enabled'), { variant: 'success' })
-                                                setReload((prev) => prev + 1)
-                                            })
-                                            .catch((err) => {
-                                                console.error(err)
-                                                enqueueSnackbar(t('notification.failed'), { variant: 'error' })
-                                            })
-                                    })
-                                    .catch((err) => {
-                                        console.error(err)
-                                        registration.pushManager.getSubscription().then((subscription) => {
-                                            subscription?.unsubscribe().then(() => {
-                                                enqueueSnackbar(t('notification.tryAgain'), { variant: 'error' })
-                                            })
-                                        })
-                                    })
-                            })
-                        }}
-                    >
-                        {vapidKey ? t('notification.enable') : t('notification.notsupported')}
-                    </Button>
-                </>
-            )}
+                    </>
+                )}
+            </Box>
             {!enableConcord && (
                 <Accordion>
                     <AccordionSummary>

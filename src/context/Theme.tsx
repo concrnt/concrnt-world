@@ -11,10 +11,13 @@ interface ConcrntThemeProps {
 export const ConcrntThemeProvider = (props: ConcrntThemeProps): JSX.Element => {
     const [themeName] = usePreference('themeName')
     const [customThemes] = usePreference('customThemes')
+    const [baseFontSize] = usePreference('baseFontSize')
     const [theme, setTheme] = useState<ConcurrentTheme>(loadConcurrentTheme(themeName, customThemes))
 
     useEffect(() => {
-        const newtheme = loadConcurrentTheme(themeName, customThemes)
+        const newtheme = loadConcurrentTheme(themeName, customThemes, { fontSize: baseFontSize })
+        newtheme.typography.fontSize = baseFontSize
+        console.log('fontsize changed:', baseFontSize)
         localStorage.setItem('theme', JSON.stringify(newtheme))
         setTheme(newtheme)
         let themeColorMetaTag: HTMLMetaElement = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement
@@ -24,7 +27,7 @@ export const ConcrntThemeProvider = (props: ConcrntThemeProps): JSX.Element => {
             document.head.appendChild(themeColorMetaTag)
         }
         themeColorMetaTag.content = newtheme.palette.background.default
-    }, [themeName, customThemes])
+    }, [themeName, customThemes, baseFontSize])
 
     return (
         <ThemeProvider theme={theme}>

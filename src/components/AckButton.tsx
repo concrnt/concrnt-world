@@ -36,7 +36,8 @@ export const AckButton = (props: AckButtonProps): JSX.Element | null => {
                 onMouseLeave={() => {
                     setIsHovered(false)
                 }}
-                onClick={() => {
+                onClick={(e) => {
+                    e.stopPropagation()
                     if (myAck) {
                         props.user.UnAck().then(() => {
                             forceUpdate()

@@ -1,8 +1,8 @@
 import { type User } from '@concurrent-world/client'
 import { useEffect, useState } from 'react'
-import { Box, Chip, Link, Tab, Tabs, Typography } from '@mui/material'
+import { Box, Chip, Tab, Tabs, Typography } from '@mui/material'
 import { CCAvatar } from './ui/CCAvatar'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useClient } from '../context/ClientContext'
 import { AckButton } from './AckButton'
@@ -78,13 +78,21 @@ export const AckList = (props: AckListProps): JSX.Element => {
                                 gap: 1,
                                 textDecoration: 'none'
                             }}
-                            component={RouterLink}
-                            to={`/${user.ccid}`}
-                            onClick={props.onNavigated}
                         >
                             <CCAvatar avatarURL={user.profile?.avatar} identiconSource={user.ccid} />
-                            <Box display="flex" flexDirection="column" flex="1">
-                                <Link underline="hover">{user.profile?.username}</Link>
+                            <Box
+                                component={NavLink}
+                                to={`/${user.ccid}`}
+                                onClick={props.onNavigated}
+                                display="flex"
+                                flexDirection="column"
+                                flex="1"
+                                sx={{
+                                    textDecoration: 'none',
+                                    color: 'inherit'
+                                }}
+                            >
+                                <Typography>{user.profile?.username}</Typography>
                                 {client.ackers.find((ack) => ack.ccid === user.ccid) && (
                                     <Chip
                                         label={'フォローされています'}
