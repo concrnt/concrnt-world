@@ -32,6 +32,7 @@ export const TimelineFilter = (props: TimelineFilterProps): JSX.Element => {
                     )
                 }}
                 variant={props.selected === Schemas.replyAssociation ? 'filled' : 'outlined'}
+                color="primary"
             />
             <CCChip
                 label={t('mention')}
@@ -41,6 +42,7 @@ export const TimelineFilter = (props: TimelineFilterProps): JSX.Element => {
                     )
                 }}
                 variant={props.selected === Schemas.mentionAssociation ? 'filled' : 'outlined'}
+                color="primary"
             />
             <CCChip
                 label={t('reroute')}
@@ -50,6 +52,7 @@ export const TimelineFilter = (props: TimelineFilterProps): JSX.Element => {
                     )
                 }}
                 variant={props.selected === Schemas.rerouteAssociation ? 'filled' : 'outlined'}
+                color="primary"
             />
             <CCChip
                 label={t('fav')}
@@ -57,6 +60,7 @@ export const TimelineFilter = (props: TimelineFilterProps): JSX.Element => {
                     props.setSelected(props.selected === Schemas.likeAssociation ? undefined : Schemas.likeAssociation)
                 }}
                 variant={props.selected === Schemas.likeAssociation ? 'filled' : 'outlined'}
+                color="primary"
             />
             <CCChip
                 label={t('reaction')}
@@ -66,6 +70,7 @@ export const TimelineFilter = (props: TimelineFilterProps): JSX.Element => {
                     )
                 }}
                 variant={props.selected === Schemas.reactionAssociation ? 'filled' : 'outlined'}
+                color="primary"
             />
         </Box>
     )
