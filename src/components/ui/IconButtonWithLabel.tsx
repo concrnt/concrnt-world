@@ -43,7 +43,7 @@ export const IconButtonWithLabel = (props: {
                     <props.icon
                         sx={{
                             fontSize: '40px',
-                            color: props.disabled ? 'text.disabled' : 'primary.main'
+                            color: props.disabled ? 'text.disabled' : 'text.primary'
                         }}
                     />
                     <Typography

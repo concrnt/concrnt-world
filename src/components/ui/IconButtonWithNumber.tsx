@@ -25,7 +25,8 @@ const _IconButtonWithNumber: ForwardRefRenderFunction<HTMLDivElement, IconButton
             <IconButton
                 sx={{
                     p: 0.5,
-                    color: theme.palette.text.secondary
+                    color: theme.palette.text.primary,
+                    fontSize: '1.5rem'
                 }}
                 color="primary"
                 onClick={(e) => {
@@ -35,7 +36,7 @@ const _IconButtonWithNumber: ForwardRefRenderFunction<HTMLDivElement, IconButton
             >
                 {props.icon}
             </IconButton>
-            <Typography sx={{ fontSize: 13, lineHeight: 1 }}>{props.message > 0 ? props.message : <></>}</Typography>
+            <Typography sx={{ lineHeight: 1 }}>{props.message > 0 ? props.message : <></>}</Typography>
         </Box>
     )
 }

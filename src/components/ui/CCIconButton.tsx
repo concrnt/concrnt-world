@@ -20,7 +20,7 @@ const _CCIconButton: ForwardRefRenderFunction<HTMLButtonElement, CCIconButtonPro
             ref={ref}
             sx={{
                 ...props.sx,
-                color: theme.palette.text.secondary,
+                color: theme.palette.text.primary,
                 '&:disabled': {
                     color: theme.palette.text.disabled
                 }

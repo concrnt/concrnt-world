@@ -58,7 +58,7 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                     sx={{
                         height: '1rem',
                         width: '1rem',
-                        color: 'text.secondary'
+                        color: 'text.primary'
                     }}
                 />
             )}
@@ -75,7 +75,7 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                 sx={{
                                     fontweight: '400',
                                     fontSize: '12px',
-                                    color: 'text.secondary',
+                                    color: 'text.primary',
                                     borderColor: 'divider',
                                     display: 'flex',
                                     flexDirection: 'row',
@@ -120,7 +120,7 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                     sx={{
                                         height: '1rem',
                                         width: '1rem',
-                                        color: 'text.secondary'
+                                        color: 'text.primary'
                                     }}
                                 />
                             </Tooltip>
@@ -156,7 +156,7 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                     sx={{
                                         height: '1rem',
                                         width: '1rem',
-                                        color: 'text.secondary'
+                                        color: 'text.primary'
                                     }}
                                 />
                             </Tooltip>
