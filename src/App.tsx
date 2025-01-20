@@ -73,10 +73,10 @@ function App(): JSX.Element {
                     <Button
                         onClick={() => {
                             navigator.serviceWorker.getRegistration().then((registration) => {
+                                key && closeSnackbar(key)
                                 console.log('registration', registration)
                                 if (!registration) {
                                     console.error('No active service worker')
-                                    key && closeSnackbar(key)
                                     return
                                 }
                                 registration.waiting?.postMessage({ type: 'SKIP_WAITING' })

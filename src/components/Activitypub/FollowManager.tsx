@@ -166,8 +166,6 @@ export const APUserCard = memo<{ url: string; remove?: (_: { URL: string; shortI
 
         if (!person) return <Skeleton variant="rectangular" height={64} />
 
-        console.log(person)
-
         return (
             <Paper
                 variant="outlined"

@@ -1,18 +1,18 @@
 ![wordmark](https://github.com/totegamma/concurrent/assets/7270849/44864682-ca2d-427a-b1fb-552ca50bcfce)
-### Concurrent: SNSのアカウントをあなたのインターネット人格として確立します。
+### Concrnt: SNSのアカウントをあなたのインターネット人格として確立します。
 
-Concurrent-worldは分散マイクロブログ基盤である[Concurrent](https://github.com/totegamma/concurrent)のwebクライアント実装の1つです。
+Concurrent-worldは分散マイクロブログ基盤である[Concrnt](https://github.com/totegamma/concurrent)のwebクライアント実装の1つです。
 
-現在は [concurrent.world](https://concurrent.world)で公開されています。
+現在は [concrnt.world](https://concrnt.world)で公開されています。
 
 ### 世界は一つ
-Concurrentを始めるのに、所属するコミュニティを選ぶ必要はありません。 
-アカウントを作成すれば、誰とでもつながることができ、好きな話題同士で集まったコミュニティタイムライン(concurrentではストリームと呼びます)で交流できます。
+Concrntを始めるのに、所属するコミュニティを選ぶ必要はありません。
+アカウントを作成すれば、誰とでもつながることができ、好きな話題同士で集まったコミュニティタイムラインで交流できます。
 
 ### 環境は無数
 発信する内容はどうしてもそのサーバーが設置してある国や、運用している団体により検閲・制限されてしまいます。
-これ自体は仕方ないことですが、利用者としては自身が身を置く環境は選びたいものです。 
-Concurrentは分散型なので、自身の発言を管理してくれる「ホスト」を自分で選ぶことができます。もちろん、ホストは自分で建てることもできますよ！
+これ自体は仕方ないことですが、利用者としては自身が身を置く環境は選びたいものです。
+Concrntは分散型なので、自身の発言を管理してくれる「ホスト」を自分で選ぶことができます。もちろん、ホストは自分で建てることもできますよ！
 
 ## Getting Started
 ### 前準備

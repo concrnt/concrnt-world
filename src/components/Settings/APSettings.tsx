@@ -53,7 +53,11 @@ export const APSettings = (): JSX.Element => {
             .then(async (res) => await res.json())
             .then((data) => {
                 setListenTimelines(
-                    allKnownTimelines.filter((t) => data.content.listen_timelines.includes(t.cacheKey ?? t.id))
+                    allKnownTimelines.filter(
+                        (t) =>
+                            (t.cacheKey && data.content.listen_timelines.includes(t.cacheKey)) ||
+                            data.content.listen_timelines.includes(t.id)
+                    )
                 )
             })
             .catch((e) => {
