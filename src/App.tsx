@@ -121,9 +121,8 @@ function App(): JSX.Element {
                     console.log('State Change', installingWorker.state)
                     if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
                         console.log('New update available')
+                        doUpdate()
                     }
-
-                    doUpdate()
                 })
             })
 

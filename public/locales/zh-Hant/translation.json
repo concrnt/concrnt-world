@@ -17,6 +17,10 @@
         "fav": "喜歡",
         "reaction": "回應"
     },
+    "app": {
+        "updateAvailable": "有新版本已可用！",
+        "updateNow": "更新"
+    },
     "pages": {
         "home": {
             "title": "首頁"

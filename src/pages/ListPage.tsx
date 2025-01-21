@@ -24,6 +24,8 @@ import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useEditorModal } from '../components/EditorModal'
 import { type StreamList } from '../model'
 import { Helmet } from 'react-helmet-async'
+import { useGlobalActions } from '../context/GlobalActions'
+import { timeline } from '@google/model-viewer/lib/utilities/animation'
 
 export function ListPage(): JSX.Element {
     const { client } = useClient()
@@ -31,6 +33,7 @@ export function ListPage(): JSX.Element {
     const navigate = useNavigate()
     const editorModal = useEditorModal()
     const { allKnownTimelines, allKnownSubscriptions, reloadList } = useGlobalState()
+    const { registerHomeButtonCallBack } = useGlobalActions()
     const [lists, _setLists] = usePreference('lists')
     const [showEditorOnTop] = usePreference('showEditorOnTop')
     const [showEditorOnTopMobile] = usePreference('showEditorOnTopMobile')
@@ -68,6 +71,25 @@ export function ListPage(): JSX.Element {
         if (!list) return true
         return list.defaultPostHome === undefined ? true : list.defaultPostHome
     }, [list])
+
+    // Homeボタンを押したときに一番上に行くやつ
+    useEffect(() => {
+        registerHomeButtonCallBack(() => {
+            // タイムラインがスクロールされてたら一番上に戻す
+            if (timelineRef.current?.scrollOffset !== 0) {
+                timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
+                // preventDefault用
+                return true
+            } else {
+                // スクロールされてなかったらHomeに戻す
+                return false
+            }
+        })
+
+        return () => {
+            registerHomeButtonCallBack(() => false)
+        }
+    }, [timelineRef])
 
     useEffect(() => {
         if (title || text || url) {

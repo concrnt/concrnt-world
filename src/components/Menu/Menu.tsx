@@ -29,6 +29,7 @@ import { usePreference } from '../../context/PreferenceContext'
 import { useTranslation } from 'react-i18next'
 import { useEditorModal } from '../EditorModal'
 import { useGlobalState } from '../../context/GlobalState'
+import { useGlobalActions } from '../../context/GlobalActions'
 
 export interface MenuProps {
     onClick?: () => void
@@ -37,6 +38,7 @@ export interface MenuProps {
 export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const { client } = useClient()
     const editorModal = useEditorModal()
+    const { onHomeButtonClick } = useGlobalActions()
     const { t } = useTranslation('', { keyPrefix: 'pages' })
     const [devMode] = usePreference('devMode')
     const [enableConcord] = usePreference('enableConcord')
@@ -98,7 +100,16 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                 >
                     <List dense sx={{ py: 0.5, width: '100%' }}>
                         <ListItem disablePadding>
-                            <ListItemButton sx={{ gap: 1 }} component={NavLink} to="/" onClick={props.onClick}>
+                            <ListItemButton
+                                sx={{ gap: 1 }}
+                                component={NavLink}
+                                to="/"
+                                onClick={(event) => {
+                                    props.onClick?.()
+                                    const res = onHomeButtonClick()
+                                    if (res) event.preventDefault()
+                                }}
+                            >
                                 <HomeIcon
                                     sx={{
                                         color: 'background.contrastText'

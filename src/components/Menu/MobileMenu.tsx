@@ -20,6 +20,7 @@ export const MobileMenu = (): JSX.Element => {
     const editorModal = useEditorModal()
 
     const { isMasterSession } = useGlobalState()
+    const { onHomeButtonClick } = useGlobalActions()
     const [progress] = usePreference('tutorialProgress')
     const [tutorialCompleted] = usePreference('tutorialCompleted')
 
@@ -63,6 +64,10 @@ export const MobileMenu = (): JSX.Element => {
                     minWidth: 0
                 }}
                 component={NavLink}
+                onClick={(event) => {
+                    const res = onHomeButtonClick()
+                    if (res) event.preventDefault()
+                }}
                 to="/"
             >
                 <HomeIcon />
