@@ -30,6 +30,7 @@ import { StorageProvider } from './context/StorageContext'
 import { MarkdownRendererLite } from './components/ui/MarkdownRendererLite'
 import { useTranslation } from 'react-i18next'
 import { ManageSubsPage } from './pages/ManageSubs'
+import { ExplorerPlusPage } from './pages/ExplorerPlus'
 import { UseSoundFormats } from './constants'
 import { useGlobalState } from './context/GlobalState'
 import { ConcrntLogo } from './components/theming/ConcrntLogo'
@@ -40,6 +41,7 @@ import { Tutorial } from './pages/Tutorial'
 import { LogoutButton } from './components/Settings/LogoutButton'
 import { ConfirmProvider } from './context/Confirm'
 import { type ConcurrentTheme } from './model'
+import { TimelineDrawerProvider } from './context/TimelineDrawer'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -295,9 +297,11 @@ function App(): JSX.Element {
                             <StorageProvider>
                                 <ConcordProvider>
                                     <EditorModalProvider>
-                                        <ConfirmProvider>
-                                            <GlobalActionsProvider>{childs}</GlobalActionsProvider>
-                                        </ConfirmProvider>
+                                        <TimelineDrawerProvider>
+                                            <ConfirmProvider>
+                                                <GlobalActionsProvider>{childs}</GlobalActionsProvider>
+                                            </ConfirmProvider>
+                                        </TimelineDrawerProvider>
                                     </EditorModalProvider>
                                 </ConcordProvider>
                             </StorageProvider>
@@ -454,6 +458,7 @@ function App(): JSX.Element {
                                 <Route path="/subscriptions" element={<ManageSubsPage />} />
                                 <Route path="/concord/*" element={<ConcordPage />} />
                                 <Route path="/tutorial" element={<Tutorial />} />
+                                <Route path="/explorerplus" element={<ExplorerPlusPage />} />
                             </Routes>
                         </Paper>
                         <Box

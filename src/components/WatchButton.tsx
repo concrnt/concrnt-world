@@ -10,6 +10,7 @@ import { useGlobalState } from '../context/GlobalState'
 export interface WatchButtonProps {
     timelineID: string
     minimal?: boolean
+    small?: boolean
 }
 
 export const WatchButton = (props: WatchButtonProps): JSX.Element => {
@@ -30,6 +31,7 @@ export const WatchButton = (props: WatchButtonProps): JSX.Element => {
                 <Tooltip title="リストに追加" placement="top" arrow>
                     <IconButton
                         sx={{ flexGrow: 0 }}
+                        size={props.small ? 'small' : 'medium'}
                         onClick={(e) => {
                             setMenuAnchor(e.currentTarget)
                         }}

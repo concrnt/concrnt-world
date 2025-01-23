@@ -82,6 +82,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
                     const list = {
                         [sub.id]: {
                             pinned: true,
+                            isIconTab: false,
                             expanded: false,
                             defaultPostHome: true,
                             defaultPostStreams: timeline ? [timeline] : []

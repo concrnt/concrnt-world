@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Tab, Tabs, TextField, Typography, useTheme } from '@mui/material'
 import { type CommunityTimelineSchema, Schemas, type CoreProfile, type Timeline } from '@concurrent-world/client'
 import { useClient } from '../context/ClientContext'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -207,8 +207,19 @@ export function Explorer(): JSX.Element {
                 }}
             >
                 <Box>
-                    <Typography variant="h2">{t('title')}</Typography>
-                    <Divider sx={{ mb: 1 }} />
+                    <Box sx={{ display: 'flex' }}>
+                        <Typography variant="h2">{t('title')}</Typography>
+                        <Button
+                            component={NavLink}
+                            to={'/explorerplus'}
+                            sx={{ ml: 'auto' }}
+                            size={'small'}
+                            disableElevation
+                        >
+                            ✨新しい探索を試してみる
+                        </Button>
+                    </Box>
+                    <Divider sx={{ my: 1 }} />
                 </Box>
                 <Box
                     sx={{

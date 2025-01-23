@@ -10,6 +10,7 @@ export interface CCIconButtonProps {
     onMouseUp?: (event: React.MouseEvent<HTMLButtonElement>) => void
     onTouchStart?: (event: React.TouchEvent<HTMLButtonElement>) => void
     onTouchEnd?: (event: React.TouchEvent<HTMLButtonElement>) => void
+    size?: 'small' | 'medium' | 'large'
 }
 
 const _CCIconButton: ForwardRefRenderFunction<HTMLButtonElement, CCIconButtonProps> = (props, ref) => {
@@ -31,6 +32,7 @@ const _CCIconButton: ForwardRefRenderFunction<HTMLButtonElement, CCIconButtonPro
             onTouchStart={props.onTouchStart}
             onTouchEnd={props.onTouchEnd}
             disabled={props.disabled}
+            size={props.size ?? 'medium'}
         >
             {props.children}
         </IconButton>

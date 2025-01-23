@@ -1,4 +1,4 @@
-import { Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import { Collapse, List, ListItem, ListItemButton, ListItemText, Box } from '@mui/material'
 import { type StreamList } from '../../model'
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -31,6 +31,8 @@ export const ListItemSubscriptionTree = (props: ListItemSubscriptionTreeProps): 
         | CoreSubscription<ListSubscriptionSchema>
         | undefined
 
+    const iconURL = subscription?.document.body.iconURL
+
     return (
         <>
             <ListItem
@@ -39,27 +41,62 @@ export const ListItemSubscriptionTree = (props: ListItemSubscriptionTreeProps): 
                     gap: 1
                 }}
             >
-                {open ? (
-                    <ExpandMore
-                        onClick={(): void => {
-                            setOpen(false)
-                        }}
-                        sx={{
-                            transform: 'rotate(0deg)',
-                            transition: 'transform 0.2s'
-                        }}
-                    />
-                ) : (
-                    <ExpandMore
-                        onClick={(): void => {
-                            setOpen(true)
-                        }}
-                        sx={{
-                            transform: 'rotate(-90deg)',
-                            transition: 'transform 0.2s'
-                        }}
-                    />
-                )}
+                <Box
+                    sx={{
+                        position: 'relative',
+                        width: 24,
+                        height: 24,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        '&:hover': {
+                            '& .expand-icon': {
+                                opacity: 1
+                            },
+                            '& .list-icon': {
+                                opacity: 0
+                            }
+                        }
+                    }}
+                >
+                    {iconURL ? (
+                        <>
+                            <img
+                                src={iconURL}
+                                alt="list icon"
+                                className="list-icon"
+                                style={{
+                                    width: '1.125rem',
+                                    height: '1.125rem',
+                                    position: 'absolute',
+                                    transition: 'opacity 0.2s'
+                                }}
+                            />
+                            <ExpandMore
+                                className="expand-icon"
+                                onClick={(): void => {
+                                    setOpen(!open)
+                                }}
+                                sx={{
+                                    opacity: 0,
+                                    position: 'absolute',
+                                    transform: open ? 'rotate(0deg)' : 'rotate(-90deg)',
+                                    transition: 'transform 0.2s, opacity 0.2s'
+                                }}
+                            />
+                        </>
+                    ) : (
+                        <ExpandMore
+                            onClick={(): void => {
+                                setOpen(!open)
+                            }}
+                            sx={{
+                                transform: open ? 'rotate(0deg)' : 'rotate(-90deg)',
+                                transition: 'transform 0.2s'
+                            }}
+                        />
+                    )}
+                </Box>
                 <ListItemButton
                     dense
                     sx={{

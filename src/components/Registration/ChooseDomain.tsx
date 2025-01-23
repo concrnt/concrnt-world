@@ -14,7 +14,7 @@ interface ChooseDomainProps {
 }
 
 // Send PR your domain to add here!
-const domainlist = ['ariake.concrnt.net', 'denken.concrnt.net', 'zyouya.concrnt.net']
+const domainlist = ['ariake.concrnt.net', 'meguro.cc', 'denken.concrnt.net', 'zyouya.concrnt.net']
 
 export function ChooseDomain(props: ChooseDomainProps): JSX.Element {
     const { t } = useTranslation('', { keyPrefix: 'registration.chooseDomain' })

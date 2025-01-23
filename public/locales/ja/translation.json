@@ -127,6 +127,7 @@
             "community": "コミュニティ",
             "user": "ユーザー",
             "pin": "ピン留め",
+            "isIconTab": "タブ表示にアイコンを使用",
             "delete": "リストを削除",
             "reallyDelete": "本当にこのリストを削除しますか？",
             "confirmDelete": "削除"

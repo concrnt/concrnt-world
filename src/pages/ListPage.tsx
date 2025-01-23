@@ -191,7 +191,19 @@ export function ListPage(): JSX.Element {
             >
                 <TimelineHeader
                     title={subscription?.document.body.name ?? 'No Name'}
-                    titleIcon={<ListIcon />}
+                    titleIcon={
+                        subscription?.document.body.iconURL ? (
+                            <img
+                                src={subscription.document.body.iconURL}
+                                alt="list icon"
+                                style={{
+                                    height: '1.125rem'
+                                }}
+                            />
+                        ) : (
+                            <ListIcon />
+                        )
+                    }
                     secondaryAction={<TuneIcon />}
                     onSecondaryActionClick={() => {
                         setListSettingsOpen(true)
@@ -207,31 +219,47 @@ export function ListPage(): JSX.Element {
                     variant="scrollable"
                     scrollButtons={false}
                 >
-                    {pinnedSubscriptions.map((sub) => (
-                        <Tab
-                            key={sub.id}
-                            value={sub.id}
-                            label={sub.document.body.name}
-                            onTouchStart={(a) => {
-                                tabPressStart(a.currentTarget, sub.id)
-                            }}
-                            onTouchEnd={() => {
-                                tabPressEnd(sub.id)
-                            }}
-                            onMouseDown={(a) => {
-                                tabPressStart(a.currentTarget, sub.id)
-                            }}
-                            onMouseUp={() => {
-                                tabPressEnd(sub.id)
-                            }}
-                            sx={{
-                                fontSize: '0.9rem',
-                                padding: '0',
-                                textTransform: 'none',
-                                userSelect: 'none'
-                            }}
-                        />
-                    ))}
+                    {pinnedSubscriptions.map((sub) => {
+                        const useIcon = sub.document.body.iconURL && lists[sub.id].isIconTab
+
+                        return (
+                            <Tab
+                                key={sub.id}
+                                value={sub.id}
+                                label={
+                                    useIcon ? (
+                                        <img
+                                            src={sub.document.body.iconURL}
+                                            alt="list icon"
+                                            style={{
+                                                height: '1.125rem'
+                                            }}
+                                        />
+                                    ) : (
+                                        sub.document.body.name
+                                    )
+                                }
+                                onTouchStart={(a) => {
+                                    tabPressStart(a.currentTarget, sub.id)
+                                }}
+                                onTouchEnd={() => {
+                                    tabPressEnd(sub.id)
+                                }}
+                                onMouseDown={(a) => {
+                                    tabPressStart(a.currentTarget, sub.id)
+                                }}
+                                onMouseUp={() => {
+                                    tabPressEnd(sub.id)
+                                }}
+                                sx={{
+                                    fontSize: '0.9rem',
+                                    padding: '0',
+                                    textTransform: 'none',
+                                    userSelect: 'none'
+                                }}
+                            />
+                        )
+                    })}
                 </Tabs>
 
                 {subscription ? (

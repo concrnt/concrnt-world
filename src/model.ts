@@ -85,6 +85,7 @@ export interface ConcurrentTheme extends Theme {
 
 export interface StreamList {
     pinned: boolean
+    isIconTab: boolean
     expanded: boolean
     defaultPostHome: boolean
     defaultPostStreams: string[]

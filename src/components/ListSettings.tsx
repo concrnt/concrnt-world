@@ -1,4 +1,19 @@
-import { Box, Button, IconButton, List, ListItem, Switch, Tab, Tabs, TextField, Typography } from '@mui/material'
+import {
+    Box,
+    Button,
+    Checkbox,
+    FormControlLabel,
+    IconButton,
+    List,
+    ListItem,
+    Switch,
+    Tab,
+    Tabs,
+    TextField,
+    Typography,
+    alpha,
+    useTheme
+} from '@mui/material'
 import { StreamPicker } from './ui/StreamPicker'
 import { useEffect, useState } from 'react'
 import { usePreference } from '../context/PreferenceContext'
@@ -17,6 +32,11 @@ import { type StreamList } from '../model'
 import { ProfilePicker } from './ui/ProfilePicker'
 import { useGlobalState } from '../context/GlobalState'
 import { useConfirm } from '../context/Confirm'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { useEmojiPicker } from '../context/EmojiPickerContext'
+import { CCIconButton } from './ui/CCIconButton'
+import EmojiEmotions from '@mui/icons-material/EmojiEmotions'
+import { CheckBox } from '@mui/icons-material'
 
 export interface ListSettingsProps {
     subscription: CoreSubscription<any>
@@ -34,6 +54,7 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
     const { allKnownTimelines } = useGlobalState()
 
     const [listName, setListName] = useState<string>('')
+    const [iconURL, setIconURL] = useState<string>('')
 
     const { t } = useTranslation('', { keyPrefix: 'ui.listSettings' })
 
@@ -41,8 +62,11 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
 
     const [tab, setTab] = useState<'stream' | 'user'>('stream')
 
+    const emojiPicker = useEmojiPicker()
+
     useEffect(() => {
         setListName(props.subscription.document.body.name)
+        setIconURL(props.subscription.document.body.iconURL ?? '')
 
         if (!list) return
         Promise.all(list.defaultPostStreams.map((streamID) => client.getTimeline(streamID))).then((streams) => {
@@ -69,7 +93,60 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
             {props.subscription.schema === Schemas.listSubscription && (
                 <>
                     <Typography variant="h3">{t('name')}</Typography>
-                    <Box display="flex" flexDirection="row" gap={1}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: 2,
+                            alignItems: 'center'
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                position: 'relative',
+                                cursor: 'pointer'
+                            }}
+                            onClick={(e) => {
+                                emojiPicker.open(e.currentTarget, (emoji) => {
+                                    setIconURL(emoji.imageURL)
+                                    emojiPicker.close()
+                                })
+                            }}
+                        >
+                            {iconURL ? (
+                                <Box
+                                    sx={{
+                                        position: 'relative'
+                                    }}
+                                >
+                                    <img
+                                        src={iconURL}
+                                        alt="list icon"
+                                        style={{
+                                            width: 'calc(1.125rem * 1.6)',
+                                            height: 'calc(1.125rem * 1.6)'
+                                        }}
+                                    />
+                                    <CCIconButton
+                                        sx={{
+                                            position: 'absolute',
+                                            p: 0.1,
+                                            right: -10,
+                                            bottom: -10,
+                                            backgroundColor: 'background.paper'
+                                        }}
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            setIconURL('')
+                                        }}
+                                    >
+                                        <DeleteIcon sx={{ fontSize: '1.125rem' }} />
+                                    </CCIconButton>
+                                </Box>
+                            ) : (
+                                <EmojiEmotions sx={{ fontSize: 'calc(1.125rem * 1.6)' }} />
+                            )}
+                        </Box>
                         <TextField
                             label="list name"
                             variant="outlined"
@@ -87,7 +164,8 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                                     .upsertSubscription<ListSubscriptionSchema>(
                                         props.subscription.schema,
                                         {
-                                            name: listName
+                                            name: listName,
+                                            iconURL
                                         },
                                         {
                                             id: props.subscription.id,
@@ -149,15 +227,42 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                         }}
                     />
                     <Typography variant="h3">{t('pin')}</Typography>
-                    <Switch
-                        checked={list.pinned}
-                        onChange={(_) => {
-                            updateList(props.subscription.id, {
-                                ...list,
-                                pinned: !list.pinned
-                            })
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1,
+                            flex: 1,
+                            alignItems: 'center'
                         }}
-                    />
+                    >
+                        <Switch
+                            checked={list.pinned}
+                            onChange={(_) => {
+                                updateList(props.subscription.id, {
+                                    ...list,
+                                    pinned: !list.pinned
+                                })
+                            }}
+                        />
+                        {list.pinned && iconURL ? (
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={list.isIconTab}
+                                        onChange={(e) => {
+                                            updateList(props.subscription.id, {
+                                                ...list,
+                                                isIconTab: e.target.checked
+                                            })
+                                        }}
+                                    />
+                                }
+                                label={t('isIconTab')}
+                            />
+                        ) : (
+                            <></>
+                        )}
+                    </Box>
                 </>
             )}
             <Button
