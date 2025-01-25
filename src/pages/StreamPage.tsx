@@ -136,7 +136,7 @@ export const StreamPage = memo((): JSX.Element => {
                                                 streamPickerInitial={streams}
                                                 streamPickerOptions={[...new Set([...allKnownTimelines, ...streams])]}
                                                 sx={{
-                                                    p: 1
+                                                    p: { xs: 0.5, sm: 1 }
                                                 }}
                                             />
                                             <Divider sx={{ mx: { xs: 0.5, sm: 1, md: 1 } }} />

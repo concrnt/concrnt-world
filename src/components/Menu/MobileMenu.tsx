@@ -94,7 +94,12 @@ export const MobileMenu = (): JSX.Element => {
                 component={NavLink}
                 to="/contacts"
             >
-                <ContactsIcon />
+                <ContactsIcon
+                    sx={{
+                        color: 'background.contrastText',
+                        fontSize: '1.5rem'
+                    }}
+                />
             </Button>
             {!tutorialCompleted && (
                 <Button
@@ -108,11 +113,7 @@ export const MobileMenu = (): JSX.Element => {
                     to="/tutorial"
                 >
                     <Badge color="secondary" variant="dot" invisible={progress !== 0 || !isMasterSession}>
-                        <MenuBookIcon
-                            sx={{
-                                color: 'background.contrastText'
-                            }}
-                        />
+                        <MenuBookIcon />
                     </Badge>
                 </Button>
             )}

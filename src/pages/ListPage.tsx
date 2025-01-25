@@ -284,7 +284,7 @@ export function ListPage(): JSX.Element {
                                                 streamPickerInitial={postStreams}
                                                 defaultPostHome={defaultPostHome}
                                                 sx={{
-                                                    p: 1
+                                                    p: { xs: 0.5, sm: 1 }
                                                 }}
                                             />
                                             <Divider sx={{ mx: { xs: 0.5, sm: 1, md: 1 } }} />

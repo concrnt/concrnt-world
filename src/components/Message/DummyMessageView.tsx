@@ -31,7 +31,7 @@ export const DummyMessageView = (props: DummyMessageViewProps): JSX.Element => {
                 wordBreak: 'break-word',
                 alignItems: 'flex-start',
                 flex: 1,
-                gap: 1,
+                gap: { xs: 0.5, sm: 1 },
                 ...props.sx
             }}
             disablePadding
@@ -118,15 +118,21 @@ export const DummyMessageView = (props: DummyMessageViewProps): JSX.Element => {
                         <Box
                             sx={{
                                 display: props.hideActions ? 'none' : 'flex',
-                                justifyContent: 'space-between',
                                 height: '1.5rem',
+                                alignItems: 'center',
                                 overflow: 'hidden'
                             }}
                         >
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    gap: { xs: 1, sm: 4 }
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    width: { xs: '60vw', sm: '50vw', md: '40vw' },
+                                    minWidth: `200px`,
+                                    maxWidth: '600px',
+                                    flexShrink: 0
                                 }}
                             >
                                 {/* left */}

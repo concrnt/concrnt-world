@@ -110,11 +110,16 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                     if (res) event.preventDefault()
                                 }}
                             >
-                                <HomeIcon
+                                <Box
                                     sx={{
-                                        color: 'background.contrastText'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        width: '1.75rem',
+                                        justifyContent: 'center'
                                     }}
-                                />
+                                >
+                                    <HomeIcon sx={{ color: 'background.contrastText' }} />
+                                </Box>
                                 <ListItemText primary={t('home.title')} />
                             </ListItemButton>
                         </ListItem>
@@ -125,23 +130,36 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                 to="/notifications"
                                 onClick={props.onClick}
                             >
-                                <NotificationsIcon
+                                <Box
                                     sx={{
-                                        color: 'background.contrastText'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        width: '1.75rem',
+                                        justifyContent: 'center'
                                     }}
-                                />
-
+                                >
+                                    <NotificationsIcon sx={{ color: 'background.contrastText' }} />
+                                </Box>
                                 <ListItemText primary={t('notifications.title')} />
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
                             <ListItemButton sx={{ gap: 1 }} component={NavLink} to="/contacts" onClick={props.onClick}>
-                                <ContactsIcon
+                                <Box
                                     sx={{
-                                        color: 'background.contrastText'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        width: '1.75rem',
+                                        justifyContent: 'center'
                                     }}
-                                />
-
+                                >
+                                    <ContactsIcon
+                                        sx={{
+                                            color: 'background.contrastText',
+                                            fontSize: '1.5rem'
+                                        }}
+                                    />
+                                </Box>
                                 <ListItemText primary={t('contacts.title')} />
                             </ListItemButton>
                         </ListItem>
@@ -152,12 +170,21 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                 to="/explorer/timelines"
                                 onClick={props.onClick}
                             >
-                                <ExploreIcon
+                                <Box
                                     sx={{
-                                        color: 'background.contrastText'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        width: '1.75rem',
+                                        justifyContent: 'center'
                                     }}
-                                />
-
+                                >
+                                    <ExploreIcon
+                                        sx={{
+                                            color: 'background.contrastText',
+                                            fontSize: '1.65rem'
+                                        }}
+                                    />
+                                </Box>
                                 <ListItemText primary={t('explore.title')} />
                             </ListItemButton>
                         </ListItem>
@@ -169,12 +196,16 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                     to="/concord/assets"
                                     onClick={props.onClick}
                                 >
-                                    <CellTowerIcon
+                                    <Box
                                         sx={{
-                                            color: 'background.contrastText'
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            width: '1.75rem',
+                                            justifyContent: 'center'
                                         }}
-                                    />
-
+                                    >
+                                        <CellTowerIcon sx={{ color: 'background.contrastText' }} />
+                                    </Box>
                                     <ListItemText primary={'Concord'} />
                                 </ListItemButton>
                             </ListItem>
@@ -187,18 +218,27 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                     to="/tutorial"
                                     onClick={props.onClick}
                                 >
-                                    <Badge
-                                        color="secondary"
-                                        variant="dot"
-                                        invisible={progress !== 0 || !isMasterSession}
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            width: '1.75rem',
+                                            justifyContent: 'center'
+                                        }}
                                     >
-                                        <MenuBookIcon
-                                            sx={{
-                                                color: 'background.contrastText'
-                                            }}
-                                        />
-                                    </Badge>
-
+                                        <Badge
+                                            color="secondary"
+                                            variant="dot"
+                                            invisible={progress !== 0 || !isMasterSession}
+                                        >
+                                            <MenuBookIcon
+                                                sx={{
+                                                    color: 'background.contrastText',
+                                                    fontSize: '1.57rem'
+                                                }}
+                                            />
+                                        </Badge>
+                                    </Box>
                                     <ListItemText primary={t('tutorial.title')} />
                                 </ListItemButton>
                             </ListItem>
@@ -211,23 +251,32 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                     to="/devtool"
                                     onClick={props.onClick}
                                 >
-                                    <TerminalIcon
+                                    <Box
                                         sx={{
-                                            color: 'background.contrastText'
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            width: '1.75rem',
+                                            justifyContent: 'center'
                                         }}
-                                    />
-
+                                    >
+                                        <TerminalIcon sx={{ color: 'background.contrastText' }} />
+                                    </Box>
                                     <ListItemText primary={t('devtool.title')} />
                                 </ListItemButton>
                             </ListItem>
                         )}
                         <ListItem disablePadding>
                             <ListItemButton sx={{ gap: 1 }} component={NavLink} to="/settings" onClick={props.onClick}>
-                                <SettingsIcon
+                                <Box
                                     sx={{
-                                        color: 'background.contrastText'
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        width: '1.75rem',
+                                        justifyContent: 'center'
                                     }}
-                                />
+                                >
+                                    <SettingsIcon sx={{ color: 'background.contrastText' }} />
+                                </Box>
                                 <ListItemText primary={t('settings.title')} />
                             </ListItemButton>
                         </ListItem>
