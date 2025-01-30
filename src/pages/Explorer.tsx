@@ -73,7 +73,7 @@ export function Explorer(): JSX.Element {
         const queries = Object.entries(hashQuery)
             .map((e) => e.join('='))
             .join('&')
-        navigate(`/explorer/${tab}#${queries}`)
+        navigate(`/classicexplorer/${tab}#${queries}`)
     }
 
     const load = (): void => {
@@ -211,12 +211,12 @@ export function Explorer(): JSX.Element {
                         <Typography variant="h2">{t('title')}</Typography>
                         <Button
                             component={NavLink}
-                            to={'/explorerplus'}
+                            to={'/explorer/timelines'}
                             sx={{ ml: 'auto' }}
                             size={'small'}
                             disableElevation
                         >
-                            ✨新しい探索を試してみる
+                            グローバルビュー
                         </Button>
                     </Box>
                     <Divider sx={{ my: 1 }} />
@@ -247,11 +247,11 @@ export function Explorer(): JSX.Element {
                 <Tabs
                     value={tab}
                     onChange={(_, v) => {
-                        navigate(`/explorer/${v}#${hash}`)
+                        navigate(`/classicexplorer/${v}#${hash}`)
                     }}
                 >
-                    <Tab value={'timelines'} label={'タイムライン'} />
-                    <Tab value={'users'} label={'ユーザー'} />
+                    <Tab value={'timelines'} label={t('communities')} />
+                    <Tab value={'users'} label={t('peoples')} />
                 </Tabs>
                 <Divider sx={{ mb: 2 }} />
                 {tab === 'timelines' && (
@@ -265,7 +265,7 @@ export function Explorer(): JSX.Element {
                             }}
                         >
                             <Typography variant="h3" gutterBottom>
-                                {t('community')}
+                                {t('communities')}
                             </Typography>
                             <Button
                                 onClick={() => {
@@ -339,7 +339,7 @@ export function Explorer(): JSX.Element {
                 {tab === 'users' && (
                     <>
                         <Typography variant="h3" gutterBottom>
-                            プロフィール
+                            {t('peoples')}
                         </Typography>
                         <TextField
                             label="search"

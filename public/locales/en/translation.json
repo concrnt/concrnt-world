@@ -37,13 +37,18 @@
         "explore": {
             "title": "Explore",
             "domains": "Domains",
-            "community": "Community",
+            "communities": "Communities",
+            "peoples": "Peoples",
             "createNew": "Create new",
             "createNewCommunity": {
                 "title": "Create new community",
-                "desc1": "Create a new stream on ",
+                "desc1": "Create a new community on ",
                 "desc2": " with the following settings."
-            }
+            },
+            "reroll": "Reroll",
+            "searchForPeoples": "Input to search for people",
+            "searchForCommunities": "Input to search for communities",
+            "quicklook": "Quick Look"
         },
         "devtool": {
             "title": "Devtool"

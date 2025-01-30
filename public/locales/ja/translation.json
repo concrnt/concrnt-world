@@ -37,13 +37,18 @@
         "explore": {
             "title": "探索",
             "domains": "ドメイン",
-            "community": "コミュニティ",
+            "communities": "コミュニティ",
+            "peoples": "人々",
             "createNew": "新しく作る",
             "createNewCommunity": {
                 "title": "コミュニティの新規作成",
                 "desc1": "あなたの管轄ドメイン",
-                "desc2": "に新しいタイムラインを作成します。"
-            }
+                "desc2": "に新しいコミュニティを作成します。"
+            },
+            "reroll": "リロール",
+            "searchForPeoples": "ここに入力して人々を検索",
+            "searchForCommunities": "ここに入力してコミュニティを検索",
+            "quicklook": "みてみる"
         },
         "devtool": {
             "title": "開発者ツール"

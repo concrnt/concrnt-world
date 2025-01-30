@@ -19,7 +19,9 @@ export interface TimelineDrawerState {
     open: (id: string) => void
 }
 
-const TimelineDrawerContext = createContext<TimelineDrawerState | undefined>(undefined)
+const TimelineDrawerContext = createContext<TimelineDrawerState>({
+    open: () => {}
+})
 
 interface TimelineDrawerProps {
     children: JSX.Element | JSX.Element[]
@@ -112,5 +114,5 @@ export const TimelineDrawerProvider = (props: TimelineDrawerProps): JSX.Element 
 }
 
 export function useTimelineDrawer(): TimelineDrawerState {
-    return useContext(TimelineDrawerContext) as TimelineDrawerState
+    return useContext(TimelineDrawerContext)
 }
