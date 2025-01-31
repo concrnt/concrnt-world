@@ -376,7 +376,7 @@ export function ExplorerPlusPage(): JSX.Element {
                             <Box
                                 sx={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fill, minmax(384px, 1fr))',
+                                    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
                                     gap: 1
                                 }}
                             >
@@ -501,7 +501,7 @@ export function ExplorerPlusPage(): JSX.Element {
                             <Box
                                 sx={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fill, minmax(384px, 1fr))',
+                                    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
                                     gap: 1
                                 }}
                             >
@@ -601,21 +601,20 @@ export function ExplorerPlusPage(): JSX.Element {
                         </>
                     )}
                 </Box>
-                {(tab === 'timelines' && !timelineQuery) ||
-                    (tab === 'users' && !userQuery && (
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                            <Button
-                                variant={'outlined'}
-                                onClick={() => {
-                                    reroll((prev) => prev + 1)
-                                    pageRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-                                }}
-                                startIcon={<CasinoIcon />}
-                            >
-                                {t('reroll')}
-                            </Button>
-                        </Box>
-                    ))}
+                {((tab === 'timelines' && !timelineQuery) || (tab === 'users' && !userQuery)) && (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                        <Button
+                            variant={'outlined'}
+                            onClick={() => {
+                                reroll((prev) => prev + 1)
+                                pageRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+                            }}
+                            startIcon={<CasinoIcon />}
+                        >
+                            {t('reroll')}
+                        </Button>
+                    </Box>
+                )}
             </Box>
         </>
     )
