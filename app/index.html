@@ -1,0 +1,54 @@
+<!doctype html>
+<!--
+    ______                            __
+   / ____/___  ____  ______________  / /_
+  / /   / __ \/ __ \/ ___/ ___/ __ \/ __/
+ / /___/ /_/ / / / / /__/ /  / / / / /_ 
+ \____/\____/_/ /_/\___/_/  /_/ /_/\__/
+
+ You can contribute ;)
+ https://github.com/totegamma/concurrent-web
+-->
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/icon" href="/favicon.ico" />
+        <meta
+            name="viewport"
+            content="viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet" />
+        <title>Concrnt | コンカレント</title>
+        <meta
+            name="description"
+            content="Concrntはあなたの世界をちょっとだけより豊かにする、新しい時代のSNSです"
+            data-rh="true"
+        />
+        <meta property="og:title" content="Concrnt | コンカレント" />
+        <meta
+            property="og:description"
+            content="Concrntはあなたの世界をちょっとだけより豊かにする、新しい時代のSNSです"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://concrnt.world/" />
+        <meta property="og:image" content="https://concrnt.world/concrnt.png" />
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y4V0V7XYWX"></script>
+        <script>
+            window.dataLayer = window.dataLayer || []
+            function gtag() {
+                dataLayer.push(arguments)
+            }
+            gtag('js', new Date())
+
+            gtag('config', 'G-Y4V0V7XYWX', {
+                //debug_mode: true,
+                send_page_view: false
+            })
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
+</html>

@@ -1,0 +1,519 @@
+{
+    "test": "Test",
+    "common": {
+        "watch": "Watch",
+        "watching": "Watching",
+        "unwatch": "Unwatch",
+        "follow": "Follow",
+        "following": "Following",
+        "unfollow": "Unfollow",
+        "followers": "Followers",
+        "crnt": "Post",
+        "media": "Media",
+        "activity": "Activity",
+        "reply": "Reply",
+        "mention": "Mention",
+        "reroute": "Reroute",
+        "fav": "Favorite",
+        "reaction": "Reaction"
+    },
+    "app": {
+        "updateAvailable": "New version available",
+        "updateNow": "Update"
+    },
+    "pages": {
+        "home": {
+            "title": "Home"
+        },
+        "notifications": {
+            "title": "Notifications"
+        },
+        "associations": {
+            "title": "Associations"
+        },
+        "contacts": {
+            "title": "Contacts"
+        },
+        "explore": {
+            "title": "Explore",
+            "domains": "Domains",
+            "communities": "Communities",
+            "peoples": "Peoples",
+            "createNew": "Create new",
+            "createNewCommunity": {
+                "title": "Create new community",
+                "desc1": "Create a new community on ",
+                "desc2": " with the following settings."
+            },
+            "reroll": "Reroll",
+            "searchForPeoples": "Input to search for people",
+            "searchForCommunities": "Input to search for communities",
+            "quicklook": "Quick Look"
+        },
+        "devtool": {
+            "title": "Devtool"
+        },
+        "tutorial": {
+            "title": "Tutorial"
+        },
+        "settings": {
+            "title": "Settings",
+            "actions": {
+                "title": "Actions",
+                "clearCache": "Clear cache",
+                "forceReload": "Force reload",
+                "logout": "Logout",
+                "areYouSure": "Are you sure?",
+                "logoutWarn": "To log in again, you will need the master key or QR code."
+            }
+        },
+        "lists": {
+            "title": "Lists"
+        },
+        "manageSubs": {
+            "title": "List Management",
+            "new": "Create New",
+            "listed": "Listed",
+            "unlisted": "Unlisted",
+            "newlist": "New List"
+        }
+    },
+    "time": {
+        "seconds": "s",
+        "minutes": "m",
+        "hours": "h",
+        "before": "ago",
+        "after": "later",
+        "separator": " ",
+        "now": "just now"
+    },
+    "ui": {
+        "postButton": {
+            "plaintext": "Post",
+            "markdown": "Post",
+            "media": "Post",
+            "reply": "Reply",
+            "reroute": "Reroute"
+        },
+        "profileEditor": {
+            "update": "Update",
+            "updateSuccess": "Updated Successfully",
+            "updateFailed": "Update Failed",
+            "createNew": "Create"
+        },
+        "draft": {
+            "placeholder": "What are you up to?",
+            "attachImage": "Attach image",
+            "cantAttachImage": "Please set up Imgur client ID in settings.",
+            "preview": "Preview",
+            "openPreview": "Open preview",
+            "closePreview": "Close preview",
+            "emoji": "Emojis",
+            "clearDraft": "Clear draft",
+            "postToHome": "Also posting to home timeline",
+            "noPostToHome": "Not posting to home timeline",
+            "current": "Post",
+            "whisper": "Whisper"
+        },
+        "secret": {
+            "clickToReveal": "Click to reveal",
+            "warn": "Make sure no one is looking at your screen.",
+            "copy": "Copy"
+        },
+        "listSettings": {
+            "title": "List settings",
+            "name": "List name",
+            "update": "Update",
+            "defaultDest": "Default destination",
+            "addDefaultDest": "Add default destination",
+            "postWithHome": "Post With Home",
+            "defaultProfile": "Default profile",
+            "stream": "Stream",
+            "community": "Community",
+            "user": "User",
+            "pin": "Pin",
+            "isIconTab": "Use icon on tab",
+            "delete": "Delete",
+            "reallyDelete": "Really delete this list?",
+            "confirmDelete": "Confirm"
+        },
+        "messageActions": {
+            "linkCopied": "Link copied",
+            "copyLink": "Copy share link",
+            "copySource": "Copy source",
+            "share": "Share",
+            "superReaction": "Super reaction",
+            "translate": "Translate",
+            "inspect": "Inspect",
+            "delete": "Delete",
+            "reallyDelete": "Really delete this message?",
+            "confirmDelete": "Confirm"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "general": {
+            "title": "General",
+            "basic": "Basic",
+            "showEditorOnTop": "Show editor on top",
+            "showEditorOnTopMobile": "Show editor on top (mobile)",
+            "autoSwitchMediaPostType": "Automatically switch the post type when an image is attached",
+            "developerMode": "Developer mode",
+            "generateInviteCode": "Generate invite code",
+            "inviteCode": "Invite code (valid for 24 hours)",
+            "copyInviteCode": "Copy invite code",
+            "copied": "Copied",
+            "language": "Language",
+            "showTutorial": "Show tutorial in the menu",
+            "notification": {
+                "title": "Notification",
+                "notsupported": "Your domain does not support notifications",
+                "enable": "Enable Notifications",
+                "enabled": "Notifications have been enabled",
+                "disable": "Disable Notifications",
+                "disabled": "Notifications have been disabled",
+                "tryAgain": "Please try again",
+                "failed": "Failed",
+                "updated": "Notification settings updated",
+                "updateFailed": "Failed to update notification settings",
+                "update": "Update",
+                "reply": "Reply",
+                "mention": "Mention",
+                "viewerRequest": "View Request",
+                "fav": "Favorite",
+                "reaction": "Reaction",
+                "reroute": "Reroute"
+            }
+        },
+        "privileged": {
+            "title": "You are currently logged in with Privileged Mode",
+            "desc": "Privileged Mode allows for powerful actions such as account deletion.\nIt is recommended to switch back to Normal Mode after completing your privileged actions.",
+            "action": "Switch to Normal Mode"
+        },
+        "profile": {
+            "title": "Profile",
+            "update": "Update",
+            "updated": "Updated",
+            "secret": "Secret code",
+            "secretCannotBeRestored": "Since this account was imported using the private key instead of the secret code, the secret code cannot be restored."
+        },
+        "identity": {
+            "title": "Identity",
+            "loginType": {
+                "masterKey": "You are currently logged in using the master-key. Switch to a more secure sub-key login immediately.",
+                "subKey": "You are currently logged in using a sub-key.",
+                "secret": "You are currently logged in using the master-key by directly entering the secret key."
+            },
+            "hideSubKey": "Hide deactivated sub-keys",
+            "deactivate": "Deactivate",
+            "switchMasterToSub": {
+                "masterKeyFormat": "Master-key format:",
+                "sendEmail": "Send to my email",
+                "copyToClipboard": "Copy to clipboard",
+                "mailHerf": "mailto:?subject=concrnt secret&body=**Set the recipient of this email to yourself and send it.**%0D%0A%0D%0A=== Identification Info ===%0D%0AIdentifier: {{ ccid }}%0D%0AMaster Key: {{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0AThe master key is the only passphrase that proves you own the account identified by this identifier.%0D%0AIf this key becomes known to a malicious third party, the security of this account will be compromised, and you will need to take steps to freeze the account yourself.%0D%0A%0D%0AThe master key will be used for important operations such as migrating your account or recovering lost sub-keys.%0D%0AUntil then, store it securely, such as by printing it and keeping it in a safe deposit box.%0D%0A",
+                "downloadPDF": "Download as PDF",
+                "processing": "Processing...",
+                "ready": "Remove the master-key completely from this device and switch to the sub-key",
+                "identification": "Identification",
+                "confidential": "CONFIDENTIAL",
+                "identifier": "Identifier",
+                "undifined": "Undefined",
+                "masterKey": "master-key",
+                "aboutMasterKey": "The master-key is the only passphrase that proves you are the owner of the account identified by this identifier.<br/>If this key becomes known to a malicious third party, the security of this account will be compromised, and you will need to take steps to freeze the account yourself.<br/>The master-key will be used for important operations such as migrating your account or recovering lost sub-keys. Until then, keep it stored in a secure and reliable way, such as printing it and keeping it in a safe.",
+                "reference": "Reference Information",
+                "name": "Name",
+                "unset": "Unset",
+                "domain": "Governing Domain",
+                "addition": "The reference information is from when this certificate was issued and may have changed since then.",
+                "date": "Issued on:",
+                "checkMasterKey": "Backup Master Key",
+                "backToSwitch": "Back to Switching",
+                "testPrompt": "To proceed, enter the {{first}}th and {{second}}th words of your master key",
+                "nthWord": "{{nth}}th word",
+                "switchToNormalMode": "Switch to Normal Mode",
+                "exitPrivilegedMode": "Exit Privileged Mode",
+                "privilegeModeDesc": "Privileged Mode allows for critical actions such as account deletion."
+            }
+        },
+        "theme": {
+            "title": "Theme"
+        },
+        "sound": {
+            "title": "Sound",
+            "sound": "Sound",
+            "volume": "Volume",
+            "override": {
+                "title": "Override",
+                "postSound": "Post sound",
+                "notificationSound": "Notification sound"
+            }
+        },
+        "emoji": {
+            "title": "Emoji",
+            "emojiPackage": "Emoji packages",
+            "emojiPackageURL": "Emoji package URL",
+            "packageNotFound": "Package not found",
+            "copied": "Copied",
+            "alreadyAdded": "Emoji pack already added"
+        },
+        "media": {
+            "title": "Media",
+            "storageProviderLabel": "Storage provider to use",
+            "corsSettings": "CORS settings",
+            "imagePostSettings": "Image post settings",
+            "afterRegisteringImgur": "After registering with Imgur, go to ",
+            "thisPage": "this page",
+            "deleteCompletely": "Delete completely",
+            "copyURL": "Copy URL",
+            "copyID": "Copy ID",
+            "oauth2": " and create application with option \"OAuth 2 authorization without a callback URL\"",
+            "descs": {
+                "domain": "Domain Storage refers to the storage provided by this domain. It can be used without any setup, but there is a maximum capacity set. Additionally, the list of files may be viewed by administrators and files that violate the terms may be deleted.",
+                "imgur": "Imgur is used for image uploads. It can be set up relatively easily. The content that can be uploaded is subject to Imgur's terms.",
+                "s3": "S3 is used for image uploads. S3-compatible services like CloudFlare R2 can also be used. It requires more effort to set up, but allows you to keep files under your own control. Charges may apply depending on the service, but in most cases, it will fit within the free tier."
+            }
+        },
+        "ap": {
+            "title": "ActivityPub",
+            "setup": "ActivityPub ID setup.",
+            "cantBeChangedOnceRegistered": "**Can't be changed once registered.",
+            "confirming": "Confirming...",
+            "register": "Register",
+            "helperText": "The following charaters can be used: a-z, A-Z, 0-9",
+            "alreadyRegistered": "This user is already registered.",
+            "tryAnotherID": "Try another ID."
+        },
+        "qr": {
+            "title": "Login Code",
+            "createNew": "Create new",
+            "showInstalled": "Show installed",
+            "tip1": "You can only see generated codes once. Generate a new code only when you need it.",
+            "tip2": "You can check created keys in the Settings > Identity page.",
+            "createNewSubKey": "Create New Sub Key"
+        },
+        "importexport": {
+            "title": "Import/Export",
+            "import": "Import",
+            "export": "Export"
+        },
+        "jobs": {
+            "title": "Jobs"
+        }
+    },
+    "welcome": {
+        "start": "Get Started",
+        "guide": "User Guide",
+        "gettingStarted": "Let's Get Started",
+        "import": "Log In",
+
+        "catch": "What if there was an SNS like this...",
+        "wish1": "You could know in real-time what your friends and people you're interested in are doing.",
+        "wish2": "You could interact with multiple communities using a single account.",
+        "wish3": "You could choose who manages the platform, rather than being controlled by a single entity.",
+        "wish4": "Wouldn't it be great if there was such an SNS?",
+        "wish5": "Concrnt was developed to fulfill this wish.",
+        "wish6": "Welcome to the new era of SNS.",
+
+        "feature1title": "An SNS for Enjoying Together",
+        "feature1subtitle": "Tired of recommendation feeds filled with strangers?",
+        "feature1p1": "Wouldn't you rather know more about the people you like than just seeing recommendations filled with strangers?",
+        "feature1p2": "With Concrnt, instead of relying on algorithms, you can use customizable lists to access information that truly matters to you. Select the people you like and the communities you're interested in, and create a timeline that fits you perfectly.",
+        "feature1p3": "Concrnt is an SNS focused on the connections that truly matter to you, making it enjoyable for everyone.",
+
+        "feature2title": "Your Account is Truly Yours",
+        "feature2subtitle": "Say goodbye to the days of fearing account suspension 👋",
+        "feature2p1": "Concrnt is a decentralized SNS that prioritizes user freedom and safety. It is free from the dictatorship of a single company or organization, with independent individuals and organizations running their own servers.",
+        "feature2p2": "This means you no longer have to live in fear of your account being suddenly suspended. Even if you experience unfair treatment on one server, you can easily move to another server, retaining your posts and followers, and continue your activities. Here, you'll find the security and freedom of being able to manage your account in a way that was unimaginable with conventional SNS.",
+        "feature2p3": "On Concrnt, your account truly belongs to you.",
+
+        "feature3title": "Countless Communities in One SNS",
+        "feature3subtitle": "The era of using separate accounts for different interests is over",
+        "feature3p1": "On Concrnt, in addition to the home timeline, you can switch between multiple community timelines. When posting, you can simultaneously share across multiple communities, making it easy to connect loosely with multiple communities, which is natural for humans.",
+        "feature3p2": "It's not about being overly connected to the world like X, nor is it about being too closed off like Discord. The charm of Concrnt is that you can find your place while moderately connecting with other communities.",
+
+        "crnt1": "It’s a new way of using SNS, but once you get used to it, it's comfortable!",
+        "crnt2": "What I depend on must be open!",
+        "crnt3": "I want to broadcast to multiple communities simultaneously!",
+        "crnt4": "Maybe I’ll try setting up my own server?",
+        "crnt5": "I want a decentralized SNS where I don’t have to be decentralized!",
+        "crnt6": "What are you up to?",
+        "crnt7": "Yay!",
+        "crnt8": "Good evening!",
+        "crnt9": "Anyone want to hang out?",
+        "crnt10": "Customizing themes is so fun!",
+        "crnt11": "Because my account is truly in my own hands, <br/> I can use it confidently as my internet identity.",
+        "crnt12": "Communicating with emoji reactions is so smooth!",
+        "crnt13": "Even if the server I’m on shuts down, <br/> I can easily move my relationships to a new server, so no worries!",
+        "crnt14": "I’m hungry YO",
+
+        "crnt_totegamma": "This is exactly it!"
+    },
+
+    "mock": {
+        "home": {
+            "title": "Home",
+            "crnt1": "I really love the quietness at this time. Solo time on holidays is the best.",
+            "crnt2": "Speaking of music, lately I can't get anime songs out of my head. They really pump me up.",
+            "crnt3": "Afternoon music selection—what should I listen to today? It's a tough choice.",
+            "crnt4": "A new book has arrived! Time to brew some tea and dive into it. The perfect holiday.",
+            "crnt5": "It's been a while, but they're rerunning my favorite anime today. Time to relax and watch."
+        },
+        "game": {
+            "title": "Gaming Scene",
+            "crnt1": "Lost my save data in 'Adventurers of the Netherworld'... I want to cry.",
+            "crnt2": "The new VR game is incredibly realistic! I need to be careful not to get dizzy.",
+            "crnt3": "Last night's online battle was flawless teamwork. Let's do it again, team!",
+            "crnt4": "Found an old arcade game. The feeling of inserting a coin and playing is so nostalgic.",
+            "crnt5": "Collecting game OSTs is my hobby. I got a new one today!"
+        },
+        "food": {
+            "title": "Food",
+            "crnt1": "Trying my hand at homemade vegan dishes. Today, it's tomato and quinoa salad.",
+            "crnt2": "Discovered a new spice shop! Time to experiment with some exotic flavors.",
+            "crnt3": "Today's ramen was exceptional. The spice level was just right.",
+            "crnt4": "Homemade cold brew, a summer staple. The choice of coffee beans is key.",
+            "crnt5": "The yakitori I had at the restaurant was crispy on the outside and juicy on the inside. Next time, I'm bringing friends!"
+        }
+    },
+
+    "registration": {
+        "welcome": {
+            "title": "Let's Create Your Concrnt Account!",
+            "desc1": "Concrnt is a decentralized SNS.",
+            "desc2": "Choose a server to sign up.",
+            "infoTitle": "Any server is OK!",
+            "info1": "On Concrnt, there are no barriers between servers. It's like choosing a mobile carrier.",
+            "info2": "You can move between servers anytime, so if you have no preference, we recommend letting us choose for you.",
+            "auto1": "Pick a server for me",
+            "auto2": "Get Started",
+            "custom": "Choose a server yourself"
+        },
+        "chooseDomain": {
+            "title": "Choosing a Domain",
+            "chooseFromList": "Choose from the list",
+            "or": "or",
+            "directInput": "Enter URL directly",
+            "tips": "Tips: If you're setting up your own server, click here",
+            "jump": "Go to the registration page",
+            "notRegistered": "Registration at the domain is not confirmed. Please register at the domain you jump to.",
+            "nextDisabled": "You can proceed to the next step once registration at the domain is complete",
+            "next": "Next: Creating a Profile"
+        },
+        "createProfile": {
+            "title": "Creating a Profile",
+            "desc": "Here you set your name, icon, and self-introduction."
+        },
+        "ready": {
+            "title": "Ready to go!",
+            "next": "Start"
+        },
+        "alreadyHaveAccount": "Already have an account?",
+        "importAccount": "Sign in"
+    },
+    "import": {
+        "scan": "Scan",
+        "manual": "Manual",
+        "searching": "Searching…",
+        "notFound": "Your server could not be found. You can continue by entering it manually.",
+        "invalidSecret": "The secret code is not correct.",
+        "notFoundOnServer": "Your account could not be found on the specified server.",
+        "connectionError": "Could not connect to the specified server.",
+        "input": "Enter the secret code or private key",
+        "withSubkey": "Sign in with a sub-key",
+        "secretPlaceholder": "A spell made of 12 words",
+        "welcome": "Welcome",
+        "domain": "Domain",
+        "import": "Sign in",
+        "noAccount": "Don't have an account yet?",
+        "createAccount": "Create an Account",
+        "masterKeyDesc": "Enter the master key as 12 words separated by spaces",
+        "privLogin": "Log in with Privileged Mode",
+        "normalLogin": "Log in with Normal Mode"
+    },
+
+    "tutorial": {
+        "title": "Tutorial",
+        "common": {
+            "next": "Next"
+        },
+        "tabs": {
+            "login": "Password & Login",
+            "post": "Posting",
+            "follow&watch": "Follow & Watch",
+            "community": "Community",
+            "list": "Lists",
+            "customize": "Customize",
+            "done": "Done!"
+        },
+
+        "login": {
+            "congrat": "Successfully switched from privilege mode to normal mode! Well done!",
+            "block": "Before proceeding, let's switch from privilege mode to normal mode.",
+            "password&login": {
+                "title": "Password & Login",
+                "desc1": "In , instead of a password you choose yourself, you use a predefined password to log in. This password is extremely important and is referred to as the 'Master Key.' If your Master Key is exposed to others, it can lead to irreversible consequences. Never share it with anyone.",
+                "desc2": "Additionally, if you lose your Master Key, it cannot be recovered, and you'll need to create a new account. Therefore, make sure to print or write it down and store it securely as a valuable item.",
+                "handsonTitle": "Save Your Master Key",
+                "handsonDesc": "Use the button below to securely save your Master Key in your preferred way."
+            },
+            "howtologin": {
+                "title": "How to Log In",
+                "desc1": "To log in, enter your Master Key on the login screen of the homepage. Alternatively, you can log in using a QR code.",
+                "desc2": "On a device where you're already logged in, go to Settings > Login QR to display the QR code and scan it with a new device."
+            },
+            "privmode": {
+                "title": "Privilege Mode",
+                "desc1": "When you log in with the Master Key in , you can access privilege mode. This mode allows you to perform critical actions such as migrating or deleting your account.",
+                "desc2": "If privilege mode is not needed, you can click 'Privilege Mode' at the top of the screen to forget sensitive information and switch to normal mode.",
+                "desc3": "To switch back to privilege mode from normal mode, log out and log in again by entering your Master Key.",
+                "handsonTitle": "Exit Privilege Mode",
+                "handsonDesc": "Right after registration, you're still in privilege mode. Let's switch to normal mode."
+            }
+        },
+
+        "post": {
+            "title": "Posting",
+            "desc": "On desktop, the posting UI is located at the top of the screen by default. On smartphones, you can access the posting screen by pressing the button at the bottom right. Let's try making your first post.",
+            "handsonButton": "Say Hello!",
+            "handsonContent": "Hello! Concrnt!",
+            "syntax": "## Formatting and Preview\n\nIn , you can use symbols in your posts to apply formatting.\nFor example, typing `**bold**` will make the text **bold**.\nYou can check how your formatting looks in real-time using the preview at the bottom of the posting UI.\n\n## Formatting Guide\n- `# Heading`: Heading (size changes with the number of #)\n- `**Bold**`: **Bold**\n- `*Italic*`: *Italic*\n- `~~Strikethrough~~`: ~~Strikethrough~~"
+        },
+
+        "follow&watch": {
+            "desc": "# Follow & Watch\n\nIn , the concept of 'Follow' works differently compared to typical social media.\n'Follow' in Concrnt is more like 'Add to Contacts.' Actively follow people you know or find interesting.\n\nOn the other hand, 'Watch' allows you to add someone to a specific list and view all their posts.\n\nSince Concrnt is community-based, directly watching too many people can clutter your timeline. It's recommended to watch only those you're genuinely interested in."
+        },
+
+        "community": {
+            "title": "Community",
+            "desc1": " has community timelines that can be discovered via the 'Explore' tab. Find one and check it out. If there isn't one, consider creating your own.",
+            "desc2before": "Once you find one, press the ",
+            "desc2after": " button to add the community to your list (watch it).",
+            "postToCommunity": {
+                "title": "Posting to a Community",
+                "desc": "Once you've added a community to your list, it will appear as an option in the posting UI. You can select multiple destinations for your post."
+            },
+            "changeDefault": {
+                "title": "Setting a Default Posting Destination",
+                "descbefore": "If you find a community to settle into, setting it as your default posting destination can be convenient. While viewing the list, press the ",
+                "descafter": " button at the top right to set your default posting destination."
+            }
+        },
+
+        "list": {
+            "desc": "# Lists\n\nWatching multiple communities can make your timeline too cluttered.\nIn such cases, create more lists to organize them.\nYou can access the list management screen from 'Lists' in the menu.\n\n## Pinning Lists\n\nFrom the list settings, you can pin specific lists. Pinned lists are always accessible from the tabs at the top of the screen.\n\n## Lists as Presets\n\nLists in  are more than just collections; they serve as powerful presets.\nFor example, you can assign different default posting destinations to multiple lists, allowing you to switch between them quickly."
+        },
+
+        "customize": {
+            "desc": "# Advanced Usage\n\n## App Installation\n uses PWA technology, enabling you to use this web page like a smartphone app.\n\n<Illustration>\n\n### Notification Settings\n\nInstalling the app lets you configure notifications. By default, all notifications are turned off, but you can enable them in Settings > General by pressing the 'Enable Notifications' button. Once enabled, you can customize which events trigger notifications.\n\nOnly one device can have notifications enabled at a time. Enabling notifications on a new device will disable them on the previous one.\n\n## Customization\n\nConcrnt offers a variety of customization features.\n### Color Themes\nYou can change the color theme in the Settings > Theme menu. You can also create your own themes and share them. Shared themes appear on the timeline like this:\n```theme\n{\"meta\":{\"name\":\"Olive\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\nPress the install button to instantly apply the theme.\n\n### Emoji Packs\n\nConcrnt allows you to use emojis in posts and reactions by installing emoji packs.\nShared emoji packs appear on the timeline like this:\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\nYou can also create your own emoji packs, though it requires some effort. See [here](https://square.concrnt.net/general/world/emojipack/) for details."
+        },
+
+        "done": {
+            "desc": "# Done!\n\nYou've now mastered the basics of using !\n\nFrom here on, feel free to explore and use Concrnt however you like.",
+            "handsonButton": "I've mastered!",
+            "handsonContent": "I've mastered Concrnt!",
+            "showTutorial": "Show tutorial in the menu",
+            "hideTutorial": "Hide tutorial from the menu",
+            "otherTips": "## Additional Tips\n\n### For Password Manager Users & Frequent Logins\n\nIf you're using a password manager to log in to , it's recommended to use a Sub Key instead of the Master Key.\nThis is because:\n1. Some password managers struggle with handling Japanese characters as passwords.\n2. Logging in with the Master Key creates a new session.\n\nYou can copy your Sub Key from Settings > ID Management while logged in under normal mode. Sub Key login works via the same login screen as the Master Key, with a dedicated input field.\n\n## Other Features\n\n### Sub-Profiles\nConcrnt lets you create multiple profiles. You can choose which profile to use when posting.\n\n### ActivityPub Integration\nBy enabling ActivityPub integration, you can interact with other ActivityPub-compatible platforms (Mastodon, Misskey, Pleroma, etc.).\n\n### Data Management & Migration\nConcrnt is a decentralized SNS, allowing you to manage your own data.\nTo safeguard against server shutdowns, regularly export your data from Settings > Data Management and keep it securely.\nYou can also migrate to a different server if your current one shuts down."
+        }
+    }
+}

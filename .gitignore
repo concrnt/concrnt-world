@@ -29,5 +29,6 @@ package-lock.yaml
 .wrangler
 test-results
 playwright-report
+storybook-static
 
 dev-dist
