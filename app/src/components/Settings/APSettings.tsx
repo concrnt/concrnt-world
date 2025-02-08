@@ -29,8 +29,6 @@ export const APSettings = (): JSX.Element => {
     const [apTimeline, setApTimeline] = useState<Timeline<CommunityTimelineSchema> | null>(null)
     const [meta, setMeta] = useState<any>({})
 
-    console.log('apTimeline', apTimeline)
-
     const timelineNGReason = (() => {
         if (!client.ccid) return null
         if (!apTimeline) return 'Activitypub受信用タイムラインが見つかりません'
@@ -51,7 +49,7 @@ export const APSettings = (): JSX.Element => {
             .fetchWithCredential(client.host, `/ap/api/settings`, {})
             .then(async (data: any) => {
                 const requests = await Promise.allSettled(
-                    data.listen_timelines.map((id: string) => {
+                    data.content.listen_timelines.map((id: string) => {
                         return client.getTimeline(id)
                     })
                 )
