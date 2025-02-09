@@ -70,7 +70,8 @@ export function ListPage(): JSX.Element {
             const fulfilled = results.filter((e) => e.status === 'fulfilled') as Array<
                 PromiseFulfilledResult<TypeTimeline<CommunityTimelineSchema>>
             >
-            setPostTimelines(fulfilled.map((e) => e.value))
+            const nonNullValues = fulfilled.map((e) => e.value).filter((e) => e !== null)
+            setPostTimelines(nonNullValues)
         })
     }, [list, client])
 

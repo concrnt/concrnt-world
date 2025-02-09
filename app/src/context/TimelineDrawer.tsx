@@ -53,7 +53,7 @@ export const TimelineDrawerProvider = (props: TimelineDrawerProps): JSX.Element 
     const timelineRef = useRef<VListHandle>(null)
 
     const timelineIDs = useMemo(() => {
-        return timeline ? [timeline.id] : []
+        return timeline ? [timeline.fqid] : []
     }, [timeline])
 
     const open = useCallback((id: string) => {

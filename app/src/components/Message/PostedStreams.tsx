@@ -107,11 +107,11 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                     flexShrink: 0
                                 }}
                                 onMouseDown={(event) => {
-                                    ButtonOnPress(event, e.id)
+                                    ButtonOnPress(event, e.fqid)
                                 }}
                                 onMouseUp={ButtonOnRelease}
                                 onTouchStart={(event) => {
-                                    ButtonOnPress(event, e.id)
+                                    ButtonOnPress(event, e.fqid)
                                 }}
                                 onTouchEnd={ButtonOnRelease}
                             >

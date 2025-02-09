@@ -1138,7 +1138,7 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         const timelines_fulfilled = timelines_request.filter((e) => e.status === 'fulfilled') as Array<
             PromiseFulfilledResult<Timeline<any>>
         >
-        message.postedTimelines = timelines_fulfilled.map((e) => e.value)
+        message.postedTimelines = timelines_fulfilled.map((e) => e.value).filter((e) => e)
 
         return message
     }
