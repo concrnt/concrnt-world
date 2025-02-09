@@ -188,7 +188,7 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
                                 .then((media) => {
                                     props.onAddMedia?.({
                                         mediaType: media.type,
-                                        mediaURL: media.url,
+                                        mediaURL: addingMediaURL,
                                         blurhash: media.blurhash
                                     })
                                     setAddingMediaURL('')

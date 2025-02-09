@@ -9,7 +9,7 @@
         "build-storybook": "pnpm --filter @concrnt/worldlib build && pnpm --filter concrnt-world build-storybook"
     },
     "dependencies": {
-        "@concrnt/client": "^0.0.14"
+        "@concrnt/client": "^0.0.15"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.2.0",

@@ -2,6 +2,7 @@ import { type RerouteMessageSchema, type Message, type MediaMessageSchema } from
 import { EmbeddedGallery } from '../ui/EmbeddedGallery'
 import { MessageViewBase } from './MessageViewBase'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'
+import { useMemo } from 'react'
 
 export interface MediaMessageViewProps {
     message: Message<MediaMessageSchema>
@@ -16,21 +17,25 @@ export interface MediaMessageViewProps {
 }
 
 export const MediaMessageView = (props: MediaMessageViewProps): JSX.Element => {
-    return (
-        <MessageViewBase
-            {...props}
-            afterMessage={
-                <>
-                    {props.message.document.body.medias && (
-                        <EmbeddedGallery medias={props.message.document.body.medias} />
-                    )}
-                </>
-            }
-        >
+    const gallery = useMemo(() => {
+        if (props.message.document.body.medias) {
+            return <EmbeddedGallery medias={props.message.document.body.medias} />
+        }
+    }, [props.message.id])
+
+    const renderer = useMemo(
+        () => (
             <MarkdownRenderer
                 messagebody={props.message.document.body.body ?? 'no content'}
                 emojiDict={props.message.document.body.emojis ?? {}}
             />
+        ),
+        [props.message.id]
+    )
+
+    return (
+        <MessageViewBase {...props} afterMessage={gallery}>
+            {renderer}
         </MessageViewBase>
     )
 }

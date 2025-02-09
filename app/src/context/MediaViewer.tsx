@@ -128,7 +128,7 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
     }
 
     return (
-        <MediaViewerContext.Provider value={{ openSingle, openMedias, openModel }}>
+        <MediaViewerContext.Provider value={useMemo(() => ({ openSingle, openMedias, openModel }), [])}>
             {props.children}
             <Modal
                 open={!!previewImage || !!previewModel}

@@ -27,7 +27,8 @@ import {
     TimelineReader,
     QueryTimelineReader,
     IsCSID,
-    FetchOptions
+    FetchOptions,
+    KVS
 } from '@concrnt/client'
 
 import { Schemas, type Schema } from './schemas'
@@ -109,7 +110,15 @@ export class Client {
         const authProvider = new MasterKeyAuthProvider(privatekey, host)
 
         opts?.progressCallback?.('initializing cache engine')
-        const cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
+        let cacheEngine: KVS | undefined = undefined
+        try {
+            cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
+        } catch (e) {
+            console.error('failed to initialize cache engine')
+        }
+        if (!cacheEngine) {
+            cacheEngine = new InMemoryKVS()
+        }
 
         opts?.progressCallback?.('creating api client')
         const api = new Api(authProvider, cacheEngine)
@@ -167,7 +176,15 @@ export class Client {
         const authProvider = new SubKeyAuthProvider(subkey)
 
         opts?.progressCallback?.('initializing cache engine')
-        const cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
+        let cacheEngine: KVS | undefined = undefined
+        try {
+            cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
+        } catch (e) {
+            console.error('failed to initialize cache engine')
+        }
+        if (!cacheEngine) {
+            cacheEngine = new InMemoryKVS()
+        }
 
         opts?.progressCallback?.('creating api client')
         const api = new Api(authProvider, cacheEngine)

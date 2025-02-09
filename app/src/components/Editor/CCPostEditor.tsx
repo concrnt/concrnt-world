@@ -777,7 +777,10 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             onAddMedia={
                                 mode === 'media'
                                     ? (media) => {
-                                          setMedias((medias) => [...medias, { key: '', progress: 1, media }])
+                                          setMedias((medias) => [
+                                              ...medias,
+                                              { key: media.mediaURL, progress: 1, media }
+                                          ])
                                       }
                                     : undefined
                             }
@@ -828,7 +831,10 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             onAddMedia={
                                 mode === 'media'
                                     ? (media) => {
-                                          setMedias((medias) => [...medias, { key: '', progress: 1, media }])
+                                          setMedias((medias) => [
+                                              ...medias,
+                                              { key: media.mediaURL, progress: 1, media }
+                                          ])
                                       }
                                     : undefined
                             }

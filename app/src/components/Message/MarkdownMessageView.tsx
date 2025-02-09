@@ -1,6 +1,7 @@
 import { type Message, type MarkdownMessageSchema, type RerouteMessageSchema } from '@concrnt/worldlib'
 import { MessageViewBase } from './MessageViewBase'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'
+import { useMemo } from 'react'
 
 export interface MarkdownMessageViewProps {
     message: Message<MarkdownMessageSchema>
@@ -15,12 +16,15 @@ export interface MarkdownMessageViewProps {
 }
 
 export const MarkdownMessageView = (props: MarkdownMessageViewProps): JSX.Element => {
-    return (
-        <MessageViewBase {...props}>
+    const renderer = useMemo(
+        () => (
             <MarkdownRenderer
                 messagebody={props.message.document.body.body ?? 'no content'}
                 emojiDict={props.message.document.body.emojis ?? {}}
             />
-        </MessageViewBase>
+        ),
+        [props.message.id]
     )
+
+    return <MessageViewBase {...props}>{renderer}</MessageViewBase>
 }
