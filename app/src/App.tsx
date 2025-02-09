@@ -38,6 +38,7 @@ import { TimelineDrawerProvider } from './context/TimelineDrawer'
 import { UserDrawerProvider } from './context/UserDrawer'
 import { Schemas } from '@concrnt/worldlib'
 import type { MarkdownMessageSchema, ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldlib'
+import { SearchDrawerProvider } from './context/SearchDrawer'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -300,9 +301,11 @@ function App(): JSX.Element {
                                     <EditorModalProvider>
                                         <TimelineDrawerProvider>
                                             <UserDrawerProvider>
-                                                <ConfirmProvider>
-                                                    <GlobalActionsProvider>{childs}</GlobalActionsProvider>
-                                                </ConfirmProvider>
+                                                <SearchDrawerProvider>
+                                                    <ConfirmProvider>
+                                                        <GlobalActionsProvider>{childs}</GlobalActionsProvider>
+                                                    </ConfirmProvider>
+                                                </SearchDrawerProvider>
                                             </UserDrawerProvider>
                                         </TimelineDrawerProvider>
                                     </EditorModalProvider>

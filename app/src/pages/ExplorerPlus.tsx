@@ -396,8 +396,8 @@ export function ExplorerPlusPage(): JSX.Element {
                                                     alignItems: 'flex-start',
                                                     gap: 1
                                                 }}
-                                                component={NavLink}
-                                                to={'/timeline/' + tl.id}
+                                                //component={NavLink}
+                                                //to={'/timeline/' + tl.id}
                                             >
                                                 <CardMedia sx={{ height: '100px', width: '100px' }}>
                                                     <CCWallpaper
@@ -458,13 +458,7 @@ export function ExplorerPlusPage(): JSX.Element {
                                                         <Typography variant="caption">
                                                             {getDomainFromFQDN(tl.domainFQDN)?.meta?.nickname}
                                                         </Typography>
-                                                        <Box
-                                                            sx={{ display: 'flex', gap: 1, marginLeft: 'auto' }}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation()
-                                                                e.preventDefault()
-                                                            }}
-                                                        >
+                                                        <Box sx={{ display: 'flex', gap: 1, marginLeft: 'auto' }}>
                                                             <WatchButton minimal small timelineFQID={tl.id} />
                                                             <Tooltip title={t('quicklook')} placement={'top'} arrow>
                                                                 <CCIconButton

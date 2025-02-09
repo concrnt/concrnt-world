@@ -22,6 +22,8 @@ import { useMediaViewer } from '../context/MediaViewer'
 import IosShareIcon from '@mui/icons-material/IosShare'
 import { CCIconButton } from './ui/CCIconButton'
 import ReplayIcon from '@mui/icons-material/Replay'
+import SearchIcon from '@mui/icons-material/Search'
+import { useSearchDrawer } from '../context/SearchDrawer'
 
 export interface ProfileProps {
     user?: User
@@ -38,6 +40,8 @@ export function Profile(props: ProfileProps): JSX.Element {
     const theme = useTheme()
     const mediaViewer = useMediaViewer()
     const isSelf = props.id === client.ccid
+
+    const searchDrawer = useSearchDrawer()
 
     const [detailMode, setDetailMode] = useState<detail>('none')
 
@@ -100,31 +104,56 @@ export function Profile(props: ProfileProps): JSX.Element {
                 isLoading={!props.user}
             />
 
-            <CCIconButton
+            <Box
                 sx={{
                     position: 'absolute',
                     top: '10px',
                     right: '10px',
                     zIndex: 1,
-                    backgroundColor: alpha(theme.palette.primary.main, 0.5),
-                    '&:hover': {
-                        backgroundColor: alpha(theme.palette.primary.main, 0.7)
-                    }
-                }}
-                onClick={() => {
-                    if (props.user) {
-                        const id = props.user.alias ?? props.user.ccid
-                        navigator.clipboard.writeText('https://concrnt.world/' + id)
-                        enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
-                    }
+                    display: 'flex',
+                    gap: 1
                 }}
             >
-                <IosShareIcon
+                <CCIconButton
                     sx={{
-                        color: theme.palette.primary.contrastText
+                        backgroundColor: alpha(theme.palette.primary.main, 0.5),
+                        '&:hover': {
+                            backgroundColor: alpha(theme.palette.primary.main, 0.7)
+                        }
                     }}
-                />
-            </CCIconButton>
+                    onClick={() => {
+                        searchDrawer.open(props.user?.homeTimeline ?? '')
+                    }}
+                >
+                    <SearchIcon
+                        sx={{
+                            color: theme.palette.primary.contrastText
+                        }}
+                    />
+                </CCIconButton>
+
+                <CCIconButton
+                    sx={{
+                        backgroundColor: alpha(theme.palette.primary.main, 0.5),
+                        '&:hover': {
+                            backgroundColor: alpha(theme.palette.primary.main, 0.7)
+                        }
+                    }}
+                    onClick={() => {
+                        if (props.user) {
+                            const id = props.user.alias ?? props.user.ccid
+                            navigator.clipboard.writeText('https://concrnt.world/' + id)
+                            enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
+                        }
+                    }}
+                >
+                    <IosShareIcon
+                        sx={{
+                            color: theme.palette.primary.contrastText
+                        }}
+                    />
+                </CCIconButton>
+            </Box>
 
             <Box
                 sx={{
