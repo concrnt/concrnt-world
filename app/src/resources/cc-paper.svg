@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 595.28 841.89">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 595.28 841.89" width="595.28" height="841.89">
   <defs>
     <style>
       .cls-1 {
@@ -29,7 +29,7 @@
       }
 
       .cls-5 {
-        fill: url(#_新規パターンスウォッチ_1);
+        fill: url(#ccpaper_pattern);
         opacity: .3;
       }
 
@@ -39,42 +39,31 @@
         font-weight: 700;
       }
     </style>
-    <pattern id="_新規パターンスウォッチ_1" data-name="新規パターンスウォッチ 1" x="0" y="0" width="102.05" height="110.55" patternUnits="userSpaceOnUse" viewBox="0 0 102.05 110.55">
-      <g>
-        <rect class="cls-4" width="102.05" height="110.55"/>
-        <text class="cls-6" transform="translate(95.78 146.53) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(44.76 146.53) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(-6.27 146.53) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(61.76 109.68) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(10.74 109.68) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(-40.28 109.68) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(78.77 72.83) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(27.75 72.83) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(-23.27 72.83) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(95.78 35.98) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(44.76 35.98) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(-6.27 35.98) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(61.76 -.87) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(10.74 -.87) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-        <text class="cls-6" transform="translate(-40.28 -.87) rotate(-30)"><tspan x="0" y="0">Concurrent</tspan></text>
-      </g>
+    <pattern id="ccpaper_pattern" x="0" y="0" width="102.05" height="110.55" patternUnits="userSpaceOnUse" viewBox="0 0 102.05 110.55">
+      <text class="cls-6" transform="translate(95.78 146.53) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(44.76 146.53) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(-6.27 146.53) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(61.76 109.68) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(10.74 109.68) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(-40.28 109.68) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(78.77 72.83) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(27.75 72.83) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(-23.27 72.83) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(95.78 35.98) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(44.76 35.98) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(-6.27 35.98) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(61.76 -.87) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(10.74 -.87) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      <text class="cls-6" transform="translate(-40.28 -.87) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
     </pattern>
   </defs>
-  <g id="_レイヤー_1" data-name="レイヤー 1">
-    <rect class="cls-2" width="595.28" height="841.89"/>
-  </g>
-  <g id="_レイヤー_2" data-name="レイヤー 2">
-    <polygon class="cls-3" points="220.02 408.42 287.38 430.88 354.75 363.51 220.02 408.42"/>
-    <polygon class="cls-3" points="354.75 363.51 287.38 430.88 309.84 498.24 354.75 363.51"/>
-    <path class="cls-3" d="M297.46,541.91c-16.35,0-32.21-3.2-47.15-9.52-14.43-6.1-27.38-14.83-38.5-25.95-11.12-11.12-19.85-24.07-25.95-38.5-6.32-14.94-9.52-30.81-9.52-47.15s3.2-32.21,9.52-47.15c6.1-14.43,14.83-27.38,25.95-38.5,11.12-11.12,24.07-19.85,38.5-25.95,14.94-6.32,30.81-9.52,47.15-9.52v28.13c-51.28,0-93.01,41.72-93.01,93.01s41.72,93.01,93.01,93.01,93.01-41.72,93.01-93.01h28.13c0,16.35-3.2,32.21-9.52,47.15-6.1,14.43-14.83,27.38-25.95,38.5-11.12,11.12-24.07,19.85-38.5,25.95-14.94,6.32-30.81,9.52-47.15,9.52Z"/>
-  </g>
-  <g id="_レイヤー_3" data-name="レイヤー 3">
-    <rect class="cls-5" width="595.28" height="841.89"/>
-  </g>
-  <g id="_レイヤー_4" data-name="レイヤー 4">
-    <text class="cls-1" transform="translate(490.93 832.71)"><tspan x="0" y="0">この情報は安全に・確実な</tspan></text>
-    <text class="cls-1" transform="translate(585.43 833.27) rotate(-90)"><tspan x="0" y="0">方法で保管してください</tspan></text>
-    <text class="cls-1" transform="translate(100.96 6.52) rotate(-180)"><tspan x="0" y="0">この情報は安全に・確実な</tspan></text>
-    <text class="cls-1" transform="translate(6.46 5.96) rotate(90)"><tspan x="0" y="0">方法で保管してください</tspan></text>
-  </g>
+  <rect class="cls-2" width="595.28" height="841.89"/>
+  <polygon class="cls-3" points="220.02 408.42 287.38 430.88 354.75 363.51 220.02 408.42"/>
+  <polygon class="cls-3" points="354.75 363.51 287.38 430.88 309.84 498.24 354.75 363.51"/>
+  <path class="cls-3" d="M297.46,541.91c-16.35,0-32.21-3.2-47.15-9.52-14.43-6.1-27.38-14.83-38.5-25.95-11.12-11.12-19.85-24.07-25.95-38.5-6.32-14.94-9.52-30.81-9.52-47.15s3.2-32.21,9.52-47.15c6.1-14.43,14.83-27.38,25.95-38.5,11.12-11.12,24.07-19.85,38.5-25.95,14.94-6.32,30.81-9.52,47.15-9.52v28.13c-51.28,0-93.01,41.72-93.01,93.01s41.72,93.01,93.01,93.01,93.01-41.72,93.01-93.01h28.13c0,16.35-3.2,32.21-9.52,47.15-6.1,14.43-14.83,27.38-25.95,38.5-11.12,11.12-24.07,19.85-38.5,25.95-14.94,6.32-30.81,9.52-47.15,9.52Z"/>
+  <rect class="cls-5" width="595.28" height="841.89"/>
+  <text class="cls-1" transform="translate(490.93 832.71)"><tspan x="0" y="0">この情報は安全に・確実な</tspan></text>
+  <text class="cls-1" transform="translate(585.43 833.27) rotate(-90)"><tspan x="0" y="0">方法で保管してください</tspan></text>
+  <text class="cls-1" transform="translate(100.96 6.52) rotate(-180)"><tspan x="0" y="0">この情報は安全に・確実な</tspan></text>
+  <text class="cls-1" transform="translate(6.46 5.96) rotate(90)"><tspan x="0" y="0">方法で保管してください</tspan></text>
 </svg>

@@ -7,7 +7,7 @@ import EmailIcon from '@mui/icons-material/Email'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import html2canvas from 'html2canvas'
-import JsPDF from 'jspdf'
+import JsPDF, { GState } from 'jspdf'
 import ccPaper from '../resources/cc-paper.svg'
 
 export interface SwitchMasterToSubProps {
@@ -91,11 +91,38 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
                         <Button
                             fullWidth
                             onClick={() => {
-                                html2canvas(ref.current as HTMLElement).then((canvas) => {
+                                html2canvas(ref.current as HTMLElement).then(async (canvas) => {
                                     const url = canvas.toDataURL('image/png', 2.0)
+
+                                    if (keyFormat == 'ja') {
+                                        // @ts-ignore
+                                        await import('../resources/mplus1p-hiragana-normal')
+                                    }
+
                                     const pdf = new JsPDF('p', 'mm', 'a4')
                                     pdf.addImage(url, 'svg', 0, 0, 210, 297)
-                                    pdf.save('concurrent_master_key.pdf')
+
+                                    if (keyFormat == 'ja') {
+                                        pdf.setFont('mplus1p-hiragana')
+                                    }
+
+                                    const m = mnemonic.normalize('NFC').split(' ')
+
+                                    pdf.setGState(new GState({ opacity: 0.0 }))
+                                    pdf.text(m[0], 75, 79, { align: 'center' })
+                                    pdf.text(m[1], 125, 79, { align: 'center' })
+                                    pdf.text(m[2], 175, 79, { align: 'center' })
+                                    pdf.text(m[3], 75, 92, { align: 'center' })
+                                    pdf.text(m[4], 125, 92, { align: 'center' })
+                                    pdf.text(m[5], 175, 92, { align: 'center' })
+                                    pdf.text(m[6], 75, 105, { align: 'center' })
+                                    pdf.text(m[7], 125, 105, { align: 'center' })
+                                    pdf.text(m[8], 175, 105, { align: 'center' })
+                                    pdf.text(m[9], 75, 118, { align: 'center' })
+                                    pdf.text(m[10], 125, 118, { align: 'center' })
+                                    pdf.text(m[11], 175, 118, { align: 'center' })
+
+                                    pdf.save('concrnt_master_key.pdf')
                                 })
                             }}
                             startIcon={<FileDownloadIcon />}
@@ -126,13 +153,21 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
                                 width: '210mm',
                                 height: '297mm',
                                 border: '1px solid black',
-                                backgroundImage: `url(${ccPaper})`,
                                 position: 'relative',
                                 color: 'black',
-                                fontFamily: 'serif',
-                                backgroundRepeat: 'no-repeat'
+                                fontFamily: 'serif'
                             }}
                         >
+                            <img
+                                src={ccPaper}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    position: 'absolute',
+                                    top: '0',
+                                    left: '0'
+                                }}
+                            />
                             <div
                                 style={{
                                     position: 'absolute',

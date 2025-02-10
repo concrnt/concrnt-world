@@ -50,6 +50,12 @@ interface SearchEntry {
     owner: string
 }
 
+interface SearchResult {
+    content: SearchEntry[]
+    limit?: number
+    offset?: number
+}
+
 export function StreamInfo(props: StreamInfoProps): JSX.Element {
     const { client } = useClient()
     const confirm = useConfirm()
@@ -73,22 +79,20 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
 
     const [searchFocused, setSearchFocused] = useState(false)
     const [query, setQuery] = useState<string>('')
-    const [searchResults, setSearchResults] = useState<null | SearchEntry[]>(null)
+    const [searchResult, setSearchResult] = useState<null | SearchResult>(null)
     const [searchedQuery, setSearchedQuery] = useState<string>('')
+    const [searchPage, setSearchPage] = useState(0)
 
     const [searchService, setSearchService] = useState<string | null>(null)
 
-    const search = useCallback(
-        (query: string) => {
-            fetch(`${searchService}/timeline/${props.id}?q=${query}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setSearchedQuery(query)
-                    setSearchResults(data.content ?? [])
-                })
-        },
-        [props.id, searchService]
-    )
+    useEffect(() => {
+        if (!searchService || !props.id || !searchedQuery) return
+        fetch(`${searchService}/timeline/${props.id}?q=${searchedQuery}&limit=10&offset=${searchPage * 10}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setSearchResult(data)
+            })
+    }, [searchService, props.id, searchedQuery, searchPage])
 
     useEffect(() => {
         if (!timeline?.host) return
@@ -338,13 +342,13 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
 
     const searchTab = (
         <Box p={2}>
-            {searchResults === null ? (
+            {searchResult === null ? (
                 <Box>
                     <Typography variant="caption">ここに検索結果が表示されます</Typography>
                 </Box>
             ) : (
                 <>
-                    {searchResults.length === 0 ? (
+                    {searchResult.content.length === 0 ? (
                         <Box>
                             <Typography>見つかりませんでした</Typography>
                         </Box>
@@ -364,7 +368,7 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                                 }}
                             >
                                 <Typography variant="h3">{searchedQuery}の検索結果</Typography>
-                                {searchResults.map((result) => (
+                                {searchResult.content.map((result) => (
                                     <>
                                         <MessageContainer
                                             key={result.id}
@@ -374,6 +378,32 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                                         />
                                     </>
                                 ))}
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    mt: 2
+                                }}
+                            >
+                                <Button
+                                    disabled={searchPage === 0}
+                                    onClick={() => {
+                                        setSearchPage((e) => e - 1)
+                                    }}
+                                >
+                                    Prev
+                                </Button>
+                                <Typography>{searchPage + 1}</Typography>
+                                <Button
+                                    disabled={searchResult.content.length < (searchResult.limit ?? 0)}
+                                    onClick={() => {
+                                        setSearchPage((e) => e + 1)
+                                    }}
+                                >
+                                    Next
+                                </Button>
                             </Box>
                         </>
                     )}
@@ -450,7 +480,7 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                                 alignItems: 'center'
                             }}
                             onSubmit={(e) => {
-                                search(query)
+                                setSearchedQuery(query)
                                 e.preventDefault()
                             }}
                             onFocus={() => {
@@ -479,7 +509,7 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                                             sx={{ width: '8px', height: '8px', p: '10px' }}
                                             onClick={() => {
                                                 setQuery('')
-                                                setSearchResults(null)
+                                                setSearchResult(null)
                                                 setSearchFocused(false)
                                             }}
                                         >
@@ -493,7 +523,7 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                                 type="button"
                                 sx={{ p: '10px' }}
                                 onClick={() => {
-                                    search(query)
+                                    setSearchedQuery(query)
                                 }}
                             >
                                 <SearchIcon />
