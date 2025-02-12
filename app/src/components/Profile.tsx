@@ -1,4 +1,17 @@
-import { Box, Button, Typography, Link, Skeleton, useTheme, alpha } from '@mui/material'
+import {
+    Box,
+    Button,
+    Typography,
+    Link,
+    Skeleton,
+    useTheme,
+    alpha,
+    Menu,
+    MenuItem,
+    ListItemIcon,
+    ListItemText,
+    Modal
+} from '@mui/material'
 
 import { CCAvatar } from '../components/ui/CCAvatar'
 import { WatchButton } from '../components/WatchButton'
@@ -6,7 +19,7 @@ import { AckButton } from '../components/AckButton'
 import { MarkdownRenderer } from '../components/ui/MarkdownRenderer'
 
 import { Link as NavLink } from 'react-router-dom'
-
+import Tilt from 'react-parallax-tilt'
 import { useEffect, useMemo, useState } from 'react'
 import { type User } from '@concrnt/worldlib'
 import { type CCDocument, type Profile as TypeProfile } from '@concrnt/client'
@@ -24,6 +37,10 @@ import { CCIconButton } from './ui/CCIconButton'
 import ReplayIcon from '@mui/icons-material/Replay'
 import SearchIcon from '@mui/icons-material/Search'
 import { useSearchDrawer } from '../context/SearchDrawer'
+import ContentPasteIcon from '@mui/icons-material/ContentPaste'
+import QrCodeIcon from '@mui/icons-material/QrCode'
+import { ProfileQRCard } from './ui/ProfileQRCard'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 export interface ProfileProps {
     user?: User
@@ -51,6 +68,8 @@ export function Profile(props: ProfileProps): JSX.Element {
     const [subProfile, setSubProfile] = useState<TypeProfile<any> | null>(null)
 
     const { t } = useTranslation('', { keyPrefix: 'common' })
+    const [shareMenuAnchor, setShareMenuAnchor] = useState<null | HTMLElement>(null)
+    const [openQR, setOpenQR] = useState(false)
 
     useEffect(() => {
         let unmounted = false
@@ -139,12 +158,15 @@ export function Profile(props: ProfileProps): JSX.Element {
                             backgroundColor: alpha(theme.palette.primary.main, 0.7)
                         }
                     }}
-                    onClick={() => {
+                    onClick={(e) => {
+                        setShareMenuAnchor(e.currentTarget)
+                        /*
                         if (props.user) {
                             const id = props.user.alias ?? props.user.ccid
                             navigator.clipboard.writeText('https://concrnt.world/' + id)
                             enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
                         }
+                        */
                     }}
                 >
                     <IosShareIcon
@@ -383,6 +405,98 @@ export function Profile(props: ProfileProps): JSX.Element {
 
                 {subProfile && <ProfileProperties showCreateLink character={subProfile} />}
             </Box>
+            <Menu
+                anchorEl={shareMenuAnchor}
+                open={Boolean(shareMenuAnchor)}
+                onClose={() => {
+                    setShareMenuAnchor(null)
+                }}
+            >
+                <MenuItem
+                    onClick={() => {
+                        if (props.user) {
+                            const id = props.user.alias ?? props.user.ccid
+                            navigator.clipboard.writeText('https://concrnt.world/' + id)
+                            enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
+                            setShareMenuAnchor(null)
+                        }
+                    }}
+                >
+                    <ListItemIcon>
+                        <ContentPasteIcon
+                            sx={{
+                                color: 'text.primary'
+                            }}
+                        />
+                    </ListItemIcon>
+                    <ListItemText>Copy Share Link</ListItemText>
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setOpenQR(true)
+                        setShareMenuAnchor(null)
+                    }}
+                >
+                    <ListItemIcon>
+                        <QrCodeIcon
+                            sx={{
+                                color: 'text.primary'
+                            }}
+                        />
+                    </ListItemIcon>
+                    <ListItemText>Show QR Code</ListItemText>
+                </MenuItem>
+            </Menu>
+            <Modal
+                open={openQR}
+                onClose={() => {
+                    setOpenQR(false)
+                }}
+                slotProps={{
+                    backdrop: {
+                        sx: {
+                            backgroundColor: 'background.default'
+                        }
+                    }
+                }}
+            >
+                <Box
+                    sx={{
+                        width: '100vw',
+                        height: '100dvh',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) setOpenQR(false)
+                    }}
+                >
+                    <Box maxWidth="90vw">
+                        {props.user && (
+                            <Tilt glareEnable={true} glareBorderRadius="1%">
+                                <ProfileQRCard user={props.user} />
+                            </Tilt>
+                        )}
+                    </Box>
+                    <CCIconButton
+                        sx={{
+                            position: 'absolute',
+                            top: '10px',
+                            right: '10px'
+                        }}
+                        onClick={() => {
+                            setOpenQR(false)
+                        }}
+                    >
+                        <CancelIcon
+                            sx={{
+                                color: 'text.primary'
+                            }}
+                        />
+                    </CCIconButton>
+                </Box>
+            </Modal>
 
             {props.user && (
                 <CCDrawer

@@ -4,8 +4,6 @@ import {
     Divider,
     FormControlLabel,
     FormGroup,
-    IconButton,
-    InputBase,
     Paper,
     Switch,
     Tab,
@@ -34,9 +32,8 @@ import { CCComboBox } from './ui/CCComboBox'
 import { useConfirm } from '../context/Confirm'
 import { WatchRequestAcceptButton } from './WatchRequestAccpetButton'
 import { fetchWithTimeout, IsCCID, IsCSID } from '@concrnt/client'
-import SearchIcon from '@mui/icons-material/Search'
 import { MessageContainer } from './Message/MessageContainer'
-import ClearIcon from '@mui/icons-material/Clear'
+import { SearchBox } from './ui/SearchBox'
 
 export interface StreamInfoProps {
     id: string
@@ -51,7 +48,7 @@ interface SearchEntry {
 }
 
 interface SearchResult {
-    content: SearchEntry[]
+    content?: SearchEntry[]
     limit?: number
     offset?: number
 }
@@ -78,7 +75,6 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
     const [update, setUpdate] = useState(0)
 
     const [searchFocused, setSearchFocused] = useState(false)
-    const [query, setQuery] = useState<string>('')
     const [searchResult, setSearchResult] = useState<null | SearchResult>(null)
     const [searchedQuery, setSearchedQuery] = useState<string>('')
     const [searchPage, setSearchPage] = useState(0)
@@ -348,7 +344,7 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                 </Box>
             ) : (
                 <>
-                    {searchResult.content.length === 0 ? (
+                    {!searchResult.content || searchResult.content.length === 0 ? (
                         <Box>
                             <Typography>見つかりませんでした</Typography>
                         </Box>
@@ -472,69 +468,27 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                     </Paper>
 
                     {props.detailed && (
-                        <Paper
-                            component="form"
-                            sx={{
-                                p: '2px 4px',
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}
-                            onSubmit={(e) => {
+                        <SearchBox
+                            onEnter={(query) => {
                                 setSearchedQuery(query)
-                                e.preventDefault()
                             }}
-                            onFocus={() => {
-                                setSearchFocused(true)
-                            }}
-                            onBlur={() => {
+                            updateFocused={setSearchFocused}
+                            disabled={searchService === null}
+                            placeholder={
+                                searchService === null ? `${timeline.host}では検索が利用できません` : 'Search (beta)'
+                            }
+                            onClear={() => {
+                                setSearchResult(null)
+                                setSearchedQuery('')
                                 setSearchFocused(false)
                             }}
-                        >
-                            <InputBase
-                                disabled={searchService === null}
-                                sx={{ ml: 1, flex: 1 }}
-                                placeholder={
-                                    searchService === null
-                                        ? `${timeline.host}では検索が利用できません`
-                                        : 'Search (beta)'
-                                }
-                                value={query}
-                                onChange={(e) => {
-                                    setQuery(e.target.value)
-                                }}
-                                endAdornment={
-                                    query && (
-                                        <IconButton
-                                            type="button"
-                                            sx={{ width: '8px', height: '8px', p: '10px' }}
-                                            onClick={() => {
-                                                setQuery('')
-                                                setSearchResult(null)
-                                                setSearchFocused(false)
-                                            }}
-                                        >
-                                            <ClearIcon />
-                                        </IconButton>
-                                    )
-                                }
-                            />
-                            <IconButton
-                                disabled={searchService === null}
-                                type="button"
-                                sx={{ p: '10px' }}
-                                onClick={() => {
-                                    setSearchedQuery(query)
-                                }}
-                            >
-                                <SearchIcon />
-                            </IconButton>
-                        </Paper>
+                        />
                     )}
                 </>
             </CCWallpaper>
             {props.detailed && (
                 <>
-                    {searchFocused || query ? (
+                    {searchFocused || searchedQuery ? (
                         searchTab
                     ) : (
                         <>

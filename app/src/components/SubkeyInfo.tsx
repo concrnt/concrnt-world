@@ -1,7 +1,7 @@
 import { Box, Divider, Paper, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import QRCode from 'react-qr-code'
+import { QRCode } from 'react-qrcode-logo'
 import { enqueueSnackbar } from 'notistack'
 import { CCIconButton } from './ui/CCIconButton'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
@@ -73,8 +73,8 @@ export default function SubkeyInfo(props: { subkey: string }): JSX.Element {
                 <Divider orientation="vertical" />
                 <Box
                     style={{
-                        width: '120px',
-                        height: '120px',
+                        width: '150px',
+                        height: '150px',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -85,7 +85,8 @@ export default function SubkeyInfo(props: { subkey: string }): JSX.Element {
                 >
                     <QRCode
                         value={props.subkey}
-                        size={100}
+                        size={1000}
+                        ecLevel="L"
                         style={{
                             width: '100%',
                             height: '100%'

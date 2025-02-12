@@ -1,10 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useClient } from './ClientContext'
 import { CCDrawer } from '../components/ui/CCDrawer'
-import { Box, Divider, TextField, Typography } from '@mui/material'
+import { Box, Button, Divider, Typography } from '@mui/material'
 import { MessageContainer } from '../components/Message/MessageContainer'
 import { Timeline } from '@concrnt/worldlib'
 import { fetchWithTimeout } from '@concrnt/client'
+import { SearchBox } from '../components/ui/SearchBox'
 
 export interface SearchDrawerState {
     open: (id: string) => void
@@ -23,22 +24,29 @@ interface SearchEntry {
     owner: string
 }
 
+interface SearchResult {
+    content?: SearchEntry[]
+    limit?: number
+    offset?: number
+}
+
 export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
     const { client } = useClient()
 
     const [timelineID, setTimelineID] = useState<string | null>(null)
-    const [query, setQuery] = useState<string>('')
-    const [results, setResults] = useState<SearchEntry[]>([])
 
+    const [searchResult, setSearchResult] = useState<null | SearchResult>(null)
     const [timeline, setTimeline] = useState<Timeline<any> | null>(null)
     const [searchService, setSearchService] = useState<string | null>(null)
+    const [searchedQuery, setSearchedQuery] = useState<string>('')
+    const [searchPage, setSearchPage] = useState(0)
 
     const open = useCallback((id: string) => {
-        setQuery('')
-        setResults([])
+        setSearchedQuery('')
         setTimeline(null)
         setSearchService(null)
         setTimelineID(id)
+        setSearchResult(null)
     }, [])
 
     useEffect(() => {
@@ -58,26 +66,13 @@ export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
     }, [timelineID])
 
     useEffect(() => {
-        let mounted = true
-        const search = setTimeout(() => {
-            if (timeline && query) {
-                fetch(`${searchService}/timeline/${timelineID}?q=${query}`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        if (!mounted) return
-                        setResults(data.content ?? [])
-                    })
-            } else {
-                if (!mounted) return
-                setResults([])
-            }
-        }, 300)
-
-        return () => {
-            mounted = false
-            clearTimeout(search)
-        }
-    }, [query, timelineID, searchService])
+        if (!searchService || !timelineID || !searchedQuery) return
+        fetch(`${searchService}/timeline/${timelineID}?q=${searchedQuery}&limit=10&offset=${searchPage * 10}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setSearchResult(data)
+            })
+    }, [searchService, timelineID, searchedQuery, searchPage])
 
     return (
         <SearchDrawerContext.Provider
@@ -95,45 +90,86 @@ export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
                 }}
             >
                 <Box p={2}>
-                    <Typography variant="h2">タイムライン内検索</Typography>
-                    {searchService ? (
-                        <>
-                            <TextField
-                                value={query}
-                                onChange={(e) => {
-                                    setQuery(e.target.value)
-                                }}
-                                variant="outlined"
-                                fullWidth
-                                placeholder="Search"
-                            />
-                            <Box
-                                style={{
-                                    flex: 1,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    listStyle: 'none',
-                                    overflowX: 'hidden',
-                                    overflowY: 'auto',
-                                    overscrollBehaviorY: 'none',
-                                    scrollbarGutter: 'stable',
-                                    gap: 1
-                                }}
-                            >
-                                {results.map((result) => (
-                                    <>
-                                        <MessageContainer
-                                            key={result.id}
-                                            messageID={result.id}
-                                            messageOwner={result.owner}
-                                        />
-                                        <Divider />
-                                    </>
-                                ))}
-                            </Box>
-                        </>
+                    <SearchBox
+                        onEnter={(query) => {
+                            setSearchedQuery(query)
+                        }}
+                        disabled={searchService === null}
+                        placeholder={
+                            searchService === null ? `${timeline?.host}では検索が利用できません` : 'Search (beta)'
+                        }
+                        onClear={() => {
+                            setSearchResult(null)
+                            setSearchedQuery('')
+                        }}
+                    />
+
+                    {searchResult === null ? (
+                        <Box>
+                            <Typography variant="caption">ここに検索結果が表示されます</Typography>
+                        </Box>
                     ) : (
-                        <Typography>{timeline?.host ?? 'このユーザー'}は検索をサポートしていません</Typography>
+                        <>
+                            {!searchResult.content || searchResult.content.length === 0 ? (
+                                <Box>
+                                    <Typography>見つかりませんでした</Typography>
+                                </Box>
+                            ) : (
+                                <>
+                                    <Box
+                                        sx={{
+                                            flex: 1,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            listStyle: 'none',
+                                            overflowX: 'hidden',
+                                            overflowY: 'auto',
+                                            overscrollBehaviorY: 'none',
+                                            scrollbarGutter: 'stable',
+                                            gap: 1
+                                        }}
+                                    >
+                                        <Typography variant="h3">{searchedQuery}の検索結果</Typography>
+                                        {searchResult.content.map((result) => (
+                                            <>
+                                                <MessageContainer
+                                                    key={result.id}
+                                                    messageID={result.id}
+                                                    messageOwner={result.owner}
+                                                    after={<Divider />}
+                                                />
+                                            </>
+                                        ))}
+                                    </Box>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            mt: 2
+                                        }}
+                                    >
+                                        <Button
+                                            disabled={searchPage === 0}
+                                            onClick={() => {
+                                                setSearchPage((e) => e - 1)
+                                            }}
+                                        >
+                                            Prev
+                                        </Button>
+                                        <Typography>{searchPage + 1}</Typography>
+                                        <Button
+                                            disabled={searchResult.content.length < (searchResult.limit ?? 0)}
+                                            onClick={() => {
+                                                setSearchPage((e) => e + 1)
+                                            }}
+                                        >
+                                            Next
+                                        </Button>
+                                    </Box>
+                                </>
+                            )}
+                        </>
                     )}
                 </Box>
             </CCDrawer>
