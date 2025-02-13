@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 128 128">
+  <defs>
+    <style>
+      .c {
+        fill: none;
+      }
+
+      .d {
+        fill: url(#b);
+      }
+
+      .e {
+        fill: #fff;
+        opacity: 0.1;
+        font-family: "Hiragino Sans W3", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+      }
+    </style>
+    <pattern id="b" x="0" y="0" width="96" height="96" patternTransform="translate(-39.79 -3.23)" patternUnits="userSpaceOnUse" viewBox="0 0 96 96">
+      <g>
+        <rect class="c" width="96" height="96"/>
+        <text class="e" transform="translate(78.06 97.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(46.06 97.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(14.06 97.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(-17.94 97.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(88.73 65.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(56.73 65.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(24.73 65.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(-7.27 65.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(99.39 33.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(67.39 33.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(35.39 33.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(3.39 33.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(-28.61 33.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(78.06 1.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(46.06 1.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(14.06 1.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+        <text class="e" transform="translate(-17.94 1.56) rotate(-30)"><tspan x="0" y="0">Concrnt</tspan></text>
+      </g>
+    </pattern>
+  </defs>
+  <rect class="d" width="128" height="128"/>
+</svg>

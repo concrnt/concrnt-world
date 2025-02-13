@@ -114,7 +114,7 @@ export class Client {
         try {
             cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
         } catch (e) {
-            console.error('failed to initialize cache engine')
+            console.info('indexeddb is not available. fallback to in-memory cache')
         }
         if (!cacheEngine) {
             cacheEngine = new InMemoryKVS()
@@ -180,7 +180,7 @@ export class Client {
         try {
             cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
         } catch (e) {
-            console.error('failed to initialize cache engine')
+            console.info('indexeddb is not available. fallback to in-memory cache')
         }
         if (!cacheEngine) {
             cacheEngine = new InMemoryKVS()

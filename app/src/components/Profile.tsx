@@ -41,6 +41,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import QrCodeIcon from '@mui/icons-material/QrCode'
 import { ProfileQRCard } from './ui/ProfileQRCard'
 import CancelIcon from '@mui/icons-material/Cancel'
+import ConcrntBG from '../resources/ConcrntBG.svg'
 
 export interface ProfileProps {
     user?: User
@@ -466,7 +467,10 @@ export function Profile(props: ProfileProps): JSX.Element {
                         height: '100dvh',
                         display: 'flex',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        backgroundImage: `url(${ConcrntBG})`,
+                        backgroundRepeat: 'repeat',
+                        backgroundSize: '400px'
                     }}
                     onClick={(e) => {
                         if (e.target === e.currentTarget) setOpenQR(false)
