@@ -38,7 +38,8 @@ export const ListItemSubscriptionTree = (props: ListItemSubscriptionTreeProps): 
             .getSubscription<ListSubscriptionSchema>(props.id, {
                 expressGetter: (sub) => {
                     setSubscription(sub)
-                }
+                },
+                TTL: 0
             })
             .catch((e) => {
                 console.log(e)

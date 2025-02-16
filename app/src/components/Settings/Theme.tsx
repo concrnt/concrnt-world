@@ -22,6 +22,9 @@ import { DummyMessageView } from '../Message/DummyMessageView'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { ThemeCard } from '../ThemeCard'
+import DataObjectIcon from '@mui/icons-material/DataObject'
+import SendIcon from '@mui/icons-material/Send'
+import { useEditorModal } from '../EditorModal'
 
 export const ThemeSettings = (): JSX.Element => {
     const { client } = useClient()
@@ -29,6 +32,7 @@ export const ThemeSettings = (): JSX.Element => {
     const [customThemes, setCustomTheme] = usePreference('customThemes')
     const theme = useTheme<ConcurrentTheme>()
     const { t } = useTranslation('', { keyPrefix: 'ui' })
+    const editorModal = useEditorModal()
 
     const previewTheme: Record<string, ConcurrentTheme> = useMemo(
         () => Object.fromEntries(Object.keys(Themes).map((e) => [e, loadConcurrentTheme(e)])),
@@ -132,6 +136,10 @@ export const ThemeSettings = (): JSX.Element => {
                                 <IconButton
                                     onClick={(event) => {
                                         setMenuElem([e, event.currentTarget])
+                                        event.stopPropagation()
+                                    }}
+                                    onMouseDown={(event) => {
+                                        event.stopPropagation()
                                     }}
                                 >
                                     <MoreHorizIcon />
@@ -150,6 +158,31 @@ export const ThemeSettings = (): JSX.Element => {
                 }}
                 anchorEl={menuElem[1]}
             >
+                <MenuItem
+                    onClick={() => {
+                        editorModal.open({
+                            draft: `
+\`\`\`theme
+${JSON.stringify(customThemes[menuElem[0]])}
+\`\`\``
+                        })
+                    }}
+                >
+                    <ListItemIcon>
+                        <SendIcon />
+                    </ListItemIcon>
+                    <ListItemText>Share</ListItemText>
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        window.navigator.clipboard.writeText(JSON.stringify(customThemes[menuElem[0]]))
+                    }}
+                >
+                    <ListItemIcon>
+                        <DataObjectIcon />
+                    </ListItemIcon>
+                    <ListItemText>CopyJson</ListItemText>
+                </MenuItem>
                 <MenuItem
                     onClick={() => {
                         delete customThemes[menuElem[0]]
