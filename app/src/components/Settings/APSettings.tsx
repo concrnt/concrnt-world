@@ -13,6 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import { StreamPicker } from '../ui/StreamPicker'
 import { useGlobalState } from '../../context/GlobalState'
 import { CommunityTimelineSchema, Schemas, type Timeline } from '@concrnt/worldlib'
+import { Message } from '@concrnt/client'
 
 export const APSettings = (): JSX.Element => {
     const { client } = useClient()
@@ -111,14 +112,14 @@ export const APSettings = (): JSX.Element => {
 
     const inquery = (url: string): void => {
         client.api
-            .fetchWithCredential(client.host, `/ap/api/import?note=${encodeURIComponent(url)}`, {
+            .fetchWithCredential<Message<any>>(client.host, `/ap/api/import?note=${encodeURIComponent(url)}`, {
                 method: 'GET',
                 headers: {
                     'content-type': 'application/json'
                 }
             })
-            .then((data: any) => {
-                navigate(`/${data.author}/${data.id}`)
+            .then((data) => {
+                navigate(`/${data.content.author}/${data.content.id}`)
             })
     }
 

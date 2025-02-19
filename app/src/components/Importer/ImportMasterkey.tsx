@@ -55,15 +55,11 @@ export function ImportMasterKey(): JSX.Element {
                     client.api
                         .getEntity(ccid, searchTarget)
                         .then((entity) => {
-                            if (entity?.domain) {
-                                setDomainInput(entity.domain)
-                                setErrorMessage('')
-                            } else {
-                                setDomainAutoDetectionFailed(true)
-                                setErrorMessage(t('notFound'))
-                            }
+                            setDomainInput(entity.domain)
+                            setErrorMessage('')
                         })
                         .catch((_) => {
+                            setDomainAutoDetectionFailed(true)
                             setErrorMessage(t('notFound'))
                         })
                 })

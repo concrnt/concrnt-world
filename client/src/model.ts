@@ -8,10 +8,6 @@ export interface ProfileOverride {
     profileID?: string
 }
 
-export interface SubProfile {
-    profileID?: string
-}
-
 export interface CreateCurrentOptions {
     emojis?: Record<string, { imageURL?: string; animURL?: string }>
     profileOverride?: ProfileOverride
@@ -21,14 +17,14 @@ export interface CreateCurrentOptions {
 }
 
 export interface CreatePlaintextCrntOptions {
-    profileOverride?: SubProfile
+    profileOverride?: ProfileOverride
     whisper?: CCID[]
     isPrivate?: boolean
 }
 
 export interface CreateMediaCrntOptions {
     emojis?: Record<string, { imageURL?: string; animURL?: string }>
-    profileOverride?: SubProfile
+    profileOverride?: ProfileOverride
     medias?: {
         mediaURL: string
         mediaType: string

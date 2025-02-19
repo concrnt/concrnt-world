@@ -149,7 +149,8 @@ export const APUserCard = memo<{ url: string; remove?: (_: { URL: string; shortI
                     method: 'GET',
                     headers: {
                         accept: 'application/ld+json'
-                    }
+                    },
+                    cache: 'force-cache'
                 })
                 .then((data) => {
                     setPerson(data.content)
