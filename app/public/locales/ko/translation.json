@@ -7,7 +7,19 @@
         "follow": "팔로우",
         "following": "팔로잉",
         "unfollow": "언팔로우",
-        "followers": "팔로워"
+        "followers": "팔로워",
+        "crnt": "Post",
+        "media": "Media",
+        "activity": "Activity",
+        "reply": "Reply",
+        "mention": "Mention",
+        "reroute": "Reroute",
+        "fav": "Favorite",
+        "reaction": "Reaction"
+    },
+    "app": {
+        "updateAvailable": "New version available",
+        "updateNow": "Update"
     },
     "pages": {
         "home": {
@@ -25,16 +37,24 @@
         "explore": {
             "title": "탐험하기",
             "domains": "도메인",
-            "community": "커뮤니티",
+            "communities": "Communities",
+            "peoples": "Peoples",
             "createNew": "신규 생성",
             "createNewCommunity": {
                 "title": "신규 커뮤니티 생성",
                 "desc1": "Create a new stream on ",
                 "desc2": " 팔로잉 새팅과 함께."
-            }
+            },
+            "reroll": "Reroll",
+            "searchForPeoples": "Input to search for people",
+            "searchForCommunities": "Input to search for communities",
+            "quicklook": "Quick Look"
         },
         "devtool": {
             "title": "개발자도구"
+        },
+        "tutorial": {
+            "title": "Tutorial"
         },
         "settings": {
             "title": "설정",
@@ -49,6 +69,13 @@
         },
         "lists": {
             "title": "리스트"
+        },
+        "manageSubs": {
+            "title": "List Management",
+            "new": "Create New",
+            "listed": "Listed",
+            "unlisted": "Unlisted",
+            "newlist": "New List"
         }
     },
     "time": {
@@ -83,10 +110,19 @@
             "closePreview": "미리보기 닫기",
             "emoji": "이모지",
             "clearDraft": "작성 중인 글 지우기",
+            "addDestination": "Add destination",
             "postToHome": "홈스트림으로도 게시하기",
             "noPostToHome": "홈스트림엔 게시하지 않기",
             "current": "게시",
-            "whisper": "Whisper"
+            "whisper": "Whisper",
+            "plzAttachMedia": "You need to attach media in media post mode",
+            "plzAddMessage": "Message must not be empty",
+            "plzAddDestination": "Select at least one destination",
+            "flags": "Flag Settings(optional)",
+            "flag-warn": "Content Warning",
+            "flag-nude": "Nudity",
+            "flag-porn": "Pornography",
+            "flag-hard": "Hard Violence"
         },
         "secret": {
             "clickToReveal": "클릭하여 보기",
@@ -98,10 +134,29 @@
             "name": "리스트 이름",
             "update": "업데이트",
             "defaultDest": "기본 destination",
+            "addDefaultDest": "Add default destination",
+            "postWithHome": "Post With Home",
+            "defaultProfile": "Default profile",
             "stream": "스트림",
+            "community": "Community",
             "user": "유저",
             "pin": "고정",
-            "delete": "삭제"
+            "isIconTab": "Use icon on tab",
+            "delete": "삭제",
+            "reallyDelete": "Really delete this list?",
+            "confirmDelete": "Confirm"
+        },
+        "messageActions": {
+            "linkCopied": "Link copied",
+            "copyLink": "Copy share link",
+            "copySource": "Copy source",
+            "share": "Share",
+            "superReaction": "Super reaction",
+            "translate": "Translate",
+            "inspect": "Inspect",
+            "delete": "Delete",
+            "reallyDelete": "Really delete this message?",
+            "confirmDelete": "Confirm"
         }
     },
     "settings": {
@@ -111,12 +166,38 @@
             "basic": "기본",
             "showEditorOnTop": "타임라인 상단에 글 작성란 고정하기",
             "showEditorOnTopMobile": "타임라인 상단에 글 작성란 고정하기(모바일)",
+            "autoSwitchMediaPostType": "Automatically switch the post type when an image is attached",
             "developerMode": "개발자 모드",
             "generateInviteCode": "초대코드 생성",
             "inviteCode": "초대코드 (24시간 동안 유효함)",
             "copyInviteCode": "초대코드 복사",
             "copied": "복사됨",
-            "language": "언어"
+            "language": "언어",
+            "showTutorial": "Show tutorial in the menu",
+            "notification": {
+                "title": "Notification",
+                "notsupported": "Your domain does not support notifications",
+                "enable": "Enable Notifications",
+                "enabled": "Notifications have been enabled",
+                "disable": "Disable Notifications",
+                "disabled": "Notifications have been disabled",
+                "tryAgain": "Please try again",
+                "failed": "Failed",
+                "updated": "Notification settings updated",
+                "updateFailed": "Failed to update notification settings",
+                "update": "Update",
+                "reply": "Reply",
+                "mention": "Mention",
+                "viewerRequest": "View Request",
+                "fav": "Favorite",
+                "reaction": "Reaction",
+                "reroute": "Reroute"
+            }
+        },
+        "privileged": {
+            "title": "You are currently logged in with Privileged Mode",
+            "desc": "Privileged Mode allows for powerful actions such as account deletion.\nIt is recommended to switch back to Normal Mode after completing your privileged actions.",
+            "action": "Switch to Normal Mode"
         },
         "profile": {
             "title": "프로필",
@@ -135,21 +216,11 @@
             "hideSubKey": "비활성화된 서브키 숨기기",
             "deactivate": "비활성화",
             "switchMasterToSub": {
-                "saveMasterKey": "마스터키 안전하게 저장",
-                "descSaveMasterKey": "너 계정 마이그레이션 하거나 복구하려면 이 키가 있어야해. 다른 사람에게 계정이 알려지면 불법적으로 계정에 액세스할 수 있으니까 무조건 비밀로 유지해.",
-                "alertMasterKey": "마스터키를 다운받을 수 있는 마지막 기회야! 여기서 백업 실패하면, 계정 복구는 불가능하다고.<br/>인쇄하여 금고에 보관하는 등 안전하고 신뢰할 수 있는 방법으로 보관하는 것을 추천해.",
                 "masterKeyFormat": "마스터키 포맷:",
                 "sendEmail": "이메일로 보내기",
+                "copyToClipboard": "Copy to clipboard",
                 "mailHerf": "mailto:?subject=concrnt secret&body=**Set the recipient of this email to yourself and send it.**%0D%0A%0D%0A=== Identification Info ===%0D%0AIdentifier: {{ ccid }}%0D%0AMaster Key: {{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0AThe master key is the only passphrase that proves you own the account identified by this identifier.%0D%0AIf this key becomes known to a malicious third party, the security of this account will be compromised, and you will need to take steps to freeze the account yourself.%0D%0A%0D%0AThe master key will be used for important operations such as migrating your account or recovering lost sub-keys.%0D%0AUntil then, store it securely, such as by printing it and keeping it in a safe deposit box.%0D%0A",
                 "downloadPDF": "PDF로 다운로드",
-                "next": "다음",
-                "verifyBackup": "백업 인증",
-                "descVerifyBackup": "준비됐어? 마스터키를 제대로 저장했는지 확인할게.",
-                "masterKeyPlaceholder": "12단어 구문",
-                "back": "이전",
-                "testNG": "미스매치",
-                "removeMasterKey": "이 디바이스에서 마스터키 제거하기",
-                "descRemoveMasterKey": "마스터키는 매우 중요한 비밀정보니까, 마스터 키에서 '프록시' 서브키를 생성하고 마스터 키를 이 장치의 서브키로 대체할게.",
                 "processing": "작업중...",
                 "ready": "이 디바이스에서 마스터키를 성공적으로 제거했고 서브키로 대체했어",
                 "identification": "Identification",
@@ -163,7 +234,14 @@
                 "unset": "설정 안 된",
                 "domain": "관리 도메인(Governing Domain)",
                 "addition": "The reference information is from when this certificate was issued and may have changed since then.",
-                "date": "Issued on:"
+                "date": "Issued on:",
+                "checkMasterKey": "Backup Master Key",
+                "backToSwitch": "Back to Switching",
+                "testPrompt": "To proceed, enter the {{first}}th and {{second}}th words of your master key",
+                "nthWord": "{{nth}}th word",
+                "switchToNormalMode": "Switch to Normal Mode",
+                "exitPrivilegedMode": "Exit Privileged Mode",
+                "privilegeModeDesc": "Privileged Mode allows for critical actions such as account deletion."
             }
         },
         "theme": {
@@ -232,57 +310,87 @@
         }
     },
     "welcome": {
-        "tagline1": "하나의 세계,",
-        "tagline2": "무한한 환경.",
-        "description": "콘커런트는 하나의 계정으로 여러 커뮤니티에 연결할 수 있는 새로운 탈중앙화 소셜 네트워킹 서비스야.",
-        "createAccount": "신규 계정 생성",
-        "import": "로그인",
+        "start": "Get Started",
+        "guide": "User Guide",
         "gettingStarted": "시작해볼까?",
-        "mission": {
-            "title1": "SNS계정 만들기",
-            "title2": " 너의 \"인터넷 페르소나.\"",
-            "body1": " 현대 사회에선, SNS계정의 역할이 매우 중요하지.",
-            "body2": "친구, 팬, 아이돌과의 상호작용은 물론 너의 활동 기록까지 담는다는 점을 고려하면 당연한 결과야.",
-            "body3": "그러나 요즘 세상은, 인터넷에서 '페르소나'로 존재하는 이 소중한 SNS 계정은 기업들이 맘대로 쉽게 정지시킬 수 있어. 그건 있어서는 안되는 일이지 .",
-            "body4": "콘커런트는 암호화 기술을 사용해서 계정이 운영 조직이 아닌 사용자의 소유임을 증명해. 서버는 단지 데이터를 배포하는 데 '도움'을 줄 뿐이야.",
-            "body5": "콘커런트와 같이, 네 손으로 네 인터넷 페르소나를 탄생시켜봐!"
+        "import": "로그인",
+        "catch": "What if there was an SNS like this...",
+        "wish1": "You could know in real-time what your friends and people you're interested in are doing.",
+        "wish2": "You could interact with multiple communities using a single account.",
+        "wish3": "You could choose who manages the platform, rather than being controlled by a single entity.",
+        "wish4": "Wouldn't it be great if there was such an SNS?",
+        "wish5": "Concrnt was developed to fulfill this wish.",
+        "wish6": "Welcome to the new era of SNS.",
+        "feature1title": "An SNS for Enjoying Together",
+        "feature1subtitle": "Tired of recommendation feeds filled with strangers?",
+        "feature1p1": "Wouldn't you rather know more about the people you like than just seeing recommendations filled with strangers?",
+        "feature1p2": "With Concrnt, instead of relying on algorithms, you can use customizable lists to access information that truly matters to you. Select the people you like and the communities you're interested in, and create a timeline that fits you perfectly.",
+        "feature1p3": "Concrnt is an SNS focused on the connections that truly matter to you, making it enjoyable for everyone.",
+        "feature2title": "Your Account is Truly Yours",
+        "feature2subtitle": "Say goodbye to the days of fearing account suspension 👋",
+        "feature2p1": "Concrnt is a decentralized SNS that prioritizes user freedom and safety. It is free from the dictatorship of a single company or organization, with independent individuals and organizations running their own servers.",
+        "feature2p2": "This means you no longer have to live in fear of your account being suddenly suspended. Even if you experience unfair treatment on one server, you can easily move to another server, retaining your posts and followers, and continue your activities. Here, you'll find the security and freedom of being able to manage your account in a way that was unimaginable with conventional SNS.",
+        "feature2p3": "On Concrnt, your account truly belongs to you.",
+        "feature3title": "Countless Communities in One SNS",
+        "feature3subtitle": "The era of using separate accounts for different interests is over",
+        "feature3p1": "On Concrnt, in addition to the home timeline, you can switch between multiple community timelines. When posting, you can simultaneously share across multiple communities, making it easy to connect loosely with multiple communities, which is natural for humans.",
+        "feature3p2": "It's not about being overly connected to the world like X, nor is it about being too closed off like Discord. The charm of Concrnt is that you can find your place while moderately connecting with other communities.",
+        "crnt1": "It’s a new way of using SNS, but once you get used to it, it's comfortable!",
+        "crnt2": "What I depend on must be open!",
+        "crnt3": "I want to broadcast to multiple communities simultaneously!",
+        "crnt4": "Maybe I’ll try setting up my own server?",
+        "crnt5": "I want a decentralized SNS where I don’t have to be decentralized!",
+        "crnt6": "What are you up to?",
+        "crnt7": "Yay!",
+        "crnt8": "Good evening!",
+        "crnt9": "Anyone want to hang out?",
+        "crnt10": "Customizing themes is so fun!",
+        "crnt11": "Because my account is truly in my own hands, <br/> I can use it confidently as my internet identity.",
+        "crnt12": "Communicating with emoji reactions is so smooth!",
+        "crnt13": "Even if the server I’m on shuts down, <br/> I can easily move my relationships to a new server, so no worries!",
+        "crnt14": "I’m hungry YO",
+        "crnt_totegamma": "This is exactly it!"
+    },
+    "mock": {
+        "home": {
+            "title": "Home",
+            "crnt1": "I really love the quietness at this time. Solo time on holidays is the best.",
+            "crnt2": "Speaking of music, lately I can't get anime songs out of my head. They really pump me up.",
+            "crnt3": "Afternoon music selection—what should I listen to today? It's a tough choice.",
+            "crnt4": "A new book has arrived! Time to brew some tea and dive into it. The perfect holiday.",
+            "crnt5": "It's been a while, but they're rerunning my favorite anime today. Time to relax and watch."
         },
-        "feature1": {
-            "title": "원래의 SNS로 돌아가기",
-            "body1": "매일 SNS에 넘쳐나는 사회 문제, 분노, 슬픔의 끝없는 흐름에 지쳤니? 이러한 문제에 직면하는 것은 때때로 필요하지만, 많은 사람들이 SNS 사용하기 시작한 원래의 이유는 관심 있는 사람들이 '지금' 뭐하고 있는지 알기 위해서였잖아."
+        "game": {
+            "title": "Gaming Scene",
+            "crnt1": "Lost my save data in 'Adventurers of the Netherworld'... I want to cry.",
+            "crnt2": "The new VR game is incredibly realistic! I need to be careful not to get dizzy.",
+            "crnt3": "Last night's online battle was flawless teamwork. Let's do it again, team!",
+            "crnt4": "Found an old arcade game. The feeling of inserting a coin and playing is so nostalgic.",
+            "crnt5": "Collecting game OSTs is my hobby. I got a new one today!"
         },
-        "feature2": {
-            "title": "커뮤니티에서 세계로",
-            "body1": "홈 타임라인 왜에도, 콘커런트는 너에게 수많은 커뮤니티 타임라인을 허용해. 게시할 때, 너는 여러 커뮤니티에 같이 게시할 수 있는 모델을 채택할 수 있어. 인간에게 중요한 '여러 커뮤니티와 느슨하게 연결'되는 사회적 행동을 자연스럽게 촉진시키는 거지.",
-            "body2": "콘커런트는 다른 커뮤니티 및 전 세계와 느슨하게 연결되는 소셜 미디어를 지향하며, X(트위터)처럼 지나치게 연결되지도 않고 디스코드처럼 너무 폐쇄적이지도 않아."
-        },
-        "wip": {
-            "title": "콘커런트는 아직 개발 중이야.",
-            "description": "우리는 재밌는 기능들을 추가하는 중에 있지만 아직 많은 기능들을 사용할 수 없어. 여행왔다 생각하고 함께 즐기면 좋을거야!",
-            "contribute": "버그나 개선점을 발견하면, 깃헙에 이슈 요청하고 같이 개발에 참여해줘!",
-            "milestones": {
-                "title": "계획 예정 기능들",
-                "item1": "- 개인 타임라인(Private Timelines)",
-                "item2": "- Media-specific Posts & 사용자 미디어 리스트(Media Lists for Users)",
-                "item3": "- 뮤트와 같은 다양한 필터링 옵션(Various Filtering Options such as Muting)",
-                "item4": "- 다른 유저의 활동 타임라인(Timelines of Other Users' Activities)",
-                "item5": "- 기타 등등..."
-            }
+        "food": {
+            "title": "Food",
+            "crnt1": "Trying my hand at homemade vegan dishes. Today, it's tomato and quinoa salad.",
+            "crnt2": "Discovered a new spice shop! Time to experiment with some exotic flavors.",
+            "crnt3": "Today's ramen was exceptional. The spice level was just right.",
+            "crnt4": "Homemade cold brew, a summer staple. The choice of coffee beans is key.",
+            "crnt5": "The yakitori I had at the restaurant was crispy on the outside and juicy on the inside. Next time, I'm bringing friends!"
         }
     },
     "registration": {
         "welcome": {
             "title": "너의 콘커런트 계정을 생성해보자!",
-            "noticeTitle": "콘커런트는 아직 개발 중이야.",
-            "notice": "우리는 아직 가능을 추가중이고 설명도 간단하긴 해. 여행왔다 생각하고 함께 즐기면 좋을거야!",
-            "next": "ID Card 생성"
+            "desc1": "Concrnt is a decentralized SNS.",
+            "desc2": "Choose a server to sign up.",
+            "infoTitle": "Any server is OK!",
+            "info1": "On Concrnt, there are no barriers between servers. It's like choosing a mobile carrier.",
+            "info2": "You can move between servers anytime, so if you have no preference, we recommend letting us choose for you.",
+            "auto1": "Pick a server for me",
+            "auto2": "Get Started",
+            "custom": "Choose a server yourself"
         },
         "chooseDomain": {
             "title": "서버(도메인) 고르기",
-            "desc1": "너의 메시지를 저장하고 전달할 서버(도메인)를 찾아볼게.",
-            "desc2": "어떤 서버(도메인)를 고르던, 누구하고나 연결할 수 있어.",
-            "desc3": "또한, (서버 관리자가 열심히 일하는 경우) 언제든지 다른 서버로 이동 가능하지.",
-            "notice": "이제 콘커런트.월드에서 서버(도메인) 관할 사이트로 이동합니다.",
             "chooseFromList": "목록에서 골라",
             "or": "or",
             "directInput": "직접 URL 입력",
@@ -304,17 +412,101 @@
         "importAccount": "로그인"
     },
     "import": {
+        "scan": "Scan",
+        "manual": "Manual",
         "searching": "Searching…",
         "notFound": "너의 서버를 찾을 수 없어. 수동입력해서 계속 할 수 있어.",
         "invalidSecret": "비밀코드가 틀렸어.",
         "notFoundOnServer": "해당 서버에서 계정을 찾을 수 없는데?",
         "connectionError": "해당 서버와는 연결할 수 없어.",
         "input": "비밀코드나 개인키 입력해",
+        "withSubkey": "Sign in with a sub-key",
         "secretPlaceholder": "12단어 구문",
         "welcome": "환영해",
         "domain": "도메인",
         "import": "로그인",
         "noAccount": "아직 계정 없니?",
-        "createAccount": "계정 생성"
+        "createAccount": "계정 생성",
+        "masterKeyDesc": "Enter the master key as 12 words separated by spaces",
+        "privLogin": "Log in with Privileged Mode",
+        "normalLogin": "Log in with Normal Mode"
+    },
+    "tutorial": {
+        "title": "Tutorial",
+        "common": {
+            "next": "Next"
+        },
+        "tabs": {
+            "login": "Password & Login",
+            "post": "Posting",
+            "follow&watch": "Follow & Watch",
+            "community": "Community",
+            "list": "Lists",
+            "customize": "Customize",
+            "done": "Done!"
+        },
+        "login": {
+            "congrat": "Successfully switched from privileged mode to normal mode! Well done!",
+            "block": "Before proceeding, let's switch from privileged mode to normal mode.",
+            "password&login": {
+                "title": "Password & Login",
+                "desc1": "Instead of deciding password on your own, you use a predefined password to log in. This password is extremely important and is referred to as the 'Master Key.' If your Master Key is exposed to others, it can lead to a permanent account takeover. Never share it with anyone.",
+                "desc2": "Additionally, if you lose your Master Key, you will permanently lose access to your account. You'll need to create a new account in order to continue using the service. Therefore, make sure to print or write it down and store it securely, just like something valuable.",
+                "handsonTitle": "Save Your Master Key",
+                "handsonDesc": "Use the button below to securely save your Master Key in your preferred way."
+            },
+            "howtologin": {
+                "title": "How to Log In",
+                "desc1": "To log in, enter your Master Key on the login page. Alternatively, you can also log in using QR code.",
+                "desc2": "On a device where you're already logged in, go to Settings > Login QR to display the QR code and scan it with a new device."
+            },
+            "privmode": {
+                "title": "Privileged Mode",
+                "desc1": "When you log in with your Master Key, you can access privileged mode. This mode allows you to perform critical operations such as account migration or deletion.",
+                "desc2": "If privileged mode is not required, you can click 'Privileged Mode' at the top of the screen to remove sensitive information and switch to normal mode.",
+                "desc3": "To switch back to privileged mode from normal mode, log out and log in with your Master Key.",
+                "handsonTitle": "Exit Privileged Mode",
+                "handsonDesc": "You'll be in privileged mode right after registration. Let's switch to normal mode."
+            }
+        },
+        "post": {
+            "title": "Posting",
+            "desc": "On desktop, the posting UI is located at the top of the screen by default. On smartphones, you can access the posting screen by pressing the button at the bottom right. Let's try making your first post.",
+            "handsonButton": "Say Hello!",
+            "handsonContent": "Hello! Concrnt!",
+            "syntax": "## Formatting and Preview\n\nIn , you can use symbols in your posts to apply formatting.\nFor example, typing `**bold**` will make the text **bold**.\nYou can check how your formatting looks in real-time using the preview at the bottom of the posting UI.\n\n## Formatting Guide\n- `# Heading`: Heading (size changes with the number of #)\n- `**Bold**`: **Bold**\n- `*Italic*`: *Italic*\n- `~~Strikethrough~~`: ~~Strikethrough~~"
+        },
+        "follow&watch": {
+            "desc": "# Follow & Watch\n\nIn , the concept of 'Follow' works differently compared to typical social media.\n'Follow' in Concrnt is more like 'Add to Contacts.' Actively follow people you know or find interesting.\n\nOn the other hand, 'Watch' allows you to add someone to a specific list and view all their posts.\n\nSince Concrnt is community-based, directly watching too many people can clutter your timeline. It's recommended to watch only those you're genuinely interested in."
+        },
+        "community": {
+            "title": "Community",
+            "desc1": " has community timelines that can be discovered via the 'Explore' tab. Find one and check it out. If there isn't one, consider creating your own.",
+            "desc2before": "Once you find one, press the ",
+            "desc2after": " button to add the community to your list (watch it).",
+            "postToCommunity": {
+                "title": "Posting to a Community",
+                "desc": "Once you've added a community to your list, it will appear as an option in the posting UI. You can select multiple destinations for your post."
+            },
+            "changeDefault": {
+                "title": "Setting a Default Posting Destination",
+                "descbefore": "If you find a community to settle into, setting it as your default posting destination can be convenient. While viewing the list, press the ",
+                "descafter": " button at the top right to set your default posting destination."
+            }
+        },
+        "list": {
+            "desc": "# Lists\n\nWatching multiple communities can make your timeline too cluttered.\nIn such cases, create more lists to organize them.\nYou can access the list management screen from 'Lists' in the menu.\n\n## Pinning Lists\n\nFrom the list settings, you can pin specific lists. Pinned lists are always accessible from the tabs at the top of the screen.\n\n## Lists as Presets\n\nLists in  are more than just collections; they serve as powerful presets.\nFor example, you can assign different default posting destinations to multiple lists, allowing you to switch between them quickly."
+        },
+        "customize": {
+            "desc": "# Advanced Usage\n\n## App Installation\n uses PWA technology, enabling you to use this web page like a smartphone app.\n\n<Illustration>\n\n### Notification Settings\n\nInstalling the app lets you configure notifications. By default, all notifications are turned off, but you can enable them in Settings > General by pressing the 'Enable Notifications' button. Once enabled, you can customize which events trigger notifications.\n\nOnly one device can have notifications enabled at a time. Enabling notifications on a new device will disable them on the previous one.\n\n## Customization\n\nConcrnt offers a variety of customization features.\n### Color Themes\nYou can change the color theme in the Settings > Theme menu. You can also create your own themes and share them. Shared themes appear on the timeline like this:\n```theme\n{\"meta\":{\"name\":\"Olive\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\nPress the install button to instantly apply the theme.\n\n### Emoji Packs\n\nConcrnt allows you to use emojis in posts and reactions by installing emoji packs.\nShared emoji packs appear on the timeline like this:\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\nYou can also create your own emoji packs, though it requires some effort. See [here](https://square.concrnt.net/general/world/emojipack/) for details."
+        },
+        "done": {
+            "desc": "# Done!\n\nYou've now mastered the basics of using !\n\nFrom here on, feel free to explore and use Concrnt however you like.",
+            "handsonButton": "I've mastered!",
+            "handsonContent": "I've mastered Concrnt!",
+            "showTutorial": "Show tutorial in the menu",
+            "hideTutorial": "Hide tutorial from the menu",
+            "otherTips": "## Additional Tips\n\n### For Password Manager Users & Frequent Logins\n\nIf you're using a password manager to log in to , it's recommended to use a Sub Key instead of the Master Key.\nThis is because:\n1. Some password managers struggle with handling Japanese characters as passwords.\n2. Logging in with the Master Key creates a new session.\n\nYou can copy your Sub Key from Settings > ID Management while logged in under normal mode. Sub Key login works via the same login screen as the Master Key, with a dedicated input field.\n\n## Other Features\n\n### Sub-Profiles\nConcrnt lets you create multiple profiles. You can choose which profile to use when posting.\n\n### ActivityPub Integration\nBy enabling ActivityPub integration, you can interact with other ActivityPub-compatible platforms (Mastodon, Misskey, Pleroma, etc.).\n\n### Data Management & Migration\nConcrnt is a decentralized SNS, allowing you to manage your own data.\nTo safeguard against server shutdowns, regularly export your data from Settings > Data Management and keep it securely.\nYou can also migrate to a different server if your current one shuts down."
+        }
     }
 }
