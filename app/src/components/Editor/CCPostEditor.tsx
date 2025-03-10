@@ -758,8 +758,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 hideActions
                                 draft={draft}
                                 emojiDict={emojiDict}
-                                //selectedSubprofile={selectedSubprofile}
-                                //setSelectedSubprofile={setSelectedSubprofile}
+                                selectedSubprofileID={selectedSubprofile?.id}
                             />
                         </Collapse>
                         {textInputRef.current && (
