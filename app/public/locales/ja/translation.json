@@ -114,7 +114,15 @@
             "postToHome": "プロフィールに投稿",
             "noPostToHome": "プロフィールに投稿しない",
             "current": "カレント",
-            "whisper": "ウィスパー"
+            "whisper": "ウィスパー",
+            "plzAttachMedia": "メディア投稿モードではメディアを添付する必要があります",
+            "plzAddMessage": "メッセージを入力してください",
+            "plzAddDestination": "少なくとも1つの投稿先を選択してください",
+            "flags": "フラグ設定(任意)",
+            "flag-warn": "注意",
+            "flag-nude": "ヌード",
+            "flag-porn": "ポルノ",
+            "flag-hard": "ハード"
         },
         "secret": {
             "clickToReveal": "クリックして表示",

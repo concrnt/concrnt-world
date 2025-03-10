@@ -114,7 +114,15 @@
             "postToHome": "Also posting to home timeline",
             "noPostToHome": "Not posting to home timeline",
             "current": "Post",
-            "whisper": "Whisper"
+            "whisper": "Whisper",
+            "plzAttachMedia": "You need to attach media in media post mode",
+            "plzAddMessage": "Message must not be empty",
+            "plzAddDestination": "Select at least one destination",
+            "flags": "Flag Settings(optional)",
+            "flag-warn": "Content Warning",
+            "flag-nude": "Nudity",
+            "flag-porn": "Pornography",
+            "flag-hard": "Hard Violence"
         },
         "secret": {
             "clickToReveal": "Click to reveal",

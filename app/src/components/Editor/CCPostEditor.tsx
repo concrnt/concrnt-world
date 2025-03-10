@@ -213,22 +213,22 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     const post = (postHome: boolean): void => {
         if (!client?.user) return
         if ((draft.length === 0 || draft.trim().length === 0) && !(mode === 'media' || mode === 'reroute')) {
-            enqueueSnackbar('Message must not be empty!', { variant: 'error' })
+            enqueueSnackbar(t('plzAddMessage'), { variant: 'error' })
             return
         }
         if (mode === 'media' && medias.length === 0) {
-            enqueueSnackbar('Media required', { variant: 'error' })
+            enqueueSnackbar(t('plzAttachMedia'), { variant: 'error' })
             return
         }
         if (destTimelines.length === 0 && !postHome) {
-            enqueueSnackbar('set destination required', { variant: 'error' })
+            enqueueSnackbar(t('plzAddDestination'), { variant: 'error' })
             return
         }
 
         const destTimelineIDs = destTimelines.map((t) => t.fqid).filter((e) => e)
 
         const homeTimeline = selectedSubprofile
-            ? 'world.concrnt.t-subhome.' + selectedSubprofile + '@' + client.user.ccid
+            ? 'world.concrnt.t-subhome.' + selectedSubprofile.id + '@' + client.user.ccid
             : client.user.homeTimeline
         const dest = [...new Set([...destTimelineIDs, ...(postHome ? [homeTimeline] : [])])].filter((e) => e)
 
@@ -982,12 +982,12 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                     </Select>
                 </FormControl>
                 <CCComboBox
-                    label="フラグ設定(任意)"
+                    label={t('flags')}
                     options={{
-                        注意: '注意',
-                        ヌード: 'ヌード',
-                        ポルノ: 'ポルノ',
-                        ハード: 'ハード'
+                        [t('flag-warn')]: 'warn',
+                        [t('flag-nude')]: 'nude',
+                        [t('flag-porn')]: 'porn',
+                        [t('flag-hard')]: 'hard'
                     }}
                     value={medias[selectedMediaIndex]?.media.flag ?? ''}
                     onChange={(newvalue) => {

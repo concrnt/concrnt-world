@@ -15,6 +15,7 @@ import poster from '../../resources/view-3dmodel.png'
 
 import '@google/model-viewer'
 import { CCIconButton } from './CCIconButton'
+import { useTranslation } from 'react-i18next'
 
 export interface EmbeddedGalleryProps {
     medias: WorldMedia[]
@@ -49,6 +50,17 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
     const isHidden = media.flag && !checkUrlAllowed(media.mediaURL)
 
     const [showModel, setShowModel] = useState(false)
+
+    const { t } = useTranslation('', { keyPrefix: 'ui.draft' })
+
+    const flagMap: Record<string, string> = {
+        warn: t('flag-warn'),
+        nude: t('flag-nude'),
+        porn: t('flag-porn'),
+        hard: t('flag-hard')
+    }
+
+    const flag = media.flag ? (flagMap[media.flag] ?? media.flag) : undefined
 
     return (
         <Box
@@ -93,7 +105,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                 }}
                             />
                             <meta itemProp="contentUrl" content={media.mediaURL} />
-                            <meta itemProp="caption" content={media.flag} />
+                            <meta itemProp="caption" content={flag} />
                         </Box>
                     )}
 
@@ -120,7 +132,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             itemType="https://schema.org/VideoObject"
                         >
                             <meta itemProp="contentUrl" content={media.mediaURL} />
-                            <meta itemProp="caption" content={media.flag} />
+                            <meta itemProp="caption" content={flag} />
                         </Box>
                     )}
 
@@ -249,7 +261,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             textAlign: 'center'
                         }}
                     >
-                        <Typography variant="h3">{media.flag}</Typography>
+                        <Typography variant="h3">{flag}</Typography>
                         <Typography variant="caption">Click to reveal</Typography>
                     </Box>
                 </>
