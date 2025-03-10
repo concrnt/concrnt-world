@@ -110,10 +110,19 @@
             "closePreview": "关闭预览",
             "emoji": "表情",
             "clearDraft": "清空草稿",
+            "addDestination": "Add destination",
             "postToHome": "同时发布在主时间线中",
             "noPostToHome": "不发布在主时间线中",
             "current": "发布",
-            "whisper": "悄悄话"
+            "whisper": "悄悄话",
+            "plzAttachMedia": "You need to attach media in media post mode",
+            "plzAddMessage": "Message must not be empty",
+            "plzAddDestination": "Select at least one destination",
+            "flags": "Flag Settings(optional)",
+            "flag-warn": "Content Warning",
+            "flag-nude": "Nudity",
+            "flag-porn": "Pornography",
+            "flag-hard": "Hard Violence"
         },
         "secret": {
             "clickToReveal": "点击显示",
