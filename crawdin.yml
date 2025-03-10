@@ -1,0 +1,4 @@
+files:
+  - source: /app/public/locales/ja/translation.json
+    translation: /app/public/locales/%locale%/translation.json
+    update_option: update_as_unapproved
