@@ -36,9 +36,9 @@
         },
         "explore": {
             "title": "探索",
+            "domains": "Domains",
             "communities": "網域",
             "peoples": "人們",
-            "community": "社群",
             "createNew": "建立新的",
             "createNewCommunity": {
                 "title": "建立新社群",
@@ -110,10 +110,19 @@
             "closePreview": "關閉預覽",
             "emoji": "貼圖",
             "clearDraft": "清空草稿",
+            "addDestination": "Add destination",
             "postToHome": "同時發佈在主時間軸中",
             "noPostToHome": "不發佈在主時間軸中",
             "current": "發佈",
-            "whisper": "悄悄話"
+            "whisper": "悄悄話",
+            "plzAttachMedia": "You need to attach media in media post mode",
+            "plzAddMessage": "Message must not be empty",
+            "plzAddDestination": "Select at least one destination",
+            "flags": "Flag Settings(optional)",
+            "flag-warn": "Content Warning",
+            "flag-nude": "Nudity",
+            "flag-porn": "Pornography",
+            "flag-hard": "Hard Violence"
         },
         "secret": {
             "clickToReveal": "點擊顯示",
