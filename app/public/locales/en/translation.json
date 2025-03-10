@@ -110,6 +110,7 @@
             "closePreview": "Close preview",
             "emoji": "Emojis",
             "clearDraft": "Clear draft",
+            "addDestination": "Add destination",
             "postToHome": "Also posting to home timeline",
             "noPostToHome": "Not posting to home timeline",
             "current": "Post",

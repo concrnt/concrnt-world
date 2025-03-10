@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, memo, useMemo } from 'react'
 import {
     InputBase,
     Box,
-    useTheme,
     Divider,
     CircularProgress,
     Tooltip,
@@ -20,11 +19,9 @@ import {
     Select,
     Button
 } from '@mui/material'
-import { StreamPicker } from '../ui/StreamPicker'
 import { useSnackbar } from 'notistack'
 import { usePersistent } from '../../hooks/usePersistent'
-import HomeIcon from '@mui/icons-material/Home'
-import { type CommunityTimelineSchema, type Timeline, type Message, type User } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema, type Timeline, type Message, type User, ProfileSchema } from '@concrnt/worldlib'
 import { useClient } from '../../context/ClientContext'
 import { type WorldMedia, type Emoji, type EmojiLite } from '../../model'
 import { useTranslation } from 'react-i18next'
@@ -47,9 +44,10 @@ import FeedbackIcon from '@mui/icons-material/Feedback'
 import { usePreference } from '../../context/PreferenceContext'
 import { CCComboBox } from '../ui/CCComboBox'
 import { genBlurHash } from '../../util'
-import { SubprofileSelector } from '../SubprofileSelector'
 
 import modelPoster from '../../resources/view-3dmodel.png'
+import { TimelinePicker } from '../ui/TimelinePicker'
+import { Profile } from '@concrnt/client'
 
 const ModeSets = {
     plaintext: {
@@ -94,7 +92,6 @@ export interface CCPostEditorProps {
 }
 
 export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): JSX.Element => {
-    const theme = useTheme()
     const { client } = useClient()
     const { uploadFile } = useStorage()
     const { enqueueSnackbar } = useSnackbar()
@@ -106,7 +103,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
 
     const textInputRef = useRef<HTMLInputElement>(null)
     let [sending, setSending] = useState<boolean>(false)
-    const [selectedSubprofile, setSelectedSubprofile] = useState<string | undefined>(undefined)
+    const [selectedSubprofile, setSelectedSubprofile] = useState<Profile<ProfileSchema> | undefined>(undefined)
 
     // destination handling
     const [destTimelines, setDestTimelines] = useState<Array<Timeline<CommunityTimelineSchema>>>(
@@ -116,10 +113,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     useEffect(() => {
         setDestTimelines(props.streamPickerInitial)
     }, [props.streamPickerInitial])
-
-    const destinationModified =
-        destTimelines.length !== props.streamPickerInitial.length ||
-        destTimelines.some((dest, i) => dest.id !== props.streamPickerInitial[i].id)
 
     const [postHomeButton, setPostHomeButton] = useState<boolean>(props.defaultPostHome ?? true)
     const [holdCtrlShift, setHoldCtrlShift] = useState<boolean>(false)
@@ -131,7 +124,13 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     }, [props.defaultPostHome])
 
     useEffect(() => {
-        setSelectedSubprofile(props.subprofile)
+        if (!client.ccid || !props.subprofile) {
+            setSelectedSubprofile(undefined)
+        } else {
+            client.api.getProfile<ProfileSchema>(props.subprofile, client.ccid).then((profile) => {
+                setSelectedSubprofile(profile)
+            })
+        }
     }, [props.subprofile])
 
     // draft handling
@@ -186,6 +185,12 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         setParticipants([])
     }
 
+    const destinationModified =
+        destTimelines.length !== props.streamPickerInitial.length ||
+        destTimelines.some((dest, i) => dest.id !== props.streamPickerInitial[i].id) ||
+        selectedSubprofile?.id !== props.subprofile ||
+        postHome !== (props.defaultPostHome ?? true)
+
     const [mediaMenuAnchorEl, setMediaMenuAnchorEl] = useState<null | HTMLElement>(null)
     const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(-1)
 
@@ -233,7 +238,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         setSending((sending = true))
 
         const emojis = Object.keys(emojiDict).length > 0 ? emojiDict : undefined
-        const profileOverride = selectedSubprofile ? { profileID: selectedSubprofile } : undefined
+        const profileOverride = selectedSubprofile ? { profileID: selectedSubprofile.id } : undefined
 
         let req
         switch (mode) {
@@ -558,36 +563,48 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         >
                             {ModeSets[mode].icon}
                         </CCIconButton>
-                        <StreamPicker
+                        <TimelinePicker
+                            postHome={postHome}
+                            setPostHome={() => {
+                                setPostHomeButton(!postHomeButton)
+                            }}
                             options={props.streamPickerOptions}
                             selected={destTimelines}
                             setSelected={setDestTimelines}
-                            placeholder={destTimelines.length === 0 ? '投稿先を選択' : ''}
+                            placeholder={t('addDestination')}
+                            selectedSubprofile={selectedSubprofile}
+                            setSelectedSubprofile={setSelectedSubprofile}
+                            endAdornment={
+                                destinationModified ? (
+                                    <CCIconButton
+                                        onClick={() => {
+                                            setDestTimelines(props.streamPickerInitial)
+                                            setPostHomeButton(props.defaultPostHome ?? true)
+                                            if (props.subprofile) {
+                                                client.api
+                                                    .getProfile<ProfileSchema>(props.subprofile, client.ccid!)
+                                                    .then((profile) => {
+                                                        setSelectedSubprofile(profile)
+                                                    })
+                                            } else {
+                                                setSelectedSubprofile(undefined)
+                                            }
+                                        }}
+                                        sx={{
+                                            width: '2rem',
+                                            height: '2rem'
+                                        }}
+                                    >
+                                        <ReplayIcon
+                                            sx={{
+                                                fontSize: '1.2rem'
+                                            }}
+                                        />
+                                    </CCIconButton>
+                                ) : undefined
+                            }
                         />
-                        <CCIconButton
-                            sx={{
-                                visibility: destinationModified ? 'visible' : 'hidden'
-                            }}
-                            onClick={() => {
-                                setDestTimelines(props.streamPickerInitial)
-                            }}
-                        >
-                            <ReplayIcon />
-                        </CCIconButton>
                     </Box>
-                    <Tooltip title={postHome ? t('postToHome') : t('noPostToHome')} arrow placement="top">
-                        <CCIconButton
-                            onClick={() => {
-                                setPostHomeButton(!postHomeButton)
-                            }}
-                        >
-                            <HomeIcon
-                                sx={{
-                                    color: postHome ? 'primary' : theme.palette.text.disabled
-                                }}
-                            />
-                        </CCIconButton>
-                    </Tooltip>
                 </Box>
                 {mode !== 'reroute' ? (
                     <Box
@@ -741,8 +758,8 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 hideActions
                                 draft={draft}
                                 emojiDict={emojiDict}
-                                selectedSubprofile={selectedSubprofile}
-                                setSelectedSubprofile={setSelectedSubprofile}
+                                //selectedSubprofile={selectedSubprofile}
+                                //setSelectedSubprofile={setSelectedSubprofile}
                             />
                         </Collapse>
                         {textInputRef.current && (
@@ -787,18 +804,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             whisperUsers={participants}
                             setWhisperUsers={setParticipants}
                             isPrivate={isPrivate}
-                            addon={
-                                mode === 'reroute' && (
-                                    <SubprofileSelector
-                                        selectedSubprofile={selectedSubprofile}
-                                        setSelectedSubprofile={setSelectedSubprofile}
-                                        sx={{
-                                            height: '32px',
-                                            width: '32px'
-                                        }}
-                                    />
-                                )
-                            }
                         />
                     </>
                 ) : (
@@ -841,18 +846,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             whisperUsers={participants}
                             setWhisperUsers={setParticipants}
                             isPrivate={isPrivate}
-                            addon={
-                                mode === 'reroute' && (
-                                    <SubprofileSelector
-                                        selectedSubprofile={selectedSubprofile}
-                                        setSelectedSubprofile={setSelectedSubprofile}
-                                        sx={{
-                                            height: '32px',
-                                            width: '32px'
-                                        }}
-                                    />
-                                )
-                            }
                         />
                         <Collapse unmountOnExit in={draft.length > 0}>
                             <Divider
@@ -865,8 +858,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             <EditorPreview
                                 draft={draft}
                                 emojiDict={emojiDict}
-                                selectedSubprofile={selectedSubprofile}
-                                setSelectedSubprofile={setSelectedSubprofile}
+                                selectedSubprofileID={selectedSubprofile?.id}
                             />
                         </Collapse>
                     </>

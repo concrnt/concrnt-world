@@ -36,15 +36,6 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
         async (file: File, onProgress?: (_: number) => void): Promise<string> => {
             if (storageProvider === 's3') {
                 if (!s3Client) throw new Error('S3 client is not initialized')
-                const base64Data = await fileToBase64(file)
-                if (!base64Data) throw new Error('Failed to convert file to base64')
-                const _base64Data = base64Data.split(',')[1]
-                const byteCharacters = window.atob(_base64Data)
-                const byteNumbers = new Array(byteCharacters.length)
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i)
-                }
-                const byteArray = new Uint8Array(byteNumbers)
 
                 const fileName = `${Date.now()}`
                 const url = await getSignedUrl(
@@ -61,7 +52,6 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
                 const xhr = new XMLHttpRequest()
                 xhr.open('PUT', url, true)
                 xhr.setRequestHeader('Content-Type', file.type)
-                xhr.setRequestHeader('Content-Encoding', 'base64')
                 xhr.setRequestHeader('Content-Disposition', 'inline')
 
                 xhr.upload.onprogress = (e) => {
@@ -70,7 +60,7 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
                     }
                 }
 
-                xhr.send(byteArray)
+                xhr.send(file)
 
                 return await new Promise<string>((resolve, reject) => {
                     xhr.onload = () => {

@@ -16,6 +16,7 @@ export interface CCChipProps {
     onClick?: (event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>) => void
     variant?: 'filled' | 'outlined'
     color?: 'primary' | 'secondary'
+    deleteIcon?: JSX.Element
 }
 
 const _CCChip: ForwardRefRenderFunction<HTMLDivElement | HTMLAnchorElement, CCChipProps> = (props, ref) => {
@@ -39,6 +40,7 @@ const _CCChip: ForwardRefRenderFunction<HTMLDivElement | HTMLAnchorElement, CCCh
                     e.stopPropagation()
                 }}
                 onDelete={props.onDelete}
+                deleteIcon={props.deleteIcon}
                 icon={props.icon}
             />
         )
@@ -58,6 +60,7 @@ const _CCChip: ForwardRefRenderFunction<HTMLDivElement | HTMLAnchorElement, CCCh
                 props.onClick?.(e)
             }}
             onDelete={props.onDelete}
+            deleteIcon={props.deleteIcon}
             variant={props.variant}
             icon={props.icon}
             color={props.color}

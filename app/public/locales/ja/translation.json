@@ -110,8 +110,9 @@
             "closePreview": "プレビューを閉じる",
             "emoji": "絵文字",
             "clearDraft": "下書きを削除",
-            "postToHome": "ホーム同時投稿モード",
-            "noPostToHome": "コミュニティ限定投稿モード",
+            "addDestination": "投稿先を追加",
+            "postToHome": "プロフィールに投稿",
+            "noPostToHome": "プロフィールに投稿しない",
             "current": "カレント",
             "whisper": "ウィスパー"
         },

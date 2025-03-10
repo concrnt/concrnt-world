@@ -12,23 +12,28 @@ import {
     TextField,
     Typography
 } from '@mui/material'
-import { StreamPicker } from './ui/StreamPicker'
 import { useEffect, useState } from 'react'
 import { usePreference } from '../context/PreferenceContext'
-import { type Timeline, type CommunityTimelineSchema, type ListSubscriptionSchema, Schemas } from '@concrnt/worldlib'
-import { type Subscription } from '@concrnt/client'
+import {
+    type Timeline,
+    type CommunityTimelineSchema,
+    type ListSubscriptionSchema,
+    Schemas,
+    ProfileSchema
+} from '@concrnt/worldlib'
+import { Profile, type Subscription } from '@concrnt/client'
 import { useClient } from '../context/ClientContext'
 import { ListItemTimeline } from './ui/ListItemTimeline'
 import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove'
 import { useTranslation } from 'react-i18next'
 import { type StreamList } from '../model'
-import { ProfilePicker } from './ui/ProfilePicker'
 import { useGlobalState } from '../context/GlobalState'
 import { useConfirm } from '../context/Confirm'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useEmojiPicker } from '../context/EmojiPickerContext'
 import { CCIconButton } from './ui/CCIconButton'
 import EmojiEmotions from '@mui/icons-material/EmojiEmotions'
+import { TimelinePicker } from './ui/TimelinePicker'
 
 export interface ListSettingsProps {
     subscription: Subscription<any>
@@ -40,11 +45,12 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
     const confirm = useConfirm()
 
     const [lists, setLists] = usePreference('lists')
+
     const list = lists[props.subscription.id]
 
-    const { allProfiles } = useGlobalState()
     const { allKnownTimelines } = useGlobalState()
 
+    const [defaultProfile, setDefaultProfile] = useState<Profile<ProfileSchema> | undefined>(undefined)
     const [listName, setListName] = useState<string>('')
     const [iconURL, setIconURL] = useState<string>('')
 
@@ -64,6 +70,11 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
         Promise.all(list.defaultPostStreams.map((streamID) => client.getTimeline(streamID))).then((streams) => {
             setPostStreams(streams.filter((stream) => stream !== null) as Array<Timeline<CommunityTimelineSchema>>)
         })
+        if (list.defaultProfile) {
+            client.api.getProfile<ProfileSchema>(list.defaultProfile, client.ccid!).then((profile) => {
+                setDefaultProfile(profile)
+            })
+        }
     }, [props.subscription])
 
     const updateList = (id: string, list: StreamList): void => {
@@ -185,7 +196,7 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                             flex: 1
                         }}
                     >
-                        <StreamPicker
+                        <TimelinePicker
                             options={allKnownTimelines}
                             selected={postStreams}
                             setSelected={(value) => {
@@ -195,29 +206,23 @@ export function ListSettings(props: ListSettingsProps): JSX.Element {
                                 })
                                 setPostStreams(value)
                             }}
+                            postHome={list.defaultPostHome === undefined ? true : list.defaultPostHome}
+                            setPostHome={(value) => {
+                                updateList(props.subscription.id, {
+                                    ...list,
+                                    defaultPostHome: value
+                                })
+                            }}
+                            selectedSubprofile={defaultProfile}
+                            setSelectedSubprofile={(value) => {
+                                updateList(props.subscription.id, {
+                                    ...list,
+                                    defaultProfile: value?.id
+                                })
+                            }}
                             placeholder={t('addDefaultDest')}
                         />
                     </Box>
-                    <Typography variant="h3">{t('postWithHome')}</Typography>
-                    <Switch
-                        checked={list.defaultPostHome === undefined ? true : list.defaultPostHome}
-                        onChange={(_) => {
-                            updateList(props.subscription.id, {
-                                ...list,
-                                defaultPostHome: !list.defaultPostHome
-                            })
-                        }}
-                    />
-                    <Typography variant="h3">{t('defaultProfile')}</Typography>
-                    <ProfilePicker
-                        selected={allProfiles.find((p) => p.id === list.defaultProfile)}
-                        setSelected={(p) => {
-                            updateList(props.subscription.id, {
-                                ...list,
-                                defaultProfile: p?.id
-                            })
-                        }}
-                    />
                     <Typography variant="h3">{t('pin')}</Typography>
                     <Box
                         sx={{

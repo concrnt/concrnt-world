@@ -19,7 +19,6 @@ export interface DummyMessageViewProps {
     userCCID?: string
     timestamp?: JSX.Element
     hideActions?: boolean
-    onAvatarClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
     subprofileID?: string
     sx?: SxProps
 }
@@ -38,14 +37,11 @@ export const DummyMessageView = (props: DummyMessageViewProps): JSX.Element => {
         >
             {props.message && (
                 <>
-                    <IconButton
+                    <Box
                         sx={{
                             width: { xs: '38px', sm: '48px' },
                             height: { xs: '38px', sm: '48px' },
                             mt: { xs: '3px', sm: '5px' }
-                        }}
-                        onClick={(e) => {
-                            props.onAvatarClick?.(e)
                         }}
                     >
                         {props.subprofileID ? (
@@ -69,7 +65,7 @@ export const DummyMessageView = (props: DummyMessageViewProps): JSX.Element => {
                                 }}
                             />
                         )}
-                    </IconButton>
+                    </Box>
                     <Box
                         sx={{
                             display: 'flex',

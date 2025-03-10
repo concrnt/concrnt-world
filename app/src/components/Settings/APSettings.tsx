@@ -10,10 +10,10 @@ import { WatchButton } from '../WatchButton'
 import TravelExploreIcon from '@mui/icons-material/TravelExplore'
 import { useSnackbar } from 'notistack'
 import SettingsIcon from '@mui/icons-material/Settings'
-import { StreamPicker } from '../ui/StreamPicker'
 import { useGlobalState } from '../../context/GlobalState'
 import { CommunityTimelineSchema, Schemas, type Timeline } from '@concrnt/worldlib'
 import { Message } from '@concrnt/client'
+import { TimelinePicker } from '../ui/TimelinePicker'
 
 export const APSettings = (): JSX.Element => {
     const { client } = useClient()
@@ -271,7 +271,8 @@ export const APSettings = (): JSX.Element => {
                     <Typography variant="h2">設定</Typography>
                     <Typography variant="h2">転送元タイムライン</Typography>
                     空の場合はホームタイムラインを使用します
-                    <StreamPicker
+                    <TimelinePicker
+                        onlyCommunities
                         options={allKnownTimelines}
                         selected={listenTimelines}
                         setSelected={(streams) => {
