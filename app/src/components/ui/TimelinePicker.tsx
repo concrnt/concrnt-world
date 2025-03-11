@@ -38,7 +38,6 @@ export interface TimelinePickerProps {
     setPostHome?: (postHome: boolean) => void
     selectedSubprofile?: Profile<ProfileSchema>
     setSelectedSubprofile?: (selectedSubprofile: Profile<ProfileSchema> | undefined) => void
-    endAdornment?: JSX.Element
 }
 
 export const TimelinePicker = (props: TimelinePickerProps): JSX.Element => {
@@ -160,10 +159,6 @@ export const TimelinePicker = (props: TimelinePickerProps): JSX.Element => {
                             )}
                         </>
                     )
-
-                    InputProps.endAdornment = props.endAdornment ? (
-                        <InputAdornment position="end">{props.endAdornment}</InputAdornment>
-                    ) : undefined
 
                     return (
                         <InputBase

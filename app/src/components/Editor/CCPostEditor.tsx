@@ -574,36 +574,34 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             placeholder={t('addDestination')}
                             selectedSubprofile={selectedSubprofile}
                             setSelectedSubprofile={setSelectedSubprofile}
-                            endAdornment={
-                                destinationModified ? (
-                                    <CCIconButton
-                                        onClick={() => {
-                                            setDestTimelines(props.streamPickerInitial)
-                                            setPostHomeButton(props.defaultPostHome ?? true)
-                                            if (props.subprofile) {
-                                                client.api
-                                                    .getProfile<ProfileSchema>(props.subprofile, client.ccid!)
-                                                    .then((profile) => {
-                                                        setSelectedSubprofile(profile)
-                                                    })
-                                            } else {
-                                                setSelectedSubprofile(undefined)
-                                            }
-                                        }}
-                                        sx={{
-                                            width: '2rem',
-                                            height: '2rem'
-                                        }}
-                                    >
-                                        <ReplayIcon
-                                            sx={{
-                                                fontSize: '1.2rem'
-                                            }}
-                                        />
-                                    </CCIconButton>
-                                ) : undefined
-                            }
                         />
+                        {destinationModified && (
+                            <CCIconButton
+                                onClick={() => {
+                                    setDestTimelines(props.streamPickerInitial)
+                                    setPostHomeButton(props.defaultPostHome ?? true)
+                                    if (props.subprofile) {
+                                        client.api
+                                            .getProfile<ProfileSchema>(props.subprofile, client.ccid!)
+                                            .then((profile) => {
+                                                setSelectedSubprofile(profile)
+                                            })
+                                    } else {
+                                        setSelectedSubprofile(undefined)
+                                    }
+                                }}
+                                sx={{
+                                    width: '2rem',
+                                    height: '2rem'
+                                }}
+                            >
+                                <ReplayIcon
+                                    sx={{
+                                        fontSize: '1.2rem'
+                                    }}
+                                />
+                            </CCIconButton>
+                        )}
                     </Box>
                 </Box>
                 {mode !== 'reroute' ? (

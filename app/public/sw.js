@@ -37,6 +37,8 @@ self.addEventListener('push', (event) => {
     const notify = async () => {
         const document = event.data.json()
 
+        let url = '/'
+
         let title = ''
         let body = ''
         let icon = '/192.png'
@@ -61,6 +63,7 @@ self.addEventListener('push', (event) => {
             case Schemas.likeAssociation: {
                 // Like
                 title = `${username} さんがあなたの投稿にいいねしました`
+                url = `/${document.owner}/${document.target}`
                 try {
                     const message = await getMessage(document.target, document.owner)
                     body = message.body.body
@@ -73,6 +76,7 @@ self.addEventListener('push', (event) => {
             case Schemas.reactionAssociation: {
                 // Reaction
                 title = `${username} さんがあなたの投稿にリアクションしました :${document.body.shortcode}:`
+                url = `/${document.owner}/${document.target}`
                 try {
                     const message = await getMessage(document.target, document.owner)
                     body = message.body.body
@@ -88,6 +92,7 @@ self.addEventListener('push', (event) => {
             case Schemas.rerouteAssociation: {
                 // Reroute
                 title = `${username} さんがあなたの投稿をリルートしました`
+                url = `/${document.owner}/${document.target}`
                 try {
                     const message = await getMessage(document.target, document.owner)
                     body = message.body.body
@@ -100,6 +105,7 @@ self.addEventListener('push', (event) => {
             case Schemas.replyAssociation: {
                 // Reply
                 title = `${username} さんがあなたの投稿にリプライしました`
+                url = `/${document.body.messageAuthor}/${document.body.messageId}`
                 try {
                     const message = await getMessage(document.body.messageId, document.body.messageAuthor)
                     body = message.body.body
@@ -115,6 +121,7 @@ self.addEventListener('push', (event) => {
             case Schemas.mentionAssociation: {
                 // Mention
                 title = `${username} さんがあなたをメンションしました`
+                url = `/${document.owner}/${document.target}`
                 try {
                     const message = await getMessage(document.target, document.owner)
                     body = message.body.body
@@ -130,6 +137,7 @@ self.addEventListener('push', (event) => {
             case Schemas.readAccessRequestAssociation: {
                 // Read Access Request
                 title = `${username} さんが閲覧リクエストを送信しています`
+                url = `/notifications`
                 break
             }
 
@@ -139,11 +147,24 @@ self.addEventListener('push', (event) => {
         return self.registration.showNotification(title, {
             body,
             icon,
-            badge
+            badge,
+            data: {
+                url
+            }
         })
     }
 
     event.waitUntil(notify())
+})
+
+self.addEventListener('notificationclick', (event) => {
+    console.log('[Service Worker] Notification click Received.')
+
+    event.notification.close()
+
+    if (event.notification.data.url) {
+        event.waitUntil(clients.openWindow(event.notification.data.url))
+    }
 })
 
 const Schemas = {

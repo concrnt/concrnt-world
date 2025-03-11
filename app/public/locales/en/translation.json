@@ -456,27 +456,27 @@
         },
 
         "login": {
-            "congrat": "Successfully switched from privilege mode to normal mode! Well done!",
-            "block": "Before proceeding, let's switch from privilege mode to normal mode.",
+            "congrat": "Successfully switched from privileged mode to normal mode! Well done!",
+            "block": "Before proceeding, let's switch from privileged mode to normal mode.",
             "password&login": {
                 "title": "Password & Login",
-                "desc1": "In , instead of a password you choose yourself, you use a predefined password to log in. This password is extremely important and is referred to as the 'Master Key.' If your Master Key is exposed to others, it can lead to irreversible consequences. Never share it with anyone.",
-                "desc2": "Additionally, if you lose your Master Key, it cannot be recovered, and you'll need to create a new account. Therefore, make sure to print or write it down and store it securely as a valuable item.",
+                "desc1": "Instead of deciding password on your own, you use a predefined password to log in. This password is extremely important and is referred to as the 'Master Key.' If your Master Key is exposed to others, it can lead to a permanent account takeover. Never share it with anyone.",
+                "desc2": "Additionally, if you lose your Master Key, you will permanently lose access to your account. You'll need to create a new account in order to continue using the service. Therefore, make sure to print or write it down and store it securely, just like something valuable.",
                 "handsonTitle": "Save Your Master Key",
                 "handsonDesc": "Use the button below to securely save your Master Key in your preferred way."
             },
             "howtologin": {
                 "title": "How to Log In",
-                "desc1": "To log in, enter your Master Key on the login screen of the homepage. Alternatively, you can log in using a QR code.",
+                "desc1": "To log in, enter your Master Key on the login page. Alternatively, you can also log in using QR code.",
                 "desc2": "On a device where you're already logged in, go to Settings > Login QR to display the QR code and scan it with a new device."
             },
             "privmode": {
-                "title": "Privilege Mode",
-                "desc1": "When you log in with the Master Key in , you can access privilege mode. This mode allows you to perform critical actions such as migrating or deleting your account.",
-                "desc2": "If privilege mode is not needed, you can click 'Privilege Mode' at the top of the screen to forget sensitive information and switch to normal mode.",
-                "desc3": "To switch back to privilege mode from normal mode, log out and log in again by entering your Master Key.",
-                "handsonTitle": "Exit Privilege Mode",
-                "handsonDesc": "Right after registration, you're still in privilege mode. Let's switch to normal mode."
+                "title": "Privileged Mode",
+                "desc1": "When you log in with your Master Key, you can access privileged mode. This mode allows you to perform critical operations such as account migration or deletion.",
+                "desc2": "If privileged mode is not required, you can click 'Privileged Mode' at the top of the screen to remove sensitive information and switch to normal mode.",
+                "desc3": "To switch back to privileged mode from normal mode, log out and log in with your Master Key.",
+                "handsonTitle": "Exit Privileged Mode",
+                "handsonDesc": "You'll be in privileged mode right after registration. Let's switch to normal mode."
             }
         },
 
