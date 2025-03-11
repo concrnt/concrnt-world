@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Themes, loadConcurrentTheme } from '../themes'
 import { type ConcurrentTheme } from '../model'
-import { ThemeProvider } from '@emotion/react'
+import { ThemeProvider } from '@mui/material'
 import { Box, Button, CssBaseline, type SxProps } from '@mui/material'
 import { ConcurrentWordmark } from './theming/ConcurrentWordmark'
 import { Link } from 'react-router-dom'
