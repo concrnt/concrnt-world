@@ -1,0 +1,157 @@
+import { Box, Divider, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Typography } from '@mui/material'
+import { type Timeline, type CommunityTimelineSchema } from '@concrnt/worldlib'
+import { CCWallpaper } from './ui/CCWallpaper'
+import { WatchButton } from './WatchButton'
+import { CCIconButton } from './ui/CCIconButton'
+import { useSnackbar } from 'notistack'
+import { useState } from 'react'
+
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import IosShareIcon from '@mui/icons-material/IosShare'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { usePreference } from '../context/PreferenceContext'
+
+export interface TimelineInfoProps {
+    timeline: Timeline<CommunityTimelineSchema>
+    children?: JSX.Element | JSX.Element[] | boolean
+}
+
+export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
+    const { enqueueSnackbar } = useSnackbar()
+    const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
+    const [muteTimelines, setMuteTimelines] = usePreference('muteTimelines')
+
+    const muted = muteTimelines.includes(props.timeline.fqid)
+
+    return (
+        <>
+            <CCWallpaper
+                override={props.timeline.document.body.banner}
+                sx={{
+                    minHeight: '150px'
+                }}
+                innerSx={{
+                    display: 'flex',
+                    padding: 2,
+                    flexDirection: 'column',
+                    alignItems: 'stretch',
+                    gap: 1
+                }}
+            >
+                <>
+                    <Paper sx={{ flex: 2, padding: 2, userSelect: 'text' }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: 1
+                            }}
+                        >
+                            <Typography
+                                variant="h1"
+                                sx={{
+                                    textDecoration: muted ? 'line-through' : 'none'
+                                }}
+                            >
+                                {props.timeline.document.body.name}
+                            </Typography>
+                            <WatchButton minimal timelineFQID={props.timeline.fqid} />
+                            <CCIconButton
+                                onClick={(e) => {
+                                    setMenuAnchor(e.currentTarget)
+                                }}
+                            >
+                                <MoreHorizIcon
+                                    sx={{
+                                        color: 'text.primary'
+                                    }}
+                                />
+                            </CCIconButton>
+                        </Box>
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    textDecoration: 'underline'
+                                }
+                            }}
+                            onClick={() => {
+                                navigator.clipboard.writeText(props.timeline.id)
+                                enqueueSnackbar('IDをコピーしました', { variant: 'success' })
+                            }}
+                        >
+                            {props.timeline.id}
+                        </Typography>
+                        <Divider />
+                        <Typography>{props.timeline.document.body.description || 'まだ説明はありません'}</Typography>
+                    </Paper>
+                    {props.children}
+                </>
+            </CCWallpaper>
+            <Menu
+                anchorEl={menuAnchor}
+                open={Boolean(menuAnchor)}
+                onClose={() => {
+                    setMenuAnchor(null)
+                }}
+            >
+                <MenuItem
+                    onClick={() => {
+                        navigator.clipboard.writeText(`https://concrnt.world/timeline/${props.timeline.id}`)
+                        enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
+                        setMenuAnchor(null)
+                    }}
+                >
+                    <ListItemIcon>
+                        <IosShareIcon
+                            sx={{
+                                color: 'text.primary'
+                            }}
+                        />
+                    </ListItemIcon>
+                    <ListItemText>Copy Share Link</ListItemText>
+                </MenuItem>
+                {muted ? (
+                    <MenuItem
+                        onClick={() => {
+                            setMuteTimelines(muteTimelines.filter((id) => id !== props.timeline.fqid))
+                            enqueueSnackbar('タイムラインのミュートを解除しました', { variant: 'success' })
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <VisibilityIcon
+                                sx={{
+                                    color: 'text.primary'
+                                }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText>Unmute</ListItemText>
+                    </MenuItem>
+                ) : (
+                    <MenuItem
+                        onClick={() => {
+                            if (!muteTimelines.includes(props.timeline.id)) {
+                                setMuteTimelines([...muteTimelines, props.timeline.fqid])
+                            }
+                            enqueueSnackbar('タイムラインをミュートしました', { variant: 'success' })
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <VisibilityOffIcon
+                                sx={{
+                                    color: 'text.primary'
+                                }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText>Mute</ListItemText>
+                    </MenuItem>
+                )}
+            </Menu>
+        </>
+    )
+}

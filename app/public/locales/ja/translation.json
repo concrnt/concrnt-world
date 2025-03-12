@@ -15,7 +15,10 @@
         "mention": "メンション",
         "reroute": "リルート",
         "fav": "お気に入り",
-        "reaction": "リアクション"
+        "reaction": "リアクション",
+        "mutedByWord": "ワードミュートした投稿",
+        "mutedByTimeline": "タイムラインミュートした投稿",
+        "show": "表示する"
     },
     "app": {
         "updateAvailable": "新しいバージョンが利用可能です",
@@ -174,6 +177,14 @@
             "copied": "コピーしました",
             "language": "言語",
             "showTutorial": "メニューにチュートリアルを表示する",
+            "add": "追加",
+            "cancel": "キャンセル",
+            "addMuteWord": "ミュートワードを追加",
+            "addMuteWordDesc": "ミュートしたい単語を入力してください",
+            "mute": "ミュート",
+            "wordMute": "ワードミュート",
+            "timelineMute": "タイムラインミュート",
+            "fontSize": "フォントサイズ",
             "notification": {
                 "title": "通知",
                 "notsupported": "お使いのドメインは通知をサポートしていません",

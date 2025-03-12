@@ -8,12 +8,12 @@ import { type VListHandle } from 'virtua'
 import TagIcon from '@mui/icons-material/Tag'
 import LockIcon from '@mui/icons-material/Lock'
 import { Timeline } from '../components/Timeline'
-import { StreamInfo } from '../components/StreamInfo'
 import { PrivateTimelineDoor } from '../components/PrivateTimelineDoor'
 import { Box } from '@mui/material'
 
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { useNavigate } from 'react-router-dom'
+import { TimelineInfo } from '../components/TimelineInfo'
 
 export interface TimelineDrawerState {
     open: (id: string) => void
@@ -100,7 +100,7 @@ export const TimelineDrawerProvider = (props: TimelineDrawerProps): JSX.Element 
                         <Timeline
                             timelineFQIDs={timelineIDs}
                             ref={timelineRef}
-                            header={timelineID ? <StreamInfo id={timelineID} /> : <></>}
+                            header={timeline ? <TimelineInfo timeline={timeline} /> : <></>}
                         />
                     ) : (
                         <Box>{timeline && <PrivateTimelineDoor timeline={timeline} />}</Box>

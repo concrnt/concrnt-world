@@ -29,6 +29,8 @@ export interface Preference {
     tutorialProgress: number
     tutorialCompleted: boolean
     baseFontSize: number
+    muteWords: string[]
+    muteTimelines: string[]
 }
 
 export const defaultPreference: Preference = {
@@ -59,7 +61,9 @@ export const defaultPreference: Preference = {
     autoSwitchMediaPostType: true,
     tutorialProgress: 0,
     tutorialCompleted: false,
-    baseFontSize: 16
+    baseFontSize: 16,
+    muteWords: [],
+    muteTimelines: []
 }
 
 interface PreferenceState {

@@ -15,7 +15,10 @@
         "mention": "Mention",
         "reroute": "Reroute",
         "fav": "Favorite",
-        "reaction": "Reaction"
+        "reaction": "Reaction",
+        "mutedByWord": "Post muted by word",
+        "mutedByTimeline": "Post muted by timeline",
+        "show": "Show"
     },
     "app": {
         "updateAvailable": "New version available",
@@ -174,6 +177,14 @@
             "copied": "Copied",
             "language": "Language",
             "showTutorial": "Show tutorial in the menu",
+            "add": "Add",
+            "cancel": "Cancel",
+            "addMuteWord": "Add mute word",
+            "addMuteWordDesc": "Mute words are case-insensitive and can be used to hide posts containing specific words.",
+            "mute": "Mute",
+            "wordMute": "Word mute",
+            "timelineMute": "Timeline mute",
+            "fontSize": "Font size",
             "notification": {
                 "title": "Notification",
                 "notsupported": "Your domain does not support notifications",

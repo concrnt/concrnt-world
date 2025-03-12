@@ -32,20 +32,24 @@ import { SubprofileBadge } from './ui/SubprofileBadge'
 import { ProfileProperties } from './ui/ProfileProperties'
 import { enqueueSnackbar } from 'notistack'
 import { useMediaViewer } from '../context/MediaViewer'
-import IosShareIcon from '@mui/icons-material/IosShare'
 import { CCIconButton } from './ui/CCIconButton'
-import ReplayIcon from '@mui/icons-material/Replay'
-import SearchIcon from '@mui/icons-material/Search'
 import { useSearchDrawer } from '../context/SearchDrawer'
-import ContentPasteIcon from '@mui/icons-material/ContentPaste'
-import QrCodeIcon from '@mui/icons-material/QrCode'
 import { ProfileQRCard } from './ui/ProfileQRCard'
-import CancelIcon from '@mui/icons-material/Cancel'
 import ConcrntBG from '../resources/ConcrntBG.svg'
 
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import IosShareIcon from '@mui/icons-material/IosShare'
+import ReplayIcon from '@mui/icons-material/Replay'
+import SearchIcon from '@mui/icons-material/Search'
+import CancelIcon from '@mui/icons-material/Cancel'
+import QrCodeIcon from '@mui/icons-material/QrCode'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import ContentPasteIcon from '@mui/icons-material/ContentPaste'
+import { usePreference } from '../context/PreferenceContext'
+
 export interface ProfileProps {
-    user?: User
-    id?: string
+    user: User
     guest?: boolean
     onSubProfileClicked?: (characterID: string) => void
     overrideSubProfileID?: string
@@ -57,7 +61,7 @@ export function Profile(props: ProfileProps): JSX.Element {
     const { client } = useClient()
     const theme = useTheme()
     const mediaViewer = useMediaViewer()
-    const isSelf = props.id === client.ccid
+    const isSelf = props.user.ccid === client.ccid
 
     const searchDrawer = useSearchDrawer()
 
@@ -69,8 +73,15 @@ export function Profile(props: ProfileProps): JSX.Element {
     const [subProfile, setSubProfile] = useState<TypeProfile<any> | null>(null)
 
     const { t } = useTranslation('', { keyPrefix: 'common' })
-    const [shareMenuAnchor, setShareMenuAnchor] = useState<null | HTMLElement>(null)
+    const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
     const [openQR, setOpenQR] = useState(false)
+
+    const timelineID = props.overrideSubProfileID
+        ? 'world.concrnt.t-subhome.' + props.overrideSubProfileID + '@' + props.user.ccid
+        : props.user.homeTimeline
+
+    const [muteTimelines, setMuteTimelines] = usePreference('muteTimelines')
+    const muted = muteTimelines.includes(timelineID)
 
     useEffect(() => {
         let unmounted = false
@@ -90,7 +101,7 @@ export function Profile(props: ProfileProps): JSX.Element {
 
     const affiliationDate = useMemo(() => {
         try {
-            const document = props.user?.affiliationDocument
+            const document = props.user.affiliationDocument
             if (!document) return null
 
             const doc: CCDocument.Affiliation = JSON.parse(document)
@@ -117,7 +128,7 @@ export function Profile(props: ProfileProps): JSX.Element {
             }}
         >
             <CCWallpaper
-                override={props.user?.profile?.banner}
+                override={props.user.profile?.banner}
                 sx={{
                     height: '150px'
                 }}
@@ -142,7 +153,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                         }
                     }}
                     onClick={() => {
-                        searchDrawer.open(props.user?.homeTimeline ?? '')
+                        searchDrawer.open(props.user.homeTimeline ?? '')
                     }}
                 >
                     <SearchIcon
@@ -160,17 +171,10 @@ export function Profile(props: ProfileProps): JSX.Element {
                         }
                     }}
                     onClick={(e) => {
-                        setShareMenuAnchor(e.currentTarget)
-                        /*
-                        if (props.user) {
-                            const id = props.user.alias ?? props.user.ccid
-                            navigator.clipboard.writeText('https://concrnt.world/' + id)
-                            enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
-                        }
-                        */
+                        setMenuAnchor(e.currentTarget)
                     }}
                 >
-                    <IosShareIcon
+                    <MoreHorizIcon
                         sx={{
                             color: theme.palette.primary.contrastText
                         }}
@@ -189,16 +193,16 @@ export function Profile(props: ProfileProps): JSX.Element {
                     if (subProfile) {
                         subProfile.parsedDoc.body.avatar && mediaViewer.openSingle(subProfile.parsedDoc.body.avatar)
                     } else {
-                        props.user?.profile?.avatar && mediaViewer.openSingle(props.user?.profile?.avatar)
+                        props.user.profile?.avatar && mediaViewer.openSingle(props.user.profile?.avatar)
                     }
                 }}
             >
                 <CCAvatar
                     isLoading={!props.user}
-                    alt={props.user?.profile?.username}
-                    avatarURL={props.user?.profile?.avatar}
+                    alt={props.user.profile?.username}
+                    avatarURL={props.user.profile?.avatar}
                     avatarOverride={subProfile ? subProfile.parsedDoc.body.avatar : undefined}
-                    identiconSource={props.user?.ccid}
+                    identiconSource={props.user.ccid}
                     sx={{
                         width: '100px',
                         height: '100px'
@@ -249,60 +253,45 @@ export function Profile(props: ProfileProps): JSX.Element {
                             width: '100px'
                         }}
                     />
-                    {props.user && (
-                        <>
-                            {props.user.profile?.subprofiles?.map((id, _) => (
-                                <SubprofileBadge
-                                    key={id}
-                                    characterID={id}
-                                    authorCCID={props.user!.ccid}
-                                    onClick={() => {
-                                        props.onSubProfileClicked?.(id)
-                                    }}
-                                    enablePreview={id === props.overrideSubProfileID}
-                                />
-                            ))}
-                        </>
-                    )}
+                    {props.user.profile?.subprofiles?.map((id, _) => (
+                        <SubprofileBadge
+                            key={id}
+                            characterID={id}
+                            authorCCID={props.user!.ccid}
+                            onClick={() => {
+                                props.onSubProfileClicked?.(id)
+                            }}
+                            enablePreview={id === props.overrideSubProfileID}
+                        />
+                    ))}
                     <Box
                         sx={{
                             flexGrow: 1
                         }}
                     />
-                    {props.user && (
-                        <Box
-                            sx={{
-                                gap: 1,
-                                flexGrow: 1,
-                                flexShrink: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'flex-end',
-                                minHeight: '32.5px'
-                            }}
-                        >
-                            {client.user && (
-                                <>
-                                    {!isSelf && <AckButton user={props.user} />}
-                                    <WatchButton
-                                        timelineFQID={
-                                            props.overrideSubProfileID
-                                                ? 'world.concrnt.t-subhome.' +
-                                                  props.overrideSubProfileID +
-                                                  '@' +
-                                                  props.user.ccid
-                                                : (props.user.homeTimeline ?? '')
-                                        }
-                                    />
-                                </>
-                            )}
-                            {isSelf && (
-                                <Button variant="outlined" component={NavLink} to="/settings/profile">
-                                    Edit Profile
-                                </Button>
-                            )}
-                        </Box>
-                    )}
+                    <Box
+                        sx={{
+                            gap: 1,
+                            flexGrow: 1,
+                            flexShrink: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'flex-end',
+                            minHeight: '32.5px'
+                        }}
+                    >
+                        {client.user && (
+                            <>
+                                {!isSelf && <AckButton user={props.user} />}
+                                <WatchButton timelineFQID={timelineID} />
+                            </>
+                        )}
+                        {isSelf && (
+                            <Button variant="outlined" component={NavLink} to="/settings/profile">
+                                Edit Profile
+                            </Button>
+                        )}
+                    </Box>
                 </Box>
                 <Box
                     sx={{
@@ -316,36 +305,28 @@ export function Profile(props: ProfileProps): JSX.Element {
                         sx={{
                             fontWeight: 'bold',
                             fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.5rem' },
-                            cursor: 'pointer',
-                            mt: 1
+                            mt: 1,
+                            textDecoration: muted ? 'line-through' : 'none'
                         }}
                     >
-                        {props.user ? (
-                            (subProfile?.parsedDoc.body.username ?? props.user.profile?.username ?? 'anonymous')
-                        ) : (
-                            <Skeleton variant="text" width={200} />
-                        )}
+                        {subProfile?.parsedDoc.body.username ?? props.user.profile?.username ?? 'anonymous'}
                     </Typography>
-                    {props.user?.alias && <Typography variant="caption">{props.user?.alias}</Typography>}
+                    {props.user.alias && <Typography variant="caption">{props.user.alias}</Typography>}
                 </Box>
-                {props.user ? (
-                    <Typography
-                        onClick={() => {
-                            if (props.user) {
-                                navigator.clipboard.writeText(props.user.ccid)
-                                enqueueSnackbar('CCIDをコピーしました', { variant: 'success' })
-                            }
-                        }}
-                        sx={{
-                            cursor: 'pointer'
-                        }}
-                        variant="caption"
-                    >
-                        {props.user.ccid}
-                    </Typography>
-                ) : (
-                    <Skeleton variant="text" width={200} />
-                )}
+                <Typography
+                    onClick={() => {
+                        if (props.user) {
+                            navigator.clipboard.writeText(props.user.ccid)
+                            enqueueSnackbar('CCIDをコピーしました', { variant: 'success' })
+                        }
+                    }}
+                    sx={{
+                        cursor: 'pointer'
+                    }}
+                    variant="caption"
+                >
+                    {props.user.ccid}
+                </Typography>
 
                 <Box
                     sx={{
@@ -355,7 +336,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                     }}
                 >
                     <MarkdownRenderer
-                        messagebody={subProfile?.parsedDoc.body.description ?? props.user?.profile?.description ?? ''}
+                        messagebody={subProfile?.parsedDoc.body.description ?? props.user.profile?.description ?? ''}
                         emojiDict={{}}
                     />
                 </Box>
@@ -363,7 +344,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                 <Box>
                     <Typography variant="caption">
                         {props.user ? (
-                            `現住所: ${props.user?.domain !== '' ? props.user.domain : client.host}` +
+                            `現住所: ${props.user.domain !== '' ? props.user.domain : client.host}` +
                             ` (${affiliationDate?.toLocaleDateString() ?? ''}~)`
                         ) : (
                             <Skeleton variant="text" width={200} />
@@ -407,19 +388,42 @@ export function Profile(props: ProfileProps): JSX.Element {
                 {subProfile && <ProfileProperties showCreateLink character={subProfile} />}
             </Box>
             <Menu
-                anchorEl={shareMenuAnchor}
-                open={Boolean(shareMenuAnchor)}
+                anchorEl={menuAnchor}
+                open={Boolean(menuAnchor)}
                 onClose={() => {
-                    setShareMenuAnchor(null)
+                    setMenuAnchor(null)
                 }}
             >
+                {window.navigator.share && (
+                    <MenuItem
+                        onClick={() => {
+                            if (props.user) {
+                                navigator.share({
+                                    title: props.user.alias ?? props.user.ccid,
+                                    text: props.user.profile?.description ?? '',
+                                    url: 'https://concrnt.world/' + (props.user.alias ?? props.user.ccid)
+                                })
+                                setMenuAnchor(null)
+                            }
+                        }}
+                    >
+                        <ListItemIcon>
+                            <IosShareIcon
+                                sx={{
+                                    color: 'text.primary'
+                                }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText>Share</ListItemText>
+                    </MenuItem>
+                )}
                 <MenuItem
                     onClick={() => {
                         if (props.user) {
                             const id = props.user.alias ?? props.user.ccid
                             navigator.clipboard.writeText('https://concrnt.world/' + id)
                             enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
-                            setShareMenuAnchor(null)
+                            setMenuAnchor(null)
                         }
                     }}
                 >
@@ -435,7 +439,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                 <MenuItem
                     onClick={() => {
                         setOpenQR(true)
-                        setShareMenuAnchor(null)
+                        setMenuAnchor(null)
                     }}
                 >
                     <ListItemIcon>
@@ -447,6 +451,43 @@ export function Profile(props: ProfileProps): JSX.Element {
                     </ListItemIcon>
                     <ListItemText>Show QR Code</ListItemText>
                 </MenuItem>
+                {muted ? (
+                    <MenuItem
+                        onClick={() => {
+                            setMuteTimelines(muteTimelines.filter((id) => id !== timelineID))
+                            enqueueSnackbar('タイムラインのミュートを解除しました', { variant: 'success' })
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <VisibilityIcon
+                                sx={{
+                                    color: 'text.primary'
+                                }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText>Unmute</ListItemText>
+                    </MenuItem>
+                ) : (
+                    <MenuItem
+                        onClick={() => {
+                            if (!muteTimelines.includes(timelineID)) {
+                                setMuteTimelines([...muteTimelines, timelineID])
+                            }
+                            enqueueSnackbar('タイムラインをミュートしました', { variant: 'success' })
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <VisibilityOffIcon
+                                sx={{
+                                    color: 'text.primary'
+                                }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText>Mute</ListItemText>
+                    </MenuItem>
+                )}
             </Menu>
             <Modal
                 open={openQR}

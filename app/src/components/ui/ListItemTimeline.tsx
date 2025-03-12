@@ -1,4 +1,4 @@
-import { ListItemButton, type SxProps } from '@mui/material'
+import { ListItem, ListItemButton, type SxProps } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { IsCSID } from '@concrnt/client'
@@ -20,6 +20,7 @@ export interface ListItemTimelineProps {
     timelineID: string
     sx?: SxProps
     onClick?: () => void
+    secondaryAction?: JSX.Element | JSX.Element[]
 }
 
 export const ListItemTimeline = (props: ListItemTimelineProps): JSX.Element | null => {
@@ -56,19 +57,23 @@ export const ListItemTimeline = (props: ListItemTimelineProps): JSX.Element | nu
 
     if (!timeline) {
         return (
-            <ListItemButton dense disabled sx={props.sx}>
-                <HelpOutlineIcon />
-                Not found
-            </ListItemButton>
+            <ListItem dense disablePadding secondaryAction={props.secondaryAction}>
+                <ListItemButton dense disabled sx={props.sx}>
+                    <HelpOutlineIcon />
+                    Not found
+                </ListItemButton>
+            </ListItem>
         )
     }
 
     if (!isOnline) {
         return (
-            <ListItemButton dense disabled sx={props.sx}>
-                <CloudOffIcon />
-                {timeline?.document.body.name || profile?.username || 'Unknown'}
-            </ListItemButton>
+            <ListItem dense disablePadding secondaryAction={props.secondaryAction}>
+                <ListItemButton dense disabled sx={props.sx}>
+                    <CloudOffIcon />
+                    {timeline?.document.body.name || profile?.username || 'Unknown'}
+                </ListItemButton>
+            </ListItem>
         )
     }
 
@@ -82,10 +87,12 @@ export const ListItemTimeline = (props: ListItemTimelineProps): JSX.Element | nu
     }
 
     return (
-        <ListItemButton dense component={RouterLink} to={link} sx={props.sx} onClick={props.onClick}>
-            {timeline?.owner && IsCSID(timeline.owner) ? <TagIcon /> : <AlternateEmailIcon />}
-            {timeline?.document.body.name || profile?.username || 'Unknown'}
-            {timeline?.schema === Schemas.subprofileTimeline && <FaTheaterMasks />}
-        </ListItemButton>
+        <ListItem dense disablePadding secondaryAction={props.secondaryAction}>
+            <ListItemButton dense component={RouterLink} to={link} sx={props.sx} onClick={props.onClick}>
+                {timeline?.owner && IsCSID(timeline.owner) ? <TagIcon /> : <AlternateEmailIcon />}
+                {timeline?.document.body.name || profile?.username || 'Unknown'}
+                {timeline?.schema === Schemas.subprofileTimeline && <FaTheaterMasks />}
+            </ListItemButton>
+        </ListItem>
     )
 }

@@ -26,6 +26,8 @@ import { MarkdownMessageView } from './MarkdownMessageView'
 import { Link as routerLink } from 'react-router-dom'
 import { CCAvatarWithResolver } from '../ui/CCAvatarWithResolver'
 import InfoIcon from '@mui/icons-material/Info'
+import { useTranslation } from 'react-i18next'
+import { useGlobalState } from '../../context/GlobalState'
 
 interface MessageContainerProps {
     messageID: string
@@ -42,6 +44,7 @@ interface MessageContainerProps {
 
 export const MessageContainer = memo<MessageContainerProps>((props: MessageContainerProps): JSX.Element | null => {
     const { client } = useClient()
+    const { t } = useTranslation('', { keyPrefix: 'common' })
     const theme = useTheme()
     const [message, setMessage] = useState<Message<
         MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema | PlaintextMessageSchema | MediaMessageSchema
@@ -51,6 +54,10 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
     const [forceUpdateCount, setForceUpdateCount] = useState<number>(0)
     const [_, setStaticUpdateCount] = useState<number>(0)
     const [error, setError] = useState<Error | null>(null)
+    const { isMessageSafeToShow } = useGlobalState()
+    const [filteredWord, setFilteredWord] = useState<string | undefined>()
+    const [filteredTimeline, setFilteredTimeline] = useState<string | undefined>()
+    const [filterOverride, setFilterOverride] = useState<boolean>(false)
 
     if (message) {
         message.onUpdate = () => {
@@ -63,6 +70,15 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
             .getMessage<any>(props.messageID, props.messageOwner, props.resolveHint)
             .then((msg) => {
                 setMessage(msg)
+                if (msg?.document.body?.body) {
+                    const filter = isMessageSafeToShow(msg.document.body.body, msg.timelines)
+                    if (filter?.reason === 'word') {
+                        setFilteredWord(filter.value)
+                    } else if (filter?.reason === 'timeline') {
+                        const tl = msg.postedTimelines?.find((timeline) => timeline.fqid === filter.value)
+                        tl && setFilteredTimeline(tl.document.body.name)
+                    }
+                }
             })
             .catch((e) => {
                 setError(e)
@@ -82,6 +98,72 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
             }
         }
     }, [props.sx])
+
+    if (filteredWord && !filterOverride) {
+        return (
+            <>
+                <Box sx={props.sx}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1
+                        }}
+                    >
+                        <Typography variant="caption" color="textDisabled">
+                            {t('mutedByWord')}: {filteredWord}
+                        </Typography>
+                        <Typography
+                            variant="caption"
+                            color="textDisabled"
+                            onClick={() => setFilterOverride(true)}
+                            sx={{
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    textDecoration: 'underline'
+                                }
+                            }}
+                        >
+                            {t('show')}
+                        </Typography>
+                    </Box>
+                </Box>
+                {props.after}
+            </>
+        )
+    }
+
+    if (filteredTimeline && !filterOverride) {
+        return (
+            <>
+                <Box sx={props.sx}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 1
+                        }}
+                    >
+                        <Typography variant="caption" color="textDisabled">
+                            {t('mutedByTimeline')}: #{filteredTimeline}
+                        </Typography>
+                        <Typography
+                            variant="caption"
+                            color="textDisabled"
+                            onClick={() => setFilterOverride(true)}
+                            sx={{
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    textDecoration: 'underline'
+                                }
+                            }}
+                        >
+                            {t('show')}
+                        </Typography>
+                    </Box>
+                </Box>
+                {props.after}
+            </>
+        )
+    }
 
     if (isFetching) {
         return (

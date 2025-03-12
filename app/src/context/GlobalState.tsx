@@ -1,6 +1,6 @@
 import { type Timeline, type CommunityTimelineSchema } from '@concrnt/worldlib'
 import { Entity, Subscription, Profile, PermissionError } from '@concrnt/client'
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useClient } from './ClientContext'
 import { usePreference } from './PreferenceContext'
 import { useMediaQuery, useTheme } from '@mui/material'
@@ -20,6 +20,7 @@ export interface GlobalState {
     getImageURL: (url?: string, params?: { maxWidth?: number; maxHeight?: number; format?: string }) => string
     setSwitchToSub: (state: boolean) => void
     switchToSubOpen: boolean
+    isMessageSafeToShow: (message: string, timelineIDs: string[]) => { reason: string; value: string } | undefined
 }
 
 const GlobalStateContext = createContext<GlobalState | undefined>(undefined)
@@ -31,6 +32,8 @@ interface GlobalStateProps {
 export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element => {
     const { client } = useClient()
     const [lists] = usePreference('lists')
+    const [muteWords] = usePreference('muteWords')
+    const [muteTimelines] = usePreference('muteTimelines')
 
     const [isDomainOffline, setDomainIsOffline] = useState<boolean>(false)
     const [entity, setEntity] = useState<Entity | null>(null)
@@ -47,6 +50,27 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
     const [listedSubscriptions, setListedSubscriptions] = useState<Record<string, Subscription<any>>>({})
 
     const [switchToSubOpen, setKeyModalOpen] = useState<boolean>(false)
+
+    const muteRegexs: [string, RegExp][] = useMemo(
+        () => muteWords.map((word) => [word, new RegExp(word, 'i')]),
+        [muteWords]
+    )
+    const isMessageSafeToShow = useCallback(
+        (message: string, timelineIDs: string[]) => {
+            const wordmatch = muteRegexs.find(([_, regex]) => regex.test(message))?.[0]
+            if (wordmatch) {
+                return { reason: 'word', value: wordmatch }
+            }
+
+            const timelineMatch = muteTimelines.find((id) => timelineIDs.includes(id))
+            if (timelineMatch) {
+                return { reason: 'timeline', value: timelineMatch }
+            }
+
+            return undefined
+        },
+        [muteRegexs, muteTimelines]
+    )
 
     const getImageURL = useCallback(
         (url?: string, opts?: { maxWidth?: number; maxHeight?: number; format?: string }) => {
@@ -169,7 +193,24 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
 
     return (
         <GlobalStateContext.Provider
-            value={{
+            value={useMemo(() => {
+                return {
+                    isCanonicalUser,
+                    isRegistered,
+                    isDomainOffline,
+                    isMobileSize,
+                    isMasterSession,
+                    allKnownTimelines,
+                    allKnownSubscriptions,
+                    listedSubscriptions,
+                    reloadList,
+                    allProfiles,
+                    getImageURL,
+                    setSwitchToSub,
+                    switchToSubOpen,
+                    isMessageSafeToShow
+                }
+            }, [
                 isCanonicalUser,
                 isRegistered,
                 isDomainOffline,
@@ -182,8 +223,9 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
                 allProfiles,
                 getImageURL,
                 setSwitchToSub,
-                switchToSubOpen
-            }}
+                switchToSubOpen,
+                isMessageSafeToShow
+            ])}
         >
             {children}
         </GlobalStateContext.Provider>
@@ -206,7 +248,8 @@ export function useGlobalState(): GlobalState {
             allProfiles: [],
             getImageURL: (url?: string, _options?: any) => url ?? '',
             setSwitchToSub: (_state: boolean) => {},
-            switchToSubOpen: false
+            switchToSubOpen: false,
+            isMessageSafeToShow: (_message: string) => undefined
         }
     }
     return context

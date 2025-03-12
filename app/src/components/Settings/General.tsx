@@ -6,12 +6,20 @@ import {
     Box,
     Button,
     Checkbox,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     FormControlLabel,
     FormGroup,
+    List,
+    ListItem,
     MenuItem,
     Select,
     Slider,
     Switch,
+    TextField,
     Typography
 } from '@mui/material'
 import { usePreference } from '../../context/PreferenceContext'
@@ -26,6 +34,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 import TextIncreaseIcon from '@mui/icons-material/TextIncrease'
 import TextDecreaseIcon from '@mui/icons-material/TextDecrease'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { CCIconButton } from '../ui/CCIconButton'
+import { ListItemTimeline } from '../ui/ListItemTimeline'
 
 export const GeneralSettings = (): JSX.Element => {
     const { client } = useClient()
@@ -33,6 +44,8 @@ export const GeneralSettings = (): JSX.Element => {
 
     const [showEditorOnTop, setShowEditorOnTop] = usePreference('showEditorOnTop')
     const [showEditorOnTopMobile, setShowEditorOnTopMobile] = usePreference('showEditorOnTopMobile')
+    const [muteWords, setMuteWords] = usePreference('muteWords')
+    const [muteTimelines, setMuteTimelines] = usePreference('muteTimelines')
     const [devMode, setDevMode] = usePreference('devMode')
     const [enableConcord, setEnableConcord] = usePreference('enableConcord')
     const [autoSwitchMediaPostType, setAutoSwitchMediaPostType] = usePreference('autoSwitchMediaPostType')
@@ -53,6 +66,9 @@ export const GeneralSettings = (): JSX.Element => {
     const [schemas, setSchemas] = useState<string[]>([])
 
     const [reload, setReload] = useState<number>(0)
+
+    const [openMuteAdder, setOpenMuteAdder] = useState<boolean>(false)
+    const [muteWordDraft, setMuteWordDraft] = useState<string>('')
 
     useEffect(() => {
         setCurrentLanguage(i18n.resolvedLanguage || 'en')
@@ -175,7 +191,7 @@ export const GeneralSettings = (): JSX.Element => {
                 </Button>
             )}
             <Box>
-                <Typography variant="h3">{'文字サイズ'}</Typography>
+                <Typography variant="h3">{t('fontSize')}</Typography>
                 <Box
                     sx={{
                         display: 'flex',
@@ -518,6 +534,122 @@ export const GeneralSettings = (): JSX.Element => {
                     </AccordionActions>
                 </Accordion>
             )}
+            <Typography variant="h3">{t('mute')} (beta)</Typography>
+            <Box
+                sx={{
+                    marginLeft: 2
+                }}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 1,
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <Typography variant="h4">{t('wordMute')}</Typography>
+                    <Button
+                        onClick={(_) => {
+                            setOpenMuteAdder(true)
+                        }}
+                    >
+                        {t('add')}
+                    </Button>
+                </Box>
+                <List dense>
+                    {muteWords.map((word, index) => (
+                        <ListItem
+                            dense
+                            key={index}
+                            sx={{
+                                display: 'flex',
+                                gap: 1,
+                                alignItems: 'center'
+                            }}
+                            secondaryAction={
+                                <CCIconButton
+                                    onClick={(_) => {
+                                        const newMuteWords = muteWords.filter((_, i) => i !== index)
+                                        setMuteWords(newMuteWords)
+                                    }}
+                                >
+                                    <DeleteIcon />
+                                </CCIconButton>
+                            }
+                        >
+                            <Typography variant="body1">{word}</Typography>
+                        </ListItem>
+                    ))}
+                </List>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 1,
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <Typography variant="h4">{t('timelineMute')}</Typography>
+                </Box>
+
+                <List dense>
+                    {muteTimelines.map((timelineID) => (
+                        <ListItemTimeline
+                            timelineID={timelineID}
+                            key={timelineID}
+                            secondaryAction={
+                                <CCIconButton
+                                    onClick={(_) => {
+                                        setMuteTimelines(muteTimelines.filter((id) => id !== timelineID))
+                                    }}
+                                >
+                                    <DeleteIcon />
+                                </CCIconButton>
+                            }
+                        />
+                    ))}
+                </List>
+
+                <Dialog
+                    open={openMuteAdder}
+                    onClose={(_) => {
+                        setOpenMuteAdder(false)
+                    }}
+                >
+                    <DialogTitle>{t('addMuteWord')}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>{t('addMuteWordDesc')}</DialogContentText>
+                        <TextField
+                            fullWidth
+                            value={muteWordDraft}
+                            onChange={(e) => {
+                                setMuteWordDraft(e.target.value)
+                            }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            variant="text"
+                            onClick={(_) => {
+                                setOpenMuteAdder(false)
+                                setMuteWordDraft('')
+                            }}
+                        >
+                            {t('cancel')}
+                        </Button>
+                        <Button
+                            onClick={(_) => {
+                                setMuteWords([...muteWords, muteWordDraft])
+                                setOpenMuteAdder(false)
+                            }}
+                        >
+                            {t('add')}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </Box>
             {tags.includes('_invite') && (
                 <>
                     <Typography variant="h3">招待</Typography>

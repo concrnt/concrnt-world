@@ -4,7 +4,6 @@ import {
     Divider,
     FormControlLabel,
     FormGroup,
-    Paper,
     Switch,
     Tab,
     Tabs,
@@ -20,20 +19,17 @@ import {
     type ReadAccessRequestAssociationSchema,
     Schemas
 } from '@concrnt/worldlib'
-import IosShareIcon from '@mui/icons-material/IosShare'
 import { CCEditor, type CCEditorError } from './ui/cceditor'
 import { useSnackbar } from 'notistack'
-import { CCWallpaper } from './ui/CCWallpaper'
-import { WatchButton } from './WatchButton'
 import { PolicyEditor } from './ui/PolicyEditor'
 import { CCUserChip } from './ui/CCUserChip'
-import { CCIconButton } from './ui/CCIconButton'
 import { CCComboBox } from './ui/CCComboBox'
 import { useConfirm } from '../context/Confirm'
 import { WatchRequestAcceptButton } from './WatchRequestAccpetButton'
 import { fetchWithTimeout, IsCCID, IsCSID } from '@concrnt/client'
 import { MessageContainer } from './Message/MessageContainer'
 import { SearchBox } from './ui/SearchBox'
+import { TimelineInfo } from './TimelineInfo'
 
 export interface StreamInfoProps {
     id: string
@@ -410,82 +406,26 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
 
     return (
         <>
-            <CCWallpaper
-                override={timeline.document.body.banner}
-                sx={{
-                    minHeight: '150px'
-                }}
-                innerSx={{
-                    display: 'flex',
-                    padding: 2,
-                    flexDirection: 'column',
-                    alignItems: 'stretch',
-                    gap: 1
-                }}
-            >
-                <>
-                    <Paper sx={{ flex: 2, padding: 2, userSelect: 'text' }}>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                gap: 1
-                            }}
-                        >
-                            <Typography variant="h1">{timeline.document.body.name}</Typography>
-                            <WatchButton minimal timelineFQID={timeline.fqid} />
-                            <CCIconButton
-                                onClick={() => {
-                                    navigator.clipboard.writeText(`https://concrnt.world/timeline/${props.id}`)
-                                    enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
-                                }}
-                            >
-                                <IosShareIcon
-                                    sx={{
-                                        color: 'text.primary'
-                                    }}
-                                />
-                            </CCIconButton>
-                        </Box>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                cursor: 'pointer',
-                                '&:hover': {
-                                    textDecoration: 'underline'
-                                }
-                            }}
-                            onClick={() => {
-                                navigator.clipboard.writeText(props.id)
-                                enqueueSnackbar('IDをコピーしました', { variant: 'success' })
-                            }}
-                        >
-                            {props.id}
-                        </Typography>
-                        <Divider />
-                        <Typography>{timeline.document.body.description || 'まだ説明はありません'}</Typography>
-                    </Paper>
+            <TimelineInfo timeline={timeline}>
+                {props.detailed && (
+                    <SearchBox
+                        onEnter={(query) => {
+                            setSearchedQuery(query)
+                        }}
+                        updateFocused={setSearchFocused}
+                        disabled={searchService === null}
+                        placeholder={
+                            searchService === null ? `${timeline.host}では検索が利用できません` : 'Search (beta)'
+                        }
+                        onClear={() => {
+                            setSearchResult(null)
+                            setSearchedQuery('')
+                            setSearchFocused(false)
+                        }}
+                    />
+                )}
+            </TimelineInfo>
 
-                    {props.detailed && (
-                        <SearchBox
-                            onEnter={(query) => {
-                                setSearchedQuery(query)
-                            }}
-                            updateFocused={setSearchFocused}
-                            disabled={searchService === null}
-                            placeholder={
-                                searchService === null ? `${timeline.host}では検索が利用できません` : 'Search (beta)'
-                            }
-                            onClear={() => {
-                                setSearchResult(null)
-                                setSearchedQuery('')
-                                setSearchFocused(false)
-                            }}
-                        />
-                    )}
-                </>
-            </CCWallpaper>
             {props.detailed && (
                 <>
                     {searchFocused || searchedQuery ? (

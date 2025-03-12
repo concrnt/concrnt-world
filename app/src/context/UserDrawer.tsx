@@ -105,59 +105,64 @@ export const UserDrawerProvider = (props: UserDrawerProps): JSX.Element => {
                         position: 'relative'
                     }}
                 >
-                    <Box position="absolute" top="0" left="0" width="100%" zIndex="1">
-                        <Collapse in={showHeader}>
-                            <TimelineHeader
-                                title={user?.profile?.username || 'anonymous'}
-                                titleIcon={<AlternateEmailIcon />}
-                                onTitleClick={() => {
-                                    timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
-                                }}
-                            />
-                        </Collapse>
-                    </Box>
-
-                    {targetTimeline && CCID && (
-                        <QueryTimelineReader
-                            ref={timelineRef}
-                            timeline={targetTimeline}
-                            query={query}
-                            perspective={user?.ccid}
-                            onScroll={(top) => {
-                                setShowHeader(top > 180)
-                            }}
-                            header={
-                                <>
-                                    <Profile
-                                        user={user ?? undefined}
-                                        id={CCID}
-                                        overrideSubProfileID={subProfileID}
-                                        onSubProfileClicked={(id) => {
-                                            window.location.hash = id
+                    {user && targetTimeline && (
+                        <>
+                            <Box position="absolute" top="0" left="0" width="100%" zIndex="1">
+                                <Collapse in={showHeader}>
+                                    <TimelineHeader
+                                        title={user?.profile?.username || 'anonymous'}
+                                        titleIcon={<AlternateEmailIcon />}
+                                        onTitleClick={() => {
+                                            timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
                                         }}
                                     />
-                                    <Tabs
-                                        value={tab}
-                                        onChange={(_, value) => {
-                                            setTab(value)
-                                        }}
-                                        textColor="secondary"
-                                        indicatorColor="secondary"
-                                    >
-                                        <Tab label={t('crnt')} value="" />
-                                        <Tab label={t('media')} value="media" />
-                                        <Tab label={t('activity')} value="activity" />
-                                    </Tabs>
-                                    <Divider />
-                                    {tab === 'activity' && (
-                                        <>
-                                            <TimelineFilter selected={filter} setSelected={setFilter} sx={{ px: 1 }} />
-                                            <Divider />
-                                        </>
-                                    )}
-                                </>
-                            }
-                        />
+                                </Collapse>
+                            </Box>
+
+                            <QueryTimelineReader
+                                ref={timelineRef}
+                                timeline={targetTimeline}
+                                query={query}
+                                perspective={user?.ccid}
+                                onScroll={(top) => {
+                                    setShowHeader(top > 180)
+                                }}
+                                header={
+                                    <>
+                                        <Profile
+                                            user={user}
+                                            overrideSubProfileID={subProfileID}
+                                            onSubProfileClicked={(id) => {
+                                                window.location.hash = id
+                                            }}
+                                        />
+                                        <Tabs
+                                            value={tab}
+                                            onChange={(_, value) => {
+                                                setTab(value)
+                                            }}
+                                            textColor="secondary"
+                                            indicatorColor="secondary"
+                                        >
+                                            <Tab label={t('crnt')} value="" />
+                                            <Tab label={t('media')} value="media" />
+                                            <Tab label={t('activity')} value="activity" />
+                                        </Tabs>
+                                        <Divider />
+                                        {tab === 'activity' && (
+                                            <>
+                                                <TimelineFilter
+                                                    selected={filter}
+                                                    setSelected={setFilter}
+                                                    sx={{ px: 1 }}
+                                                />
+                                                <Divider />
+                                            </>
+                                        )}
+                                    </>
+                                }
+                            />
+                        </>
                     )}
                 </Box>
             </CCDrawer>

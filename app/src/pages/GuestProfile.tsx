@@ -137,7 +137,6 @@ export default function GuestProfilePage(): JSX.Element {
                                     <Box>
                                         <Profile
                                             user={user}
-                                            id={id}
                                             guest={true}
                                             overrideSubProfileID={subProfileID}
                                             onSubProfileClicked={(id) => {
@@ -180,7 +179,6 @@ export default function GuestProfilePage(): JSX.Element {
                                             >
                                                 <Profile
                                                     user={user}
-                                                    id={id}
                                                     guest={true}
                                                     overrideSubProfileID={subProfileID}
                                                     onSubProfileClicked={(id) => {

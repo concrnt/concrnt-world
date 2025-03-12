@@ -114,8 +114,7 @@ export function EntityPage(): JSX.Element {
                 {isPrivate ? (
                     <>
                         <Profile
-                            user={user ?? undefined}
-                            id={id}
+                            user={user}
                             overrideSubProfileID={subProfileID}
                             onSubProfileClicked={(id) => {
                                 window.location.hash = id
@@ -137,8 +136,7 @@ export function EntityPage(): JSX.Element {
                                 header={
                                     <>
                                         <Profile
-                                            user={user ?? undefined}
-                                            id={id}
+                                            user={user}
                                             overrideSubProfileID={subProfileID}
                                             onSubProfileClicked={(id) => {
                                                 window.location.hash = id

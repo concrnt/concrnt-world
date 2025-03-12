@@ -41,8 +41,7 @@ export function Settings(): JSX.Element {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    paddingX: 1,
-                    paddingTop: 1,
+                    p: 1,
                     backgroundColor: 'background.paper',
                     minHeight: '100%',
                     overflowX: 'hidden',
