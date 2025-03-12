@@ -15,7 +15,10 @@
         "mention": "提及",
         "reroute": "转贴",
         "fav": "喜欢",
-        "reaction": "回应"
+        "reaction": "回应",
+        "mutedByWord": "Post muted by word",
+        "mutedByTimeline": "Post muted by timeline",
+        "show": "Show"
     },
     "app": {
         "updateAvailable": "有新版本已可用！",
@@ -174,6 +177,14 @@
             "copied": "已复制",
             "language": "语言",
             "showTutorial": "在菜单中像是教学",
+            "add": "Add",
+            "cancel": "Cancel",
+            "addMuteWord": "Add mute word",
+            "addMuteWordDesc": "Mute words are case-insensitive and can be used to hide posts containing specific words.",
+            "mute": "Mute",
+            "wordMute": "Word mute",
+            "timelineMute": "Timeline mute",
+            "fontSize": "Font size",
             "notification": {
                 "title": "通知",
                 "notsupported": "你所在的域当前还不支持同期",
