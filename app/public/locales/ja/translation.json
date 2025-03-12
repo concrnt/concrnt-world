@@ -15,7 +15,10 @@
         "mention": "メンション",
         "reroute": "リルート",
         "fav": "お気に入り",
-        "reaction": "リアクション"
+        "reaction": "リアクション",
+        "mutedByWord": "Post muted by word",
+        "mutedByTimeline": "Post muted by timeline",
+        "show": "Show"
     },
     "app": {
         "updateAvailable": "新しいバージョンが利用可能です",
@@ -174,6 +177,14 @@
             "copied": "コピーしました",
             "language": "言語",
             "showTutorial": "メニューにチュートリアルを表示する",
+            "add": "Add",
+            "cancel": "Cancel",
+            "addMuteWord": "Add mute word",
+            "addMuteWordDesc": "Mute words are case-insensitive and can be used to hide posts containing specific words.",
+            "mute": "Mute",
+            "wordMute": "Word mute",
+            "timelineMute": "Timeline mute",
+            "fontSize": "Font size",
             "notification": {
                 "title": "通知",
                 "notsupported": "お使いのドメインは通知をサポートしていません",
