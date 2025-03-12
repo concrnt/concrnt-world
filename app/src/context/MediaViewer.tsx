@@ -115,7 +115,7 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
             return
         }
         const image = new Image()
-        image.src = previewImage
+        image.src = getImageURL(previewImage)
         image.onload = () => {
             handleImageOnLoad(image)
         }
