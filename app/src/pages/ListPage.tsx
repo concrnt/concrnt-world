@@ -5,6 +5,8 @@ import { usePreference } from '../context/PreferenceContext'
 import { Timeline } from '../components/Timeline'
 import { useClient } from '../context/ClientContext'
 import {
+    isFulfilled,
+    isNonNull,
     type CommunityTimelineSchema,
     type ListSubscriptionSchema,
     type Timeline as TypeTimeline
@@ -67,10 +69,8 @@ export function ListPage(): JSX.Element {
                 return client.getTimeline<CommunityTimelineSchema>(streamID)
             })
         ).then((results) => {
-            const fulfilled = results.filter((e) => e.status === 'fulfilled') as Array<
-                PromiseFulfilledResult<TypeTimeline<CommunityTimelineSchema>>
-            >
-            const nonNullValues = fulfilled.map((e) => e.value).filter((e) => e !== null)
+            const fulfilled = results.filter(isFulfilled)
+            const nonNullValues = fulfilled.map((e) => e.value).filter(isNonNull)
             setPostTimelines(nonNullValues)
         })
     }, [list, client])

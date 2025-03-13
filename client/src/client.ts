@@ -52,6 +52,7 @@ import {
     type CreateMediaCrntOptions,
     type CreatePlaintextCrntOptions
 } from './model'
+import { isFulfilled, isNonNull } from './util'
 
 const cacheLifetime = 5 * 60 * 1000
 
@@ -100,7 +101,7 @@ export class Client {
         }
     }
 
-    messageCache: Record<string, Cache<Promise<Message<any>>>> = {}
+    messageCache: Record<string, Cache<Promise<Message<any> | null>>> = {}
 
     static async create(privatekey: string, host: FQDN, opts?: ClientOptions): Promise<Client> {
         const keyPair = LoadKey(privatekey)
@@ -288,7 +289,7 @@ export class Client {
         const message = Message.load(this, id, authorID, hint)
 
         this.messageCache[id] = {
-            data: message as Promise<Message<any>>,
+            data: message,
             expire: Date.now() + cacheLifetime
         }
 
@@ -854,7 +855,7 @@ export class User implements Omit<CoreEntity, 'parsedAffiliationDoc' | 'parsedTo
         const acks = await this.client.api.getAcking(this.ccid)
         const results = await Promise.allSettled(acks.map((e) => User.load(this.client, e.to)))
 
-        const succeeded = results.filter((e) => e.status === 'fulfilled') as Array<PromiseFulfilledResult<User>>
+        const succeeded = results.filter(isFulfilled)
         return succeeded.map((e) => e.value)
     }
 
@@ -862,7 +863,7 @@ export class User implements Omit<CoreEntity, 'parsedAffiliationDoc' | 'parsedTo
         const acks = await this.client.api.getAcker(this.ccid)
         const results = await Promise.allSettled(acks.map((e) => User.load(this.client, e.from)))
 
-        const succeeded = results.filter((e) => e.status === 'fulfilled') as Array<PromiseFulfilledResult<User>>
+        const succeeded = results.filter(isFulfilled)
         return succeeded.map((e) => e.value)
     }
 
@@ -1063,7 +1064,7 @@ export class Timeline<T> implements Omit<CoreTimeline<T>, 'document' | 'parsedDo
         const ass: Array<Association<any> | null> = await Promise.all(
             coreass.map((e) => Association.loadByBody<any>(this.client, e))
         )
-        return ass.filter((e) => e) as Array<Association<any>>
+        return ass.filter(isNonNull)
     }
 
     invalidate(): void {
@@ -1152,10 +1153,8 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         })
 
         const timelines_request = await Promise.allSettled(message.timelines.map((e) => client.getTimeline(e)))
-        const timelines_fulfilled = timelines_request.filter((e) => e.status === 'fulfilled') as Array<
-            PromiseFulfilledResult<Timeline<any>>
-        >
-        message.postedTimelines = timelines_fulfilled.map((e) => e.value).filter((e) => e)
+        const timelines_fulfilled = timelines_request.filter(isFulfilled)
+        message.postedTimelines = timelines_fulfilled.map((e) => e.value).filter(isNonNull)
 
         return message
     }
@@ -1169,8 +1168,8 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
     }
 
     async getTimelines<T>(): Promise<Array<Timeline<T>>> {
-        const timelines = await Promise.all(this.timelines.map((e) => this.client.getTimeline(e)))
-        return timelines.filter((e) => e) as Array<Timeline<T>>
+        const timelines = await Promise.all(this.timelines.map((e) => this.client.getTimeline<T>(e)))
+        return timelines.filter(isNonNull)
     }
 
     async getReplyAssociations(): Promise<Array<Association<ReplyAssociationSchema>>> {
@@ -1182,7 +1181,7 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         const ass: Array<Association<ReplyAssociationSchema> | null> = await Promise.all(
             coreass.map((e) => Association.loadByBody<ReplyAssociationSchema>(this.client, e))
         )
-        return ass.filter((e) => e) as Array<Association<ReplyAssociationSchema>>
+        return ass.filter(isNonNull)
     }
 
     async getRerouteAssociations(): Promise<Array<Association<RerouteAssociationSchema>>> {
@@ -1191,10 +1190,10 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
             this.author,
             { schema: Schemas.rerouteAssociation }
         )
-        const ass: Array<Association<LikeAssociationSchema> | null> = await Promise.all(
+        const ass: Array<Association<RerouteAssociationSchema> | null> = await Promise.all(
             coreass.map((e) => Association.loadByBody<RerouteAssociationSchema>(this.client, e))
         )
-        return ass.filter((e) => e) as Array<Association<RerouteAssociationSchema>>
+        return ass.filter(isNonNull)
     }
 
     async getReplyMessages(): Promise<
@@ -1254,7 +1253,7 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         const ass: Array<Association<LikeAssociationSchema> | null> = await Promise.all(
             coreass.map((e) => Association.loadByBody<LikeAssociationSchema>(this.client, e))
         )
-        return ass.filter((e) => e) as Array<Association<LikeAssociationSchema>>
+        return ass.filter(isNonNull)
     }
 
     async getReactions(imgUrl?: string): Promise<Array<Association<ReactionAssociationSchema>>> {
@@ -1270,7 +1269,7 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         const ass: Array<Association<ReactionAssociationSchema> | null> = await Promise.all(
             coreass.map((e) => Association.loadByBody<ReactionAssociationSchema>(this.client, e))
         )
-        return ass.filter((e) => e) as Array<Association<ReactionAssociationSchema>>
+        return ass.filter(isNonNull)
     }
 
     async getReplyTo(): Promise<Message<ReplyMessageSchema> | null> {

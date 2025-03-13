@@ -100,7 +100,7 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
             >
                 <MenuItem
                     onClick={() => {
-                        navigator.clipboard.writeText(`https://concrnt.world/timeline/${props.timeline.id}`)
+                        navigator.clipboard.writeText(`https://concrnt.world/timeline/${props.timeline.fqid}`)
                         enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
                         setMenuAnchor(null)
                     }}

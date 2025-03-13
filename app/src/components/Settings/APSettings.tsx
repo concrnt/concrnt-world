@@ -11,7 +11,7 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore'
 import { useSnackbar } from 'notistack'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { useGlobalState } from '../../context/GlobalState'
-import { CommunityTimelineSchema, Schemas, type Timeline } from '@concrnt/worldlib'
+import { CommunityTimelineSchema, isFulfilled, Schemas, type Timeline } from '@concrnt/worldlib'
 import { Message } from '@concrnt/client'
 import { TimelinePicker } from '../ui/TimelinePicker'
 
@@ -55,9 +55,7 @@ export const APSettings = (): JSX.Element => {
                     })
                 )
 
-                const fulfilled = requests.filter((r) => r.status === 'fulfilled') as Array<
-                    PromiseFulfilledResult<Timeline<any>>
-                >
+                const fulfilled = requests.filter(isFulfilled)
                 setListenTimelines(fulfilled.map((r) => r.value))
             })
             .catch((e) => {

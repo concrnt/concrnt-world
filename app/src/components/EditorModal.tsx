@@ -3,7 +3,7 @@ import { CCPostEditor, type CCPostEditorProps, type EditorMode } from './Editor/
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useGlobalState } from '../context/GlobalState'
 import { usePreference } from '../context/PreferenceContext'
-import { type CommunityTimelineSchema, type Message, type Timeline } from '@concrnt/worldlib'
+import { isFulfilled, isNonNull, type CommunityTimelineSchema, type Message, type Timeline } from '@concrnt/worldlib'
 import { MessageContainer } from './Message/MessageContainer'
 import { useClient } from '../context/ClientContext'
 
@@ -83,13 +83,12 @@ export const EditorModalProvider = (props: EditorModalProps): JSX.Element => {
         const exec = async (): Promise<void> => {
             const requests = await Promise.allSettled(
                 home.defaultPostStreams.map((timelineID) => {
-                    return client.getTimeline(timelineID)
+                    return client.getTimeline<CommunityTimelineSchema>(timelineID)
                 })
             )
-            const fulfilled = requests.filter((e) => e.status === 'fulfilled') as Array<
-                PromiseFulfilledResult<Timeline<CommunityTimelineSchema>>
-            >
-            const homePostTimelines = fulfilled.map((e) => e.value)
+
+            const fulfilled = requests.filter(isFulfilled)
+            const homePostTimelines = fulfilled.map((e) => e.value).filter(isNonNull)
             if (!isMounted) return
             setHomePostTimelines(homePostTimelines)
         }

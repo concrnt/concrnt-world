@@ -1,5 +1,5 @@
 import { type Timeline, type CommunityTimelineSchema } from '@concrnt/worldlib'
-import { Entity, Subscription, Profile, PermissionError } from '@concrnt/client'
+import type { Entity, Subscription, Profile } from '@concrnt/client'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useClient } from './ClientContext'
 import { usePreference } from './PreferenceContext'
@@ -179,7 +179,7 @@ export const GlobalStateProvider = ({ children }: GlobalStateProps): JSX.Element
                 setEntity(data.content)
             })
             .catch((e) => {
-                if (e instanceof PermissionError) {
+                if (e.message.includes('403')) {
                     setIsRegistered(false)
                 } else {
                     setDomainIsOffline(true)
