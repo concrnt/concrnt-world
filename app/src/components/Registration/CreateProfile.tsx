@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { ProfileEditor } from '../ProfileEditor'
-import { type Client, type ProfileSchema } from '@concrnt/worldlib'
+import { type Client } from '@concrnt/worldlib'
+import { type ProfileSchema } from '@concrnt/worldschemas'
 import { type Profile } from '@concrnt/client'
 import { StorageProvider } from '../../context/StorageContext'
 import { useTranslation } from 'react-i18next'

@@ -12,13 +12,8 @@ import {
 } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import { useClient } from '../context/ClientContext'
-import {
-    type Timeline,
-    type CommunityTimelineSchema,
-    type Association,
-    type ReadAccessRequestAssociationSchema,
-    Schemas
-} from '@concrnt/worldlib'
+import type { Timeline, Association } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema, type ReadAccessRequestAssociationSchema, Schemas } from '@concrnt/worldschemas'
 import { CCEditor, type CCEditorError } from './ui/cceditor'
 import { useSnackbar } from 'notistack'
 import { PolicyEditor } from './ui/PolicyEditor'

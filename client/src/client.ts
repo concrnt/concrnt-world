@@ -31,8 +31,9 @@ import {
     KVS
 } from '@concrnt/client'
 
-import { Schemas, type Schema } from './schemas'
 import {
+    Schemas,
+    type Schema,
     type MarkdownMessageSchema,
     type ReplyMessageSchema,
     type RerouteMessageSchema,
@@ -45,14 +46,14 @@ import {
     type PlaintextMessageSchema,
     type MediaMessageSchema,
     type UpgradeAssociationSchema
-} from './schemas/'
+} from '@concrnt/worldschemas'
 import {
     type BadgeRef,
     type CreateCurrentOptions,
     type CreateMediaCrntOptions,
     type CreatePlaintextCrntOptions
 } from './model'
-import { isFulfilled, isNonNull } from './util'
+import { isFulfilled, isNonNull } from '@concrnt/utils'
 
 const cacheLifetime = 5 * 60 * 1000
 

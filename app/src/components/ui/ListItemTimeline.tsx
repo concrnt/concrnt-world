@@ -2,13 +2,13 @@ import { ListItem, ListItemButton, type SxProps } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { IsCSID } from '@concrnt/client'
+import { type Timeline } from '@concrnt/worldlib'
 import {
     Schemas,
-    Timeline,
     type CommunityTimelineSchema,
     type ProfileSchema,
     type SubprofileTimelineSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
 import { useClient } from '../../context/ClientContext'
 import TagIcon from '@mui/icons-material/Tag'
 import CloudOffIcon from '@mui/icons-material/CloudOff'

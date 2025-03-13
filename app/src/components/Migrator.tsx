@@ -1,4 +1,4 @@
-import { Client } from '@concrnt/worldlib'
+import { type Client } from '@concrnt/worldlib'
 import { Domain } from '@concrnt/client'
 import { useEffect, useState } from 'react'
 import { useClient } from '../context/ClientContext'
@@ -182,9 +182,10 @@ export function Migrator(): JSX.Element {
                 <>
                     <Button
                         fullWidth
-                        onClick={() => {
+                        onClick={async () => {
                             const settings = localStorage.getItem('preference')
                             if (!settings) return
+                            const { Client } = await import('@concrnt/worldlib')
                             Client.create(client.keyPair!.privatekey, destFqdn).then((remoteClient) => {
                                 remoteClient.api
                                     .writeKV('world.concurrent.preference', settings)

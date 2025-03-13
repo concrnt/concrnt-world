@@ -14,18 +14,17 @@ import {
 import { Link, useParams } from 'react-router-dom'
 import { useClient } from '../context/ClientContext'
 import { useEffect, useState } from 'react'
+import { type Message, type Association } from '@concrnt/worldlib'
 import {
-    type Message,
     type ReplyMessageSchema,
     type RerouteMessageSchema,
     Schemas,
     type MarkdownMessageSchema,
-    type Association,
     type LikeAssociationSchema,
     type ReactionAssociationSchema,
     type ReplyAssociationSchema,
     type RerouteAssociationSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
 import { RerouteMessageFrame } from '../components/Message/RerouteMessageFrame'
 import { FavoriteAssociation } from '../components/Association/FavoriteAssociation'
 import { ReactionAssociation } from '../components/Association/ReactionAssociation'

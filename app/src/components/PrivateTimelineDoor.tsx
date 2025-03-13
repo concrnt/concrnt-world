@@ -1,4 +1,5 @@
-import { type Association, type ReadAccessRequestAssociationSchema, Schemas, type Timeline } from '@concrnt/worldlib'
+import { type Association, type Timeline } from '@concrnt/worldlib'
+import { Schemas, type ReadAccessRequestAssociationSchema } from '@concrnt/worldschemas'
 import LockIcon from '@mui/icons-material/Lock'
 import { useEffect, useMemo, useState } from 'react'
 import { useClient } from '../context/ClientContext'

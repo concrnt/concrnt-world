@@ -3,7 +3,7 @@ import { ConcrntLogo } from '../theming/ConcrntLogo'
 import { CCAvatar } from './CCAvatar'
 import { QRCode } from 'react-qrcode-logo'
 import { ConcurrentTheme } from '../../model'
-import { User } from '@concrnt/worldlib'
+import { type User } from '@concrnt/worldlib'
 
 interface ProfileQRCardProps {
     user: User

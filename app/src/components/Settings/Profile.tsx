@@ -16,18 +16,16 @@ import { ProfileEditor } from '../ProfileEditor'
 import { useClient } from '../../context/ClientContext'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
+import { type BadgeRef, type Timeline, type User, type Association } from '@concrnt/worldlib'
+
 import {
     type ProfileSchema,
     type Schema,
-    type BadgeRef,
     Schemas,
     type SubprofileTimelineSchema,
     type EmptyTimelineSchema,
-    type Timeline,
-    type User,
-    type Association,
     type ReadAccessRequestAssociationSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
 import { Profile } from '@concrnt/client'
 import { useEffect, useState } from 'react'
 import { CCDrawer } from '../ui/CCDrawer'

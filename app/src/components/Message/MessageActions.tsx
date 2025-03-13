@@ -11,14 +11,15 @@ import LinkIcon from '@mui/icons-material/Link'
 import GTranslateIcon from '@mui/icons-material/GTranslate'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import IosShareIcon from '@mui/icons-material/IosShare'
+import { type Association, type Message } from '@concrnt/worldlib'
+
 import {
-    type Association,
     type LikeAssociationSchema,
-    type Message,
     type ReplyMessageSchema,
     Schemas,
     type MarkdownMessageSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
+
 import { useState } from 'react'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'

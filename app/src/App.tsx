@@ -36,8 +36,7 @@ import { ConfirmProvider } from './context/Confirm'
 import { type ConcurrentTheme } from './model'
 import { TimelineDrawerProvider } from './context/TimelineDrawer'
 import { UserDrawerProvider } from './context/UserDrawer'
-import { Schemas } from '@concrnt/worldlib'
-import type { MarkdownMessageSchema, ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldlib'
+import { Schemas, ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldschemas'
 import { SearchDrawerProvider } from './context/SearchDrawer'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))

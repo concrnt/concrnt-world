@@ -1,10 +1,10 @@
+import type { Message } from '@concrnt/worldlib'
 import {
-    type Message,
     type ReplyMessageSchema,
     Schemas,
     type MarkdownMessageSchema,
     type RerouteMessageSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
 import { Box, Tooltip } from '@mui/material'
 import { useCallback, useMemo, useRef } from 'react'
 

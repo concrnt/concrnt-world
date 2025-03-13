@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material'
-import { type Message, type PlaintextMessageSchema, type RerouteMessageSchema } from '@concrnt/worldlib'
+import { type Message } from '@concrnt/worldlib'
+import { type PlaintextMessageSchema, type RerouteMessageSchema } from '@concrnt/worldschemas'
 import { MessageViewBase } from './MessageViewBase'
 
 export interface PlainMessageViewProps {

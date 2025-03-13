@@ -1,6 +1,6 @@
 import { Tooltip, Paper } from '@mui/material'
 import { UserProfileCard } from '../UserProfileCard'
-import { ProfileOverride, type User } from '@concrnt/worldlib'
+import { type ProfileOverride, type User } from '@concrnt/worldlib'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import { useClient } from '../../context/ClientContext'
 import { useEffect, useState } from 'react'

@@ -1,6 +1,7 @@
 import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 
-import { type Message, type RerouteMessageSchema } from '@concrnt/worldlib'
+import { type Message } from '@concrnt/worldlib'
+import { type RerouteMessageSchema } from '@concrnt/worldschemas'
 import { Profile } from '@concrnt/client'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import { CCAvatar } from '../ui/CCAvatar'

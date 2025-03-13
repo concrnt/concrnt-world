@@ -1,4 +1,5 @@
-import { type ReadAccessRequestAssociationSchema, type Association, type Timeline } from '@concrnt/worldlib'
+import { type Association, type Timeline } from '@concrnt/worldlib'
+import { type ReadAccessRequestAssociationSchema } from '@concrnt/worldschemas'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
 import { Box, Typography } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'

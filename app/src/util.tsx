@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { visit } from 'unist-util-visit'
 import { inspect } from 'unist-util-inspect'
 import { Sign, type CCDocument } from '@concrnt/client'
-import { Timeline } from '@concrnt/worldlib'
+import { type Timeline } from '@concrnt/worldlib'
 import { encode } from 'blurhash'
 
 export const convertToGoogleTranslateCode = (lang: string): string => {

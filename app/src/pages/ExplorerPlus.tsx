@@ -34,7 +34,7 @@ import ForumIcon from '@mui/icons-material/Forum'
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople'
 import { useClient } from '../context/ClientContext'
 import { useSnackbar } from 'notistack'
-import { type CommunityTimelineSchema, Schemas } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema, Schemas } from '@concrnt/worldschemas'
 import { CCEditor } from '../components/ui/cceditor'
 import { CCDrawer } from '../components/ui/CCDrawer'
 

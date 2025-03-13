@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Paper, Typography } from '@mui/material'
 import { useParams, Link as NavLink } from 'react-router-dom'
 import { Timeline } from '../components/Timeline/main'
-import { Client } from '@concrnt/worldlib'
+import { type Client } from '@concrnt/worldlib'
 import { type Timeline as CoreTimeline } from '@concrnt/client'
 import { FullScreenLoading } from '../components/ui/FullScreenLoading'
 import { ClientProvider } from '../context/ClientContext'
@@ -29,23 +29,27 @@ export default function GuestTimelinePage(): JSX.Element {
         setTargetStream([id])
         const resolver = id.split('@')[1]
 
-        Client.createAsGuest(resolver).then((client) => {
-            initializeClient(client)
+        const loader = async (): Promise<void> => {
+            const { Client } = await import('@concrnt/worldlib')
+            Client.createAsGuest(resolver).then((client) => {
+                initializeClient(client)
 
-            client.api.getTimeline(id).then((e) => {
-                if (!e) return
-                setTimeline(e)
+                client.api.getTimeline(id).then((e) => {
+                    if (!e) return
+                    setTimeline(e)
 
-                if (e.policy === 'https://policy.concrnt.world/t/inline-read-write.json' && e?.policyParams) {
-                    try {
-                        const params = JSON.parse(e.policyParams)
-                        setIsPrivateTimeline(!params.isReadPublic)
-                    } catch (e) {
-                        setIsPrivateTimeline(true)
+                    if (e.policy === 'https://policy.concrnt.world/t/inline-read-write.json' && e?.policyParams) {
+                        try {
+                            const params = JSON.parse(e.policyParams)
+                            setIsPrivateTimeline(!params.isReadPublic)
+                        } catch (e) {
+                            setIsPrivateTimeline(true)
+                        }
                     }
-                }
+                })
             })
-        })
+        }
+        loader()
     }, [id])
 
     if (!client || !timeline) return <FullScreenLoading message="Loading..." />

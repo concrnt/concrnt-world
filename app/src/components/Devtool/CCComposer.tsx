@@ -1,7 +1,7 @@
 import { Box, Button, Divider, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { forwardRef, useState } from 'react'
 import { useClient } from '../../context/ClientContext'
-import { type Schema } from '@concrnt/worldlib'
+import { type Schema } from '@concrnt/worldschemas'
 import { CCEditor } from '../ui/cceditor'
 
 export const CCComposer = forwardRef<HTMLDivElement>((props, ref): JSX.Element => {

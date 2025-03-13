@@ -1,5 +1,5 @@
 import { ListItem, ListItemButton, ListItemText } from '@mui/material'
-import { type ListSubscriptionSchema } from '@concrnt/worldlib'
+import { type ListSubscriptionSchema } from '@concrnt/worldschemas'
 import { type Subscription } from '@concrnt/client'
 import { useGlobalState } from '../../context/GlobalState'
 

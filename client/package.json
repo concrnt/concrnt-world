@@ -5,6 +5,10 @@
     "module": "dist/esm/index.js",
     "types": "dist/types/index.d.ts",
     "devDependencies": {},
+    "dependencies": {
+        "@concrnt/worldschemas": "workspace:*",
+        "@concrnt/utils": "workspace:*"
+    },
     "scripts": {
         "build": "npm run build:cjs && npm run build:esm",
         "build:cjs": "tsc -p tsconfig.cjs.json",
@@ -12,8 +16,5 @@
     },
     "author": "",
     "license": "ISC",
-    "description": "",
-    "exclude": [
-        "./collectSchemas.ts"
-    ]
+    "description": ""
 }

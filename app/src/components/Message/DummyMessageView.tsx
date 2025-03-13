@@ -1,6 +1,6 @@
 import { Box, IconButton, ListItem, type SxProps, Typography } from '@mui/material'
 import { CCAvatar } from '../ui/CCAvatar'
-import { type ProfileSchema, type ReplyMessageSchema, type MarkdownMessageSchema } from '@concrnt/worldlib'
+import { type ProfileSchema, type ReplyMessageSchema, type MarkdownMessageSchema } from '@concrnt/worldschemas'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'
 import { IconButtonWithNumber } from '../ui/IconButtonWithNumber'
 

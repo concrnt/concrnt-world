@@ -1,4 +1,4 @@
-import { Schemas } from '@concrnt/worldlib'
+import { Schemas } from '@concrnt/worldschemas'
 import { Box, type SxProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { CCChip } from './ui/CCChip'

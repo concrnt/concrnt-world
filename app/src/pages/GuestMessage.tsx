@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Divider, Paper, Typography } from '@mui/material'
 import { useParams, Link as NavLink } from 'react-router-dom'
 import {
-    type Association,
-    Client,
     type MarkdownMessageSchema,
-    type Message,
     type ReplyAssociationSchema,
     type ReplyMessageSchema,
     type RerouteMessageSchema,
     Schemas
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
+import { type Association, type Client, type Message } from '@concrnt/worldlib'
 import { FullScreenLoading } from '../components/ui/FullScreenLoading'
 import { ClientProvider } from '../context/ClientContext'
 import TickerProvider from '../context/Ticker'
@@ -46,31 +44,37 @@ export default function GuestMessagePage(): JSX.Element {
         if (!authorID || !messageID) return
 
         let isMounted = true
-        Client.createAsGuest('ariake.concrnt.net').then((client) => {
-            initializeClient(client)
-            client
-                .getMessage<any>(messageID, authorID)
-                .then((msg) => {
-                    if (!isMounted || !msg) return
-                    setMessage(msg)
 
-                    msg.getReplyMessages().then((replies) => {
-                        if (!isMounted) return
-                        setReplies(replies)
-                    })
+        const loader = async (): Promise<void> => {
+            const { Client } = await import('@concrnt/worldlib')
+            Client.createAsGuest('ariake.concrnt.net').then((client) => {
+                initializeClient(client)
+                client
+                    .getMessage<any>(messageID, authorID)
+                    .then((msg) => {
+                        if (!isMounted || !msg) return
+                        setMessage(msg)
 
-                    if (msg.schema === Schemas.replyMessage) {
-                        msg.getReplyTo().then((replyTo) => {
+                        msg.getReplyMessages().then((replies) => {
                             if (!isMounted) return
-                            setReplyTo(replyTo)
+                            setReplies(replies)
                         })
-                    }
-                })
-                .finally(() => {
-                    if (!isMounted) return
-                    setIsFetching(false)
-                })
-        })
+
+                        if (msg.schema === Schemas.replyMessage) {
+                            msg.getReplyTo().then((replyTo) => {
+                                if (!isMounted) return
+                                setReplyTo(replyTo)
+                            })
+                        }
+                    })
+                    .finally(() => {
+                        if (!isMounted) return
+                        setIsFetching(false)
+                    })
+            })
+        }
+
+        loader()
 
         return () => {
             isMounted = false

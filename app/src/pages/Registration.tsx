@@ -6,7 +6,8 @@ import { ClientProvider } from '../context/ClientContext'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Fade, Paper, TextField } from '@mui/material'
 import { usePersistent } from '../hooks/usePersistent'
 import { jumpToDomainRegistration } from '../util'
-import { Client, type ProfileSchema } from '@concrnt/worldlib'
+import { type Client } from '@concrnt/worldlib'
+import { ProfileSchema } from '@concrnt/worldschemas'
 import { type Profile, GenerateIdentity, type Identity, LoadIdentity } from '@concrnt/client'
 import { RegistrationWelcome } from '../components/Registration/Welcome'
 import { ChooseDomain } from '../components/Registration/ChooseDomain'
@@ -48,9 +49,13 @@ export default function Registration(): JSX.Element {
 
     useEffect(() => {
         if (!identity) return
-        Client.create(identity.privateKey, domain).then((client) => {
-            initializeClient(client)
-        })
+        const loader = async (): Promise<void> => {
+            const { Client } = await import('@concrnt/worldlib')
+            Client.create(identity.privateKey, domain).then((client) => {
+                initializeClient(client)
+            })
+        }
+        loader()
     }, [identity, domain])
 
     const setupAccount = (): void => {

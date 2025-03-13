@@ -1,4 +1,5 @@
-import { type ProfileSchema, type User } from '@concrnt/worldlib'
+import { type User } from '@concrnt/worldlib'
+import { type ProfileSchema } from '@concrnt/worldschemas'
 import { Badge, Box, Chip, Typography } from '@mui/material'
 import { CCAvatar } from './ui/CCAvatar'
 import { useClient } from '../context/ClientContext'

@@ -1,13 +1,13 @@
 import { memo, useEffect, useMemo, useState } from 'react'
+import type { Association } from '@concrnt/worldlib'
 import {
-    type Association,
     type ReactionAssociationSchema,
     type LikeAssociationSchema,
     type ReplyAssociationSchema,
     type RerouteAssociationSchema,
     Schemas,
     type ReadAccessRequestAssociationSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
 import { useClient } from '../../context/ClientContext'
 import { Box, ListItem, type SxProps, Typography, alpha, useTheme } from '@mui/material'
 import { MessageSkeleton } from '../MessageSkeleton'

@@ -3,7 +3,7 @@ import { useClient } from './ClientContext'
 import { CCDrawer } from '../components/ui/CCDrawer'
 import { Box, Button, Divider, Typography } from '@mui/material'
 import { MessageContainer } from '../components/Message/MessageContainer'
-import { Timeline } from '@concrnt/worldlib'
+import { type Timeline } from '@concrnt/worldlib'
 import { fetchWithTimeout } from '@concrnt/client'
 import { SearchBox } from '../components/ui/SearchBox'
 

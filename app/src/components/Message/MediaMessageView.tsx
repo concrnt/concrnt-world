@@ -1,4 +1,5 @@
-import { type RerouteMessageSchema, type Message, type MediaMessageSchema } from '@concrnt/worldlib'
+import { type Message } from '@concrnt/worldlib'
+import { type RerouteMessageSchema, type MediaMessageSchema } from '@concrnt/worldschemas'
 import { EmbeddedGallery } from '../ui/EmbeddedGallery'
 import { MessageViewBase } from './MessageViewBase'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'

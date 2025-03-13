@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useClient } from '../../context/ClientContext'
-import { User } from '@concrnt/worldlib'
+import { type User } from '@concrnt/worldlib'
 import { CCAvatar } from './CCAvatar'
 import { Skeleton, SxProps } from '@mui/material'
 

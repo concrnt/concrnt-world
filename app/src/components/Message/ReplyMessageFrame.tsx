@@ -1,12 +1,8 @@
 import { Box } from '@mui/material'
 import ReplyIcon from '@mui/icons-material/Reply'
 
-import {
-    type RerouteMessageSchema,
-    type Message,
-    type ReplyMessageSchema,
-    type MarkdownMessageSchema
-} from '@concrnt/worldlib'
+import { type Message } from '@concrnt/worldlib'
+import { type RerouteMessageSchema, type ReplyMessageSchema, type MarkdownMessageSchema } from '@concrnt/worldschemas'
 import { useClient } from '../../context/ClientContext'
 import { OneLineMessageView } from './OneLineMessageView'
 import { useEffect, useState } from 'react'

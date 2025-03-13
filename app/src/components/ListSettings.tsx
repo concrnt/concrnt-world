@@ -14,13 +14,13 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { usePreference } from '../context/PreferenceContext'
+import { type Timeline } from '@concrnt/worldlib'
 import {
-    type Timeline,
     type CommunityTimelineSchema,
     type ListSubscriptionSchema,
     Schemas,
-    ProfileSchema
-} from '@concrnt/worldlib'
+    type ProfileSchema
+} from '@concrnt/worldschemas'
 import { Profile, type Subscription } from '@concrnt/client'
 import { useClient } from '../context/ClientContext'
 import { ListItemTimeline } from './ui/ListItemTimeline'

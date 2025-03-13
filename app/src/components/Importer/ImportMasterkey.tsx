@@ -2,7 +2,6 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { useEffect, useMemo, useState } from 'react'
-import { Client } from '@concrnt/worldlib'
 import {
     LoadKey,
     ComputeCCID,
@@ -49,8 +48,9 @@ export function ImportMasterKey(): JSX.Element {
         if (!keypair || !ccid) return
         const searchTarget = 'ariake.concrnt.net'
 
-        const timer = setTimeout(() => {
+        const timer = setTimeout(async () => {
             try {
+                const { Client } = await import('@concrnt/worldlib')
                 Client.createAsGuest(searchTarget).then((client) => {
                     client.api
                         .getEntity(ccid, searchTarget)
@@ -75,8 +75,9 @@ export function ImportMasterKey(): JSX.Element {
 
     useEffect(() => {
         if (!domainInput || !keypair || !ccid) return
-        const timer = setTimeout(() => {
+        const timer = setTimeout(async () => {
             try {
+                const { Client } = await import('@concrnt/worldlib')
                 Client.create(keypair.privatekey, domainInput).then((client) => {
                     client.api
                         .fetchWithCredential(domainInput, '/api/v1/entity', {})
@@ -113,6 +114,7 @@ export function ImportMasterKey(): JSX.Element {
         if (!keypair || !ccid) return
         setLogining((logining = true))
 
+        const { Client } = await import('@concrnt/worldlib')
         const client = await Client.create(keypair.privatekey, domainInput)
 
         const newIdentity = GenerateIdentity()

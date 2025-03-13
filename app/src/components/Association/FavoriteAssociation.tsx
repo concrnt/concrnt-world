@@ -1,11 +1,7 @@
-import {
-    type Association,
-    type LikeAssociationSchema,
-    type Message,
-    type ReplyMessageSchema,
-    type MarkdownMessageSchema,
-    type User
-} from '@concrnt/worldlib'
+import { type Association, type Message, type User } from '@concrnt/worldlib'
+
+import { type LikeAssociationSchema, type ReplyMessageSchema, type MarkdownMessageSchema } from '@concrnt/worldschemas'
+
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
 import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'

@@ -1,4 +1,4 @@
-import { Schemas } from '@concrnt/worldlib'
+import { Schemas } from '@concrnt/worldschemas'
 import { Profile } from '@concrnt/client'
 import { Box, Chip, IconButton, Menu, Paper, Typography } from '@mui/material'
 import { CCWallpaper } from './ui/CCWallpaper'

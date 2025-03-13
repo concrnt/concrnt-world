@@ -17,6 +17,8 @@
     "@aws-sdk/client-s3": "^3.592.0",
     "@aws-sdk/s3-request-presigner": "^3.592.0",
     "@concrnt/worldlib": "workspace:*",
+    "@concrnt/worldschemas": "workspace:*",
+    "@concrnt/utils": "workspace:*",
     "@cosmjs/encoding": "^0.32.4",
     "@cosmjs/proto-signing": "^0.32.4",
     "@cosmjs/stargate": "^0.32.4",

@@ -1,4 +1,5 @@
-import { type Message, type MarkdownMessageSchema, type RerouteMessageSchema } from '@concrnt/worldlib'
+import { type Message } from '@concrnt/worldlib'
+import { type MarkdownMessageSchema, type RerouteMessageSchema } from '@concrnt/worldschemas'
 import { MessageViewBase } from './MessageViewBase'
 import { MarkdownRenderer } from '../ui/MarkdownRenderer'
 import { useMemo } from 'react'

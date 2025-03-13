@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { Client } from '@concrnt/worldlib'
+import { type Client } from '@concrnt/worldlib'
 
 export const ImportSubkey = (): JSX.Element => {
     const { t } = useTranslation('', { keyPrefix: 'import' })
@@ -28,9 +28,11 @@ export const ImportSubkey = (): JSX.Element => {
         }
     }
 
-    const checkLogin = (subkey: string): void => {
+    const checkLogin = async (subkey: string): Promise<void> => {
         if (subkey.startsWith('concurrent-subkey')) {
             setLoading(true)
+
+            const { Client } = await import('@concrnt/worldlib')
             Client.createFromSubkey(subkey)
                 .then((client) => {
                     setClient(client)

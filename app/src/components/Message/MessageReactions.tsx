@@ -4,16 +4,16 @@ import { CurrencyText } from '../ui/CurrencyText'
 import { useEffect, useState } from 'react'
 import { Link as routerLink } from 'react-router-dom'
 
+import type { Message, Association } from '@concrnt/worldlib'
+
 import {
-    type Association,
-    type Message,
     type ReplyMessageSchema,
     type RerouteMessageSchema,
     Schemas,
     type MarkdownMessageSchema,
     type ReactionAssociationSchema,
     type UpgradeAssociationSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
 import { useClient } from '../../context/ClientContext'
 import { useConcord } from '../../context/ConcordContext'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'

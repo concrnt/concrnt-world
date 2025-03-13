@@ -9,7 +9,6 @@ import PasswordIcon from '@mui/icons-material/Password'
 import { IconButtonWithLabel } from '../components/ui/IconButtonWithLabel'
 import { useTranslation } from 'react-i18next'
 import { Suspense, lazy, useState } from 'react'
-import { Client } from '@concrnt/worldlib'
 import { Helmet } from 'react-helmet-async'
 
 const QRCodeReader = lazy(() => import('../components/ui/QRCodeReader'))
@@ -80,8 +79,9 @@ export default function AccountImport(): JSX.Element {
                         </Alert>
                         <Suspense fallback={<Typography>loading...</Typography>}>
                             <QRCodeReader
-                                onRead={(result) => {
+                                onRead={async (result) => {
                                     try {
+                                        const { Client } = await import('@concrnt/worldlib')
                                         Client.createFromSubkey(result).then((client) => {
                                             localStorage.setItem('Domain', JSON.stringify(client.host))
                                             localStorage.setItem('SubKey', JSON.stringify(result))

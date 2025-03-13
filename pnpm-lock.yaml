@@ -48,9 +48,15 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.592.0
         version: 3.592.0
+      '@concrnt/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@concrnt/worldlib':
         specifier: workspace:*
         version: link:../client
+      '@concrnt/worldschemas':
+        specifier: workspace:*
+        version: link:../schemas
       '@cosmjs/encoding':
         specifier: ^0.32.4
         version: 0.32.4
@@ -281,7 +287,18 @@ importers:
         specifier: ^7.3.0
         version: 7.3.0
 
-  client: {}
+  client:
+    dependencies:
+      '@concrnt/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@concrnt/worldschemas':
+        specifier: workspace:*
+        version: link:../schemas
+
+  schemas: {}
+
+  utils: {}
 
 packages:
 

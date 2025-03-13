@@ -2,7 +2,7 @@ import { Alert, AlertTitle, Box, Button, TextField, Typography } from '@mui/mate
 import { useEffect, useState } from 'react'
 import { useClient } from '../../context/ClientContext'
 import { useSnackbar } from 'notistack'
-import { Schemas } from '@concrnt/worldlib'
+import { Schemas } from '@concrnt/worldschemas'
 
 import { useTranslation } from 'react-i18next'
 import { useGlobalState } from '../../context/GlobalState'

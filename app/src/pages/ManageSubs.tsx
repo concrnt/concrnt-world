@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { usePreference } from '../context/PreferenceContext'
 
 import { useState } from 'react'
-import { Schemas } from '@concrnt/worldlib'
+import { Schemas } from '@concrnt/worldschemas'
 import { Subscription } from '@concrnt/client'
 
 import AddIcon from '@mui/icons-material/Add'

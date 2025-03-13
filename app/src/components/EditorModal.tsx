@@ -3,7 +3,9 @@ import { CCPostEditor, type CCPostEditorProps, type EditorMode } from './Editor/
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useGlobalState } from '../context/GlobalState'
 import { usePreference } from '../context/PreferenceContext'
-import { isFulfilled, isNonNull, type CommunityTimelineSchema, type Message, type Timeline } from '@concrnt/worldlib'
+import { isFulfilled, isNonNull } from '@concrnt/utils'
+import { type Message, type Timeline } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema } from '@concrnt/worldschemas'
 import { MessageContainer } from './Message/MessageContainer'
 import { useClient } from '../context/ClientContext'
 

@@ -1,3 +1,5 @@
 packages:
   - 'client'
+  - 'schemas'
+  - 'utils'
   - 'app'

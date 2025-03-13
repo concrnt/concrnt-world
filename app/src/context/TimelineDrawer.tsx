@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useClient } from './ClientContext'
 import { CCDrawer } from '../components/ui/CCDrawer'
-import { type CommunityTimelineSchema, type Timeline as typeTimeline } from '@concrnt/worldlib'
+import { type Timeline as typeTimeline } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema } from '@concrnt/worldschemas'
 import { TimelineHeader } from '../components/TimelineHeader'
 import { type VListHandle } from 'virtua'
 

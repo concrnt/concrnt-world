@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material'
 import Tilt from 'react-parallax-tilt'
 import { PassportRenderer } from '../theming/Passport'
-import { type ProfileSchema } from '@concrnt/worldlib'
+import { type ProfileSchema } from '@concrnt/worldschemas'
 import { type Identity } from '@concrnt/client'
 import { useTranslation } from 'react-i18next'
 

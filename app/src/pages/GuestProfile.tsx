@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Divider, Paper, Typography } from '@mui/material'
 import { useLocation, useParams, Link as NavLink } from 'react-router-dom'
 import { Timeline } from '../components/Timeline/main'
-import { Client, type User } from '@concrnt/worldlib'
+import { type Client, type User } from '@concrnt/worldlib'
 import { FullScreenLoading } from '../components/ui/FullScreenLoading'
 import { ClientProvider } from '../context/ClientContext'
 
@@ -29,32 +29,37 @@ export default function GuestProfilePage(): JSX.Element {
     useEffect(() => {
         if (!id) return
 
-        Client.createAsGuest('ariake.concrnt.net').then((client) => {
-            initializeClient(client)
+        const loader = async (): Promise<void> => {
+            const { Client } = await import('@concrnt/worldlib')
+            Client.createAsGuest('ariake.concrnt.net').then((client) => {
+                initializeClient(client)
 
-            client.getUser(id).then((u) => {
-                if (!u) return
-                setUser(u)
-                const timelineID = subProfileID
-                    ? 'world.concrnt.t-subhome.' + subProfileID + '@' + u.ccid
-                    : u.homeTimeline
-                setTargetStream([timelineID])
+                client.getUser(id).then((u) => {
+                    if (!u) return
+                    setUser(u)
+                    const timelineID = subProfileID
+                        ? 'world.concrnt.t-subhome.' + subProfileID + '@' + u.ccid
+                        : u.homeTimeline
+                    setTargetStream([timelineID])
 
-                client.api.getTimeline(timelineID).then((t) => {
-                    if (!t) return
-                    if (t.policy !== 'https://policy.concrnt.world/t/inline-read-write.json' || !t.policyParams) {
-                        setIsPrivateTimeline(false)
-                        return
-                    }
-                    try {
-                        const params = JSON.parse(t.policyParams)
-                        setIsPrivateTimeline(params.isReadPublic === false)
-                    } catch (e) {
-                        console.error(e)
-                    }
+                    client.api.getTimeline(timelineID).then((t) => {
+                        if (!t) return
+                        if (t.policy !== 'https://policy.concrnt.world/t/inline-read-write.json' || !t.policyParams) {
+                            setIsPrivateTimeline(false)
+                            return
+                        }
+                        try {
+                            const params = JSON.parse(t.policyParams)
+                            setIsPrivateTimeline(params.isReadPublic === false)
+                        } catch (e) {
+                            console.error(e)
+                        }
+                    })
                 })
             })
-        })
+        }
+
+        loader()
     }, [id, path.hash])
 
     const profilePageSchema = {

@@ -2,11 +2,10 @@ import {
     type ProfileSchema,
     Schemas,
     type SubprofileTimelineSchema,
-    type Timeline,
-    type User,
-    type Association,
     type ReadAccessRequestAssociationSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
+
+import type { Timeline, Association, User } from '@concrnt/worldlib'
 
 import { Profile } from '@concrnt/client'
 

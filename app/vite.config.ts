@@ -19,6 +19,33 @@ export default defineConfig({
         }
     },
     plugins: [
+        {
+            name: 'chunk-logger',
+            generateBundle(options, bundle) {
+                for (const [fileName, chunkInfo] of Object.entries(bundle)) {
+                    if (chunkInfo.type === 'chunk') {
+                        console.log(`\nChunk: ${fileName}`)
+                        // 各チャンクに含まれる全モジュールのパスを取得
+                        const modules = Object.keys(chunkInfo.modules)
+                        // srcディレクトリ内のファイルのみフィルタリング
+                        const srcPath = path.resolve(process.cwd(), 'src')
+                        const srcModules = modules.filter((m) => m.startsWith(srcPath))
+
+                        if (srcModules.length) {
+                            console.log('含まれているモジュール (src 内):')
+                            srcModules.forEach((moduleId) => console.log(`  - ${moduleId}`))
+                        } else {
+                            console.log('src 内のモジュールは含まれていません。')
+                        }
+
+                        if (chunkInfo.imports && chunkInfo.imports.length) {
+                            console.log('依存関係 (imports):')
+                            chunkInfo.imports.forEach((imp) => console.log(`  - ${imp}`))
+                        }
+                    }
+                }
+            }
+        },
         react(),
         VitePWA({
             devOptions: {

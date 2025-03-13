@@ -3,9 +3,9 @@ import {
     Schemas,
     type CommunityTimelineSchema,
     type ProfileSchema,
-    type SubprofileTimelineSchema,
-    type Timeline
-} from '@concrnt/worldlib'
+    type SubprofileTimelineSchema
+} from '@concrnt/worldschemas'
+import { type Timeline } from '@concrnt/worldlib'
 import TagIcon from '@mui/icons-material/Tag'
 import { useClient } from '../../context/ClientContext'
 import { useEffect, useState } from 'react'

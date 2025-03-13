@@ -1,12 +1,14 @@
+import { type Message } from '@concrnt/worldlib'
+
 import {
-    type Message,
     type ReplyMessageSchema,
     type RerouteMessageSchema,
     Schemas,
     type MarkdownMessageSchema,
     type MediaMessageSchema,
     type PlaintextMessageSchema
-} from '@concrnt/worldlib'
+} from '@concrnt/worldschemas'
+
 import { useClient } from '../../context/ClientContext'
 import { memo, useEffect, useMemo, useState } from 'react'
 import { ReplyMessageFrame } from './ReplyMessageFrame'

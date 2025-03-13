@@ -1,11 +1,5 @@
-import {
-    type MarkdownMessageSchema,
-    type Message,
-    type ReplyMessageSchema,
-    type ProfileSchema,
-    type User,
-    type ProfileOverride
-} from '@concrnt/worldlib'
+import { type Message, type User, type ProfileOverride } from '@concrnt/worldlib'
+import { type MarkdownMessageSchema, type ReplyMessageSchema, type ProfileSchema } from '@concrnt/worldschemas'
 import { Box, IconButton, ListItem, Paper, type SxProps, Tooltip } from '@mui/material'
 import { UserProfileCard } from './UserProfileCard'
 import { Link as routerLink, useNavigate, useLocation } from 'react-router-dom'

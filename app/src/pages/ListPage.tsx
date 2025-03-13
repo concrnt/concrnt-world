@@ -4,13 +4,9 @@ import { useLocation, useNavigate, Link as RouterLink, useSearchParams } from 'r
 import { usePreference } from '../context/PreferenceContext'
 import { Timeline } from '../components/Timeline'
 import { useClient } from '../context/ClientContext'
-import {
-    isFulfilled,
-    isNonNull,
-    type CommunityTimelineSchema,
-    type ListSubscriptionSchema,
-    type Timeline as TypeTimeline
-} from '@concrnt/worldlib'
+import { isFulfilled, isNonNull } from '@concrnt/utils'
+import { type Timeline as TypeTimeline } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema, type ListSubscriptionSchema } from '@concrnt/worldschemas'
 import { type Subscription as CoreSubscription, type SubscriptionItem as CoreSubscriptionItem } from '@concrnt/client'
 import TuneIcon from '@mui/icons-material/Tune'
 import ExploreIcon from '@mui/icons-material/Explore'

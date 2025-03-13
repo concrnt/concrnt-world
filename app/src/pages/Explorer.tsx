@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Tab, Tabs, TextField, Typography, useTheme } from '@mui/material'
-import { type CommunityTimelineSchema, Schemas, type Timeline } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema, Schemas } from '@concrnt/worldschemas'
+import { type Timeline } from '@concrnt/worldlib'
 import { type Profile } from '@concrnt/client'
 import { useClient } from '../context/ClientContext'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'

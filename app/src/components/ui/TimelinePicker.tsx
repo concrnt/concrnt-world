@@ -12,7 +12,8 @@ import {
     Tooltip,
     type SxProps
 } from '@mui/material'
-import { ProfileSchema, type CommunityTimelineSchema, type Timeline } from '@concrnt/worldlib'
+import { ProfileSchema, type CommunityTimelineSchema } from '@concrnt/worldschemas'
+import { type Timeline } from '@concrnt/worldlib'
 import { CCChip } from './CCChip'
 import { isPrivateTimeline } from '../../util'
 import { useMemo, useState } from 'react'

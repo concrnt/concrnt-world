@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { useEffect, useState } from 'react'
-import { type ProfileSchema } from '@concrnt/worldlib'
+import { type ProfileSchema } from '@concrnt/worldschemas'
 import { Profile } from '@concrnt/client'
 import Button from '@mui/material/Button'
 import { useClient } from '../context/ClientContext'

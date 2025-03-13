@@ -1,5 +1,6 @@
 import { Box, Divider, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Typography } from '@mui/material'
-import { type Timeline, type CommunityTimelineSchema } from '@concrnt/worldlib'
+import { type Timeline } from '@concrnt/worldlib'
+import { type CommunityTimelineSchema } from '@concrnt/worldschemas'
 import { CCWallpaper } from './ui/CCWallpaper'
 import { WatchButton } from './WatchButton'
 import { CCIconButton } from './ui/CCIconButton'

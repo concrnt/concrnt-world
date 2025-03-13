@@ -1,5 +1,5 @@
 import { type Identity } from '@concrnt/client'
-import { Client } from '@concrnt/worldlib'
+import { type Client } from '@concrnt/worldlib'
 import { Box, Button, Divider, Link, List, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { jumpToDomainRegistration } from '../../util'
