@@ -15,7 +15,10 @@
         "mention": "提及",
         "reroute": "转贴",
         "fav": "喜欢",
-        "reaction": "回应"
+        "reaction": "回应",
+        "mutedByWord": "关键词静音帖子",
+        "mutedByTimeline": "时间线静音帖子",
+        "show": "显示"
     },
     "app": {
         "updateAvailable": "有新版本已可用！",
@@ -164,10 +167,18 @@
             "copyInviteCode": "复制邀请码",
             "copied": "已复制",
             "language": "语言",
-            "showTutorial": "在菜单中像是教学",
+            "showTutorial": "在菜单中显示教学", 
+            "add": "添加",
+            "cancel": "取消",
+            "addMuteWord": "添加静音关键词",
+            "addMuteWordDesc": "静音关键词不区分大小写，可用于隐藏包含特定词语的帖子。",
+            "mute": "静音",
+            "wordMute": "静音关键词",
+            "timelineMute": "静音时间线",
+            "fontSize": "字符大小",
             "notification": {
                 "title": "通知",
-                "notsupported": "你所在的域当前还不支持同期",
+                "notsupported": "你所在的域当前还不支持通知",
                 "enable": "启用通知",
                 "enabled": "通知已启用",
                 "disable": "停用通知",
@@ -441,7 +452,7 @@
             "block": "在继续之前，请让我们从先特权模式切换到普通模式。",
             "password&login": {
                 "title": "密码和登录",
-                "desc1": "在本平台，您使用预定义的私钥登录，而不是自己选择的密码。这个私钥极其重要，被称为'主密钥'。如果您的主密钥泄露给他人，可能会导致不可挽回的后，切勿与任何人分享。",
+                "desc1": "在本平台，您使用预定义的私钥登录，而不是自己选择的密码。这个私钥极其重要，被称为'主密钥'。如果您的主密钥泄露给他人，可能会导致不可挽回的后果，切勿与任何人分享。",
                 "desc2": "此外，如果您丢失了主密钥，账户也将无法恢复，您需要创建一个新账户。因此，请确保将其打印或写下来，并像贵重物品一样安全保管。",
                 "handsonTitle": "保存您的主密钥",
                 "handsonDesc": "请使用下面的按钮以您喜欢的方式安全地保存您的主密钥。"

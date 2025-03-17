@@ -15,7 +15,10 @@
         "mention": "提及",
         "reroute": "轉貼",
         "fav": "喜歡",
-        "reaction": "回應"
+        "reaction": "回應",
+        "mutedByWord": "關鍵詞靜音貼文",
+        "mutedByTimeline": "時間綫靜音貼文",
+        "show": "顯示"
     },
     "app": {
         "updateAvailable": "有新版本已可用！",
@@ -165,6 +168,14 @@
             "copied": "已複製",
             "language": "語言",
             "showTutorial": "在選單中顯示教學",
+            "add": "添加",
+            "cancel": "取消",
+            "addMuteWord": "添加靜音關鍵詞",
+            "addMuteWordDesc": "靜音關鍵字不會區分大小寫，可用於隱藏包含特定字詞的貼文。",
+            "mute": "靜音",
+            "wordMute": "靜音關鍵詞",
+            "timelineMute": "靜音時間綫",
+            "fontSize": "字符大小",
             "notification": {
                 "title": "通知",
                 "notsupported": "你所在的網域目前還不支援通知",

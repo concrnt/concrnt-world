@@ -149,7 +149,6 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
                                 onChange={(e) => {
                                     onFileInputChange(e)
                                 }}
-                                accept={'image/*, video/*, model/gltf-binary, .glb'}
                             />
                         </CCIconButton>
                     </span>
