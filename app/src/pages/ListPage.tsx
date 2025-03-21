@@ -151,10 +151,13 @@ export function ListPage(): JSX.Element {
         })
     }, [id, client, updater])
 
+    const touchedTabPos = useRef<number>(0)
     const longtap = useRef<NodeJS.Timeout | null>(null)
     const tabPressStart = useCallback(
         (target: HTMLDivElement, subid: string) => {
+            touchedTabPos.current = target.getBoundingClientRect().left
             longtap.current = setTimeout(() => {
+                if (target.getBoundingClientRect().left !== touchedTabPos.current) return
                 const list = allKnownSubscriptions.find((x) => x.id === subid)
                 if (list) {
                     tabSubAnchor.current = target
@@ -167,7 +170,15 @@ export function ListPage(): JSX.Element {
     )
 
     const tabPressEnd = useCallback(
-        (subid: string) => {
+        (target: HTMLDivElement, subid: string) => {
+            if (touchedTabPos.current !== target.getBoundingClientRect().left) {
+                // cancel
+                if (longtap.current) {
+                    clearTimeout(longtap.current)
+                    longtap.current = null
+                }
+                return
+            }
             if (longtap.current) {
                 clearTimeout(longtap.current)
                 longtap.current = null
@@ -249,14 +260,14 @@ export function ListPage(): JSX.Element {
                                 onTouchStart={(a) => {
                                     tabPressStart(a.currentTarget, sub.id)
                                 }}
-                                onTouchEnd={() => {
-                                    tabPressEnd(sub.id)
+                                onTouchEnd={(a) => {
+                                    tabPressEnd(a.currentTarget, sub.id)
                                 }}
                                 onMouseDown={(a) => {
                                     tabPressStart(a.currentTarget, sub.id)
                                 }}
-                                onMouseUp={() => {
-                                    tabPressEnd(sub.id)
+                                onMouseUp={(a) => {
+                                    tabPressEnd(a.currentTarget, sub.id)
                                 }}
                                 sx={{
                                     fontSize: '0.9rem',

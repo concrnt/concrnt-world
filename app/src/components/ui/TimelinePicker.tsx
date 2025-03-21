@@ -109,6 +109,7 @@ export const TimelinePicker = (props: TimelinePickerProps): JSX.Element => {
                                     title={props.postHome ? t('postToHome') : t('noPostToHome')}
                                     arrow
                                     placement="top"
+                                    enterDelay={500}
                                 >
                                     <CCChip
                                         size="small"

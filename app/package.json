@@ -38,6 +38,7 @@
     "cosmjs-types": "^0.9.0",
     "elliptic": "^6.5.4",
     "ethers": "^6.3.0",
+    "exifreader": "^4.26.2",
     "fuzzysort": "^2.0.4",
     "html2canvas": "^1.4.1",
     "i18next": "^23.5.1",

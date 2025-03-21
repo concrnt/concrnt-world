@@ -7,6 +7,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import AppsIcon from '@mui/icons-material/Apps'
 import { type WorldMedia } from '../model'
 import { useGlobalState } from './GlobalState'
+import ExifReader from 'exifreader'
 
 import '@google/model-viewer'
 
@@ -17,6 +18,8 @@ export interface MediaViewerState {
     openMedias: (medias: WorldMedia[], startIndex?: number) => void
     openModel: (src?: string) => void
 }
+
+const exifKeys = ['Model', 'Lens', 'FocalLength', 'ExposureTime', 'FNumber', 'ISOSpeedRatings']
 
 const MediaViewerContext = createContext<MediaViewerState>({
     openSingle: () => {},
@@ -35,6 +38,7 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
     const [previewModel, setPreviewModel] = useState<string | undefined>()
 
     const [mode, setMode] = useState<'single' | 'gallery'>('single')
+    const [exif, setExif] = useState<ExifReader.Tags | undefined>()
 
     const { isMobileSize, getImageURL } = useGlobalState()
 
@@ -103,21 +107,26 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
         }
     }, [handleResize])
 
-    const handleImageOnLoad = (image: HTMLImageElement): void => {
-        setImageNaturalWidth(image.naturalWidth)
-        setImageNaturalHeight(image.naturalHeight)
-    }
-
     useEffect(() => {
         if (previewImage === undefined) {
             setImageNaturalWidth(0)
             setImageNaturalHeight(0)
+            setExif(undefined)
             return
         }
+
+        fetch(getImageURL(previewImage))
+            .then((response) => response.blob())
+            .then(async (blob) => {
+                const exifData = ExifReader.load(await blob.arrayBuffer())
+                setExif(exifData)
+            })
+
         const image = new Image()
         image.src = getImageURL(previewImage)
         image.onload = () => {
-            handleImageOnLoad(image)
+            setImageNaturalWidth(image.naturalWidth)
+            setImageNaturalHeight(image.naturalHeight)
         }
     }, [previewImage])
 
@@ -284,14 +293,40 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
                         <Box
                             width="100%"
                             display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            flexDirection="row"
+                            flexDirection="column"
                             p={1}
                             position="absolute"
                             bottom={'env(safe-area-inset-bottom)'}
+                            gap={1}
                         >
-                            <Button onClick={close}>Close</Button>
+                            <Box display="flex" justifyContent="right" alignItems="center">
+                                {exif && (
+                                    <Box
+                                        sx={{
+                                            backgroundColor: 'black',
+                                            color: 'white',
+                                            fontSize: '0.5rem',
+                                            display: 'grid',
+                                            gridTemplateColumns: 'auto auto',
+                                            padding: 0.5
+                                        }}
+                                    >
+                                        {exifKeys.map((key) => {
+                                            if (!exif[key]) return null
+                                            return (
+                                                <>
+                                                    <Box>{key}: </Box>
+                                                    <Box>{exif[key].description}</Box>
+                                                </>
+                                            )
+                                        })}
+                                    </Box>
+                                )}
+                            </Box>
+
+                            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="row">
+                                <Button onClick={close}>Close</Button>
+                            </Box>
                         </Box>
                     </>
                 ) : (

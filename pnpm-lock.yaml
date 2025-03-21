@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -114,6 +114,9 @@ importers:
       ethers:
         specifier: ^6.3.0
         version: 6.3.0
+      exifreader:
+        specifier: ^4.26.2
+        version: 4.26.2
       fuzzysort:
         specifier: ^2.0.4
         version: 2.0.4
@@ -4364,6 +4367,13 @@ packages:
       - '@swc/helpers'
     dev: true
 
+  /@xmldom/xmldom@0.9.8:
+    resolution: {integrity: sha512-p96FSY54r+WJ50FIOsCOjyj/wavs8921hG5+kVMmZgKcvIKxMXHTrjNJvRgWa/zuX3B6t2lijLNFaOyuxUH+2A==}
+    engines: {node: '>=14.6'}
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@zxing/browser@0.1.4(@zxing/library@0.20.0):
     resolution: {integrity: sha512-WYjaav7St4sj/u/Km2llE4NU2Pq3JFIWnczr0tmyCC1KUlp08rV3qpu7iiEB4kOx/CgcCzrSebNnSmFt5B3IFg==}
     peerDependencies:
@@ -5559,6 +5569,13 @@ packages:
       signal-exit: 4.1.0
       strip-final-newline: 3.0.0
     dev: true
+
+  /exifreader@4.26.2:
+    resolution: {integrity: sha512-+UqmTm2C7fS4u4YnKx7Fod0+UDeUOmmgkslCx4N2p68YNZSPw2AYyklIpNbuhxYmQjpYOS87bt6sPDOvQ+Qvsg==}
+    requiresBuild: true
+    optionalDependencies:
+      '@xmldom/xmldom': 0.9.8
+    dev: false
 
   /ext@1.7.0:
     resolution: {integrity: sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==}
@@ -7808,6 +7825,7 @@ packages:
 
   /regenerator-runtime@0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+    requiresBuild: true
     dev: false
     optional: true
 
