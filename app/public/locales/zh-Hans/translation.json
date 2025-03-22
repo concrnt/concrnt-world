@@ -185,6 +185,7 @@
             "wordMute": "Word mute",
             "timelineMute": "Timeline mute",
             "fontSize": "Font size",
+            "stripExif": "Compress images and remove EXIF information when posting",
             "notification": {
                 "title": "通知",
                 "notsupported": "你所在的域当前还不支持同期",
