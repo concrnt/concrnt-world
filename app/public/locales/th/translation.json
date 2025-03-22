@@ -185,6 +185,7 @@
             "wordMute": "Word mute",
             "timelineMute": "Timeline mute",
             "fontSize": "Font size",
+            "stripExif": "Compress images and remove EXIF information when posting",
             "notification": {
                 "title": "Notification",
                 "notsupported": "Your domain does not support notifications",
