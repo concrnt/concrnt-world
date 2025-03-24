@@ -18,6 +18,7 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
     const [storageProvider] = usePreference('storageProvider')
     const [s3Config] = usePreference('s3Config')
     const [imgurClientID] = usePreference('imgurClientID')
+    const [stripExif] = usePreference('stripExif')
 
     const s3Client = useMemo(() => {
         if (storageProvider !== 's3') return null
@@ -34,6 +35,32 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
 
     const uploadFile = useCallback(
         async (file: File, onProgress?: (_: number) => void): Promise<string> => {
+            const isImage = file.type.includes('image')
+            if (isImage && stripExif) {
+                // remove exif data
+                const canvas = document.createElement('canvas')
+                const ctx = canvas.getContext('2d')
+                if (!ctx) throw new Error('Failed to create canvas context')
+                const img = new Image()
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    if (!e.target) throw new Error('Failed to read file')
+                    img.src = e.target.result as string
+                }
+                reader.readAsDataURL(file)
+                await new Promise((resolve) => {
+                    img.onload = () => {
+                        canvas.width = img.width
+                        canvas.height = img.height
+                        ctx.drawImage(img, 0, 0)
+                        resolve(null)
+                    }
+                })
+                const base64 = canvas.toDataURL('image/jpeg', 0.9)
+                const blob = await fetch(base64).then((r) => r.blob())
+                file = new File([blob], file.name, { type: file.type })
+            }
+
             if (storageProvider === 's3') {
                 if (!s3Client) throw new Error('S3 client is not initialized')
 
@@ -74,7 +101,6 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
             } else if (storageProvider === 'imgur') {
                 const url = 'https://api.imgur.com/3/image'
                 if (!imgurClientID) return ''
-                const isImage = file.type.includes('image')
                 if (!isImage) throw new Error('Only images are supported for imgur uploads')
 
                 const base64Data = await fileToBase64(file)
@@ -134,7 +160,7 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
                 })
             }
         },
-        [storageProvider, imgurClientID, s3Config]
+        [storageProvider, imgurClientID, s3Config, stripExif]
     )
 
     const isUploadReady = useMemo(() => {

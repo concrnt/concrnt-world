@@ -401,7 +401,10 @@ export function Profile(props: ProfileProps): JSX.Element {
                                 navigator.share({
                                     title: props.user.alias ?? props.user.ccid,
                                     text: props.user.profile?.description ?? '',
-                                    url: 'https://concrnt.world/' + (props.user.alias ?? props.user.ccid)
+                                    url:
+                                        'https://concrnt.world/' +
+                                        (props.user.alias ?? props.user.ccid) +
+                                        (props.overrideSubProfileID ? '/profile/' + props.overrideSubProfileID : '')
                                 })
                                 setMenuAnchor(null)
                             }
@@ -421,7 +424,11 @@ export function Profile(props: ProfileProps): JSX.Element {
                     onClick={() => {
                         if (props.user) {
                             const id = props.user.alias ?? props.user.ccid
-                            navigator.clipboard.writeText('https://concrnt.world/' + id)
+                            navigator.clipboard.writeText(
+                                'https://concrnt.world/' +
+                                    id +
+                                    (props.overrideSubProfileID ? '/profile/' + props.overrideSubProfileID : '')
+                            )
                             enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
                             setMenuAnchor(null)
                         }

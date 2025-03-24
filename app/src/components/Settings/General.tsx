@@ -43,6 +43,7 @@ export const GeneralSettings = (): JSX.Element => {
     const [invitationCode, setInvitationCode] = useState<string>('')
 
     const [showEditorOnTop, setShowEditorOnTop] = usePreference('showEditorOnTop')
+    const [stripExif, setStripExif] = usePreference('stripExif')
     const [showEditorOnTopMobile, setShowEditorOnTopMobile] = usePreference('showEditorOnTopMobile')
     const [muteWords, setMuteWords] = usePreference('muteWords')
     const [muteTimelines, setMuteTimelines] = usePreference('muteTimelines')
@@ -154,6 +155,17 @@ export const GeneralSettings = (): JSX.Element => {
                             />
                         }
                         label={t('autoSwitchMediaPostType')}
+                    />
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={stripExif}
+                                onChange={(e) => {
+                                    setStripExif(e.target.checked)
+                                }}
+                            />
+                        }
+                        label={t('stripExif')}
                     />
                     <FormControlLabel
                         control={

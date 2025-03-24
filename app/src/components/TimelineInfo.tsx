@@ -8,6 +8,7 @@ import { useState } from 'react'
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import IosShareIcon from '@mui/icons-material/IosShare'
+import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { usePreference } from '../context/PreferenceContext'
@@ -21,6 +22,7 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
     const { enqueueSnackbar } = useSnackbar()
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
     const [muteTimelines, setMuteTimelines] = usePreference('muteTimelines')
+    const [devMode] = usePreference('devMode')
 
     const muted = muteTimelines.includes(props.timeline.fqid)
 
@@ -70,21 +72,7 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                                 />
                             </CCIconButton>
                         </Box>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                cursor: 'pointer',
-                                '&:hover': {
-                                    textDecoration: 'underline'
-                                }
-                            }}
-                            onClick={() => {
-                                navigator.clipboard.writeText(props.timeline.id)
-                                enqueueSnackbar('IDをコピーしました', { variant: 'success' })
-                            }}
-                        >
-                            {props.timeline.id}
-                        </Typography>
+                        <Typography variant="caption">@{props.timeline.host}</Typography>
                         <Divider />
                         <Typography>{props.timeline.document.body.description || 'まだ説明はありません'}</Typography>
                     </Paper>
@@ -114,6 +102,24 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                     </ListItemIcon>
                     <ListItemText>Copy Share Link</ListItemText>
                 </MenuItem>
+                {devMode && (
+                    <MenuItem
+                        onClick={() => {
+                            navigator.clipboard.writeText(props.timeline.fqid)
+                            enqueueSnackbar('Copied!', { variant: 'success' })
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <ContentPasteIcon
+                                sx={{
+                                    color: 'text.primary'
+                                }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText>Copy ID</ListItemText>
+                    </MenuItem>
+                )}
                 {muted ? (
                     <MenuItem
                         onClick={() => {

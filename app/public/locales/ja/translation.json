@@ -185,6 +185,7 @@
             "wordMute": "ワードミュート",
             "timelineMute": "タイムラインミュート",
             "fontSize": "フォントサイズ",
+            "stripExif": "投稿時に画像を圧縮及びexif情報を削除する",
             "notification": {
                 "title": "通知",
                 "notsupported": "お使いのドメインは通知をサポートしていません",
