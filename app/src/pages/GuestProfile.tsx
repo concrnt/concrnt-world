@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Divider, Paper, Typography } from '@mui/material'
-import { useLocation, useParams, Link as NavLink } from 'react-router-dom'
+import { useLocation, useParams, Link as NavLink, useNavigate } from 'react-router-dom'
 import { Timeline } from '../components/Timeline/main'
 import { Client, type User } from '@concrnt/worldlib'
 import { FullScreenLoading } from '../components/ui/FullScreenLoading'
@@ -21,8 +21,9 @@ export default function GuestProfilePage(): JSX.Element {
     const [isPrivateTimeline, setIsPrivateTimeline] = useState<boolean>(false)
 
     const path = useLocation()
-    const { id } = useParams()
-    const subProfileID = path.hash.replace('#', '')
+    const { id, profileid } = useParams()
+    const subProfileID = profileid ?? path.hash.replace('#', '')
+    const navigate = useNavigate()
 
     const [client, initializeClient] = useState<Client>()
 
@@ -55,7 +56,7 @@ export default function GuestProfilePage(): JSX.Element {
                 })
             })
         })
-    }, [id, path.hash])
+    }, [id, subProfileID])
 
     const profilePageSchema = {
         '@context': 'https://schema.org',
@@ -139,8 +140,12 @@ export default function GuestProfilePage(): JSX.Element {
                                             user={user}
                                             guest={true}
                                             overrideSubProfileID={subProfileID}
-                                            onSubProfileClicked={(id) => {
-                                                window.location.hash = id
+                                            onSubProfileClicked={(subID) => {
+                                                if (subID) {
+                                                    navigate(`/${id}/profile/${subID}`)
+                                                } else {
+                                                    navigate(`/${id}`)
+                                                }
                                             }}
                                         />
                                         <Box
@@ -181,8 +186,12 @@ export default function GuestProfilePage(): JSX.Element {
                                                     user={user}
                                                     guest={true}
                                                     overrideSubProfileID={subProfileID}
-                                                    onSubProfileClicked={(id) => {
-                                                        window.location.hash = id
+                                                    onSubProfileClicked={(subID) => {
+                                                        if (subID) {
+                                                            navigate(`/${id}/profile/${subID}`)
+                                                        } else {
+                                                            navigate(`/${id}`)
+                                                        }
                                                     }}
                                                 />
                                                 <Divider />

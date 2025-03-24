@@ -84,34 +84,40 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             }
                         />
                         {!logined && (
-                            <Route
-                                path="/:id"
-                                element={
-                                    <GA4Provider tag={tag}>
-                                        <GuestProfilePage />
-                                    </GA4Provider>
-                                }
-                            />
-                        )}
-                        {!logined && (
-                            <Route
-                                path="/:authorID/:messageID"
-                                element={
-                                    <GA4Provider tag={tag}>
-                                        <GuestMessagePage />
-                                    </GA4Provider>
-                                }
-                            />
-                        )}
-                        {!logined && (
-                            <Route
-                                path="/timeline/:id"
-                                element={
-                                    <GA4Provider tag={tag}>
-                                        <GuestTimelinePage />
-                                    </GA4Provider>
-                                }
-                            />
+                            <>
+                                <Route
+                                    path="/:id"
+                                    element={
+                                        <GA4Provider tag={tag}>
+                                            <GuestProfilePage />
+                                        </GA4Provider>
+                                    }
+                                />
+                                <Route
+                                    path="/:id/profile/:profileid"
+                                    element={
+                                        <GA4Provider tag={tag}>
+                                            <GuestProfilePage />
+                                        </GA4Provider>
+                                    }
+                                />
+                                <Route
+                                    path="/:authorID/:messageID"
+                                    element={
+                                        <GA4Provider tag={tag}>
+                                            <GuestMessagePage />
+                                        </GA4Provider>
+                                    }
+                                />
+                                <Route
+                                    path="/timeline/:id"
+                                    element={
+                                        <GA4Provider tag={tag}>
+                                            <GuestTimelinePage />
+                                        </GA4Provider>
+                                    }
+                                />
+                            </>
                         )}
                         <Route
                             path="*"
