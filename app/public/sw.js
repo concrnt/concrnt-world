@@ -162,9 +162,25 @@ self.addEventListener('notificationclick', (event) => {
 
     event.notification.close()
 
-    if (event.notification.data.url) {
-        event.waitUntil(clients.openWindow(event.notification.data.url))
-    }
+    const handle = clients
+        .matchAll({
+            type: 'window',
+            includeUncontrolled: true
+        })
+        .then((clientList) => {
+            let matchingClient = clientList[0]
+
+            if (matchingClient) {
+                return matchingClient.postMessage({
+                    type: 'navigate',
+                    url: event.notification.data.url
+                })
+            } else {
+                return clients.openWindow(event.notification.data.url)
+            }
+        })
+
+    event.waitUntil(handle)
 })
 
 const Schemas = {

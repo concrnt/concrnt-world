@@ -1,5 +1,5 @@
 import { useEffect, useRef, Suspense, lazy } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import { darken, Box, Paper, Typography, Modal, useTheme, Button } from '@mui/material'
 import { SnackbarProvider, closeSnackbar, enqueueSnackbar } from 'notistack'
 import { ConcordProvider } from './context/ConcordContext'
@@ -49,7 +49,7 @@ function App(): JSX.Element {
     const [sound] = usePreference('sound')
 
     const theme = useTheme<ConcurrentTheme>()
-
+    const navigate = useNavigate()
     const listener = useRef<SocketListener>()
 
     const identity = JSON.parse(localStorage.getItem('Identity') || 'null')
@@ -103,6 +103,16 @@ function App(): JSX.Element {
                 )
             })
         }
+
+        navigator.serviceWorker.addEventListener('message', (e) => {
+            switch (e.data.type) {
+                case 'navigate':
+                    navigate(e.data.url)
+                    break
+                default:
+                    console.log('Unknown message type', e.type ?? 'null')
+            }
+        })
 
         navigator.serviceWorker.ready.then((registration) => {
             console.log('Service Worker Ready', registration)

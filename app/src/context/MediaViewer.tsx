@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, IconButton, ImageList, ImageListItem, Modal } from '@mui/material'
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, Fragment, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { type ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
@@ -314,10 +314,10 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
                                         {exifKeys.map((key) => {
                                             if (!exif[key]) return null
                                             return (
-                                                <>
+                                                <Fragment key={key}>
                                                     <Box>{key}: </Box>
                                                     <Box>{exif[key].description}</Box>
-                                                </>
+                                                </Fragment>
                                             )
                                         })}
                                     </Box>
