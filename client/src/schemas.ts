@@ -4,6 +4,7 @@ export const Schemas = {
     rerouteMessage: 'https://schema.concrnt.world/m/reroute.json',
     plaintextMessage: 'https://schema.concrnt.world/m/plaintext.json',
     mediaMessage: 'https://schema.concrnt.world/m/media.json',
+    gfmMessage: 'https://schema.concrnt.world/m/gfm.json',
 
     likeAssociation: 'https://schema.concrnt.world/a/like.json',
     mentionAssociation: 'https://schema.concrnt.world/a/mention.json',

@@ -3,6 +3,7 @@ export * from './replyMessage'
 export * from './rerouteMessage'
 export * from './plaintextMessage'
 export * from './mediaMessage'
+export * from './gfmMessage'
 
 export * from './likeAssociation'
 export * from './mentionAssociation'

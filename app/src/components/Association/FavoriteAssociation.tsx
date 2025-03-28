@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useClient } from '../../context/ClientContext'
-import { MarkdownRendererLite } from '../ui/MarkdownRendererLite'
+import { CfmRendererLite } from '../ui/CfmRendererLite'
 
 import { FaTheaterMasks } from 'react-icons/fa'
 import { CCLink } from '../ui/CCLink'
@@ -98,7 +98,7 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
             </Box>
             {(!props.withoutContent && (
                 <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '4px solid #ccc' }}>
-                    <MarkdownRendererLite
+                    <CfmRendererLite
                         messagebody={target?.document.body.body ?? 'no content'}
                         emojiDict={target?.document.body.emojis ?? {}}
                     />

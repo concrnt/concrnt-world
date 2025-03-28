@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useClient } from '../context/ClientContext'
 import { usePreference } from '../context/PreferenceContext'
 import { Suspense, lazy, useState } from 'react'
-import { MarkdownRenderer } from '../components/ui/MarkdownRenderer'
 import { type Identity } from '@concrnt/client'
 import { useEditorModal } from '../components/EditorModal'
 import { StreamCard } from '../components/Stream/Card'
@@ -12,6 +11,7 @@ import figurePost from '../resources/tutorial-post-to-communities.png'
 import figureListSettings from '../resources/tutorial-list-settings.png'
 import TuneIcon from '@mui/icons-material/Tune'
 import { Helmet } from 'react-helmet-async'
+import { CfmRenderer } from '../components/ui/CfmRenderer'
 
 const SwitchMasterToSub = lazy(() => import('../components/SwitchMasterToSub'))
 
@@ -200,7 +200,7 @@ export function Tutorial(): JSX.Element {
                                     {t('post.handsonButton')}
                                 </Button>
 
-                                <MarkdownRenderer messagebody={t('post.syntax')} emojiDict={{}} />
+                                <CfmRenderer messagebody={t('post.syntax')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 1}
                                     onClick={() => {
@@ -214,7 +214,7 @@ export function Tutorial(): JSX.Element {
 
                         {page === 2 && (
                             <>
-                                <MarkdownRenderer messagebody={t('follow&watch.desc')} emojiDict={{}} />
+                                <CfmRenderer messagebody={t('follow&watch.desc')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 2}
                                     onClick={() => {
@@ -302,7 +302,7 @@ export function Tutorial(): JSX.Element {
 
                         {page === 4 && (
                             <>
-                                <MarkdownRenderer messagebody={t('list.desc')} emojiDict={{}} />
+                                <CfmRenderer messagebody={t('list.desc')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 4}
                                     onClick={() => {
@@ -316,7 +316,7 @@ export function Tutorial(): JSX.Element {
 
                         {page === 5 && (
                             <>
-                                <MarkdownRenderer messagebody={t('customize.desc')} emojiDict={{}} />
+                                <CfmRenderer messagebody={t('customize.desc')} emojiDict={{}} />
                                 <Button
                                     disabled={progress !== 5}
                                     onClick={() => {
@@ -330,7 +330,7 @@ export function Tutorial(): JSX.Element {
 
                         {page === 6 && (
                             <>
-                                <MarkdownRenderer emojiDict={{}} messagebody={t('done.desc')} />
+                                <CfmRenderer emojiDict={{}} messagebody={t('done.desc')} />
 
                                 <Button
                                     disabled={progress !== 6}
@@ -350,7 +350,7 @@ export function Tutorial(): JSX.Element {
                                     {tutorialCompleted ? t('done.showTutorial') : t('done.hideTutorial')}
                                 </Button>
 
-                                <MarkdownRenderer emojiDict={{}} messagebody={t('done.otherTips')} />
+                                <CfmRenderer emojiDict={{}} messagebody={t('done.otherTips')} />
                             </>
                         )}
                     </Box>

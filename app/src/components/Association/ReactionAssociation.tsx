@@ -10,7 +10,7 @@ import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
 import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'
 import { useEffect, useState } from 'react'
-import { MarkdownRendererLite } from '../ui/MarkdownRendererLite'
+import { CfmRendererLite } from '../ui/CfmRendererLite'
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
@@ -101,7 +101,7 @@ export const ReactionAssociation = (props: ReactionAssociationProps): JSX.Elemen
             </Box>
             {(!props.withoutContent && (
                 <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '4px solid #ccc' }}>
-                    <MarkdownRendererLite
+                    <CfmRendererLite
                         messagebody={target?.document.body.body ?? 'no content'}
                         emojiDict={target?.document.body.emojis ?? {}}
                     />

@@ -1,8 +1,8 @@
 import { type RerouteMessageSchema, type Message, type MediaMessageSchema } from '@concrnt/worldlib'
 import { EmbeddedGallery } from '../ui/EmbeddedGallery'
 import { MessageViewBase } from './MessageViewBase'
-import { MarkdownRenderer } from '../ui/MarkdownRenderer'
 import { useMemo } from 'react'
+import { CfmRenderer } from '../ui/CfmRenderer'
 
 export interface MediaMessageViewProps {
     message: Message<MediaMessageSchema>
@@ -25,7 +25,7 @@ export const MediaMessageView = (props: MediaMessageViewProps): JSX.Element => {
 
     const renderer = useMemo(
         () => (
-            <MarkdownRenderer
+            <CfmRenderer
                 messagebody={props.message.document.body.body ?? 'no content'}
                 emojiDict={props.message.document.body.emojis ?? {}}
             />

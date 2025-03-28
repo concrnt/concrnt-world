@@ -1,7 +1,6 @@
-import { Box, IconButton, ListItem, type SxProps, Typography } from '@mui/material'
+import { Box, ListItem, type SxProps, Typography } from '@mui/material'
 import { CCAvatar } from '../ui/CCAvatar'
 import { type ProfileSchema, type ReplyMessageSchema, type MarkdownMessageSchema } from '@concrnt/worldlib'
-import { MarkdownRenderer } from '../ui/MarkdownRenderer'
 import { IconButtonWithNumber } from '../ui/IconButtonWithNumber'
 
 import StarOutlineIcon from '@mui/icons-material/StarOutline'
@@ -12,6 +11,7 @@ import ReplyIcon from '@mui/icons-material/Reply'
 import { TimeDiff } from '../ui/TimeDiff'
 import { SubprofileBadge } from '../ui/SubprofileBadge'
 import { AutoSummaryProvider } from '../../context/AutoSummaryContext'
+import { CfmRenderer } from '../ui/CfmRenderer'
 
 export interface DummyMessageViewProps {
     message?: MarkdownMessageSchema | ReplyMessageSchema
@@ -109,7 +109,7 @@ export const DummyMessageView = (props: DummyMessageViewProps): JSX.Element => {
                             )}
                         </Box>
                         <AutoSummaryProvider limit={1}>
-                            <MarkdownRenderer messagebody={props.message.body} emojiDict={props.message.emojis ?? {}} />
+                            <CfmRenderer messagebody={props.message.body} emojiDict={props.message.emojis ?? {}} />
                         </AutoSummaryProvider>
                         <Box
                             sx={{

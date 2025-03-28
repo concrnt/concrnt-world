@@ -5,9 +5,9 @@ import { useClient } from '../context/ClientContext'
 import { AckButton } from './AckButton'
 import { useSnackbar } from 'notistack'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
-import { MarkdownRenderer } from './ui/MarkdownRenderer'
 import { CCWallpaper } from './ui/CCWallpaper'
 import { Link as routerLink } from 'react-router-dom'
+import { CfmRenderer } from './ui/CfmRenderer'
 
 export interface UserProfileCardProps {
     user?: User
@@ -129,7 +129,7 @@ export const UserProfileCard = (props: UserProfileCardProps): JSX.Element => {
                     mb: 1
                 }}
             >
-                <MarkdownRenderer messagebody={profile.description ?? ''} emojiDict={{}} />
+                <CfmRenderer messagebody={profile.description ?? ''} emojiDict={{}} />
             </Box>
         </Box>
     )

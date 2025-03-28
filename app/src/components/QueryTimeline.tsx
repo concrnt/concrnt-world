@@ -265,7 +265,7 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
                                               resolveHint={e.timelineID.split('@')[1]}
                                               lastUpdated={e.lastUpdate?.getTime() ?? 0}
                                               after={divider}
-                                              timestamp={e.created}
+                                              timestamp={e.lastUpdate}
                                           />
                                       )
                                       break

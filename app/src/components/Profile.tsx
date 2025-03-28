@@ -16,7 +16,6 @@ import {
 import { CCAvatar } from '../components/ui/CCAvatar'
 import { WatchButton } from '../components/WatchButton'
 import { AckButton } from '../components/AckButton'
-import { MarkdownRenderer } from '../components/ui/MarkdownRenderer'
 
 import { Link as NavLink } from 'react-router-dom'
 import Tilt from 'react-parallax-tilt'
@@ -47,6 +46,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import { usePreference } from '../context/PreferenceContext'
+import { CfmRenderer } from './ui/CfmRenderer'
 
 export interface ProfileProps {
     user: User
@@ -335,7 +335,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                         gap: 1
                     }}
                 >
-                    <MarkdownRenderer
+                    <CfmRenderer
                         messagebody={subProfile?.parsedDoc.body.description ?? props.user.profile?.description ?? ''}
                         emojiDict={{}}
                     />

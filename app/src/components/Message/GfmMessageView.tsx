@@ -1,9 +1,10 @@
 import { type Message, type MarkdownMessageSchema, type RerouteMessageSchema } from '@concrnt/worldlib'
 import { MessageViewBase } from './MessageViewBase'
-import { useMemo } from 'react'
-import { CfmRenderer } from '../ui/CfmRenderer'
+import { lazy, Suspense, useMemo } from 'react'
 
-export interface MarkdownMessageViewProps {
+const GfmRenderer = lazy(() => import('../ui/GfmRenderer'))
+
+export interface GfmMessageViewProps {
     message: Message<MarkdownMessageSchema>
     rerouted?: Message<RerouteMessageSchema>
     userCCID?: string
@@ -15,13 +16,15 @@ export interface MarkdownMessageViewProps {
     additionalMenuItems?: JSX.Element | JSX.Element[]
 }
 
-export const MarkdownMessageView = (props: MarkdownMessageViewProps): JSX.Element => {
+export const GfmMessageView = (props: GfmMessageViewProps): JSX.Element => {
     const renderer = useMemo(
         () => (
-            <CfmRenderer
-                messagebody={props.message.document.body.body ?? 'no content'}
-                emojiDict={props.message.document.body.emojis ?? {}}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+                <GfmRenderer
+                    messagebody={props.message.document.body.body ?? 'no content'}
+                    emojiDict={props.message.document.body.emojis ?? {}}
+                />
+            </Suspense>
         ),
         [props.message.id]
     )

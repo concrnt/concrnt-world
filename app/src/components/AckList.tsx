@@ -6,7 +6,7 @@ import { Link as NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useClient } from '../context/ClientContext'
 import { AckButton } from './AckButton'
-import { MarkdownRendererLite } from './ui/MarkdownRendererLite'
+import { CfmRendererLite } from './ui/CfmRendererLite'
 
 export interface AckListProps {
     initmode?: 'acking' | 'acker'
@@ -113,7 +113,7 @@ export const AckList = (props: AckListProps): JSX.Element => {
                                         wordBreak: 'break-all'
                                     }}
                                 >
-                                    <MarkdownRendererLite
+                                    <CfmRendererLite
                                         limit={60}
                                         emojiDict={{}}
                                         messagebody={user.profile?.description ?? 'no description'}

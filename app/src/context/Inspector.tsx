@@ -10,6 +10,7 @@ import { KeyCard } from '../components/ui/KeyCard'
 import { ListItemTimeline } from '../components/ui/ListItemTimeline'
 import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove'
 import { useSnackbar } from 'notistack'
+import cfm from '@concrnt/cfm'
 
 export interface InspectorState {
     inspectingItem: { messageId: string; author: string } | null
@@ -29,17 +30,27 @@ export const InspectorProvider = (props: InspectorProps): JSX.Element => {
     const [message, setMessage] = useState<Message<any> | undefined>()
     const [associations, setAssociations] = useState<Array<Association<any>>>([])
     const [keyResolution, setKeyResolution] = useState<Key[]>([])
+    const [ast, setAst] = useState<any>(null)
 
     useEffect(() => {
         if (!inspectingItem) return
         let isMounted = true
 
         client.api
-            .getMessageWithAuthor(inspectingItem.messageId, inspectingItem.author, undefined, { cache: 'no-cache' })
+            .getMessageWithAuthor<any>(inspectingItem.messageId, inspectingItem.author, undefined, {
+                cache: 'no-cache'
+            })
             .then((msg) => {
                 if (!msg) return
                 if (!isMounted) return
                 setMessage(msg)
+
+                try {
+                    setAst(cfm.parse(msg.parsedDoc.body.body))
+                } catch (e) {
+                    console.error(e)
+                }
+
                 if (msg.parsedDoc.keyID && msg.parsedDoc.keyID !== '') {
                     client.api.getKeyResolution(msg.parsedDoc.keyID, inspectingItem.author).then((keys) => {
                         if (!isMounted) return
@@ -302,6 +313,19 @@ export const InspectorProvider = (props: InspectorProps): JSX.Element => {
                                 {JSON.stringify(previewMessage ?? 'null', null, 4)?.replaceAll('\\n', '\n')}
                             </Codeblock>
                         </Box>
+                        {ast && (
+                            <details>
+                                <summary>AST</summary>
+                                <Box
+                                    sx={{
+                                        borderRadius: '10px',
+                                        overflow: 'hidden'
+                                    }}
+                                >
+                                    <Codeblock language="json">{JSON.stringify(ast, null, 4)}</Codeblock>
+                                </Box>
+                            </details>
+                        )}
                         <Typography variant="h2" sx={{ mt: 1 }}>
                             Associations:
                         </Typography>

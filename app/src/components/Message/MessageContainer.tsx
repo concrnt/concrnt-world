@@ -15,9 +15,6 @@ import { MessageSkeleton } from '../MessageSkeleton'
 import { Box, type SxProps, Typography, Button, useTheme, alpha } from '@mui/material'
 import { usePreference } from '../../context/PreferenceContext'
 import { ContentWithUserFetch } from '../ContentWithUserFetch'
-
-import SearchOffIcon from '@mui/icons-material/SearchOff'
-import TerminalIcon from '@mui/icons-material/Terminal'
 import { CopyChip } from '../ui/CopyChip'
 import { PlainMessageView } from './PlainMessageView'
 import { MediaMessageView } from './MediaMessageView'
@@ -25,9 +22,13 @@ import { NotFoundError } from '@concrnt/client'
 import { MarkdownMessageView } from './MarkdownMessageView'
 import { Link as routerLink } from 'react-router-dom'
 import { CCAvatarWithResolver } from '../ui/CCAvatarWithResolver'
-import InfoIcon from '@mui/icons-material/Info'
 import { useTranslation } from 'react-i18next'
 import { useGlobalState } from '../../context/GlobalState'
+import { GfmMessageView } from './GfmMessageView'
+
+import SearchOffIcon from '@mui/icons-material/SearchOff'
+import TerminalIcon from '@mui/icons-material/Terminal'
+import InfoIcon from '@mui/icons-material/Info'
 
 interface MessageContainerProps {
     messageID: string
@@ -289,6 +290,22 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                     <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
                     <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
                     <MarkdownMessageView
+                        simple={props.simple}
+                        message={message as Message<MarkdownMessageSchema>}
+                        lastUpdated={props.lastUpdated}
+                        userCCID={client.ccid}
+                        rerouted={props.rerouted}
+                    />
+                </Box>
+            )
+            break
+        case Schemas.gfmMessage:
+            body = (
+                <Box sx={style} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                    <meta itemProp="identifier" content={message.id} />
+                    <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
+                    <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
+                    <GfmMessageView
                         simple={props.simple}
                         message={message as Message<MarkdownMessageSchema>}
                         lastUpdated={props.lastUpdated}

@@ -20,7 +20,7 @@ import { ContactsPage } from './pages/Contacts'
 import { type TimelineEvent, type CCDocument, type SocketListener } from '@concrnt/client'
 import { UrlSummaryProvider } from './context/urlSummaryContext'
 import { StorageProvider } from './context/StorageContext'
-import { MarkdownRendererLite } from './components/ui/MarkdownRendererLite'
+import { CfmRendererLite } from './components/ui/CfmRendererLite'
 import { useTranslation } from 'react-i18next'
 import { ManageSubsPage } from './pages/ManageSubs'
 import { ExplorerPlusPage } from './pages/ExplorerPlus'
@@ -37,7 +37,7 @@ import { type ConcurrentTheme } from './model'
 import { TimelineDrawerProvider } from './context/TimelineDrawer'
 import { UserDrawerProvider } from './context/UserDrawer'
 import { Schemas } from '@concrnt/worldlib'
-import type { MarkdownMessageSchema, ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldlib'
+import type { ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldlib'
 import { SearchDrawerProvider } from './context/SearchDrawer'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
@@ -169,7 +169,7 @@ function App(): JSX.Element {
                                                 <Typography>
                                                     {profile?.username ?? 'anonymous'} replied to your message:{' '}
                                                 </Typography>
-                                                <MarkdownRendererLite
+                                                <CfmRendererLite
                                                     messagebody={m.parsedDoc.body.body as string}
                                                     emojiDict={m.parsedDoc.body.emojis ?? {}}
                                                     limit={128}
@@ -193,7 +193,7 @@ function App(): JSX.Element {
                                         <Typography>
                                             {profile?.username ?? 'anonymous'} rerouted to your message:{' '}
                                         </Typography>
-                                        <MarkdownRendererLite
+                                        <CfmRendererLite
                                             messagebody={m.parsedDoc.body.body as string}
                                             emojiDict={m.parsedDoc.body.emojis ?? {}}
                                             limit={128}
@@ -222,7 +222,7 @@ function App(): JSX.Element {
                         enqueueSnackbar(
                             <Box display="flex" flexDirection="column">
                                 <Typography>{username ?? 'anonymous'} liked your message: </Typography>
-                                <MarkdownRendererLite
+                                <CfmRendererLite
                                     messagebody={m.parsedDoc.body.body as string}
                                     emojiDict={m.parsedDoc.body.emojis ?? {}}
                                     limit={128}
@@ -253,7 +253,7 @@ function App(): JSX.Element {
                                     {username ?? 'anonymous'} reacted{' '}
                                     <img src={a.body.imageUrl as string} style={{ height: '1em' }} />
                                 </Typography>
-                                <MarkdownRendererLite
+                                <CfmRendererLite
                                     messagebody={m.parsedDoc.body.body as string}
                                     emojiDict={m.parsedDoc.body.emojis ?? {}}
                                     limit={128}
@@ -273,7 +273,7 @@ function App(): JSX.Element {
                                 enqueueSnackbar(
                                     <Box display="flex" flexDirection="column">
                                         {profile?.username ?? 'anonymous'} mentioned you:{' '}
-                                        <MarkdownRendererLite
+                                        <CfmRendererLite
                                             messagebody={m.parsedDoc.body.body as string}
                                             emojiDict={m.parsedDoc.body.emojis ?? {}}
                                             limit={128}

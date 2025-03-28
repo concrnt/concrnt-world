@@ -37,9 +37,10 @@ export function ListPage(): JSX.Element {
     const [lists, _setLists] = usePreference('lists')
     const [showEditorOnTop] = usePreference('showEditorOnTop')
     const [showEditorOnTopMobile] = usePreference('showEditorOnTopMobile')
-    const rawid = path.hash.replace('#', '')
-    const id = lists[rawid] ? rawid : Object.keys(lists)[0]
-    const [tab, setTab] = useState<string>(id)
+
+    const tab = path.hash.replace('#', '')
+    const id = lists[tab] ? tab : Object.keys(lists)[0]
+
     const [subscription, setSubscription] = useState<CoreSubscription<ListSubscriptionSchema> | null>(null)
     const [params] = useSearchParams()
     const title = params.get('title')?.trim()
@@ -63,6 +64,7 @@ export function ListPage(): JSX.Element {
     const [postTimelines, setPostTimelines] = useState<Array<TypeTimeline<CommunityTimelineSchema>>>([])
 
     useEffect(() => {
+        let unmounted = false
         if (!list) return
         Promise.allSettled(
             list.defaultPostStreams.map((streamID) => {
@@ -71,8 +73,13 @@ export function ListPage(): JSX.Element {
         ).then((results) => {
             const fulfilled = results.filter(isFulfilled)
             const nonNullValues = fulfilled.map((e) => e.value).filter(isNonNull)
+            if (unmounted) return
             setPostTimelines(nonNullValues)
         })
+
+        return () => {
+            unmounted = true
+        }
     }, [list, client])
 
     const defaultPostHome = useMemo(() => {
@@ -130,26 +137,18 @@ export function ListPage(): JSX.Element {
         }
     }, [postTimelines, defaultPostHome, list?.defaultProfile])
 
+    useEffect(() => {
+        client.api.getSubscription<ListSubscriptionSchema>(id).then((sub) => {
+            setSubscription(sub)
+        })
+    }, [id, client, updater])
+
     const pinnedSubscriptions = useMemo(() => {
         return Object.keys(lists)
             .filter((e) => lists[e].pinned)
             .map((e) => allKnownSubscriptions.find((x) => x.id === e))
             .filter((e) => e !== undefined) as Array<CoreSubscription<ListSubscriptionSchema>>
     }, [lists, allKnownSubscriptions])
-
-    useEffect(() => {
-        if (id) setTab(id)
-    }, [id])
-
-    useEffect(() => {
-        navigate(`#${tab}`)
-    }, [tab])
-
-    useEffect(() => {
-        client.api.getSubscription<ListSubscriptionSchema>(id).then((sub) => {
-            setSubscription(sub)
-        })
-    }, [id, client, updater])
 
     const touchedTabPos = useRef<number>(0)
     const longtap = useRef<NodeJS.Timeout | null>(null)
@@ -185,7 +184,7 @@ export function ListPage(): JSX.Element {
                 if (subid === tab) {
                     timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
                 } else {
-                    setTab(subid)
+                    navigate(`#${subid}`)
                 }
             }
         },

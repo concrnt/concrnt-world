@@ -3,7 +3,7 @@ import { Profile } from '@concrnt/client'
 import { Box, Chip, IconButton, Menu, Paper, Typography } from '@mui/material'
 import { CCWallpaper } from './ui/CCWallpaper'
 import { CCAvatar } from './ui/CCAvatar'
-import { MarkdownRendererLite } from './ui/MarkdownRendererLite'
+import { CfmRendererLite } from './ui/CfmRendererLite'
 import { useState } from 'react'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import { useSnackbar } from 'notistack'
@@ -130,7 +130,7 @@ export const SubProfileCard = (props: SubProfileCardProps): JSX.Element => {
                             mb: 1
                         }}
                     >
-                        <MarkdownRendererLite
+                        <CfmRendererLite
                             messagebody={props.character.parsedDoc.body.description ?? ''}
                             emojiDict={{}}
                         />

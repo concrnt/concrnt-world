@@ -1,0 +1,20 @@
+{
+    "name": "@concrnt/cfm",
+    "version": "0.0.0",
+    "main": "dist/cfm.cjs",
+    "module": "dist/cfm.js",
+    "types": "dist/cfm.d.ts",
+    "devDependencies": {
+        "esbuild": "^0.25.0",
+        "pegjs": "^0.10.0"
+    },
+    "scripts": {
+        "prebuild": "rm -rf dist && mkdir dist",
+        "postbuild": "cp src/*.d.ts dist",
+        "build:cjs": "pegjs --format commonjs -o dist/cfm.cjs src/main.pegjs",
+        "build.esm": "esbuild dist/cfm.cjs --outfile=dist/cfm.js --format=esm",
+        "build": "pnpm prebuild && pnpm build:cjs && pnpm build.esm && pnpm postbuild"
+    },
+    "author": "",
+    "license": "MIT"
+}

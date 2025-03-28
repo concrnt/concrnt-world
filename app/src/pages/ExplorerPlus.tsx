@@ -24,7 +24,6 @@ import { CCIconButton } from '../components/ui/CCIconButton'
 import { useTimelineDrawer } from '../context/TimelineDrawer'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { useUserDrawer } from '../context/UserDrawer'
-import { MarkdownRenderer } from '../components/ui/MarkdownRenderer'
 import { CCAvatar } from '../components/ui/CCAvatar'
 import CasinoIcon from '@mui/icons-material/Casino'
 import AddIcon from '@mui/icons-material/Add'
@@ -37,6 +36,7 @@ import { useSnackbar } from 'notistack'
 import { type CommunityTimelineSchema, Schemas } from '@concrnt/worldlib'
 import { CCEditor } from '../components/ui/cceditor'
 import { CCDrawer } from '../components/ui/CCDrawer'
+import { CfmRenderer } from '../components/ui/CfmRenderer'
 
 export interface Domain {
     fqdn: string
@@ -592,7 +592,7 @@ export function ExplorerPlusPage(): JSX.Element {
                                                         flex: 1
                                                     }}
                                                 >
-                                                    <MarkdownRenderer
+                                                    <CfmRenderer
                                                         messagebody={u._parsedDocument.body.description ?? ''}
                                                         emojiDict={{}}
                                                     />
