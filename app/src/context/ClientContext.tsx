@@ -30,6 +30,9 @@ export const ClientProvider = (props: ClientProviderProps): JSX.Element => {
     const [subkey] = usePersistent<string>('SubKey', '')
 
     const [client, setClient] = useState<Client | undefined>(props.client)
+    useEffect(() => {
+        setClient(props.client)
+    }, [props.client])
     const [updatecount, updater] = useState(0)
 
     const [progress, setProgress] = useState<string>('Downloading client...')

@@ -321,6 +321,12 @@
         }
     },
     "welcome": {
+        "welcome": "コンカレントへようこそ！",
+        "startWithCommunity": "コミュニティベースで始める",
+        "startWithCommunityDesc": "コンカレントを始めたての人向けのコミュニティをフォローした状態で始めます",
+        "startWithAlone": "ひとりで始める",
+        "startWithAloneDesc": "最低限の設定で始めます",
+
         "start": "はじめる",
         "guide": "ユーザーガイド",
         "gettingStarted": "さぁ、はじめよう",

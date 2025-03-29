@@ -322,6 +322,12 @@
         }
     },
     "welcome": {
+        "welcome": "Welcome to Concurrent!",
+        "startWithCommunity": "Start with Community",
+        "startWithCommunityDesc": "Begin your journey by following communities tailored for newcomers to Concurrent.",
+        "startWithAlone": "Start Alone",
+        "startWithAloneDesc": "Begin with a minimal setup.",
+
         "start": "Get Started",
         "guide": "User Guide",
         "gettingStarted": "Let's Get Started",

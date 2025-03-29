@@ -22,8 +22,8 @@ export default function Registration(): JSX.Element {
     const location = useLocation()
 
     const { t } = useTranslation('', { keyPrefix: 'registration' })
-    const [client, initializeClient] = useState<Client>()
-    const [identity, setIdentity] = usePersistent<Identity | null>('Identity', GenerateIdentity())
+    const [client, setClient] = useState<Client>()
+    const [identity, setIdentity] = usePersistent<Identity>('Identity', GenerateIdentity())
     const [profile, setProfile] = useState<Profile<ProfileSchema> | null>(null)
     const [domain, setDomain] = usePersistent<string>('Domain', 'ariake.concrnt.net')
 
@@ -47,14 +47,13 @@ export default function Registration(): JSX.Element {
     }, [manualKey])
 
     useEffect(() => {
-        if (!identity) return
-        Client.create(identity.privateKey, domain).then((client) => {
-            initializeClient(client)
+        Client.create(identity.privateKey, domain, { skipInit: true }).then((c) => {
+            setClient(c)
         })
     }, [identity, domain])
 
     const setupAccount = (): void => {
-        if (!client || !identity) return
+        if (!client) return
         localStorage.setItem('Domain', JSON.stringify(domain))
         localStorage.setItem('PrivateKey', JSON.stringify(identity.privateKey))
 
@@ -69,8 +68,6 @@ export default function Registration(): JSX.Element {
                 window.location.href = '/'
             })
     }
-
-    if (!identity) return <>loading...</>
 
     const steps = [
         {
@@ -141,8 +138,6 @@ export default function Registration(): JSX.Element {
             )
         }
     ]
-
-    if (!client) return <>api constructing...</>
 
     return (
         <GuestBase

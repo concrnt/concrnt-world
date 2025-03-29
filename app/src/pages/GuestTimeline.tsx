@@ -77,7 +77,7 @@ export default function GuestTimelinePage(): JSX.Element {
                             component={NavLink}
                             to="/register"
                             onClick={() => {
-                                localStorage.setItem('preferredTimeline', timeline.id)
+                                if (id) localStorage.setItem('preferredTimeline', id)
                             }}
                         >
                             はじめる

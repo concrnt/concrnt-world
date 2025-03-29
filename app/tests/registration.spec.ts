@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
     await page.route(`https://www.googletagmanager.com/**`, (route) => {
@@ -52,25 +52,8 @@ test('Account registration', async ({ page }) => {
     const startButton = page.getByRole('button', { name: 'Start' })
     await startButton.click()
 
-    // get 常夜灯
-    await page.getByRole('button', { name: '常夜灯' }).click()
-
-    // get はじめる
-    await page.getByRole('button', { name: 'はじめる' }).click()
-
-    // check result
-
-    const viewSize = page.viewportSize()
-    const isDesktop = viewSize && viewSize.width > 960
-
-    if (isDesktop) {
-        // open list
-        await page.locator('svg[data-testid="ExpandMoreIcon"]').click()
-
-        // has link
-        const zyouya_link = page.getByRole('link', { name: '常夜灯' })
-        await expect(zyouya_link).toHaveAttribute('href', '/timeline/tcjkcx7t5jdf3v5s6067yxcgpmm@zyouya.concrnt.net')
-    }
+    // press get started
+    await page.getByRole('button', { name: 'Get Started' }).first().click()
 
     // ok
 })

@@ -63,6 +63,7 @@ interface Service {
 interface ClientOptions {
     appName?: string
     progressCallback?: (status: string) => void
+    skipInit?: boolean
 }
 
 interface Cache<T> {
@@ -128,42 +129,44 @@ export class Client {
         if (!c.ccid) throw new Error('invalid ccid')
         c.keyPair = keyPair
 
-        opts?.progressCallback?.('loading user')
-        c.user = await c.getUser(c.ccid).catch((e) => {
-            console.error('CLIENT::create::getUser::error', e)
-            return null
-        })
-
-        const loadAA = async (): Promise<void> => {
-            c.ackings = (await c.user?.getAcking()) ?? []
-            c.ackers = (await c.user?.getAcker()) ?? []
-        }
-        loadAA()
-
-        opts?.progressCallback?.('loading domain services')
-        c.domainServices = await fetchWithTimeout(`https://${host}/services`, {})
-            .then((res) => res.json())
-            .catch((e) => {
-                console.error('CLIENT::create::fetch::error', e)
-                return {}
+        if (!opts?.skipInit) {
+            opts?.progressCallback?.('loading user')
+            c.user = await c.getUser(c.ccid).catch((e) => {
+                console.error('CLIENT::create::getUser::error', e)
+                return null
             })
 
-        opts?.progressCallback?.('loading domain')
-        c.server =
-            (await c.api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 }).catch((e) => {
-                console.error('CLIENT::create::getDomain::error', e)
-                return null
-            })) ?? undefined
-
-        if (c.server) {
-            c.isOnline = true
-            opts?.progressCallback?.('validating profile')
-            if (c.user && !(await c.checkProfileIsOk())) {
-                console.warn('profile is not ok! fixing...')
-                await c.setProfile({})
+            const loadAA = async (): Promise<void> => {
+                c.ackings = (await c.user?.getAcking()) ?? []
+                c.ackers = (await c.user?.getAcker()) ?? []
             }
-        } else {
-            c.isOnline = false
+            loadAA()
+
+            opts?.progressCallback?.('loading domain services')
+            c.domainServices = await fetchWithTimeout(`https://${host}/services`, {})
+                .then((res) => res.json())
+                .catch((e) => {
+                    console.error('CLIENT::create::fetch::error', e)
+                    return {}
+                })
+
+            opts?.progressCallback?.('loading domain')
+            c.server =
+                (await c.api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 }).catch((e) => {
+                    console.error('CLIENT::create::getDomain::error', e)
+                    return null
+                })) ?? undefined
+
+            if (c.server) {
+                c.isOnline = true
+                opts?.progressCallback?.('validating profile')
+                if (c.user && !(await c.checkProfileIsOk())) {
+                    console.warn('profile is not ok! fixing...')
+                    await c.setProfile({})
+                }
+            } else {
+                c.isOnline = false
+            }
         }
 
         return c

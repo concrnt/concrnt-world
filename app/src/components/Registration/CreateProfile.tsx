@@ -34,6 +34,7 @@ export function CreateProfile(props: CreateProfileProps): JSX.Element {
                 >
                     <ProfileEditor
                         onSubmit={(updated) => {
+                            console.log('updated', updated)
                             if (updated) props.setProfile(updated)
                             props.next()
                         }}

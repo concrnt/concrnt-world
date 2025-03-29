@@ -3,7 +3,7 @@ import { TimelineHeader } from '../TimelineHeader'
 
 import ListIcon from '@mui/icons-material/List'
 import { DummyMessageView } from '../Message/DummyMessageView'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function AppMock(): JSX.Element {
@@ -207,15 +207,10 @@ export default function AppMock(): JSX.Element {
             >
                 <List sx={{ flex: 1, width: '100%' }}>
                     {data.timeline.map((message, i) => (
-                        <>
-                            <DummyMessageView
-                                key={i}
-                                message={message.message}
-                                user={message.user}
-                                userCCID={message.ccid}
-                            />
+                        <Fragment key={i}>
+                            <DummyMessageView message={message.message} user={message.user} userCCID={message.ccid} />
                             <Divider />
-                        </>
+                        </Fragment>
                     ))}
                 </List>
             </Box>
