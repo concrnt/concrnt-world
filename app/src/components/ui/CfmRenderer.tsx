@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Divider, IconButton, Tooltip, Typography } from '@mui/material'
 import { Codeblock } from './Codeblock'
 import cfm from '@concrnt/cfm'
+import { keyframes } from '@emotion/react'
 
 import type { EmojiLite } from '../../model'
 import { CCUserChip } from './CCUserChip'
@@ -17,6 +18,31 @@ import { useMediaViewer } from '../../context/MediaViewer'
 import { useGlobalState } from '../../context/GlobalState'
 import { useAutoSummary } from '../../context/AutoSummaryContext'
 import { CCLink } from './CCLink'
+import { WellKnownLink } from '../WellKnownLink'
+
+const marquee = keyframes`
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+`
+
+const flipMarquee = keyframes`
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+`
 
 export interface CfmRendererProps {
     messagebody: string
@@ -28,7 +54,7 @@ export interface RenderAstProps {
     emojis: Record<string, EmojiLite>
 }
 
-const Spoiler = ({ body }: { body: string }) => {
+const Spoiler = ({ children }: { children: JSX.Element }) => {
     const [open, setOpen] = useState(false)
 
     return (
@@ -44,7 +70,7 @@ const Spoiler = ({ body }: { body: string }) => {
                 e.stopPropagation()
             }}
         >
-            {body}
+            {children}
         </Box>
     )
 }
@@ -81,28 +107,64 @@ const RenderAst = ({ ast, emojis }: RenderAstProps): JSX.Element => {
             )
         case 'Text':
             return ast.body
+        case 'Marquee':
+            return (
+                <Box
+                    sx={{
+                        width: '100%',
+                        overflow: 'hidden'
+                    }}
+                >
+                    <Box
+                        sx={{
+                            animation: `${marquee} 10s linear infinite`
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                animation: `${flipMarquee} 10s linear infinite`,
+                                width: 'max-content'
+                            }}
+                        >
+                            <RenderAst ast={ast.body} emojis={emojis} />
+                        </Box>
+                    </Box>
+                </Box>
+            )
         case 'Italic':
-            return <i>{ast.body}</i>
+            return (
+                <i>
+                    <RenderAst ast={ast.body} emojis={emojis} />
+                </i>
+            )
         case 'Bold':
-            return <b>{ast.body}</b>
-        case 'BoldItalic':
             return (
                 <b>
-                    <i>{ast.body}</i>
+                    <RenderAst ast={ast.body} emojis={emojis} />
                 </b>
             )
         case 'Strike':
-            return <s>{ast.body}</s>
+            return (
+                <s>
+                    <RenderAst ast={ast.body} emojis={emojis} />
+                </s>
+            )
         case 'URL':
             return (
-                <CCLink to={ast.body} color="secondary" underline="hover">
-                    {ast.alt || ast.body}
-                </CCLink>
+                <WellKnownLink href={ast.body}>
+                    <CCLink to={ast.body} color="secondary" underline="hover">
+                        {ast.alt || ast.body}
+                    </CCLink>
+                </WellKnownLink>
             )
         case 'Timeline':
             return <TimelineChip timelineFQID={ast.body} />
         case 'Spoiler':
-            return <Spoiler body={ast.body} />
+            return (
+                <Spoiler>
+                    <RenderAst ast={ast.body} emojis={emojis} />
+                </Spoiler>
+            )
         case 'Quote':
             return (
                 <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '4px solid #ccc' }}>

@@ -73,6 +73,35 @@ export const AutoSummaryProvider = (props: AutoSummaryProviderProps): JSX.Elemen
             <Box ref={ref}>{props.children}</Box>
             <Box>
                 {urls.slice(0, props.limit).map((url, i) => {
+                    let matchYoutubeVideo = url?.match(/https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/)
+                    if (!matchYoutubeVideo) matchYoutubeVideo = url?.match(/https:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/)
+                    if (matchYoutubeVideo) {
+                        return (
+                            <Box
+                                component="span"
+                                sx={{
+                                    display: 'block',
+                                    aspectRatio: '16 / 9',
+                                    overflow: 'hidden',
+                                    width: '100%',
+                                    borderRadius: 1,
+                                    maxWidth: '500px'
+                                }}
+                            >
+                                <iframe
+                                    allowFullScreen
+                                    src={`https://www.youtube.com/embed/${matchYoutubeVideo[1]}`}
+                                    title="YouTube video player"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        border: 'none'
+                                    }}
+                                />
+                            </Box>
+                        )
+                    }
                     return <UrlSummaryCard key={i} url={url} />
                 })}
             </Box>

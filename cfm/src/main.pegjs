@@ -1,3 +1,35 @@
+
+{
+    function reduceText(e) {
+        const body = []
+        let textbuf = ""
+        for (const elem of e.flat(Infinity).filter(e => e)) {
+            if (typeof elem === "string") {
+                textbuf += elem
+            } else {
+                if (textbuf !== "") {
+                    body.push({
+                        type: "Text",
+                        body: textbuf
+                    })
+                    textbuf = ""
+                }
+                body.push(elem)
+            }
+        }
+
+        if (textbuf !== "") {
+            body.push({
+                type: "Text",
+                body: textbuf
+            })
+            textbuf = ""
+        }
+
+        return body
+    }
+}
+
 start = markdown
 
 newline = "\n" { return {type: 'newline'} }
@@ -9,29 +41,39 @@ startSummary = "<summary>"
 stopSummary = "</summary>"
 startDetails = "<details>"
 stopDetails = "</details>"
+startMarquee = "<marquee>"
+stopMarquee = "</marquee>"
 EOF = !.
 
 markdown = l:(Block / newline)+
 {
-	return l
+    return l
 }
 
-Block = Heading / Quote / CodeBlock / Details / Line
+Block = Heading / Marquee / Quote / CodeBlock / Details / Line
 
-Summary = startSummary l:(!stopSummary normalchar)* stopSummary newline?
+Heading = h:"#"+ space t:InlineElements (newline / EOF)
 {
     return {
-        type: "Summary",
-        body: l.map(a=>a[1]).join('')
+        type: "Heading",
+        level: h.length,
+        body: t
     }
 }
 
-Details = startDetails newline? s:Summary? a:(!stopDetails (Block / newline))* newline? stopDetails (newline / EOF)
+Marquee = startMarquee b:(!stopMarquee HeadElement)+ stopMarquee (newline / EOF)
 {
     return {
-        type: "Details",
-        summary: s,
-        body: a.flat().filter(e => e)
+        type: "Marquee",
+        body: reduceText(body)
+    }
+}
+
+Quote = ">" space t:InlineElements (newline / EOF)
+{
+    return {
+        type: "Quote",
+        body: t
     }
 }
 
@@ -54,27 +96,32 @@ CodeLine = !codeFence a:normalchar* newline
     return a.join('')
 }
 
-Heading = h:"#"+ space t:InlineElements (newline / EOF)
-{
-  return {
-     type: "Heading",
-     level: h.length,
-     body: t
-  }
-}
-
-Quote = ">" space t:InlineElements (newline / EOF)
+Summary = startSummary l:(!stopSummary normalchar)* stopSummary newline?
 {
     return {
-        type: "Quote",
-        body: t
+        type: "Summary",
+        body: l.map(a=>a[1]).join('')
     }
+}
+
+Details = startDetails newline? s:Summary? a:(!stopDetails (Block / newline))* newline? stopDetails (newline / EOF)
+{
+    return {
+        type: "Details",
+        summary: s,
+        body: a.flat().filter(e => e)
+    }
+}
+
+Line = i:InlineElements (newline / EOF)
+{
+    return i
 }
 
 Image = "![" a:[^\]]* "](" u:[^)]+ ")"
 {
     return {
-    	type: "Image",
+        type: "Image",
         alt: a.join(''),
         url: u.join('')
     }
@@ -90,8 +137,8 @@ EmojiPack = "<emojipack" space* "src" space* "=" space* "\"" body:[^"]+ "\"" spa
 
 InlineCode = "`" a:[^`]+ "`"
 {
-	return {
-    	type: "InlineCode",
+    return {
+        type: "InlineCode",
         body: a.join('')
     }
 }
@@ -116,47 +163,7 @@ MDURL = "[" a:[^\]]* "](" t:[^)]+ ")"
 Emoji = ":" s:[a-zA-Z0-9_]+ ":"
 {
     return {
-		type: "Emoji",
-        body: s.join('')
-    }
-}
-
-Mention = "@" a:[a-zA-Z0-9@]+
-{
-	return {
-    	type: "Mention",
-        body: a.join('')
-    }
-}
-
-Italic = "*" s:[^\*]+ "*"
-{
-    return {
-        type: "Italic",
-        body: s.join('')
-    }
-}
-
-Bold = "**" s:[^\*]+ "**"
-{
-    return {
-        type: "Bold",
-        body: s.join('')
-    }
-}
-
-BoldItalic = "***" s:[^\*]+ "***"
-{
-    return {
-        type: "BoldItalic",
-        body: s.join('')
-    }
-}
-
-Strike = "~~" s:[^~]+ "~~"
-{
-    return {
-        type: "Strike",
+        type: "Emoji",
         body: s.join('')
     }
 }
@@ -178,53 +185,54 @@ Tag = "#" a:[^ \n#]+
     }
 }
 
-Spoiler = spoilerFence content:(!spoilerFence .)* spoilerFence
+Mention = "@" a:[a-zA-Z0-9@]+
 {
     return {
-        type: "Spoiler",
-        body: content.map(c => c[1]).join('')
+        type: "Mention",
+        body: a.join('')
     }
 }
 
-
-Line = i:InlineElements (newline / EOF)
+Italic = "*" b:(!"*" HeadElement)+ "*"
 {
-    return i
+    return {
+        type: "Italic",
+        body: reduceText(b)
+    }
+}
+
+Bold = "**" b:(!"**" HeadElement)+ "**"
+{
+    return {
+        type: "Bold",
+        body: reduceText(b)
+    }
+}
+
+Strike = "~~" b:(!"~~" HeadElement)+ "~~"
+{
+    return {
+        type: "Strike",
+        body: reduceText(b)
+    }
+}
+
+Spoiler = spoilerFence b:(!spoilerFence HeadElement)+ spoilerFence
+{
+    return {
+        type: "Spoiler",
+        body: reduceText(b)
+    }
 }
 
 InlineElements = e:HeadElement f:InlineElement*
 {
-    const body = []
-    let textbuf = ""
-    for (const elem of [e, f].flat(Infinity)) {
-        if (typeof elem === "string") {
-            textbuf += elem
-        } else {
-            if (textbuf !== "") {
-                body.push({
-                    type: "Text",
-                    body: textbuf
-                })
-                textbuf = ""
-            }
-            body.push(elem)
-        }
-    }
-
-    if (textbuf !== "") {
-        body.push({
-            type: "Text",
-            body: textbuf
-        })
-        textbuf = ""
-    }
-
     return {
         type: "Line",
-        body: body
+        body: reduceText([e, f])
     }
 }
 
-HeadElement = (Italic / Bold / BoldItalic / Strike / Image / Spoiler / URL / MDURL / Emoji / InlineCode / EmojiPack / Tag / Mention / normalchar)
-InlineElement = (Italic / Bold / BoldItalic / Strike / Image / Spoiler / URL / MDURL / Emoji / InlineCode / EmojiPack / space+ Tag / space+ Mention / normalchar) +
+HeadElement = (Italic / Bold / Strike / Image / Spoiler / URL / MDURL / Emoji / InlineCode / EmojiPack / Tag / Mention / normalchar)
+InlineElement = (Italic / Bold / Strike / Image / Spoiler / URL / MDURL / Emoji / InlineCode / EmojiPack / space+ Tag / space+ Mention / normalchar)
 
