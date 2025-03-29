@@ -322,6 +322,11 @@
         }
     },
     "welcome": {
+        "welcome": "Welcome to Concurrent!",
+        "startWithCommunity": "Start with Community",
+        "startWithCommunityDesc": "Begin your journey by following communities tailored for newcomers to Concurrent.",
+        "startWithAlone": "Start Alone",
+        "startWithAloneDesc": "Begin with a minimal setup.",
         "start": "快速開始",
         "guide": "使用者指南",
         "gettingStarted": "讓我們來開始吧！",
