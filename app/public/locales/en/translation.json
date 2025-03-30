@@ -292,7 +292,8 @@
                 "domain": "Domain Storage refers to the storage provided by this domain. It can be used without any setup, but there is a maximum capacity set. Additionally, the list of files may be viewed by administrators and files that violate the terms may be deleted.",
                 "imgur": "Imgur is used for image uploads. It can be set up relatively easily. The content that can be uploaded is subject to Imgur's terms.",
                 "s3": "S3 is used for image uploads. S3-compatible services like CloudFlare R2 can also be used. It requires more effort to set up, but allows you to keep files under your own control. Charges may apply depending on the service, but in most cases, it will fit within the free tier."
-            }
+            },
+            "storageQuota": "Storage Usage"
         },
         "ap": {
             "title": "ActivityPub",

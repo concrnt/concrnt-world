@@ -230,7 +230,7 @@ export function ListPage(): JSX.Element {
                     }}
                 />
                 <Tabs
-                    value={tab}
+                    value={id}
                     textColor="secondary"
                     indicatorColor="secondary"
                     variant="scrollable"
