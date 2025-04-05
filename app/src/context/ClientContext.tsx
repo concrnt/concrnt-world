@@ -15,6 +15,7 @@ export interface ClientContextState {
 }
 
 export interface ClientProviderProps {
+    noloading?: boolean
     children: JSX.Element
     client?: Client
 }
@@ -86,7 +87,7 @@ export const ClientProvider = (props: ClientProviderProps): JSX.Element => {
         }
     }, [client, forceUpdate])
 
-    if (!client) {
+    if (!client && !props.noloading) {
         return <FullScreenLoading message={progress} />
     }
 

@@ -26,7 +26,6 @@ import { usePreference } from '../../context/PreferenceContext'
 import { useClient } from '../../context/ClientContext'
 import { useEffect, useState } from 'react'
 import { useSnackbar } from 'notistack'
-import { IssueJWT } from '@concrnt/client'
 import { Schemas } from '@concrnt/worldlib'
 import { useTranslation } from 'react-i18next'
 import { type NotificationSubscription } from '../../model'
@@ -671,13 +670,12 @@ export const GeneralSettings = (): JSX.Element => {
                                 if (client.host === undefined) {
                                     return
                                 }
-                                if (!client?.keyPair?.privatekey) return
-                                const jwt = IssueJWT(client.keyPair.privatekey, {
+                                const jwt = client.api.authProvider.issueJWT({
                                     iss: client.ckid || client.ccid,
                                     aud: client.host,
                                     sub: 'CONCRNT_INVITE',
                                     exp: Math.floor((new Date().getTime() + 24 * 60 * 60 * 1000) / 1000).toString()
-                                }) // 24h validity
+                                })
                                 setInvitationCode(jwt)
                             }}
                         >

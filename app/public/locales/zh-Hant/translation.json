@@ -176,6 +176,7 @@
             "wordMute": "靜音關鍵詞",
             "timelineMute": "靜音時間綫",
             "fontSize": "字符大小",
+            "stripExif": "發佈時壓縮圖片並移除 EXIF 訊息",
             "notification": {
                 "title": "通知",
                 "notsupported": "你所在的網域目前還不支援通知",
@@ -282,7 +283,8 @@
                 "domain": "網域儲存是指此網域提供的儲存空間，無需設定即可使用，但有最大容量限制。此外，管理員可以查看檔案清單，違反條款的檔案可能會被刪除。",
                 "imgur": "將圖片上傳到 Imgur，設定起來相對簡單。上傳的內容需遵守 Imgur 的條款。",
                 "s3": "將圖片上傳到 S3。也可以使用與 S3 協定相容的服務，例如 CloudFlare R2、Backblaze B2 等。它需要設定更多的選項，但可以讓您自行控制檔案。根據服務提供商的不同，可能會收取費用，但在大多數情況下，許多服務提供商都提供免費方案和額度。"
-            }
+            },
+            "storageQuota": "儲存用量"
         },
         "ap": {
             "title": "ActivityPub",
@@ -312,6 +314,12 @@
         }
     },
     "welcome": {
+        "welcome": "歡迎來到 Concurrent！",
+        "startWithCommunity": "與社群一同開始",
+        "startWithCommunityDesc": "透過关注於為 Concurrent 新手量身定制的社群來開始您的旅程。",
+        "startWithAlone": "獨自開始",
+        "startWithAloneDesc": "從最小設定開始。",
+        
         "start": "快速開始",
         "guide": "使用者指南",
         "gettingStarted": "讓我們來開始吧！",

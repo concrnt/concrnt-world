@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@concrnt/client':
-        specifier: ^0.0.16
-        version: 0.0.16
+        specifier: ^0.0.19
+        version: 0.0.19
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -2016,8 +2016,8 @@ packages:
       js-yaml: 4.1.0
     dev: false
 
-  /@concrnt/client@0.0.16:
-    resolution: {integrity: sha512-CGbSrpWVwmdRrwiOQBAw12W6An4rS3zSZNDKzk2uIXT9xFLAdP6ULoT9gv0WCvwe3teE3eGVJuoEZ4vWf+QftA==}
+  /@concrnt/client@0.0.19:
+    resolution: {integrity: sha512-LWVh9639gFIcHdcCiPw63f9Ugqz4SG4B/AT496Po3yYhzyIC82pJQ0L17h7N0kaTS6fRbxB+6U/BlMsH5/4JJQ==}
     dependencies:
       '@cosmjs/amino': 0.33.1
       '@cosmjs/crypto': 0.33.1

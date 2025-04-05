@@ -13,6 +13,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import './i18n'
 import { GA4Provider } from './context/GA4'
 import { ConcrntThemeProvider } from './context/Theme'
+import AuthorizePage from './pages/Authorize'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
@@ -61,6 +62,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                 <GA4Provider tag={tag}>
                                     <Welcome />
                                 </GA4Provider>
+                            }
+                        />
+                        <Route
+                            path="/authorize"
+                            element={
+                                <ClientProvider noloading>
+                                    <AuthorizePage />
+                                </ClientProvider>
                             }
                         />
                         {!logined ? (

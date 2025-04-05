@@ -176,6 +176,7 @@
             "wordMute": "静音关键词",
             "timelineMute": "静音时间线",
             "fontSize": "字符大小",
+            "stripExif": "发布时压缩图片并移除 EXIF 信息",
             "notification": {
                 "title": "通知",
                 "notsupported": "你所在的域当前还不支持通知",
@@ -282,7 +283,8 @@
                 "domain": "域存储是指此域提供的存储空间，无需设置即可使用，但有最大容量限制。此外，管理员可以查看文件列表，违反条款的文件可能会被删除。",
                 "imgur": "将图片上传到 Imgur，设置起来相对简单。上传的内容需遵守 Imgur 的条款。",
                 "s3": "将图片上传到 S3。也可以使用与 S3 协议兼容的服务，例如 CloudFlare R2、Backblaze B2 等。它需要设置更多的选项，但可以让您自行控制文件。根据服务提供商的不同，可能会收取费用，但在大多数情况下，许多服务提供商都提供免费套餐和额度。"
-            }
+            },
+            "storageQuota": "存储用量"
         },
         "ap": {
             "title": "ActivityPub",
@@ -312,6 +314,12 @@
         }
     },
     "welcome": {
+        "welcome": "欢迎来到 Concurrent！",
+        "startWithCommunity": "与社区一同开始",
+        "startWithCommunityDesc": "通过关注为 Concurrent 新手量身定制的社区来开始您的旅程。",
+        "startWithAlone": "独自开始",
+        "startWithAloneDesc": "从最小设置开始。",
+        
         "start": "快速开始",
         "guide": "用户指南",
         "gettingStarted": "让我们来开始吧！",

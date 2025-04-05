@@ -892,6 +892,8 @@ export class Association<T> implements Omit<CoreAssociation<T>, 'document' | 'pa
     schema: string
     signature: string
     target: MessageID
+    variant: string
+    timelines: TimelineID[]
     cdate: string
 
     // ---------- //
@@ -917,6 +919,8 @@ export class Association<T> implements Omit<CoreAssociation<T>, 'document' | 'pa
         this.signature = data.signature
         this.target = data.target
         this.cdate = data.cdate
+        this.variant = data.variant
+        this.timelines = data.timelines
 
         this.document = JSON.parse(data.document)
         this._document = data.document
@@ -1311,6 +1315,8 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
             owner: author.ccid,
             schema: Schemas.likeAssociation,
             target: this.id,
+            variant: '',
+            timelines: targetTimeline,
             cdate: new Date().toISOString(),
             document: JSON.stringify({
                 type: 'association',
@@ -1359,6 +1365,8 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
             owner: author.ccid,
             schema: Schemas.reactionAssociation,
             target: this.id,
+            variant: imageUrl,
+            timelines: targetTimeline,
             cdate: new Date().toISOString(),
             document: JSON.stringify({
                 type: 'association',
@@ -1386,7 +1394,6 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         }
         this.onUpdate?.()
 
-        this.client.api.invalidateMessage(this.id)
         const result = this.client.api
             .createAssociation<ReactionAssociationSchema>(
                 Schemas.reactionAssociation,
@@ -1400,6 +1407,7 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
                 imageUrl
             )
             .then((resp) => {
+                this.client.api.invalidateMessage(this.id)
                 return resp
             })
             .catch((e) => {
