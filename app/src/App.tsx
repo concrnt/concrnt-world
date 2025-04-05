@@ -39,6 +39,7 @@ import { UserDrawerProvider } from './context/UserDrawer'
 import { Schemas } from '@concrnt/worldlib'
 import type { ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldlib'
 import { SearchDrawerProvider } from './context/SearchDrawer'
+import { CommandPaletteProvider } from './context/CommandPalette'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -313,7 +314,9 @@ function App(): JSX.Element {
                                             <UserDrawerProvider>
                                                 <SearchDrawerProvider>
                                                     <ConfirmProvider>
-                                                        <GlobalActionsProvider>{childs}</GlobalActionsProvider>
+                                                        <CommandPaletteProvider>
+                                                            <GlobalActionsProvider>{childs}</GlobalActionsProvider>
+                                                        </CommandPaletteProvider>
                                                     </ConfirmProvider>
                                                 </SearchDrawerProvider>
                                             </UserDrawerProvider>

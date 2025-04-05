@@ -21,6 +21,7 @@ export interface ListItemTimelineProps {
     sx?: SxProps
     onClick?: () => void
     secondaryAction?: JSX.Element | JSX.Element[]
+    selected?: boolean
 }
 
 export const ListItemTimeline = (props: ListItemTimelineProps): JSX.Element | null => {
@@ -88,7 +89,14 @@ export const ListItemTimeline = (props: ListItemTimelineProps): JSX.Element | nu
 
     return (
         <ListItem dense disablePadding secondaryAction={props.secondaryAction}>
-            <ListItemButton dense component={RouterLink} to={link} sx={props.sx} onClick={props.onClick}>
+            <ListItemButton
+                dense
+                component={RouterLink}
+                to={link}
+                sx={props.sx}
+                onClick={props.onClick}
+                selected={props.selected}
+            >
                 {timeline?.owner && IsCSID(timeline.owner) ? <TagIcon /> : <AlternateEmailIcon />}
                 {timeline?.document.body.name || profile?.username || 'Unknown'}
                 {timeline?.schema === Schemas.subprofileTimeline && <FaTheaterMasks />}
