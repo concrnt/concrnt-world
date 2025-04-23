@@ -1,4 +1,6 @@
 import {
+    Alert,
+    AlertTitle,
     Box,
     Button,
     Divider,
@@ -105,10 +107,10 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
             if (!e) return
             setTimeline(e)
             setDocumentBody(e.document.body)
-            setPolicyParams(JSON.stringify(e.policyParams))
+            setPolicyParams(JSON.stringify(e.policy.getPolicyParams()))
             setVisible(e.indexable)
             setSchemaDraft(e.schema)
-            setPolicyDraft(e.policy || '')
+            setPolicyDraft(e.policy.getPolicySchemaURL())
 
             e.getAssociations().then((assocs) => {
                 setRequests(assocs.filter((e) => e.schema === Schemas.readAccessRequestAssociation))
@@ -159,6 +161,15 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                 p: 1
             }}
         >
+            {!timeline.policy.isRegistered() && (
+                <>
+                    <Alert severity="info">
+                        <AlertTitle>このコミュニティにはカスタムポリシーが設定されています</AlertTitle>
+                        そのため、読み込み権限・書き込み権限のあるユーザーの表示が正常に行われない場合があります。
+                    </Alert>
+                </>
+            )}
+
             {isAuthor && (
                 <>
                     <Typography variant="h3">閲覧リクエスト({requests.length})</Typography>
@@ -278,7 +289,9 @@ export function StreamInfo(props: StreamInfoProps): JSX.Element {
                     policyDraft === '' ? '空の場合はデフォルトポリシーが適用されます' : 'PolicyJSONのURLを入力。'
                 }
                 options={{
-                    基本的な権限設定: 'https://policy.concrnt.world/t/inline-read-write.json'
+                    基本的な権限設定: 'https://policy.concrnt.world/t/inline-allow-deny.json',
+                    '基本的な権限設定(レガシー)': 'https://policy.concrnt.world/t/inline-read-write.json',
+                    フォロイー限定設定: 'https://policy.concrnt.world/t/restrict-ackees.json'
                 }}
                 value={policyDraft ?? ''}
                 onChange={(value) => {

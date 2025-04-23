@@ -36,7 +36,8 @@ export const StorageProvider = ({ children }: { children: JSX.Element | JSX.Elem
     const uploadFile = useCallback(
         async (file: File, onProgress?: (_: number) => void): Promise<string> => {
             const isImage = file.type.includes('image')
-            if (isImage && stripExif) {
+            const isGif = file.type.includes('gif')
+            if (isImage && !isGif && stripExif) {
                 // remove exif data
                 const canvas = document.createElement('canvas')
                 const ctx = canvas.getContext('2d')

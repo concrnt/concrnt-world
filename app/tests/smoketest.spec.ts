@@ -64,7 +64,7 @@ loggedinTests.forEach((t) => {
         // set localStorage
         await page.addInitScript(() => {
             // board aunt arm cushion install lyrics provide giraffe subway cart again arrow
-            localStorage.setItem('PrivateKey', '"02b03c01d6fa12f23980dcb9bb61eb4c022f406515cbe8cab9527dc8c15430fd"')
+            localStorage.setItem('PrivateKey', '"b8575fc35b911506747e0d4c1436d55f84efab2a3aace06fae41e8e2431624a8"')
             localStorage.setItem('Domain', '"zyouya.concrnt.net"')
             localStorage.setItem(
                 'preference',

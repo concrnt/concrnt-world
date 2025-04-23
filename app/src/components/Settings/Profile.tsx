@@ -73,7 +73,7 @@ export const ProfileSettings = (): JSX.Element => {
     const [badges, setBadges] = useState<Badge[]>([])
 
     const [homeTimeline, setHomeTimeline] = useState<Timeline<EmptyTimelineSchema> | null>(null)
-    const homeIsPublic = homeTimeline?.policyParams?.isReadPublic
+    const homeIsPublic = homeTimeline?.policy.isReadPublic()
 
     const [update, setUpdate] = useState(0)
 
@@ -174,12 +174,7 @@ export const ProfileSettings = (): JSX.Element => {
                                 confirm.open(
                                     'ホーム投稿の閲覧者を制限しますか？',
                                     () => {
-                                        if (!homeTimeline) return
-                                        const currentPolicy = homeTimeline.policyParams
-                                        currentPolicy.isReadPublic = false
-                                        if (!currentPolicy.reader.includes(client.ccid)) {
-                                            currentPolicy.reader.push(client.ccid)
-                                        }
+                                        if (!homeTimeline || !client.ccid) return
                                         client.api
                                             .upsertTimeline(
                                                 Schemas.emptyTimeline,
@@ -187,8 +182,13 @@ export const ProfileSettings = (): JSX.Element => {
                                                 {
                                                     semanticID: 'world.concrnt.t-home',
                                                     indexable: false,
-                                                    policy: 'https://policy.concrnt.world/t/inline-read-write.json',
-                                                    policyParams: JSON.stringify(currentPolicy)
+                                                    policy: homeTimeline.policy.getPolicySchemaURL(),
+                                                    policyParams: JSON.stringify(
+                                                        homeTimeline.policy
+                                                            .copyWithNewReadPublic(false)
+                                                            .copyWithAddReaders([client.ccid])
+                                                            .getPolicyParams()
+                                                    )
                                                 }
                                             )
                                             .then(() => {
@@ -223,8 +223,6 @@ export const ProfileSettings = (): JSX.Element => {
                                     'ホーム投稿を一般公開にしますか？',
                                     () => {
                                         if (!homeTimeline) return
-                                        const currentPolicy = homeTimeline.policyParams
-                                        currentPolicy.isReadPublic = true
                                         client.api
                                             .upsertTimeline(
                                                 Schemas.emptyTimeline,
@@ -232,8 +230,12 @@ export const ProfileSettings = (): JSX.Element => {
                                                 {
                                                     semanticID: 'world.concrnt.t-home',
                                                     indexable: false,
-                                                    policy: 'https://policy.concrnt.world/t/inline-read-write.json',
-                                                    policyParams: JSON.stringify(currentPolicy)
+                                                    policy: homeTimeline.policy.getPolicySchemaURL(),
+                                                    policyParams: JSON.stringify(
+                                                        homeTimeline.policy
+                                                            .copyWithNewReadPublic(true)
+                                                            .getPolicyParams()
+                                                    )
                                                 }
                                             )
                                             .then(() => {
@@ -268,7 +270,7 @@ export const ProfileSettings = (): JSX.Element => {
                                 flexWrap: 'wrap'
                             }}
                         >
-                            {homeTimeline?.policyParams?.reader?.map((e: string) => (
+                            {(homeTimeline?.policy.getReaders() ?? []).map((e: string) => (
                                 <CCUserChip avatar key={e} ccid={e} />
                             ))}
                         </Box>
@@ -279,15 +281,13 @@ export const ProfileSettings = (): JSX.Element => {
                                 if (!homeTimeline) return
 
                                 Promise.all(
-                                    homeTimeline.policyParams.reader.map((e: string) => client.getUser(e))
+                                    (homeTimeline.policy.getReaders() ?? []).map((e: string) => client.getUser(e))
                                 ).then((users) => {
                                     setSelectedUsers(users.filter((u) => u) as User[])
                                 })
 
                                 setOpenReaderEditor(() => (update: User[]) => {
-                                    const reader = update.map((u) => u.ccid)
-                                    const currentPolicy = homeTimeline.policyParams
-                                    currentPolicy.reader = reader
+                                    const readers = update.map((u) => u.ccid)
                                     client.api
                                         .upsertTimeline(
                                             Schemas.emptyTimeline,
@@ -295,13 +295,18 @@ export const ProfileSettings = (): JSX.Element => {
                                             {
                                                 semanticID: 'world.concrnt.t-home',
                                                 indexable: false,
-                                                policy: 'https://policy.concrnt.world/t/inline-read-write.json',
-                                                policyParams: JSON.stringify(currentPolicy)
+                                                policy: homeTimeline.policy.getPolicySchemaURL(),
+                                                policyParams: JSON.stringify(
+                                                    homeTimeline.policy.copyWithNewReaders(readers).getPolicyParams()
+                                                )
                                             }
                                         )
                                         .then(() => {
                                             homeTimeline.invalidate()
                                             load()
+                                        })
+                                        .catch((e) => {
+                                            enqueueSnackbar(e.message, { variant: 'error' })
                                         })
                                 })
                             }}

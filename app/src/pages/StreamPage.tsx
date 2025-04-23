@@ -41,20 +41,6 @@ export const StreamPage = memo((): JSX.Element => {
         return timeline?.author === client.ccid
     }, [timeline])
 
-    const isRestricted = timeline?.policy === 'https://policy.concrnt.world/t/inline-read-write.json'
-
-    const writeable = isRestricted
-        ? timeline?.policyParams?.isWritePublic
-            ? true
-            : timeline?.policyParams?.writer?.includes(client.ccid ?? '')
-        : true
-
-    const readable = isRestricted
-        ? timeline?.policyParams?.isReadPublic
-            ? true
-            : timeline?.policyParams?.reader?.includes(client.ccid ?? '')
-        : true
-
     const timelines = useMemo(() => {
         return timeline ? [timeline] : []
     }, [timeline])
@@ -100,7 +86,7 @@ export const StreamPage = memo((): JSX.Element => {
             >
                 <TimelineHeader
                     title={timeline?.document.body.name ?? 'Not Found'}
-                    titleIcon={isRestricted ? <LockIcon /> : <TagIcon />}
+                    titleIcon={timeline?.policy.isReadPublic() ? <TagIcon /> : <LockIcon />}
                     secondaryAction={isOwner ? <TuneIcon /> : <InfoIcon />}
                     onTitleClick={() => {
                         timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
@@ -109,13 +95,13 @@ export const StreamPage = memo((): JSX.Element => {
                         setTimelineInfoOpen(true)
                     }}
                 />
-                {readable ? (
+                {timeline?.policy.isReadable(client) ? (
                     <WatchingStreamContextProvider watchingStreams={timelineFQIDs}>
                         <Timeline
                             timelineFQIDs={timelineFQIDs}
                             ref={timelineRef}
                             header={
-                                (writeable && (
+                                (timeline.policy.isWriteable(client) && (
                                     <Box
                                         sx={{
                                             display: 'flex',
@@ -163,8 +149,8 @@ export const StreamPage = memo((): JSX.Element => {
                 <StreamInfo
                     detailed
                     id={targetTimelineID}
-                    writers={timeline?.policyParams?.writer}
-                    readers={timeline?.policyParams?.reader}
+                    writers={timeline?.policy?.getWriters()}
+                    readers={timeline?.policy?.getReaders()}
                 />
             </CCDrawer>
         </>

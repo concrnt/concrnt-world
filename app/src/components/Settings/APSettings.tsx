@@ -33,11 +33,11 @@ export const APSettings = (): JSX.Element => {
     const timelineNGReason = (() => {
         if (!client.ccid) return null
         if (!apTimeline) return 'Activitypub受信用タイムラインが見つかりません'
-        if (apTimeline.policy === 'https://policy.concrnt.world/t/inline-read-write.json') {
-            if (!apTimeline.policyParams.writer.includes(client.ccid)) {
+        if (apTimeline.policy.getPolicySchemaURL() === 'https://policy.concrnt.world/t/inline-read-write.json') {
+            if (!apTimeline.policy.getPolicyParams().writer.includes(client.ccid)) {
                 return '自身の書き込み権限が設定されていません'
             }
-            if (!apTimeline.policyParams.writer.includes(meta.metadata?.proxyCCID)) {
+            if (!apTimeline.policy.getPolicyParams().writer.includes(meta.metadata?.proxyCCID)) {
                 return '受信用botアカウントの書き込み権限が設定されていません'
             }
         }
@@ -183,7 +183,7 @@ export const APSettings = (): JSX.Element => {
                                         if (meta.metadata?.proxyCCID === undefined)
                                             alert('サーバー設定が不正です。管理者に問い合わせてください')
 
-                                        const base = apTimeline?.policyParams.writer ?? []
+                                        const base = apTimeline?.policy.getPolicyParams().writer ?? []
                                         const writers = [...new Set([...base, client.ccid, meta.metadata?.proxyCCID])]
 
                                         client.api

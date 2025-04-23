@@ -42,14 +42,6 @@ export const TimelineDrawerProvider = (props: TimelineDrawerProps): JSX.Element 
         })
     }, [timelineID])
 
-    const isRestricted = timeline?.policy === 'https://policy.concrnt.world/t/inline-read-write.json'
-
-    const readable = isRestricted
-        ? timeline?.policyParams?.isReadPublic
-            ? true
-            : timeline?.policyParams?.reader?.includes(client.ccid ?? '')
-        : true
-
     const timelineRef = useRef<VListHandle>(null)
 
     const timelineIDs = useMemo(() => {
@@ -77,7 +69,7 @@ export const TimelineDrawerProvider = (props: TimelineDrawerProps): JSX.Element 
             >
                 <TimelineHeader
                     title={timeline?.document.body.name ?? 'Not Found'}
-                    titleIcon={isRestricted ? <LockIcon /> : <TagIcon />}
+                    titleIcon={timeline?.policy.isReadPublic() ? <TagIcon /> : <LockIcon />}
                     secondaryAction={<OpenInFullIcon />}
                     onTitleClick={() => {
                         timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
@@ -96,7 +88,7 @@ export const TimelineDrawerProvider = (props: TimelineDrawerProps): JSX.Element 
                         flexDirection: 'column'
                     }}
                 >
-                    {readable ? (
+                    {timeline?.policy.isReadable(client) ? (
                         <Timeline
                             timelineFQIDs={timelineIDs}
                             ref={timelineRef}

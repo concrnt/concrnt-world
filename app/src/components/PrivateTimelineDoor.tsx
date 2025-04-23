@@ -2,7 +2,7 @@ import { type Association, type ReadAccessRequestAssociationSchema, Schemas, typ
 import LockIcon from '@mui/icons-material/Lock'
 import { useEffect, useMemo, useState } from 'react'
 import { useClient } from '../context/ClientContext'
-import { Box, Button, type SxProps, Typography } from '@mui/material'
+import { Box, Button, type SxProps, Tooltip, Typography } from '@mui/material'
 
 interface PrivateTimelineDoorProps {
     timeline: Timeline<any>
@@ -27,6 +27,8 @@ export const PrivateTimelineDoor = (props: PrivateTimelineDoorProps): JSX.Elemen
         })
     }, [props.timeline, update])
 
+    const requestable = props.timeline.policy.isRequestable()
+
     return (
         <Box
             sx={{
@@ -43,31 +45,36 @@ export const PrivateTimelineDoor = (props: PrivateTimelineDoorProps): JSX.Elemen
                 }}
             />
             <Typography variant="h5">このタイムラインはプライベートです。</Typography>
-            <Button
-                variant={myRequest ? 'outlined' : 'contained'}
-                onClick={() => {
-                    if (myRequest) {
-                        myRequest.delete().then(() => {
-                            setUpdate((prev) => prev + 1)
-                        })
-                    } else {
-                        const id = props.timeline.id.split('@')[0]
-                        client.api
-                            .createAssociation<ReadAccessRequestAssociationSchema>(
-                                Schemas.readAccessRequestAssociation,
-                                {},
-                                id,
-                                props.timeline.author,
-                                ['world.concrnt.t-notify@' + props.timeline.author]
-                            )
-                            .then(() => {
-                                setUpdate((prev) => prev + 1)
-                            })
-                    }
-                }}
-            >
-                {myRequest ? 'リクエスト済み' : 'リクエストする'}
-            </Button>
+            <Tooltip title={requestable ? '' : 'このタイムラインはリクエストを送信できない設定になっています。'}>
+                <Box>
+                    <Button
+                        disabled={!requestable}
+                        variant={myRequest ? 'outlined' : 'contained'}
+                        onClick={() => {
+                            if (myRequest) {
+                                myRequest.delete().then(() => {
+                                    setUpdate((prev) => prev + 1)
+                                })
+                            } else {
+                                const id = props.timeline.id.split('@')[0]
+                                client.api
+                                    .createAssociation<ReadAccessRequestAssociationSchema>(
+                                        Schemas.readAccessRequestAssociation,
+                                        {},
+                                        id,
+                                        props.timeline.author,
+                                        ['world.concrnt.t-notify@' + props.timeline.author]
+                                    )
+                                    .then(() => {
+                                        setUpdate((prev) => prev + 1)
+                                    })
+                            }
+                        }}
+                    >
+                        {myRequest ? 'リクエスト済み' : 'リクエストする'}
+                    </Button>
+                </Box>
+            </Tooltip>
         </Box>
     )
 }

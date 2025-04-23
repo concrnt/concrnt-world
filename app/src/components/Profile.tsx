@@ -128,7 +128,7 @@ export function Profile(props: ProfileProps): JSX.Element {
             }}
         >
             <CCWallpaper
-                override={props.user.profile?.banner}
+                override={subProfile?.parsedDoc.body.banner ?? props.user.profile?.banner}
                 sx={{
                     height: '150px'
                 }}

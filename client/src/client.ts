@@ -53,6 +53,7 @@ import {
     type CreatePlaintextCrntOptions
 } from './model'
 import { isFulfilled, isNonNull } from './util'
+import { loadPolicy, Policy } from './policy'
 
 const cacheLifetime = 5 * 60 * 1000
 
@@ -981,7 +982,7 @@ export class Association<T> implements Omit<CoreAssociation<T>, 'document' | 'pa
     }
 }
 
-export class Timeline<T> implements Omit<CoreTimeline<T>, 'document' | 'parsedDoc'> {
+export class Timeline<T> implements Omit<CoreTimeline<T>, 'document' | 'parsedDoc' | 'policy' | 'policyParams'> {
     client: Client
 
     // ---------- //
@@ -991,8 +992,7 @@ export class Timeline<T> implements Omit<CoreTimeline<T>, 'document' | 'parsedDo
     owner: CCID | CSID
     author: CCID
     schema: string
-    policy?: string
-    policyParams?: any
+    policy: Policy
     document: CCDocument.Timeline<T>
     signature: string
     cdate: string
@@ -1017,14 +1017,7 @@ export class Timeline<T> implements Omit<CoreTimeline<T>, 'document' | 'parsedDo
         this.signature = data.signature
         this.cdate = data.cdate
         this.mdate = data.mdate
-        this.policy = data.policy
-        if (data.policyParams) {
-            try {
-                this.policyParams = JSON.parse(data.policyParams)
-            } catch (e) {
-                console.error('CLIENT::Timeline::constructor::error', e)
-            }
-        }
+        this.policy = loadPolicy(data.policy, data.policyParams, this)
     }
 
     toJSON(): any {
@@ -1038,8 +1031,8 @@ export class Timeline<T> implements Omit<CoreTimeline<T>, 'document' | 'parsedDo
             signature: this.signature,
             cdate: this.cdate,
             mdate: this.mdate,
-            policy: this.policy,
-            policyParams: this.policyParams
+            policy: this.policy?.getPolicySchemaURL(),
+            policyParams: this.policy?.getPolicyParams()
         }
     }
 

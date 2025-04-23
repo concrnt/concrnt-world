@@ -14,6 +14,7 @@ import { Profile } from '../components/Profile'
 import { GuestBase } from '../components/GuestBase'
 import { MediaViewerProvider } from '../context/MediaViewer'
 import { Helmet } from 'react-helmet-async'
+import { loadPolicy } from '@concrnt/worldlib'
 
 export default function GuestProfilePage(): JSX.Element {
     const [user, setUser] = useState<User | null | undefined>(null)
@@ -43,16 +44,8 @@ export default function GuestProfilePage(): JSX.Element {
 
                 client.api.getTimeline(timelineID).then((t) => {
                     if (!t) return
-                    if (t.policy !== 'https://policy.concrnt.world/t/inline-read-write.json' || !t.policyParams) {
-                        setIsPrivateTimeline(false)
-                        return
-                    }
-                    try {
-                        const params = JSON.parse(t.policyParams)
-                        setIsPrivateTimeline(params.isReadPublic === false)
-                    } catch (e) {
-                        console.error(e)
-                    }
+                    const policy = loadPolicy(t.policy, t.policyParams)
+                    setIsPrivateTimeline(!policy.isReadPublic())
                 })
             })
         })

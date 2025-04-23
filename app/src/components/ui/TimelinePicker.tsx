@@ -14,7 +14,6 @@ import {
 } from '@mui/material'
 import { ProfileSchema, type CommunityTimelineSchema, type Timeline } from '@concrnt/worldlib'
 import { CCChip } from './CCChip'
-import { isPrivateTimeline } from '../../util'
 import { useMemo, useState } from 'react'
 
 import TagIcon from '@mui/icons-material/Tag'
@@ -175,7 +174,7 @@ export const TimelinePicker = (props: TimelinePickerProps): JSX.Element => {
                     value.map((option, index) => (
                         <CCChip
                             size="small"
-                            icon={isPrivateTimeline(option) ? <LockIcon /> : <TagIcon />}
+                            icon={option.policy.isReadPublic() ? <TagIcon /> : <LockIcon />}
                             label={option.document.body.name}
                             sx={{ color: 'text.default' }}
                             {...getTagProps({ index })}
@@ -194,7 +193,7 @@ export const TimelinePicker = (props: TimelinePickerProps): JSX.Element => {
                         }}
                         {...props}
                     >
-                        {isPrivateTimeline(option) ? <LockIcon /> : <TagIcon />}
+                        {option.policy.isReadPublic() ? <TagIcon /> : <LockIcon />}
                         {option.document.body.name}
                     </Box>
                 )}

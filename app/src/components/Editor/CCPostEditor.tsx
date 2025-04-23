@@ -199,13 +199,10 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     const whisper = participants.map((p) => p.ccid)
 
     // check Visibility
-    // 'https://policy.concrnt.world/t/inline-read-write.json'
     const isPrivate = useMemo(() => {
         return (
             destTimelines.some((dest) => {
-                if (dest.policy !== 'https://policy.concrnt.world/t/inline-read-write.json') return false
-                if (dest.policyParams.isReadPublic) return false
-                return true
+                return !dest.policy.isReadPublic()
             }) || participants.length > 0
         )
     }, [destTimelines, participants])

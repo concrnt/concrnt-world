@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { visit } from 'unist-util-visit'
 import { inspect } from 'unist-util-inspect'
 import { Sign, type CCDocument } from '@concrnt/client'
-import { Timeline } from '@concrnt/worldlib'
 import { encode } from 'blurhash'
 
 export const convertToGoogleTranslateCode = (lang: string): string => {
@@ -58,10 +57,6 @@ export const genBlurHash = async (url: string): Promise<string | undefined> => {
     if (data) {
         return encode(data.data, clampedSize.width, clampedSize.height, 4, 4)
     }
-}
-
-export const isPrivateTimeline = (tl: Timeline<any>): boolean => {
-    return tl.policy === 'https://policy.concrnt.world/t/inline-read-write.json' && !tl.policyParams?.isReadPublic
 }
 
 export const jumpToDomainRegistration = (ccid: string, privateKey: string, fqdn: string, callback: string): void => {

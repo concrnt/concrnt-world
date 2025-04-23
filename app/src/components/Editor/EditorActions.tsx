@@ -11,7 +11,6 @@ import {
     useTheme
 } from '@mui/material'
 import { CCIconButton } from '../ui/CCIconButton'
-
 import { closeSnackbar, useSnackbar } from 'notistack'
 import { useEmojiPicker } from '../../context/EmojiPickerContext'
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +23,8 @@ import EmojiEmotions from '@mui/icons-material/EmojiEmotions'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import LockIcon from '@mui/icons-material/Lock'
+
 import { type Dispatch, type SetStateAction, useRef, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type WorldMedia, type Emoji, type EmojiLite } from '../../model'
@@ -369,7 +370,7 @@ ${props.draft.trim() || '内容を入力...'}
                         }}
                         endIcon={<SendIcon />}
                     >
-                        {props.isPrivate ? '🔒' : ''}
+                        {props.isPrivate ? <LockIcon sx={{ fontSize: '1rem', mr: 1 }} /> : <></>}
                         {props.whisperUsers.length > 0 ? t('whisper') : ''}
                         {props.submitButtonLabel ?? t('current')}
                     </Button>

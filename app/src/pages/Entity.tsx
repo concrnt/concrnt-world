@@ -30,8 +30,7 @@ export function EntityPage(): JSX.Element {
     const navigate = useNavigate()
 
     const [timeline, setTimeline] = useState<Timeline<EmptyTimelineSchema> | null>(null)
-    const isPrivate =
-        timeline?.policyParams.isReadPublic === false && !timeline?.policyParams.reader.includes(client.ccid)
+    const isPrivate = !timeline?.policy.isReadable(client)
 
     const [user, setUser] = useState<User | null | undefined>(null)
 
@@ -112,7 +111,7 @@ export function EntityPage(): JSX.Element {
                     </Collapse>
                 </Box>
 
-                {isPrivate ? (
+                {timeline && isPrivate ? (
                     <>
                         <Profile
                             user={user}

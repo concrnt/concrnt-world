@@ -15,7 +15,6 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 
 import TagIcon from '@mui/icons-material/Tag'
 import LockIcon from '@mui/icons-material/Lock'
-import { isPrivateTimeline } from '../../util'
 import { useGlobalState } from '../../context/GlobalState'
 import { SubprofileBadge } from '../ui/SubprofileBadge'
 import { CCLink } from '../ui/CCLink'
@@ -87,8 +86,6 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                 />
             )}
             {postedTimelines.map((e) => {
-                const isPrivate = isPrivateTimeline(e)
-
                 switch (e.schema) {
                     case Schemas.communityTimeline:
                         return (
@@ -115,10 +112,10 @@ export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
                                 }}
                                 onTouchEnd={ButtonOnRelease}
                             >
-                                {isPrivate ? (
-                                    <LockIcon sx={{ height: '1rem', width: '1rem' }} />
-                                ) : (
+                                {e.policy.isReadPublic() ? (
                                     <TagIcon sx={{ height: '1rem', width: '1rem' }} />
+                                ) : (
+                                    <LockIcon sx={{ height: '1rem', width: '1rem' }} />
                                 )}
                                 {e.document.body.shortname || e.document.body.name}
                             </CCLink>

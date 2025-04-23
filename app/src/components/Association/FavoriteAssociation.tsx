@@ -4,10 +4,11 @@ import {
     type Message,
     type ReplyMessageSchema,
     type MarkdownMessageSchema,
-    type User
+    type User,
+    MediaMessageSchema
 } from '@concrnt/worldlib'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
-import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
+import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Typography } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'
 import { Link as RouterLink } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -19,6 +20,7 @@ import { CfmRendererLite } from '../ui/CfmRendererLite'
 
 import { FaTheaterMasks } from 'react-icons/fa'
 import { CCLink } from '../ui/CCLink'
+import { useGlobalState } from '../../context/GlobalState'
 
 export interface FavoriteAssociationProps {
     association: Association<LikeAssociationSchema>
@@ -28,7 +30,10 @@ export interface FavoriteAssociationProps {
 
 export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Element => {
     const { client } = useClient()
-    const [target, setTarget] = useState<Message<MarkdownMessageSchema | ReplyMessageSchema> | null>(null)
+    const { getImageURL } = useGlobalState()
+    const [target, setTarget] = useState<Message<
+        MarkdownMessageSchema | ReplyMessageSchema | MediaMessageSchema
+    > | null>(null)
     const isMeToOther = props.association?.authorUser?.ccid !== props.perspective
 
     const Nominative =
@@ -96,15 +101,45 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
                     </CCLink>
                 </Box>
             </Box>
-            {(!props.withoutContent && (
-                <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '4px solid #ccc' }}>
-                    <CfmRendererLite
-                        messagebody={target?.document.body.body ?? 'no content'}
-                        emojiDict={target?.document.body.emojis ?? {}}
-                    />
-                </blockquote>
+            {(target && !props.withoutContent && (
+                <>
+                    <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '4px solid #ccc' }}>
+                        <CfmRendererLite
+                            messagebody={target?.document.body.body ?? 'no content'}
+                            emojiDict={target?.document.body.emojis ?? {}}
+                        />
+                    </blockquote>
+                    {'medias' in target.document.body && (
+                        <Box
+                            display="flex"
+                            gap={1}
+                            flexWrap="wrap"
+                            justifyContent="flex-start"
+                            sx={{
+                                marginTop: '0.5rem',
+                                marginBottom: '0.5rem'
+                            }}
+                        >
+                            {target.document.body.medias?.map((media, i) => (
+                                <Paper
+                                    key={i}
+                                    elevation={0}
+                                    sx={{
+                                        position: 'relative',
+                                        width: '75px',
+                                        height: '75px',
+                                        backgroundImage: `url(${getImageURL(media.mediaURL, { maxWidth: 512 })})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center'
+                                    }}
+                                ></Paper>
+                            ))}
+                        </Box>
+                    )}
+                </>
             )) ||
                 undefined}
+
             <Box
                 onClick={(e) => {
                     e.stopPropagation() // prevent to navigate other page
