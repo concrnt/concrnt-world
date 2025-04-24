@@ -219,12 +219,19 @@ function App(): JSX.Element {
                             username = profile?.parsedDoc.body.username
                         }
 
+                        let medias = ''
+                        if ('medias' in m.parsedDoc.body) {
+                            for (const media of m.parsedDoc.body.medias) {
+                                medias += `![${media.altText}](${media.mediaURL})`
+                            }
+                        }
+
                         playNotificationRef.current()
                         enqueueSnackbar(
                             <Box display="flex" flexDirection="column">
-                                <Typography>{username ?? 'anonymous'} liked your message: </Typography>
+                                <Typography>{username ?? 'anonymous'} favorited your message: </Typography>
                                 <CfmRendererLite
-                                    messagebody={m.parsedDoc.body.body as string}
+                                    messagebody={(m.parsedDoc.body.body as string) + medias}
                                     emojiDict={m.parsedDoc.body.emojis ?? {}}
                                     limit={128}
                                 />
@@ -247,6 +254,13 @@ function App(): JSX.Element {
                             username = profile?.parsedDoc.body.username
                         }
 
+                        let medias = ''
+                        if ('medias' in m.parsedDoc.body) {
+                            for (const media of m.parsedDoc.body.medias) {
+                                medias += `![${media.altText}](${media.mediaURL})`
+                            }
+                        }
+
                         playNotificationRef.current()
                         enqueueSnackbar(
                             <Box display="flex" flexDirection="column">
@@ -255,7 +269,7 @@ function App(): JSX.Element {
                                     <img src={a.body.imageUrl as string} style={{ height: '1em' }} />
                                 </Typography>
                                 <CfmRendererLite
-                                    messagebody={m.parsedDoc.body.body as string}
+                                    messagebody={(m.parsedDoc.body.body as string) + medias}
                                     emojiDict={m.parsedDoc.body.emojis ?? {}}
                                     limit={128}
                                 />

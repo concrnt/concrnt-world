@@ -8,6 +8,7 @@ import { TimelineChip } from './TimelineChip'
 import { useGlobalState } from '../../context/GlobalState'
 import { CCLink } from './CCLink'
 import { WellKnownLink } from '../WellKnownLink'
+import { CCImage } from './CCImage'
 
 export interface CfmRendererLiteProps {
     messagebody: string
@@ -147,7 +148,19 @@ const RenderAst = ({ ast, props }: RenderAstProps): JSX.Element => {
                 </Box>
             )
         case 'Image':
-            return <span>[Image: {ast.alt}]</span>
+            if (props.forceOneline) {
+                return <span>[Image: {ast.alt}]</span>
+            } else {
+                return (
+                    <CCImage
+                        src={ast.url}
+                        sx={{
+                            width: '75px',
+                            height: '75px'
+                        }}
+                    />
+                )
+            }
         case 'CodeBlock':
             return <span>[Codeblock]</span>
         case 'EmojiPack':

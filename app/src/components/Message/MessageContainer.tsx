@@ -18,7 +18,7 @@ import { ContentWithUserFetch } from '../ContentWithUserFetch'
 import { CopyChip } from '../ui/CopyChip'
 import { PlainMessageView } from './PlainMessageView'
 import { MediaMessageView } from './MediaMessageView'
-import { NotFoundError } from '@concrnt/client'
+import { NotFoundError, PermissionError } from '@concrnt/client'
 import { MarkdownMessageView } from './MarkdownMessageView'
 import { Link as routerLink } from 'react-router-dom'
 import { CCAvatarWithResolver } from '../ui/CCAvatarWithResolver'
@@ -205,6 +205,42 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                         </Box>
                         <Typography variant="caption" color="textDisabled">
                             このカレントは削除されました
+                        </Typography>
+                    </Box>
+                    {props.after}
+                </>
+            )
+        } else if (error instanceof PermissionError && devMode) {
+            // 403
+            return (
+                <>
+                    <Box display="flex" flexDirection="row" alignItems="center" gap={1} sx={props.sx}>
+                        <Box
+                            sx={{
+                                width: '48px',
+                                height: '1.2rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}
+                            component={routerLink}
+                            to={'/' + props.messageOwner}
+                        >
+                            <InfoIcon sx={{ fontSize: '1rem', color: 'text.disabled' }} />
+                            <CCAvatarWithResolver
+                                ccid={props.messageOwner}
+                                sx={{
+                                    width: '1.2rem',
+                                    height: '1.2rem'
+                                }}
+                            />
+                        </Box>
+                        <Typography
+                            variant="caption"
+                            color="textDisabled"
+                            onClick={() => navigator.clipboard.writeText(props.messageID)}
+                        >
+                            このカレントは非公開です
                         </Typography>
                     </Box>
                     {props.after}

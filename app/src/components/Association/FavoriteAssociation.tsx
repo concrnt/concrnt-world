@@ -8,7 +8,7 @@ import {
     MediaMessageSchema
 } from '@concrnt/worldlib'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
-import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Typography } from '@mui/material'
+import { Box, IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
 import { TimeDiff } from '../ui/TimeDiff'
 import { Link as RouterLink } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -20,7 +20,7 @@ import { CfmRendererLite } from '../ui/CfmRendererLite'
 
 import { FaTheaterMasks } from 'react-icons/fa'
 import { CCLink } from '../ui/CCLink'
-import { useGlobalState } from '../../context/GlobalState'
+import { CCImage } from '../ui/CCImage'
 
 export interface FavoriteAssociationProps {
     association: Association<LikeAssociationSchema>
@@ -30,7 +30,6 @@ export interface FavoriteAssociationProps {
 
 export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Element => {
     const { client } = useClient()
-    const { getImageURL } = useGlobalState()
     const [target, setTarget] = useState<Message<
         MarkdownMessageSchema | ReplyMessageSchema | MediaMessageSchema
     > | null>(null)
@@ -121,18 +120,16 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
                             }}
                         >
                             {target.document.body.medias?.map((media, i) => (
-                                <Paper
+                                <CCImage
                                     key={i}
-                                    elevation={0}
+                                    src={media.mediaURL}
+                                    blurhash={media.blurhash}
                                     sx={{
-                                        position: 'relative',
                                         width: '75px',
-                                        height: '75px',
-                                        backgroundImage: `url(${getImageURL(media.mediaURL, { maxWidth: 512 })})`,
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center'
+                                        height: '75px'
                                     }}
-                                ></Paper>
+                                    forceBlur={!!media.flag}
+                                />
                             ))}
                         </Box>
                     )}
