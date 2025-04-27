@@ -4,7 +4,7 @@ import { MessageActions } from './MessageActions'
 import { MessageReactions } from './MessageReactions'
 import { type RerouteMessageSchema, type Message, Schemas } from '@concrnt/worldlib'
 import { Profile } from '@concrnt/client'
-import { PostedStreams } from './PostedStreams'
+import { PostedTimelines } from './PostedTimelines'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ReplayIcon from '@mui/icons-material/Replay'
@@ -131,14 +131,14 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
                         }}
                     >
                         <Box display="flex" flexDirection="row" alignItems="center">
-                            <PostedStreams useUserIcon={!!props.rerouted} message={props.message} />
+                            <PostedTimelines useUserIcon={!!props.rerouted} message={props.message} />
                             {props.rerouted &&
                                 (reroutedsame ? (
                                     <ReplayIcon sx={{ color: 'text.secondary', fontSize: '90%' }} />
                                 ) : (
                                     <>
                                         <ArrowForwardIcon sx={{ color: 'text.secondary', fontSize: '90%' }} />
-                                        <PostedStreams useUserIcon message={props.rerouted} />
+                                        <PostedTimelines useUserIcon message={props.rerouted} />
                                     </>
                                 ))}
                         </Box>

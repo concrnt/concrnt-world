@@ -5,7 +5,7 @@ import { usePreference } from '../context/PreferenceContext'
 import { Suspense, lazy, useState } from 'react'
 import { type Identity } from '@concrnt/client'
 import { useEditorModal } from '../components/EditorModal'
-import { StreamCard } from '../components/Stream/Card'
+import { TimelineCard } from '../components/TimelineCard'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import figurePost from '../resources/tutorial-post-to-communities.png'
 import figureListSettings from '../resources/tutorial-list-settings.png'
@@ -231,7 +231,7 @@ export function Tutorial(): JSX.Element {
                                 <Typography variant="h1">{t('community.title')}</Typography>
                                 <Typography>{t('community.desc1')}</Typography>
 
-                                <StreamCard
+                                <TimelineCard
                                     sx={{ minWidth: '300px' }}
                                     timelineFQID="tar69vv26r5s4wk0r067v20bvyw@ariake.concrnt.net"
                                     name="Arrival Lounge"

@@ -11,7 +11,7 @@ import Fuzzysort from 'fuzzysort'
 import { CCDrawer } from '../components/ui/CCDrawer'
 import { CCEditor } from '../components/ui/cceditor'
 import { useSnackbar } from 'notistack'
-import { StreamCard } from '../components/Stream/Card'
+import { TimelineCard } from '../components/TimelineCard'
 import { SubProfileCard } from '../components/SubProfileCard'
 import { DomainCard } from '../components/ui/DomainCard'
 import { Helmet } from 'react-helmet-async'
@@ -290,7 +290,7 @@ export function Explorer(): JSX.Element {
                         >
                             {searchResult.map((value) => {
                                 return (
-                                    <StreamCard
+                                    <TimelineCard
                                         key={value.stream.id}
                                         timelineFQID={value.stream.id}
                                         name={value.stream.document.body.name}

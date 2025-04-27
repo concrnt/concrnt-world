@@ -9,12 +9,6 @@ import type {
     TypeText
 } from '@mui/material/styles/createPalette'
 
-import type { TimelineItem } from '@concrnt/client'
-
-export interface StreamItemDated extends TimelineItem {
-    LastUpdated: number
-}
-
 export interface EmojiLite {
     imageURL?: string
     animURL?: string
@@ -40,10 +34,6 @@ export interface RawEmojiPackage {
 export interface EmojiPackage extends RawEmojiPackage {
     packageURL: string
     fetchedAt?: Date
-}
-
-export interface ImgurSettings {
-    clientId: string
 }
 
 interface ConcurrentTypeBackground extends TypeBackground {
@@ -91,13 +81,6 @@ export interface StreamList {
     defaultPostStreams: string[]
     defaultProfile?: string
 }
-
-export interface userHomeStream {
-    streamID: string
-    userID: string
-}
-
-export type CCID = string
 
 export interface ApEntity {
     id: string

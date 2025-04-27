@@ -18,10 +18,7 @@ import { MinimalListsMenu } from '../ListsMenu/minimal'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import { useEditorModal } from '../EditorModal'
 import { useGlobalState } from '../../context/GlobalState'
-
-export interface MenuProps {
-    onClick?: () => void
-}
+import { MenuProps } from './Menu'
 
 export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const { client } = useClient()
@@ -33,6 +30,7 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const { isMasterSession } = useGlobalState()
     const [progress] = usePreference('tutorialProgress')
     const [tutorialCompleted] = usePreference('tutorialCompleted')
+    const [latestSeenNotification] = usePreference('lastSeenNotification')
 
     return (
         <Box
@@ -96,11 +94,17 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                         />
                     </IconButton>
                     <IconButton sx={{ p: 0.5 }} component={Link} to="/notifications" onClick={props.onClick}>
-                        <NotificationsIcon
-                            sx={{
-                                color: 'background.contrastText'
-                            }}
-                        />
+                        <Badge
+                            color="secondary"
+                            variant="dot"
+                            invisible={latestSeenNotification >= props.latestNotification}
+                        >
+                            <NotificationsIcon
+                                sx={{
+                                    color: 'background.contrastText'
+                                }}
+                            />
+                        </Badge>
                     </IconButton>
                     <IconButton sx={{ p: 0.5 }} component={Link} to="/contacts" onClick={props.onClick}>
                         <ContactsIcon

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Paper, Typography } from '@mui/material'
 import { useParams, Link as NavLink } from 'react-router-dom'
-import { Timeline } from '../components/Timeline/main'
-import { Client } from '@concrnt/worldlib'
-import { type Timeline as CoreTimeline } from '@concrnt/client'
+import { RealtimeTimeline } from '../components/RealtimeTimeline'
+import { Client, CommunityTimelineSchema, type Timeline } from '@concrnt/worldlib'
 import { FullScreenLoading } from '../components/ui/FullScreenLoading'
 import { ClientProvider } from '../context/ClientContext'
 import { TimelineHeader } from '../components/TimelineHeader'
@@ -11,15 +10,13 @@ import { TimelineHeader } from '../components/TimelineHeader'
 import TagIcon from '@mui/icons-material/Tag'
 import LockIcon from '@mui/icons-material/Lock'
 import { GuestBase } from '../components/GuestBase'
-import { StreamInfo } from '../components/StreamInfo'
 import { MediaViewerProvider } from '../context/MediaViewer'
 import { Helmet } from 'react-helmet-async'
-import { loadPolicy } from '@concrnt/worldlib'
+import { TimelineBanner } from '../components/TimelineBanner'
 
 export default function GuestTimelinePage(): JSX.Element {
-    const [timeline, setTimeline] = useState<CoreTimeline<any> | null | undefined>(null)
+    const [timeline, setTimeline] = useState<Timeline<CommunityTimelineSchema> | null | undefined>(null)
     const [targetStream, setTargetStream] = useState<string[]>([])
-    const [isPrivateTimeline, setIsPrivateTimeline] = useState<boolean>(false)
 
     const { id } = useParams()
 
@@ -33,27 +30,26 @@ export default function GuestTimelinePage(): JSX.Element {
         Client.createAsGuest(resolver).then((client) => {
             initializeClient(client)
 
-            client.api.getTimeline(id).then((e) => {
-                if (!e) return
+            client.getTimeline<CommunityTimelineSchema>(id).then((e) => {
                 setTimeline(e)
-                const policy = loadPolicy(e.policy, e.policyParams)
-                setIsPrivateTimeline(!policy.isReadPublic())
             })
         })
     }, [id])
 
     if (!client || !timeline) return <FullScreenLoading message="Loading..." />
 
+    const isPrivateTimeline = !timeline.policy.isReadPublic()
+
     return (
         <MediaViewerProvider>
             <>
                 <Helmet>
-                    <title>{`#${timeline.parsedDoc.body.name || 'No Title'} - Concrt`}</title>
+                    <title>{`#${timeline.document.body.name || 'No Title'} - Concrt`}</title>
                     <meta
                         name="description"
                         content={
-                            timeline.parsedDoc.body.description ||
-                            `Concrnt timeline ${timeline.parsedDoc.body.name || 'No Title'}`
+                            timeline.document.body.description ||
+                            `Concrnt timeline ${timeline.document.body.name || 'No Title'}`
                         }
                     />
                     <link rel="canonical" href={`https://concrnt.com/timeline/${id}`} />
@@ -102,13 +98,13 @@ export default function GuestTimelinePage(): JSX.Element {
                                 }}
                             >
                                 <TimelineHeader
-                                    title={timeline.parsedDoc.body.name || 'No Title'}
+                                    title={timeline.document.body.name || 'No Title'}
                                     titleIcon={isPrivateTimeline ? <LockIcon /> : <TagIcon />}
                                 />
 
                                 {isPrivateTimeline ? (
                                     <Box>
-                                        <StreamInfo id={timeline.id} />
+                                        <TimelineBanner timeline={timeline} />
                                         <Box
                                             sx={{
                                                 display: 'flex',
@@ -132,10 +128,10 @@ export default function GuestTimelinePage(): JSX.Element {
                                         </Box>
                                     </Box>
                                 ) : (
-                                    <Timeline
+                                    <RealtimeTimeline
                                         noRealtime
                                         timelineFQIDs={targetStream}
-                                        header={<StreamInfo id={timeline.id} />}
+                                        header={<TimelineBanner timeline={timeline} />}
                                     />
                                 )}
                             </Box>

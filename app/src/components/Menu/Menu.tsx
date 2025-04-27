@@ -33,6 +33,7 @@ import { useGlobalActions } from '../../context/GlobalActions'
 
 export interface MenuProps {
     onClick?: () => void
+    latestNotification: number
 }
 
 export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
@@ -46,6 +47,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
     const { isMasterSession, isMobileSize } = useGlobalState()
     const [progress] = usePreference('tutorialProgress')
     const [tutorialCompleted] = usePreference('tutorialCompleted')
+    const [latestSeenNotification] = usePreference('lastSeenNotification')
 
     return (
         <Box
@@ -138,7 +140,13 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                         justifyContent: 'center'
                                     }}
                                 >
-                                    <NotificationsIcon sx={{ color: 'background.contrastText' }} />
+                                    <Badge
+                                        color="secondary"
+                                        variant="dot"
+                                        invisible={latestSeenNotification >= props.latestNotification}
+                                    >
+                                        <NotificationsIcon sx={{ color: 'background.contrastText' }} />
+                                    </Badge>
                                 </Box>
                                 <ListItemText primary={t('notifications.title')} />
                             </ListItemButton>

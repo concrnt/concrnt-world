@@ -2,7 +2,7 @@ import { Box, Button, Divider, Menu, Tab, Tabs, Typography } from '@mui/material
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom'
 import { usePreference } from '../context/PreferenceContext'
-import { Timeline } from '../components/Timeline'
+import { RealtimeTimeline } from '../components/RealtimeTimeline'
 import { useClient } from '../context/ClientContext'
 import {
     isFulfilled,
@@ -282,7 +282,7 @@ export function ListPage(): JSX.Element {
                 {subscription ? (
                     <>
                         {timelines.length > 0 ? (
-                            <Timeline
+                            <RealtimeTimeline
                                 header={
                                     <>
                                         <Box

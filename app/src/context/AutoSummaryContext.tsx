@@ -2,15 +2,6 @@ import { Box } from '@mui/material'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { UrlSummaryCard } from '../components/ui/UrlSummaryCard'
 
-export interface Summary {
-    title: string
-    icon: string
-    description: string
-    thumbnail: string
-    sitename: string
-    url: string
-}
-
 export interface AutoSummaryState {
     update: () => void
 }

@@ -272,6 +272,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
                     }}
                 >
                     <Menu
+                        latestNotification={0}
                         onClick={() => {
                             setMobileMenuOpen(false)
                         }}

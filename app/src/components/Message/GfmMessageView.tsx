@@ -20,10 +20,7 @@ export const GfmMessageView = (props: GfmMessageViewProps): JSX.Element => {
     const renderer = useMemo(
         () => (
             <Suspense fallback={<div>Loading...</div>}>
-                <GfmRenderer
-                    messagebody={props.message.document.body.body ?? 'no content'}
-                    emojiDict={props.message.document.body.emojis ?? {}}
-                />
+                <GfmRenderer messagebody={props.message.document.body.body ?? 'no content'} />
             </Suspense>
         ),
         [props.message.id]

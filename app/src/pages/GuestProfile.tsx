@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Divider, Paper, Typography } from '@mui/material'
 import { useLocation, useParams, Link as NavLink, useNavigate } from 'react-router-dom'
-import { Timeline } from '../components/Timeline/main'
+import { RealtimeTimeline } from '../components/RealtimeTimeline'
 import { Client, type User } from '@concrnt/worldlib'
 import { FullScreenLoading } from '../components/ui/FullScreenLoading'
 import { ClientProvider } from '../context/ClientContext'
@@ -164,7 +164,7 @@ export default function GuestProfilePage(): JSX.Element {
                                         </Box>
                                     </Box>
                                 ) : (
-                                    <Timeline
+                                    <RealtimeTimeline
                                         noRealtime
                                         timelineFQIDs={targetStream}
                                         header={

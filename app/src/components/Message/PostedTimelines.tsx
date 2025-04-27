@@ -20,12 +20,12 @@ import { SubprofileBadge } from '../ui/SubprofileBadge'
 import { CCLink } from '../ui/CCLink'
 import { useTimelineDrawer } from '../../context/TimelineDrawer'
 
-export interface PostedStreamsProps {
+export interface PostedTimelinesProps {
     useUserIcon?: boolean
     message: Message<MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema>
 }
 
-export const PostedStreams = (props: PostedStreamsProps): JSX.Element => {
+export const PostedTimelines = (props: PostedTimelinesProps): JSX.Element => {
     const { client } = useClient()
     const { allKnownTimelines } = useGlobalState()
 

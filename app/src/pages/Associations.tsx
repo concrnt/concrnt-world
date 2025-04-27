@@ -1,6 +1,6 @@
 import { Box, Divider, Typography } from '@mui/material'
 import { useMemo } from 'react'
-import { Timeline } from '../components/Timeline'
+import { RealtimeTimeline } from '../components/RealtimeTimeline'
 import { useClient } from '../context/ClientContext'
 
 export function Associations(): JSX.Element {
@@ -31,7 +31,7 @@ export function Associations(): JSX.Element {
                 </Typography>
                 <Divider />
             </Box>
-            <Timeline timelineFQIDs={timelines} />
+            <RealtimeTimeline timelineFQIDs={timelines} />
         </Box>
     )
 }

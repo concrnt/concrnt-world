@@ -5,21 +5,22 @@ import { Loading } from './ui/Loading'
 import { MessageContainer } from './Message/MessageContainer'
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken'
-import { type Query, type QueryTimelineReader as CoreTimelineReader } from '@concrnt/client'
+import { type TimelineReader } from '@concrnt/client'
+import { useRefWithForceUpdate } from '../hooks/useRefWithForceUpdate'
 import useSound from 'use-sound'
 import { usePreference } from '../context/PreferenceContext'
 import { VList, type VListHandle } from 'virtua'
 import { useClient } from '../context/ClientContext'
 import { UseSoundFormats } from '../constants'
+import { useGlobalState } from '../context/GlobalState'
 import { PullToRefresh } from './PullToRefresh'
 
-export interface TimelineProps {
-    timeline: string
-    query: Query
-    batchSize?: number
+export interface RealtimeTimelineProps {
+    timelineFQIDs: string[]
     perspective?: string
     header?: JSX.Element
     onScroll?: (top: number) => void
+    noRealtime?: boolean
 }
 
 const divider = (
@@ -35,12 +36,13 @@ const timelineElemSx: SxProps = {
     p: { xs: 0.5, sm: 1, md: 1 }
 }
 
-const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle>): JSX.Element => {
+const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VListHandle>): JSX.Element => {
     const { client } = useClient()
+    const { isDomainOffline } = useGlobalState()
     const theme = useTheme()
     const [sound] = usePreference('sound')
 
-    const timeline = useRef<CoreTimelineReader | null>(null)
+    const [timeline, timelineChanged] = useRefWithForceUpdate<TimelineReader | null>(null)
 
     const [hasMoreData, setHasMoreData] = useState<boolean>(false)
     const [isFetching, setIsFetching] = useState<boolean>(false)
@@ -62,27 +64,67 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
 
     useEffect(() => {
         let isCancelled = false
-        setTimelineLoading(true)
-        client.newTimelineQuery().then((t) => {
-            if (isCancelled) return
-            timeline.current = t
-            timeline.current
-                .init(props.timeline, props.query, props.batchSize ?? 16)
-                .then((hasMore) => {
-                    setHasMoreData(hasMore)
+        const request = async () => {
+            if (props.timelineFQIDs.length === 0) return
+            setTimelineLoading(true)
+
+            let hostOverride = undefined
+            if (isDomainOffline && props.timelineFQIDs.length === 1) {
+                const leaderTimeline = await client.getTimeline(props.timelineFQIDs[0])
+                if (leaderTimeline) {
+                    hostOverride = leaderTimeline.host
+                    console.warn('timeline host override:', hostOverride)
+                }
+            }
+
+            return client
+                .newTimelineReader({
+                    withoutSocket: props.noRealtime ?? false,
+                    hostOverride: hostOverride
                 })
-                .finally(() => {
-                    setTimelineLoading(false)
+                .then((t) => {
+                    if (isCancelled) return
+                    timeline.current = t
+                    t.onUpdate = () => {
+                        timelineChanged()
+                    }
+                    t.onRealtimeEvent = (event) => {
+                        if (event.parsedDoc?.type === 'message') {
+                            playBubbleRef.current()
+                        }
+                    }
+                    timeline.current
+                        .listen(props.timelineFQIDs)
+                        .then((hasMore) => {
+                            setHasMoreData(hasMore)
+                        })
+                        .finally(() => {
+                            setTimelineLoading(false)
+                        })
+                    return t
                 })
-            return t
-        })
+        }
+        const mt = request()
         return () => {
             isCancelled = true
+            mt.then((t) => {
+                t?.dispose()
+            })
         }
-    }, [props.timeline, props.query, client])
+    }, [props.timelineFQIDs, isDomainOffline])
 
     const count = timeline.current?.body.length ?? 0
     let alreadyFetchInThisRender = false
+
+    const onRefresh = async (): Promise<void> => {
+        console.log('refresh!')
+        setIsFetching(true)
+        setHasMoreData(false)
+        const hasMore = (await timeline.current?.reload()) ?? false
+        setHasMoreData(hasMore)
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        setIsFetching(false)
+    }
 
     const readMore = (): void => {
         if (isFetching || alreadyFetchInThisRender) return
@@ -99,16 +141,6 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
                 setIsFetching(false)
                 alreadyFetchInThisRender = false
             })
-    }
-
-    const onRefresh = async (): Promise<void> => {
-        console.log('refresh!')
-        setIsFetching(true)
-        setHasMoreData(false)
-        const hasMore = (await timeline.current?.reload()) ?? false
-        setHasMoreData(hasMore)
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        setIsFetching(false)
     }
 
     return (
@@ -226,5 +258,5 @@ const renderError = ({ error }: FallbackProps): JSX.Element => {
     )
 }
 
-export const QueryTimelineReader = memo(timeline)
-QueryTimelineReader.displayName = 'QueryTimelineReader'
+export const RealtimeTimeline = memo(timeline)
+RealtimeTimeline.displayName = 'Timeline'

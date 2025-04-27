@@ -29,7 +29,11 @@
             "title": "ホーム"
         },
         "notifications": {
-            "title": "通知"
+            "title": "通知",
+            "favorite": "{{ name }}さんがあなたのカレントをお気に入りしました",
+            "favoriteMany": "{{ name }}さんと他{{ count }}人があなたのカレントをお気に入りしました",
+            "reaction": "{{ name }}さんがあなたのカレントにリアクションしました",
+            "reactionMany": "{{ name }}さんと他{{ count }}人があなたのカレントにリアクションしました"
         },
         "associations": {
             "title": "リアクション"

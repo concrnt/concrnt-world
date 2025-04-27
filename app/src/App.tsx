@@ -1,11 +1,11 @@
-import { useEffect, useRef, Suspense, lazy } from 'react'
+import { useEffect, useRef, Suspense, lazy, useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { darken, Box, Paper, Typography, Modal, useTheme, Button } from '@mui/material'
 import { SnackbarProvider, closeSnackbar, enqueueSnackbar } from 'notistack'
 import { ConcordProvider } from './context/ConcordContext'
 
 import { Menu } from './components/Menu/Menu'
-import { Explorer, Notifications, Settings, StreamPage, EntityPage, MessagePage, ListPage, Devtool } from './pages'
+import { Explorer, Notifications, Settings, TimelinePage, EntityPage, MessagePage, ListPage, Devtool } from './pages'
 
 import useSound from 'use-sound'
 import { MobileMenu } from './components/Menu/MobileMenu'
@@ -57,6 +57,16 @@ function App(): JSX.Element {
     const [progress] = usePreference('tutorialProgress')
 
     const { t } = useTranslation()
+
+    const [latestNotificationDate, setLatestNotificationDate] = useState<number>(0)
+
+    useEffect(() => {
+        if (!client.user) return
+        client.api.getTimelineRecent([client.user.notificationTimeline], client.host).then((e) => {
+            if (e.length < 1) return
+            setLatestNotificationDate(e[0].created.getTime())
+        })
+    }, [client])
 
     useEffect(() => {
         if (!('serviceWorker' in navigator)) return
@@ -152,6 +162,7 @@ function App(): JSX.Element {
             l.listen([...(client?.user?.notificationTimeline ? [client?.user?.notificationTimeline] : [])])
             l.on('AssociationCreated', (event: TimelineEvent) => {
                 const a = event.parsedDoc as CCDocument.Association<any>
+                setLatestNotificationDate(new Date(a.signedAt).getTime())
 
                 if (!a) return
                 if (a.schema === Schemas.replyAssociation) {
@@ -440,7 +451,7 @@ function App(): JSX.Element {
                             m: 1
                         }}
                     >
-                        <Menu />
+                        <Menu latestNotification={latestNotificationDate} />
                     </Box>
                     <Box
                         sx={{
@@ -453,7 +464,7 @@ function App(): JSX.Element {
                             m: 1
                         }}
                     >
-                        <ThinMenu />
+                        <ThinMenu latestNotification={latestNotificationDate} />
                     </Box>
                     <Box
                         sx={{
@@ -486,11 +497,14 @@ function App(): JSX.Element {
                                 <Route path="/:id/profile/:profileid/media" element={<EntityPage />} />
                                 <Route path="/:id/profile/:profileid/activity" element={<EntityPage />} />
                                 <Route path="/:authorID/:messageID" element={<MessagePage />} />
-                                <Route path="/timeline/:id" element={<StreamPage />} />
+                                <Route path="/timeline/:id" element={<TimelinePage />} />
                                 <Route path="/contacts" element={<ContactsPage />} />
                                 <Route path="/explorer/:tab" element={<ExplorerPlusPage />} />
                                 <Route path="/classicexplorer/:tab" element={<Explorer />} />
-                                <Route path="/notifications" element={<Notifications />} />
+                                <Route
+                                    path="/notifications"
+                                    element={<Notifications latestNotification={latestNotificationDate} />}
+                                />
                                 <Route path="/devtool" element={<Devtool />} />
                                 <Route path="/subscriptions" element={<ManageSubsPage />} />
                                 <Route path="/concord/*" element={<ConcordPage />} />
@@ -506,7 +520,7 @@ function App(): JSX.Element {
                                 }
                             }}
                         >
-                            <MobileMenu />
+                            <MobileMenu latestNotification={latestNotificationDate} />
                         </Box>
                     </Box>
                 </Box>

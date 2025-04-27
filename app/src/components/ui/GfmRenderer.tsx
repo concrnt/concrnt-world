@@ -1,13 +1,11 @@
 import { useEffect } from 'react'
-import { Box, Divider, Tooltip, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import { Codeblock } from './Codeblock'
 import breaks from 'remark-breaks'
 
-import type { EmojiLite } from '../../model'
-import { emojiRemarkPlugin } from '../../util'
 import { useMediaViewer } from '../../context/MediaViewer'
 import { useGlobalState } from '../../context/GlobalState'
 import { useAutoSummary } from '../../context/AutoSummaryContext'
@@ -15,7 +13,6 @@ import { CCLink } from './CCLink'
 
 export interface GfmRendererProps {
     messagebody: string
-    emojiDict: Record<string, EmojiLite>
 }
 
 export default function GfmRenderer(props: GfmRendererProps): JSX.Element {
@@ -102,22 +99,8 @@ export default function GfmRenderer(props: GfmRendererProps): JSX.Element {
             }}
         >
             <Markdown
-                remarkPlugins={[breaks, remarkGfm, emojiRemarkPlugin]}
+                remarkPlugins={[breaks, remarkGfm]}
                 rehypePlugins={[rehypeRaw]}
-                remarkRehypeOptions={{
-                    handlers: {
-                        emoji: (state, node) => {
-                            return {
-                                type: 'element',
-                                tagName: 'emoji',
-                                properties: {
-                                    shortcode: node.shortcode
-                                },
-                                children: state.all(node)
-                            }
-                        }
-                    }
-                }}
                 components={{
                     p: ({ children }) => (
                         <Typography
@@ -289,40 +272,6 @@ export default function GfmRenderer(props: GfmRendererProps): JSX.Element {
                                     mediaViewer.openSingle(props.src)
                                 }}
                             />
-                        )
-                    },
-                    emoji: ({ shortcode }) => {
-                        const emoji = props.emojiDict[shortcode]
-                        return emoji ? (
-                            <Tooltip
-                                arrow
-                                placement="top"
-                                title={
-                                    <Box display="flex" flexDirection="column" alignItems="center">
-                                        <img
-                                            src={getImageURL(emoji?.animURL ?? emoji?.imageURL, { maxHeight: 128 })}
-                                            style={{
-                                                height: '5em'
-                                            }}
-                                        />
-                                        <Divider />
-                                        <Typography variant="caption" align="center">
-                                            {shortcode}
-                                        </Typography>
-                                    </Box>
-                                }
-                            >
-                                <img
-                                    src={getImageURL(emoji?.animURL ?? emoji?.imageURL, { maxHeight: 128 })}
-                                    style={{
-                                        height: '1.25em',
-                                        verticalAlign: '-0.45em',
-                                        marginBottom: '4px'
-                                    }}
-                                />
-                            </Tooltip>
-                        ) : (
-                            <span>:{shortcode}:</span>
                         )
                     },
                     details: ({ children }) => {

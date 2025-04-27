@@ -3,12 +3,11 @@ import { Box, Divider } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { TimelineHeader } from '../components/TimelineHeader'
 import { useClient } from '../context/ClientContext'
-import { Timeline } from '../components/Timeline/main'
-import { StreamInfo } from '../components/StreamInfo'
+import { RealtimeTimeline } from '../components/RealtimeTimeline'
+import { TimelineInfo } from '../components/TimelineInfo'
 import { usePreference } from '../context/PreferenceContext'
 import { type CommunityTimelineSchema, type Timeline as typeTimeline } from '@concrnt/worldlib'
 import { CCDrawer } from '../components/ui/CCDrawer'
-import WatchingStreamContextProvider from '../context/WatchingStreamContext'
 import { type VListHandle } from 'virtua'
 
 import TagIcon from '@mui/icons-material/Tag'
@@ -20,8 +19,9 @@ import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useEditorModal } from '../components/EditorModal'
 import { PrivateTimelineDoor } from '../components/PrivateTimelineDoor'
 import { Helmet } from 'react-helmet-async'
+import { TimelineBanner } from '../components/TimelineBanner'
 
-export const StreamPage = memo((): JSX.Element => {
+export const TimelinePage = memo((): JSX.Element => {
     const { client } = useClient()
     const { allKnownTimelines } = useGlobalState()
 
@@ -35,7 +35,7 @@ export const StreamPage = memo((): JSX.Element => {
     const targetTimelineID = id ?? ''
     const [timeline, setTimeline] = useState<typeTimeline<CommunityTimelineSchema> | null>(null)
 
-    const [timelineInfoOpen, setTimelineInfoOpen] = useState<boolean>(false)
+    const [timelineInfoOpen, setTimelineBannerOpen] = useState<boolean>(false)
 
     const isOwner = useMemo(() => {
         return timeline?.author === client.ccid
@@ -92,50 +92,48 @@ export const StreamPage = memo((): JSX.Element => {
                         timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
                     }}
                     onSecondaryActionClick={() => {
-                        setTimelineInfoOpen(true)
+                        setTimelineBannerOpen(true)
                     }}
                 />
                 {timeline?.policy.isReadable(client) ? (
-                    <WatchingStreamContextProvider watchingStreams={timelineFQIDs}>
-                        <Timeline
-                            timelineFQIDs={timelineFQIDs}
-                            ref={timelineRef}
-                            header={
-                                (timeline.policy.isWriteable(client) && (
+                    <RealtimeTimeline
+                        timelineFQIDs={timelineFQIDs}
+                        ref={timelineRef}
+                        header={
+                            (timeline.policy.isWriteable(client) && (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column'
+                                    }}
+                                >
                                     <Box
                                         sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column'
+                                            display: {
+                                                xs: showEditorOnTopMobile ? 'block' : 'none',
+                                                sm: showEditorOnTop ? 'block' : 'none'
+                                            }
                                         }}
                                     >
-                                        <Box
+                                        <CCPostEditor
+                                            minRows={3}
+                                            maxRows={7}
+                                            streamPickerInitial={timelines}
+                                            streamPickerOptions={[...new Set([...allKnownTimelines, ...timelines])]}
                                             sx={{
-                                                display: {
-                                                    xs: showEditorOnTopMobile ? 'block' : 'none',
-                                                    sm: showEditorOnTop ? 'block' : 'none'
-                                                }
+                                                p: { xs: 0.5, sm: 1 }
                                             }}
-                                        >
-                                            <CCPostEditor
-                                                minRows={3}
-                                                maxRows={7}
-                                                streamPickerInitial={timelines}
-                                                streamPickerOptions={[...new Set([...allKnownTimelines, ...timelines])]}
-                                                sx={{
-                                                    p: { xs: 0.5, sm: 1 }
-                                                }}
-                                            />
-                                            <Divider sx={{ mx: { xs: 0.5, sm: 1, md: 1 } }} />
-                                        </Box>
+                                        />
+                                        <Divider sx={{ mx: { xs: 0.5, sm: 1, md: 1 } }} />
                                     </Box>
-                                )) ||
-                                undefined
-                            }
-                        />
-                    </WatchingStreamContextProvider>
+                                </Box>
+                            )) ||
+                            undefined
+                        }
+                    />
                 ) : (
                     <Box>
-                        <StreamInfo id={targetTimelineID} />
+                        {timeline && <TimelineBanner timeline={timeline} />}
                         {timeline && <PrivateTimelineDoor timeline={timeline} />}
                     </Box>
                 )}
@@ -143,11 +141,10 @@ export const StreamPage = memo((): JSX.Element => {
             <CCDrawer
                 open={timelineInfoOpen}
                 onClose={() => {
-                    setTimelineInfoOpen(false)
+                    setTimelineBannerOpen(false)
                 }}
             >
-                <StreamInfo
-                    detailed
+                <TimelineInfo
                     id={targetTimelineID}
                     writers={timeline?.policy?.getWriters()}
                     readers={timeline?.policy?.getReaders()}
@@ -156,4 +153,4 @@ export const StreamPage = memo((): JSX.Element => {
         </>
     )
 })
-StreamPage.displayName = 'StreamPage'
+TimelinePage.displayName = 'TimelinePage'

@@ -9,7 +9,7 @@ import {
 import TagIcon from '@mui/icons-material/Tag'
 import { useClient } from '../../context/ClientContext'
 import { useEffect, useState } from 'react'
-import { StreamCard } from '../Stream/Card'
+import { TimelineCard } from '../TimelineCard'
 import { CCChip } from './CCChip'
 import { UserProfileCard } from '../UserProfileCard'
 import HomeIcon from '@mui/icons-material/Home'
@@ -99,7 +99,7 @@ export const TimelineChip = (props: TimelineChipProps): JSX.Element => {
                 ) : (
                     <>
                         {domain && (
-                            <StreamCard
+                            <TimelineCard
                                 timelineFQID={props.timelineFQID}
                                 name={timeline.document.body.name}
                                 description={timeline.document.body.description}

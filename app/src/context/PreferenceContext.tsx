@@ -32,6 +32,7 @@ export interface Preference {
     muteWords: string[]
     muteTimelines: string[]
     stripExif: boolean
+    lastSeenNotification: number
 }
 
 export const defaultPreference: Preference = {
@@ -65,7 +66,8 @@ export const defaultPreference: Preference = {
     baseFontSize: 16,
     muteWords: [],
     muteTimelines: [],
-    stripExif: true
+    stripExif: true,
+    lastSeenNotification: 0
 }
 
 interface PreferenceState {

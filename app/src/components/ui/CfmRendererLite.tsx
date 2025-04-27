@@ -105,6 +105,19 @@ const RenderAst = ({ ast, props }: RenderAstProps): JSX.Element => {
                     <RenderAst ast={ast.body} props={props} />
                 </Spoiler>
             )
+        case 'Quote':
+            if (props.forceOneline) {
+                return (
+                    <>
+                        "<RenderAst ast={ast.body} props={props} />"
+                    </>
+                )
+            }
+            return (
+                <blockquote style={{ margin: 0, paddingLeft: '1rem', borderLeft: '4px solid #ccc' }}>
+                    <RenderAst ast={ast.body} props={props} />
+                </blockquote>
+            )
         case 'Tag':
             return <span>#{ast.body}</span>
         case 'Mention': {
@@ -204,11 +217,7 @@ export const CfmRendererLite = (props: CfmRendererLiteProps): JSX.Element => {
     return (
         <Box
             sx={{
-                whiteSpace: props.forceOneline ? 'inherit' : 'pre-wrap',
-                fontSize: {
-                    xs: '0.9rem',
-                    sm: '1rem'
-                }
+                whiteSpace: props.forceOneline ? 'inherit' : 'pre-wrap'
             }}
         >
             <RenderAst ast={ast} props={props} />

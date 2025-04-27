@@ -1,10 +1,10 @@
 import { Card, CardActionArea, CardActions, CardContent, type SxProps, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-import { CCWallpaper } from '../ui/CCWallpaper'
-import { WatchButton } from '../WatchButton'
+import { CCWallpaper } from './ui/CCWallpaper'
+import { WatchButton } from './WatchButton'
 
-interface StreamCardProps {
+interface TimelineCardProps {
     timelineFQID: string
     name: string
     description: string
@@ -15,7 +15,7 @@ interface StreamCardProps {
     onClick?: () => void
 }
 
-export function StreamCard(props: StreamCardProps): JSX.Element {
+export function TimelineCard(props: TimelineCardProps): JSX.Element {
     return (
         <Card
             sx={{

@@ -13,8 +13,9 @@ import type { ConcurrentTheme } from '../../model'
 import { useEditorModal } from '../EditorModal'
 import { useGlobalState } from '../../context/GlobalState'
 import { usePreference } from '../../context/PreferenceContext'
+import { MenuProps } from './Menu'
 
-export const MobileMenu = (): JSX.Element => {
+export const MobileMenu = (props: MenuProps): JSX.Element => {
     const theme = useTheme<ConcurrentTheme>()
     const actions = useGlobalActions()
     const editorModal = useEditorModal()
@@ -23,6 +24,7 @@ export const MobileMenu = (): JSX.Element => {
     const { onHomeButtonClick } = useGlobalActions()
     const [progress] = usePreference('tutorialProgress')
     const [tutorialCompleted] = usePreference('tutorialCompleted')
+    const [latestSeenNotification] = usePreference('lastSeenNotification')
 
     return (
         <Box
@@ -82,7 +84,9 @@ export const MobileMenu = (): JSX.Element => {
                 component={NavLink}
                 to="/notifications"
             >
-                <NotificationsIcon />
+                <Badge color="secondary" variant="dot" invisible={latestSeenNotification >= props.latestNotification}>
+                    <NotificationsIcon />
+                </Badge>
             </Button>
             <Button
                 variant="text"

@@ -5,7 +5,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import AppMock from '../components/welcome/AppMock'
 import { useTranslation } from 'react-i18next'
 import { GuestBase } from '../components/GuestBase'
-import { StreamCard } from '../components/Stream/Card'
+import { TimelineCard } from '../components/TimelineCard'
 import Tilt from 'react-parallax-tilt'
 import { PassportRenderer } from '../components/theming/Passport'
 import { DummyMessageView } from '../components/Message/DummyMessageView'
@@ -420,7 +420,7 @@ function WelcomeBody(): JSX.Element {
                     flexShrink={1}
                     width={{ xs: '100%', sm: '100%', md: 'unset' }}
                 >
-                    <StreamCard
+                    <TimelineCard
                         sx={{ minWidth: '300px' }}
                         timelineFQID="tar69vv26r5s4wk0r067v20bvyw@ariake.concrnt.net"
                         name="Arrival Lounge"
@@ -428,7 +428,7 @@ function WelcomeBody(): JSX.Element {
                         banner="https://worldfile.cc/CC2d97694D850Df2089F48E639B4795dD95D2DCE2E/f696009d-f1f0-44f8-83fe-6387946f1b86"
                         domain="ariake.concrnt.net"
                     />
-                    <StreamCard
+                    <TimelineCard
                         sx={{ minWidth: '300px' }}
                         timelineFQID="tdvtb8ha1d1pbckx3067v1wv8xr@denken.concrnt.net"
                         name="Dev Central"
