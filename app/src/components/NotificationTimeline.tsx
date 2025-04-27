@@ -81,8 +81,8 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
 
     const iter = useRef(0)
 
-    const summariseNotifications = async () => {
-        if (!timeline.current) return
+    const summariseNotifications = async (): Promise<WrappedNotification[]> => {
+        if (!timeline.current) return []
 
         const newItems = timeline.current.body.slice(iter.current, timeline.current.body.length)
         iter.current = timeline.current.body.length
@@ -94,51 +94,56 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
         )
 
         const summarized = new Map<string, any[]>()
-        const passthrough = []
 
         for (const e of resolved) {
             if (!e) continue
 
-            const key = e.target + '$' + e.schema
+            let key = ''
 
             switch (e.schema) {
                 case Schemas.likeAssociation:
                 case Schemas.reactionAssociation:
-                    if (summarized.get(key)) {
-                        summarized.get(key)!.push(e)
-                    } else {
-                        summarized.set(key, [e])
-                    }
+                    key = e.target + '$' + e.schema
                     break
                 case Schemas.replyAssociation:
                 case Schemas.rerouteAssociation:
                 case Schemas.mentionAssociation:
                 case Schemas.readAccessRequestAssociation:
                 default:
-                    passthrough.push(e)
+                    key = e.id
+            }
+
+            if (summarized.get(key)) {
+                summarized.get(key)!.push(e)
+            } else {
+                summarized.set(key, [e])
             }
         }
 
         const newNotifications: WrappedNotification[] = []
 
-        for (const item of passthrough) {
-            newNotifications.push({
-                key: item.id,
-                type: 'normal',
-                item: item
-            })
+        for (const key of summarized.keys()) {
+            const value = summarized.get(key)
+            if (!value || value.length === 0) continue
+
+            if (key.includes('$')) {
+                // summarized
+                newNotifications.push({
+                    key: value[0].id,
+                    type: 'summarised',
+                    items: value
+                })
+            } else {
+                newNotifications.push({
+                    key: key,
+                    type: 'normal',
+                    item: value[0]
+                })
+            }
         }
 
-        for (const items of summarized.values()) {
-            if (items.length === 0) continue
-            newNotifications.push({
-                key: items[0].id,
-                type: 'summarised',
-                items: items
-            })
-        }
-
-        setNotifications((prev) => [...prev, ...newNotifications])
+        //
+        return newNotifications
     }
 
     useEffect(() => {
@@ -147,14 +152,19 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
         client.newTimelineQuery().then((t) => {
             if (isCancelled) return
             timeline.current = t
+            t.onUpdate = () => {
+                summariseNotifications().then((n) => {
+                    if (isCancelled) return
+                    setNotifications((prev) => [...prev, ...n])
+                })
+            }
+            setNotifications([])
+            iter.current = 0
             timeline.current
                 .init(props.timeline, props.query, props.batchSize ?? 16)
                 .then((hasMore) => {
                     if (isCancelled) return
                     setHasMoreData(hasMore)
-                    setNotifications([])
-                    iter.current = 0
-                    summariseNotifications()
                 })
                 .finally(() => {
                     setTimelineLoading(false)
@@ -179,7 +189,6 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
             .then((hasMore) => {
                 setHasMoreData(hasMore)
                 alreadyFetchInThisRender = false
-                summariseNotifications()
             })
             .finally(() => {
                 setIsFetching(false)
@@ -190,12 +199,11 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
     const onRefresh = async (): Promise<void> => {
         setIsFetching(true)
         setHasMoreData(false)
+        setNotifications([])
+        iter.current = 0
         const hasMore = (await timeline.current?.reload()) ?? false
         setHasMoreData(hasMore)
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        setNotifications([])
-        iter.current = 0
-        summariseNotifications()
         setIsFetching(false)
     }
 
