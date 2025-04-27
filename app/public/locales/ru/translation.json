@@ -29,7 +29,11 @@
             "title": "Home"
         },
         "notifications": {
-            "title": "Notifications"
+            "title": "Notifications",
+            "favorite": "{{ name }} liked your post",
+            "favoriteMany": "{{ name }} and {{ count }} others liked your post",
+            "reaction": "{{ name }} reacted to your post",
+            "reactionMany": "{{ name }} and {{ count }} others reacted to your post"
         },
         "associations": {
             "title": "Associations"
