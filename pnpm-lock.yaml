@@ -54,12 +54,6 @@ importers:
       '@concrnt/worldlib':
         specifier: workspace:*
         version: link:../client
-      '@cosmjs/encoding':
-        specifier: ^0.32.4
-        version: 0.32.4
-      '@cosmjs/proto-signing':
-        specifier: ^0.32.4
-        version: 0.32.4
       '@cosmjs/stargate':
         specifier: ^0.32.4
         version: 0.32.4
@@ -108,9 +102,6 @@ importers:
       boring-avatars:
         specifier: github:totegamma/boring-avatars#49ed345027665e1d6135ae6b0b6f2a442ff52915
         version: github.com/totegamma/boring-avatars/49ed345027665e1d6135ae6b0b6f2a442ff52915
-      cosmjs-types:
-        specifier: ^0.9.0
-        version: 0.9.0
       elliptic:
         specifier: ^6.5.4
         version: 6.5.4

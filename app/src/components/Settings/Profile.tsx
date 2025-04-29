@@ -1,17 +1,4 @@
-import {
-    Alert,
-    AlertTitle,
-    Box,
-    Button,
-    Divider,
-    Grid,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    TextField,
-    Typography
-} from '@mui/material'
+import { Alert, AlertTitle, Box, Button, Divider, TextField, Typography } from '@mui/material'
 import { ProfileEditor } from '../ProfileEditor'
 import { useClient } from '../../context/ClientContext'
 import { useSnackbar } from 'notistack'
@@ -19,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import {
     type ProfileSchema,
     type Schema,
-    type BadgeRef,
     Schemas,
     type SubprofileTimelineSchema,
     type EmptyTimelineSchema,
@@ -32,16 +18,9 @@ import { Profile } from '@concrnt/client'
 import { useEffect, useState } from 'react'
 import { CCDrawer } from '../ui/CCDrawer'
 import { CCEditor } from '../ui/cceditor'
-import ManageSearchIcon from '@mui/icons-material/ManageSearch'
-
-import PublishIcon from '@mui/icons-material/Publish'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import { useLocation } from 'react-router-dom'
 import { type Badge } from '../../model'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { usePreference } from '../../context/PreferenceContext'
-import { useConcord } from '../../context/ConcordContext'
 import { useConfirm } from '../../context/Confirm'
 import { CCUserChip } from '../ui/CCUserChip'
 import { UserPicker } from '../ui/UserPicker'
@@ -50,9 +29,7 @@ import { SubprofileCardWithEdit } from '../SubprofileCardWithEdit'
 
 export const ProfileSettings = (): JSX.Element => {
     const { client } = useClient()
-    const concord = useConcord()
     const { enqueueSnackbar } = useSnackbar()
-    const [enableConcord] = usePreference('enableConcord')
     const confirm = useConfirm()
 
     const { t } = useTranslation('', { keyPrefix: 'settings.profile' })
@@ -70,7 +47,6 @@ export const ProfileSettings = (): JSX.Element => {
     const [latestProfile, setLatestProfile] = useState<ProfileSchema | undefined>(client.user?.profile)
 
     const [subprofileDraft, setSubprofileDraft] = useState<any>(null)
-    const [badges, setBadges] = useState<Badge[]>([])
 
     const [homeTimeline, setHomeTimeline] = useState<Timeline<EmptyTimelineSchema> | null>(null)
     const homeIsPublic = homeTimeline?.policy.isReadPublic()
@@ -105,10 +81,6 @@ export const ProfileSettings = (): JSX.Element => {
             timeline.getAssociations().then((assocs) => {
                 setRequests(assocs.filter((e) => e.schema === Schemas.readAccessRequestAssociation))
             })
-        })
-
-        concord.getBadges(client.ccid).then((badges) => {
-            setBadges(badges)
         })
     }, [client, update])
 
@@ -333,153 +305,6 @@ export const ProfileSettings = (): JSX.Element => {
                         )}
                     </Box>
                 </Alert>
-            )}
-
-            {enableConcord && badges.length > 0 && (
-                <>
-                    <Typography variant="h3">バッジ</Typography>
-                    <Box>
-                        <Grid container spacing={2}>
-                            {badges.map((badge) => {
-                                const published = latestProfile?.badges?.find(
-                                    (b) => b.badgeId === badge.badgeId && b.seriesId === badge.classId
-                                )
-                                return (
-                                    <Grid item key={badge.badgeId}>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                gap: 1,
-                                                width: '80px',
-                                                height: '80px',
-                                                position: 'relative',
-                                                cursor: 'pointer'
-                                            }}
-                                            onClick={(e) => {
-                                                setBadgeMenuAnchor(e.currentTarget)
-                                                setSelectedBadge(badge)
-                                                setBadgeAction(published ? 'unpublish' : 'publish')
-                                            }}
-                                        >
-                                            {published && (
-                                                <CheckCircleIcon
-                                                    sx={{
-                                                        position: 'absolute',
-                                                        right: 0,
-                                                        bottom: 0,
-                                                        color: 'primary.main',
-                                                        fontSize: '2rem',
-                                                        backgroundColor: 'background.paper',
-                                                        borderRadius: '50%',
-                                                        transform: 'translate(20%, 20%)'
-                                                    }}
-                                                />
-                                            )}
-                                            <Box
-                                                component="img"
-                                                src={badge.uri}
-                                                alt={badge.name}
-                                                sx={{
-                                                    borderRadius: 1
-                                                }}
-                                            />
-                                        </Box>
-                                    </Grid>
-                                )
-                            })}
-                        </Grid>
-                        <Menu
-                            anchorEl={badgeMenuAnchor}
-                            open={Boolean(badgeMenuAnchor)}
-                            onClose={() => {
-                                setBadgeMenuAnchor(null)
-                            }}
-                        >
-                            {badgeAction === 'publish' && (
-                                <MenuItem
-                                    onClick={() => {
-                                        if (!latestProfile || !selectedBadge) return
-                                        const newBadgeRef: BadgeRef = {
-                                            badgeId: selectedBadge.badgeId,
-                                            seriesId: selectedBadge.classId
-                                        }
-                                        const badges = [...(latestProfile.badges ?? []), newBadgeRef]
-                                        client
-                                            .setProfile({
-                                                badges
-                                            })
-                                            .then((_) => {
-                                                setBadgeMenuAnchor(null)
-                                                load()
-                                            })
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <PublishIcon />
-                                    </ListItemIcon>
-                                    <ListItemText>公開する</ListItemText>
-                                </MenuItem>
-                            )}
-                            {badgeAction === 'unpublish' && (
-                                <MenuItem
-                                    onClick={() => {
-                                        if (!latestProfile || !selectedBadge) return
-                                        const badges = (latestProfile.badges ?? []).filter(
-                                            (b) =>
-                                                b.badgeId !== selectedBadge.badgeId ||
-                                                b.seriesId !== selectedBadge.classId
-                                        )
-                                        client
-                                            .setProfile({
-                                                badges
-                                            })
-                                            .then((_) => {
-                                                setBadgeMenuAnchor(null)
-                                                load()
-                                            })
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <VisibilityOffIcon />
-                                    </ListItemIcon>
-                                    <ListItemText>非公開にする</ListItemText>
-                                </MenuItem>
-                            )}
-                            <MenuItem
-                                onClick={() => {
-                                    if (!selectedBadge) return
-                                    concord.inspectBadge({
-                                        seriesId: selectedBadge.classId,
-                                        badgeId: selectedBadge.badgeId
-                                    })
-                                    setBadgeMenuAnchor(null)
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <ManageSearchIcon />
-                                </ListItemIcon>
-                                <ListItemText>詳細</ListItemText>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-                </>
-            )}
-            {enableConcord && badges.length > 0 && (
-                <Button
-                    variant="outlined"
-                    onClick={() => {
-                        confirm.open('バッジを全部外しますか？', () => {
-                            client
-                                .setProfile({
-                                    badges: []
-                                })
-                                .then((_) => {
-                                    load()
-                                })
-                        })
-                    }}
-                >{`バッジを全部外す(現在${latestProfile?.badges?.length ?? 0}個)`}</Button>
             )}
 
             <Box

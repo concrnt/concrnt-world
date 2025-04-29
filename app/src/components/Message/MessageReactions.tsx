@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Tooltip, Typography, alpha, useTheme } from '@mui/material'
 import { CCAvatar } from '../ui/CCAvatar'
-import { CurrencyText } from '../ui/CurrencyText'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link as routerLink } from 'react-router-dom'
 
 import {
@@ -11,12 +10,8 @@ import {
     type RerouteMessageSchema,
     Schemas,
     type MarkdownMessageSchema,
-    type ReactionAssociationSchema,
-    type UpgradeAssociationSchema
+    type ReactionAssociationSchema
 } from '@concrnt/worldlib'
-import { useClient } from '../../context/ClientContext'
-import { useConcord } from '../../context/ConcordContext'
-import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { enqueueSnackbar } from 'notistack'
 import { useGlobalState } from '../../context/GlobalState'
 
@@ -24,70 +19,12 @@ export interface MessageReactionsProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema>
 }
 
-interface SuperReaction {
-    reaction: Association<ReactionAssociationSchema>
-    amount: string
-    txhash: string
-}
-
-const superReactionColor = '#FFD700'
-const superReactionColorText = '#000000'
-
 export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
     const theme = useTheme()
-    const concord = useConcord()
-    const { client } = useClient()
     const [reactionMembers, setReactionMembers] = useState<
         Record<string, Array<Association<ReactionAssociationSchema>>>
     >({})
-    const [superReactions, setSuperReactions] = useState<SuperReaction[]>([])
-    const upgradeCount = props.message?.associationCounts?.[Schemas.upgradeAssociation] ?? 0
     const { getImageURL } = useGlobalState()
-
-    useEffect(() => {
-        if (upgradeCount <= 0) return
-        setSuperReactions([])
-        client.api
-            .getMessageAssociationsByTarget<UpgradeAssociationSchema>(props.message.id, props.message.author, {
-                schema: Schemas.upgradeAssociation
-            })
-            .then((associations) => {
-                for (const association of associations) {
-                    const txhash = association.parsedDoc.body.txhash
-                    concord.getRawTx(txhash).then(async (tx) => {
-                        if (!tx) return
-                        const memo = tx.body.memo
-                        if (!memo.startsWith('ccref:')) return
-                        const ref = memo.split(':')[1]
-
-                        const MsgSendMsg = tx.body.messages.find(
-                            (msg) => msg.typeUrl === '/cosmos.bank.v1beta1.MsgSend'
-                        )
-                        if (!MsgSendMsg) return
-                        const msg = MsgSend.decode(MsgSendMsg.value)
-                        const tip = msg.amount.find((coin) => coin.denom === 'uAmpere')?.amount
-                        if (!tip) return
-
-                        const reaction = await client.getAssociation<ReactionAssociationSchema>(
-                            ref,
-                            props.message.author
-                        )
-                        if (!reaction || reaction.schema !== Schemas.reactionAssociation) return
-
-                        setSuperReactions((prev) => {
-                            return [
-                                ...prev,
-                                {
-                                    reaction,
-                                    amount: tip,
-                                    txhash
-                                }
-                            ]
-                        })
-                    })
-                }
-            })
-    }, [upgradeCount])
 
     const ownReactions = Object.fromEntries(
         props.message?.ownAssociations
@@ -109,14 +46,6 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
     const reactionCounts: Record<string, number> = (() => {
         if (!props.message.reactionCounts) return {}
         const tmp = JSON.parse(JSON.stringify(props.message.reactionCounts)) // deep copy
-        for (const superReaction of superReactions) {
-            if (tmp[superReaction.reaction.document.body.imageUrl]) {
-                tmp[superReaction.reaction.document.body.imageUrl] -= 1
-            }
-            if (tmp[superReaction.reaction.document.body.imageUrl] <= 0) {
-                delete tmp[superReaction.reaction.document.body.imageUrl]
-            }
-        }
         return tmp
     })()
 
@@ -132,68 +61,6 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                 gap: 1
             }}
         >
-            <Box display="flex" flexWrap="wrap" gap={1}>
-                {superReactions.map((reaction, i) => (
-                    <Tooltip
-                        arrow
-                        key={i}
-                        title={
-                            <Box display="flex" flexDirection="column" alignItems="right" gap={1}>
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 1,
-                                        textDecoration: 'none'
-                                    }}
-                                    component={routerLink}
-                                    to={'/' + reaction.reaction.author}
-                                >
-                                    <CCAvatar
-                                        avatarURL={reaction.reaction.authorUser?.profile?.avatar}
-                                        identiconSource={reaction.reaction.author}
-                                        sx={{
-                                            width: { xs: '12px', sm: '18px' },
-                                            height: { xs: '12px', sm: '18px' }
-                                        }}
-                                    />
-                                    <Typography
-                                        sx={{
-                                            fontSize: '0.8rem',
-                                            color: '#fff'
-                                        }}
-                                    >
-                                        {reaction.reaction.authorUser?.profile?.username || 'anonymous'}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        }
-                        placement="top"
-                    >
-                        <Button
-                            key={i}
-                            sx={{
-                                py: 0,
-                                px: 1,
-                                gap: 1,
-                                display: 'flex',
-                                backgroundColor: alpha(superReactionColor, 0.5),
-                                borderColor: superReactionColor,
-                                textTransform: 'none'
-                            }}
-                            variant="outlined"
-                            onClick={() => {
-                                concord.inspectTx(reaction.txhash)
-                            }}
-                        >
-                            <Box component="img" height="20px" src={reaction.reaction.document.body.imageUrl} />
-                            <Typography color={superReactionColorText}>
-                                <CurrencyText value={parseInt(reaction.amount)} />
-                            </Typography>
-                        </Button>
-                    </Tooltip>
-                ))}
-            </Box>
             <Box display="flex" flexWrap="wrap" gap={1}>
                 {Object.entries(reactionCounts).map(([imageUrl, value]) => (
                     <Tooltip

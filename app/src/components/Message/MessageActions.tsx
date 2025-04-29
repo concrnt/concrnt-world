@@ -6,7 +6,6 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline'
 import AddReactionIcon from '@mui/icons-material/AddReaction'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import RepeatIcon from '@mui/icons-material/Repeat'
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import LinkIcon from '@mui/icons-material/Link'
 import GTranslateIcon from '@mui/icons-material/GTranslate'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
@@ -29,8 +28,6 @@ import { Link as RouterLink } from 'react-router-dom'
 import { IconButtonWithNumber } from '../ui/IconButtonWithNumber'
 import { useInspector } from '../../context/Inspector'
 import { enqueueSnackbar } from 'notistack'
-import { usePreference } from '../../context/PreferenceContext'
-import { useConcord } from '../../context/ConcordContext'
 import { useEditorModal } from '../EditorModal'
 import { useConfirm } from '../../context/Confirm'
 import { useTranslation } from 'react-i18next'
@@ -45,8 +42,6 @@ export interface MessageActionsProps {
 
 export const MessageActions = (props: MessageActionsProps): JSX.Element => {
     const inspector = useInspector()
-    const concord = useConcord()
-    const [enableConcord] = usePreference('enableConcord')
     const editorModal = useEditorModal()
     const { isMobileSize } = useGlobalState()
 
@@ -265,19 +260,6 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     </ListItemIcon>
                     <ListItemText>{t('copySource')}</ListItemText>
                 </MenuItem>
-                {enableConcord && (
-                    <MenuItem
-                        onClick={(e) => {
-                            concord.draftSuperReaction(props.message)
-                            setMenuAnchor(null)
-                        }}
-                    >
-                        <ListItemIcon>
-                            <AutoAwesomeIcon sx={{ color: 'text.primary' }} />
-                        </ListItemIcon>
-                        <ListItemText>{t('superReaction')}</ListItemText>
-                    </MenuItem>
-                )}
                 <MenuItem
                     component={Link}
                     href={`https://translate.google.com/?sl=auto&tl=${convertToGoogleTranslateCode(
