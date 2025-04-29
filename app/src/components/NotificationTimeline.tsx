@@ -149,30 +149,36 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
     useEffect(() => {
         let isCancelled = false
         setTimelineLoading(true)
-        client.newTimelineQuery().then((t) => {
-            if (isCancelled) return
-            timeline.current = t
-            t.onUpdate = () => {
-                summariseNotifications().then((n) => {
-                    if (isCancelled) return
-                    setNotifications((prev) => [...prev, ...n])
-                })
-            }
-            setNotifications([])
-            iter.current = 0
-            timeline.current
-                .init(props.timeline, props.query, props.batchSize ?? 16)
-                .then((hasMore) => {
-                    if (isCancelled) return
-                    setHasMoreData(hasMore)
-                })
-                .finally(() => {
-                    setTimelineLoading(false)
-                })
-            return t
-        })
+        const request = async () => {
+            return client.newTimelineQuery().then((t) => {
+                if (isCancelled) return
+                timeline.current = t
+                t.onUpdate = () => {
+                    summariseNotifications().then((n) => {
+                        if (isCancelled) return
+                        setNotifications((prev) => [...prev, ...n])
+                    })
+                }
+                setNotifications([])
+                iter.current = 0
+                timeline.current
+                    .init(props.timeline, props.query, props.batchSize ?? 16)
+                    .then((hasMore) => {
+                        if (isCancelled) return
+                        setHasMoreData(hasMore)
+                    })
+                    .finally(() => {
+                        setTimelineLoading(false)
+                    })
+                return t
+            })
+        }
+        const mt = request()
         return () => {
             isCancelled = true
+            mt.then((t) => {
+                if (t) t.onUpdate = () => {}
+            })
         }
     }, [props.timeline, props.query, client])
 

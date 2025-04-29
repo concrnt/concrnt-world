@@ -13,9 +13,9 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen'
 
 import poster from '../../resources/view-3dmodel.png'
 
-import '@google/model-viewer'
 import { CCIconButton } from './CCIconButton'
 import { useTranslation } from 'react-i18next'
+import { ModelViewer } from '../ModelViewer'
 
 export interface EmbeddedGalleryProps {
     medias: WorldMedia[]
@@ -148,10 +148,8 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                             }}
                         >
                             {showModel ? (
-                                <model-viewer
+                                <ModelViewer
                                     src={media.mediaURL}
-                                    autoplay
-                                    camera-controls
                                     style={{
                                         backgroundColor: '#3f3f3f',
                                         width: '100%',
@@ -355,20 +353,4 @@ export const EmbeddedGallery = (props: EmbeddedGalleryProps): JSX.Element => {
             )}
         </Box>
     )
-}
-
-declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace JSX {
-        interface IntrinsicElements {
-            'model-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-                src: string
-                alt?: string
-                'camera-controls'?: boolean
-                'auto-rotate'?: boolean
-                ar?: boolean
-                autoplay?: boolean
-            }
-        }
-    }
 }

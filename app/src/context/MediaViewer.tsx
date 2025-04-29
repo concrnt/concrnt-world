@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, IconButton, ImageList, ImageListItem, Modal } from '@mui/material'
-import { createContext, Fragment, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { type ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
@@ -7,19 +7,16 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import AppsIcon from '@mui/icons-material/Apps'
 import { type WorldMedia } from '../model'
 import { useGlobalState } from './GlobalState'
-import ExifReader from 'exifreader'
-
-import '@google/model-viewer'
-
+import { ModelViewer } from '../components/ModelViewer'
 const zoomFactor = 8
+
+const ExifInfo = lazy(() => import('../components/ExifInfo'))
 
 export interface MediaViewerState {
     openSingle: (src?: string) => void
     openMedias: (medias: WorldMedia[], startIndex?: number) => void
     openModel: (src?: string) => void
 }
-
-const exifKeys = ['Model', 'Lens', 'FocalLength', 'ExposureTime', 'FNumber', 'ISOSpeedRatings']
 
 const MediaViewerContext = createContext<MediaViewerState>({
     openSingle: () => {},
@@ -38,7 +35,6 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
     const [previewModel, setPreviewModel] = useState<string | undefined>()
 
     const [mode, setMode] = useState<'single' | 'gallery'>('single')
-    const [exif, setExif] = useState<ExifReader.Tags | undefined>()
 
     const { isMobileSize, getImageURL } = useGlobalState()
 
@@ -111,16 +107,8 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
         if (previewImage === undefined) {
             setImageNaturalWidth(0)
             setImageNaturalHeight(0)
-            setExif(undefined)
             return
         }
-
-        fetch(getImageURL(previewImage))
-            .then((response) => response.blob())
-            .then(async (blob) => {
-                const exifData = ExifReader.load(await blob.arrayBuffer())
-                setExif(exifData)
-            })
 
         const image = new Image()
         image.src = getImageURL(previewImage)
@@ -276,18 +264,14 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
                         )}
 
                         {previewModel && (
-                            <>
-                                <model-viewer
-                                    src={previewModel}
-                                    autoplay
-                                    camera-controls
-                                    style={{
-                                        backgroundColor: '#3f3f3f',
-                                        width: '90vw',
-                                        height: '90vh'
-                                    }}
-                                />
-                            </>
+                            <ModelViewer
+                                src={previewModel}
+                                style={{
+                                    backgroundColor: '#3f3f3f',
+                                    width: '90vw',
+                                    height: '90vh'
+                                }}
+                            />
                         )}
 
                         <Box
@@ -300,28 +284,19 @@ export const MediaViewerProvider = (props: MediaViewerProviderProps): JSX.Elemen
                             gap={1}
                         >
                             <Box display="flex" justifyContent="right" alignItems="center">
-                                {exif && (
-                                    <Box
-                                        sx={{
-                                            backgroundColor: 'black',
-                                            color: 'white',
-                                            fontSize: '0.5rem',
-                                            display: 'grid',
-                                            gridTemplateColumns: 'auto auto',
-                                            padding: 0.5
-                                        }}
-                                    >
-                                        {exifKeys.map((key) => {
-                                            if (!exif[key]) return null
-                                            return (
-                                                <Fragment key={key}>
-                                                    <Box>{key}: </Box>
-                                                    <Box>{exif[key].description}</Box>
-                                                </Fragment>
-                                            )
-                                        })}
-                                    </Box>
-                                )}
+                                <Suspense fallback={<CircularProgress />}>
+                                    <ExifInfo
+                                        src={getImageURL(previewImage)}
+                                        keys={[
+                                            'Model',
+                                            'Lens',
+                                            'FocalLength',
+                                            'ExposureTime',
+                                            'FNumber',
+                                            'ISOSpeedRatings'
+                                        ]}
+                                    />
+                                </Suspense>
                             </Box>
 
                             <Box display="flex" justifyContent="center" alignItems="center" flexDirection="row">
