@@ -153,12 +153,6 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
             return client.newTimelineQuery().then((t) => {
                 if (isCancelled) return
                 timeline.current = t
-                t.onUpdate = () => {
-                    summariseNotifications().then((n) => {
-                        if (isCancelled) return
-                        setNotifications((prev) => [...prev, ...n])
-                    })
-                }
                 setNotifications([])
                 iter.current = 0
                 timeline.current
@@ -166,8 +160,13 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
                     .then((hasMore) => {
                         if (isCancelled) return
                         setHasMoreData(hasMore)
+                        summariseNotifications().then((n) => {
+                            if (isCancelled) return
+                            setNotifications(n)
+                        })
                     })
                     .finally(() => {
+                        if (isCancelled) return
                         setTimelineLoading(false)
                     })
                 return t
@@ -195,6 +194,9 @@ const timeline = forwardRef((props: TimelineProps, ref: ForwardedRef<VListHandle
             .then((hasMore) => {
                 setHasMoreData(hasMore)
                 alreadyFetchInThisRender = false
+                summariseNotifications().then((n) => {
+                    setNotifications((prev) => [...prev, ...n])
+                })
             })
             .finally(() => {
                 setIsFetching(false)
