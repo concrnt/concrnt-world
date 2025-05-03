@@ -109,6 +109,27 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                         </Box>
                     )}
 
+                    {media.mediaType.startsWith('audio') && (
+                        <Box
+                            sx={{
+                                position: 'relative',
+                                width: '100%',
+                                height: '100%',
+                                overflow: 'hidden'
+                            }}
+                        >
+                            <audio
+                                controls
+                                src={media.mediaURL}
+                                preload="metadata"
+                                style={{
+                                    width: '100%',
+                                    height: '100%'
+                                }}
+                            />
+                        </Box>
+                    )}
+
                     {media.mediaType.startsWith('video') && (
                         <Box
                             ref={videoRef}
