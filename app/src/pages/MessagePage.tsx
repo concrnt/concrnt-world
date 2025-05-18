@@ -38,6 +38,8 @@ import { MediaMessageView } from '../components/Message/MediaMessageView'
 import { Helmet } from 'react-helmet-async'
 import { MessageSkeleton } from '../components/MessageSkeleton'
 import { MarkdownMessageView } from '../components/Message/MarkdownMessageView'
+import { GfmMessageView } from '../components/Message/GfmMessageView'
+import { MisskeyMessageView } from '../components/Message/MisskeyMessageView'
 
 export function MessagePage(): JSX.Element {
     const { authorID, messageID } = useParams()
@@ -207,6 +209,34 @@ export function MessagePage(): JSX.Element {
                             <>
                                 <Box>
                                     <MarkdownMessageView
+                                        forceExpanded
+                                        message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
+                                        lastUpdated={lastUpdated}
+                                        userCCID={client.ccid}
+                                    />
+                                </Box>
+                                <Divider />
+                            </>
+                        )}
+
+                        {message.schema === Schemas.gfmMessage && (
+                            <>
+                                <Box>
+                                    <GfmMessageView
+                                        forceExpanded
+                                        message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
+                                        lastUpdated={lastUpdated}
+                                        userCCID={client.ccid}
+                                    />
+                                </Box>
+                                <Divider />
+                            </>
+                        )}
+
+                        {message.schema === Schemas.mfmMessage && (
+                            <>
+                                <Box>
+                                    <MisskeyMessageView
                                         forceExpanded
                                         message={message as Message<MarkdownMessageSchema | ReplyMessageSchema>}
                                         lastUpdated={lastUpdated}

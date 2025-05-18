@@ -29,7 +29,11 @@
             "title": "首頁"
         },
         "notifications": {
-            "title": "通知"
+            "title": "通知",
+            "favorite": "{{ name }} 喜歡了您的貼文",
+             "favoriteMany": "{{ name }} 和其他 {{ count }} 人喜歡了您的貼文",
+             "reaction": "{{ name }} 回應了您的貼文",
+             "reactionMany": "{{ name }} 和其他 {{ count }} 人回應了您的貼文"
         },
         "associations": {
             "title": "社群關聯"

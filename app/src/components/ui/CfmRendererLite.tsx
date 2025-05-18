@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import cfm from '@concrnt/cfm'
 
 import type { EmojiLite } from '../../model'
@@ -179,11 +179,7 @@ const RenderAst = ({ ast, props }: RenderAstProps): JSX.Element => {
         case 'EmojiPack':
             return <span>[EmojiPack]</span>
         case 'Heading':
-            return (
-                <Typography variant={`h${ast.level}` as any}>
-                    <RenderAst ast={ast.body} props={props} />
-                </Typography>
-            )
+            return <RenderAst ast={ast.body} props={props} />
         default:
             return <>unknown ast type: {ast.type}</>
     }

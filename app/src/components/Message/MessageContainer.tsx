@@ -29,6 +29,7 @@ import { GfmMessageView } from './GfmMessageView'
 import SearchOffIcon from '@mui/icons-material/SearchOff'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import InfoIcon from '@mui/icons-material/Info'
+import { MisskeyMessageView } from './MisskeyMessageView'
 
 interface MessageContainerProps {
     messageID: string
@@ -342,6 +343,22 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                     <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
                     <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
                     <GfmMessageView
+                        simple={props.simple}
+                        message={message as Message<MarkdownMessageSchema>}
+                        lastUpdated={props.lastUpdated}
+                        userCCID={client.ccid}
+                        rerouted={props.rerouted}
+                    />
+                </Box>
+            )
+            break
+        case Schemas.mfmMessage:
+            body = (
+                <Box sx={style} itemScope itemProp="hasPart" itemType="https://schema.org/SocialMediaPosting">
+                    <meta itemProp="identifier" content={message.id} />
+                    <meta itemProp="url" content={`https://concrnt.world/${message.author}/${message.id}`} />
+                    <meta itemProp="datePublished" content={new Date(message.cdate).toISOString()} />
+                    <MisskeyMessageView
                         simple={props.simple}
                         message={message as Message<MarkdownMessageSchema>}
                         lastUpdated={props.lastUpdated}

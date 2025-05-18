@@ -5,6 +5,7 @@ export const Schemas = {
     plaintextMessage: 'https://schema.concrnt.world/m/plaintext.json',
     mediaMessage: 'https://schema.concrnt.world/m/media.json',
     gfmMessage: 'https://schema.concrnt.world/m/gfm.json',
+    mfmMessage: 'https://schema.concrnt.world/m/mfm.json',
 
     likeAssociation: 'https://schema.concrnt.world/a/like.json',
     mentionAssociation: 'https://schema.concrnt.world/a/mention.json',

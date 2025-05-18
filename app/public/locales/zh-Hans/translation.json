@@ -29,7 +29,11 @@
             "title": "主页"
         },
         "notifications": {
-            "title": "通知"
+            "title": "通知",
+            "favorite": "{{ name }} 喜欢了您的帖子",
+            "favoriteMany": "{{ name }} 和其他 {{ count }} 人喜欢了您的帖子",
+            "reaction": "{{ name }} 对您的帖子做出了回应",
+            "reactionMany": "{{ name }} 和其他 {{ count }} 人对您的帖子做出了回应"
         },
         "associations": {
             "title": "Associations"
