@@ -62,6 +62,24 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
         return Aids.every((v, i) => v === Bids[i])
     }, [props.rerouted, props.message])
 
+    const apId = useMemo(() => {
+        const actor = props.message.document.meta?.apActor
+        if (!actor) return undefined
+
+        if (actor.startsWith('https://bsky.brid.gy/')) {
+            const id = actor.split('/').pop()
+            return '@' + id + '@bsky.brid.gy'
+        }
+
+        try {
+            const url = new URL(actor)
+            const parts = url.pathname.split('/').filter(Boolean) // Split and remove empty segments
+            return parts.length >= 1 ? parts[parts.length - 1] + '@' + url.hostname : undefined
+        } catch {
+            return undefined // Return undefined if the URL is invalid
+        }
+    }, [props.message])
+
     return (
         <ContentWithCCAvatar
             message={props.message}
@@ -69,6 +87,7 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
             profileOverride={props.message.document.body.profileOverride}
             avatarOverride={characterOverride?.parsedDoc.body.avatar}
             characterOverride={characterOverride?.parsedDoc.body}
+            apId={apId}
         >
             <MessageHeader
                 usernameOverride={characterOverride?.parsedDoc.body.username}

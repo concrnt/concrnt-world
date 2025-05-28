@@ -20,6 +20,7 @@ export interface ContentWithCCAvatarProps {
     avatarOverride?: string
     children?: JSX.Element | Array<JSX.Element | undefined>
     sx?: SxProps
+    apId?: string
 }
 
 export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Element => {
@@ -27,6 +28,8 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
     const location = useLocation()
 
     const navigateTo = props.linkTo ?? `/${props.message?.author}/${props.message?.id}`
+
+    const apLink = props.apId ? `/ap/${props.apId}` : undefined
 
     return (
         <>
@@ -100,13 +103,11 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                                 }}
                                 component={routerLink}
                                 to={
-                                    props.profileOverride?.link ??
+                                    apLink ??
                                     '/' +
                                         (props.author?.ccid ?? '') +
                                         (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
                                 }
-                                target={props.profileOverride?.link ? '_blank' : undefined}
-                                rel={props.profileOverride?.link ? 'noopener noreferrer' : undefined}
                             >
                                 <CCAvatar
                                     avatarURL={props.author?.profile?.avatar}

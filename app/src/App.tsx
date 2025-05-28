@@ -40,6 +40,7 @@ import { Schemas } from '@concrnt/worldlib'
 import type { ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldlib'
 import { SearchDrawerProvider } from './context/SearchDrawer'
 import { CommandPaletteProvider } from './context/CommandPalette'
+import { ApUserPage } from './pages/ApUser'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -505,6 +506,7 @@ function App(): JSX.Element {
                                     path="/notifications"
                                     element={<Notifications latestNotification={latestNotificationDate} />}
                                 />
+                                <Route path="/ap/:id" element={<ApUserPage />} />
                                 <Route path="/devtool" element={<Devtool />} />
                                 <Route path="/subscriptions" element={<ManageSubsPage />} />
                                 <Route path="/concord/*" element={<ConcordPage />} />
