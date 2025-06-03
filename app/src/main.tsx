@@ -17,6 +17,7 @@ import AuthorizePage from './pages/Authorize'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
+const Invitation = lazy(() => import('./pages/Invitation'))
 const Registration = lazy(() => import('./pages/Registration'))
 const AccountImport = lazy(() => import('./pages/AccountImport'))
 const GuestTimelinePage = lazy(() => import('./pages/GuestTimeline'))
@@ -73,16 +74,29 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             }
                         />
                         {!logined ? (
-                            <Route
-                                path="/register"
-                                element={
-                                    <GA4Provider tag={tag}>
-                                        <Registration />
-                                    </GA4Provider>
-                                }
-                            />
+                            <>
+                                <Route
+                                    path="/register"
+                                    element={
+                                        <GA4Provider tag={tag}>
+                                            <Registration />
+                                        </GA4Provider>
+                                    }
+                                />
+                                <Route
+                                    path="/invitation"
+                                    element={
+                                        <GA4Provider tag={tag}>
+                                            <Invitation />
+                                        </GA4Provider>
+                                    }
+                                />
+                            </>
                         ) : (
-                            <Route path="/register" element={<Navigate to="/" />} />
+                            <>
+                                <Route path="/register" element={<Navigate to="/" />} />
+                                <Route path="/invitation" element={<Navigate to="/" />} />
+                            </>
                         )}
                         <Route
                             path="/import"

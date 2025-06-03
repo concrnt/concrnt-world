@@ -7,6 +7,7 @@ import { ConcurrentWordmark } from './theming/ConcurrentWordmark'
 import { Link } from 'react-router-dom'
 
 export interface GuestBaseProps {
+    nologo?: boolean
     children: JSX.Element | JSX.Element[]
     sx?: SxProps
     additionalButton?: JSX.Element
@@ -60,30 +61,34 @@ export const GuestBase = (props: GuestBaseProps): JSX.Element => {
                             maxWidth: '1280px'
                         }}
                     >
-                        <Button
-                            disableRipple
-                            variant="text"
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flexDirection: 'row',
-                                textTransform: 'none',
-                                '&:hover': {
-                                    background: 'none'
-                                }
-                            }}
-                            component={Link}
-                            to="/welcome"
-                        >
-                            <ConcurrentWordmark
-                                color={
-                                    props.header
-                                        ? theme.palette.primary.contrastText
-                                        : theme.palette.background.contrastText
-                                }
-                            />
-                        </Button>
+                        {props.nologo ? (
+                            <Box />
+                        ) : (
+                            <Button
+                                disableRipple
+                                variant="text"
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                    textTransform: 'none',
+                                    '&:hover': {
+                                        background: 'none'
+                                    }
+                                }}
+                                component={Link}
+                                to="/welcome"
+                            >
+                                <ConcurrentWordmark
+                                    color={
+                                        props.header
+                                            ? theme.palette.primary.contrastText
+                                            : theme.palette.background.contrastText
+                                    }
+                                />
+                            </Button>
+                        )}
                         <Box
                             sx={{
                                 display: 'flex',

@@ -57,7 +57,13 @@ export const genBlurHash = async (url: string): Promise<string | undefined> => {
     }
 }
 
-export const jumpToDomainRegistration = (ccid: string, privateKey: string, fqdn: string, callback: string): void => {
+export const jumpToDomainRegistration = (
+    ccid: string,
+    privateKey: string,
+    fqdn: string,
+    callback: string,
+    ticket?: string
+): void => {
     const affiliation: CCDocument.Affiliation = {
         signer: ccid,
         type: 'affiliation',
@@ -70,9 +76,12 @@ export const jumpToDomainRegistration = (ccid: string, privateKey: string, fqdn:
 
     const encodedObject = btoa(signedDoc).replace('+', '-').replace('/', '_').replace('==', '')
 
-    const link = `https://${fqdn}/web/register?registration=${encodedObject}&signature=${signature}&callback=${encodeURIComponent(
+    let link = `https://${fqdn}/web/register?registration=${encodedObject}&signature=${signature}&callback=${encodeURIComponent(
         callback
     )}`
+    if (ticket) {
+        link += `#${ticket}`
+    }
 
     window.location.href = link
 }
