@@ -12,6 +12,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { usePreference } from '../context/PreferenceContext'
+import { DomainChip } from './ui/DomainChip'
 
 export interface TimelineBannerProps {
     timeline: Timeline<CommunityTimelineSchema>
@@ -72,8 +73,12 @@ export function TimelineBanner(props: TimelineBannerProps): JSX.Element {
                                 />
                             </CCIconButton>
                         </Box>
-                        <Typography variant="caption">@{props.timeline.host}</Typography>
-                        <Divider />
+                        <DomainChip small fqdn={props.timeline.host} />
+                        <Divider
+                            sx={{
+                                my: 1
+                            }}
+                        />
                         <Typography>{props.timeline.document.body.description || 'まだ説明はありません'}</Typography>
                     </Paper>
                     {props.children}
