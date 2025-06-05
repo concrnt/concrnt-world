@@ -41,6 +41,7 @@ import type { ProfileSchema, ReplyAssociationSchema } from '@concrnt/worldlib'
 import { SearchDrawerProvider } from './context/SearchDrawer'
 import { CommandPaletteProvider } from './context/CommandPalette'
 import { ApUserPage } from './pages/ApUser'
+import { DeckPage } from './pages/Deck'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -510,6 +511,7 @@ function App(): JSX.Element {
                                 <Route path="/subscriptions" element={<ManageSubsPage />} />
                                 <Route path="/concord/*" element={<ConcordPage />} />
                                 <Route path="/tutorial" element={<Tutorial />} />
+                                <Route path="/deck" element={<DeckPage />} />
                             </Routes>
                         </Paper>
                         <Box

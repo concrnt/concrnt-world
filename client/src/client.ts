@@ -1060,7 +1060,7 @@ export class Timeline<T> implements Omit<CoreTimeline<T>, 'document' | 'parsedDo
     }
 
     async getAssociations(): Promise<Array<Association<any>>> {
-        const coreass = await this.client.api.getTimelineAssociations(this.id)
+        const coreass = await this.client.api.getTimelineAssociations(this.fqid)
         const ass: Array<Association<any> | null> = await Promise.all(
             coreass.map((e) => Association.loadByBody<any>(this.client, e))
         )

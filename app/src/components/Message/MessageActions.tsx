@@ -81,8 +81,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    width: { xs: '60vw', sm: '50vw', md: '40vw' },
-                    maxWidth: '600px',
+                    width: 'min(60vw, 300px)',
                     flexShrink: 0
                 }}
             >
