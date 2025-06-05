@@ -14,8 +14,10 @@ import { useGlobalState } from '../../context/GlobalState'
 import { CommunityTimelineSchema, isFulfilled, Schemas, type Timeline } from '@concrnt/worldlib'
 import { Message } from '@concrnt/client'
 import { TimelinePicker } from '../ui/TimelinePicker'
+import { useTranslation } from 'react-i18next'
 
 export const APSettings = (): JSX.Element => {
+    const { t } = useTranslation('', { keyPrefix: 'settings.ap' })
     const { client } = useClient()
     const [entity, setEntity] = useState<ApEntity | null | undefined>(undefined)
     const [openInquiry, setOpenInquiry] = useState(false)
@@ -32,13 +34,13 @@ export const APSettings = (): JSX.Element => {
 
     const timelineNGReason = (() => {
         if (!client.ccid) return null
-        if (!apTimeline) return 'Activitypub受信用タイムラインが見つかりません'
+        if (!apTimeline) return t('errApTimelineIsMissing')
         if (apTimeline.policy.getPolicySchemaURL() === 'https://policy.concrnt.world/t/inline-read-write.json') {
             if (!apTimeline.policy.getPolicyParams().writer.includes(client.ccid)) {
-                return '自身の書き込み権限が設定されていません'
+                return t('errApTimelineWriteSelf')
             }
             if (!apTimeline.policy.getPolicyParams().writer.includes(meta.metadata?.proxyCCID)) {
-                return '受信用botアカウントの書き込み権限が設定されていません'
+                return t('errApTimelineWriteProxy')
             }
         }
 
@@ -102,7 +104,7 @@ export const APSettings = (): JSX.Element => {
                 })
             })
             .then(() => {
-                enqueueSnackbar('更新しました', {
+                enqueueSnackbar(t('updated'), {
                     variant: 'success'
                 })
             })
@@ -180,8 +182,7 @@ export const APSettings = (): JSX.Element => {
                                         height: '100%'
                                     }}
                                     onClick={() => {
-                                        if (meta.metadata?.proxyCCID === undefined)
-                                            alert('サーバー設定が不正です。管理者に問い合わせてください')
+                                        if (meta.metadata?.proxyCCID === undefined) alert(t('serverBroken'))
 
                                         const base = apTimeline?.policy.getPolicyParams().writer ?? []
                                         const writers = [...new Set([...base, client.ccid, meta.metadata?.proxyCCID])]
@@ -216,11 +217,11 @@ export const APSettings = (): JSX.Element => {
                                             })
                                     }}
                                 >
-                                    修復
+                                    {t('fix')}
                                 </Button>
                             }
                         >
-                            <AlertTitle>タイムラインの設定に問題があります</AlertTitle>
+                            <AlertTitle>{t('settingsNG')}</AlertTitle>
                             <Typography>{timelineNGReason}</Typography>
                         </Alert>
                     )}
@@ -235,11 +236,11 @@ export const APSettings = (): JSX.Element => {
                 }}
             >
                 <Box display="flex" width="100%" gap={1} padding={1} flexDirection="column">
-                    <Typography variant="h2">照会</Typography>
+                    <Typography variant="h2">{t('inquery')}</Typography>
                     <Divider />
                     <Box display="flex" width="100%" gap={1} padding={1}>
                         <TextField
-                            label="照会"
+                            label={t('inquery')}
                             variant="outlined"
                             value={url}
                             onChange={(e) => {
@@ -254,7 +255,7 @@ export const APSettings = (): JSX.Element => {
                                 inquery(url)
                             }}
                         >
-                            照会
+                            {t('inquery')}
                         </Button>
                     </Box>
                 </Box>
@@ -266,9 +267,9 @@ export const APSettings = (): JSX.Element => {
                 }}
             >
                 <Box display="flex" width="100%" gap={1} padding={1} flexDirection="column">
-                    <Typography variant="h2">設定</Typography>
-                    <Typography variant="h2">転送元タイムライン</Typography>
-                    空の場合はホームタイムラインを使用します
+                    <Typography variant="h2">{t('settings')}</Typography>
+                    <Typography variant="h2">{t('forwardTimeline')}</Typography>
+                    {t('forwardTimelineDesc')}
                     <TimelinePicker
                         onlyCommunities
                         options={allKnownTimelines}
@@ -276,21 +277,21 @@ export const APSettings = (): JSX.Element => {
                         setSelected={(streams) => {
                             setListenTimelines(streams)
                         }}
-                        placeholder="転送元タイムラインの追加"
+                        placeholder={t('addForwardTimeline')}
                     />
                     <Button
                         onClick={() => {
                             updateSettings()
                         }}
                     >
-                        更新
+                        {t('update')}
                     </Button>
                     <Divider />
-                    <Typography variant="h2">引っ越しオプション</Typography>
+                    <Typography variant="h2">{t('moveOption')}</Typography>
                     <Divider />
                     <Box display="flex" width="100%" gap={1} padding={1}>
                         <TextField
-                            label="引っ越し元を追加"
+                            label={t('addMoveOrigins')}
                             variant="outlined"
                             value={newAlias}
                             onChange={(e) => {
@@ -328,7 +329,7 @@ export const APSettings = (): JSX.Element => {
                                                     })
                                                 })
                                                 .then((_) => {
-                                                    enqueueSnackbar('更新しました', {
+                                                    enqueueSnackbar(t('updated'), {
                                                         variant: 'success'
                                                     })
                                                     setAliases(newAliases)
@@ -337,7 +338,7 @@ export const APSettings = (): JSX.Element => {
                                     })
                             }}
                         >
-                            追加
+                            {t('add')}
                         </Button>
                     </Box>
                     <Box
@@ -366,7 +367,7 @@ export const APSettings = (): JSX.Element => {
                                                 })
                                             })
                                             .then((_) => {
-                                                enqueueSnackbar('更新しました', {
+                                                enqueueSnackbar(t('updated'), {
                                                     variant: 'success'
                                                 })
                                                 setAliases(newAliases)

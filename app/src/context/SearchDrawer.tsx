@@ -6,6 +6,7 @@ import { MessageContainer } from '../components/Message/MessageContainer'
 import { Timeline } from '@concrnt/worldlib'
 import { fetchWithTimeout } from '@concrnt/client'
 import { SearchBox } from '../components/ui/SearchBox'
+import { useTranslation } from 'react-i18next'
 
 export interface SearchDrawerState {
     open: (id: string) => void
@@ -31,6 +32,7 @@ interface SearchResult {
 }
 
 export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
+    const { t } = useTranslation('', { keyPrefix: 'ui.timelineInfo' })
     const { client } = useClient()
 
     const [timelineID, setTimelineID] = useState<string | null>(null)
@@ -96,7 +98,7 @@ export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
                         }}
                         disabled={searchService === null}
                         placeholder={
-                            searchService === null ? `${timeline?.host}では検索が利用できません` : 'Search (beta)'
+                            searchService === null ? t('searchNotAvailable', { host: timeline?.host }) : t('search')
                         }
                         onClear={() => {
                             setSearchResult(null)
@@ -106,13 +108,13 @@ export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
 
                     {searchResult === null ? (
                         <Box>
-                            <Typography variant="caption">ここに検索結果が表示されます</Typography>
+                            <Typography variant="caption">{t('searchResultPlaceholder')}</Typography>
                         </Box>
                     ) : (
                         <>
                             {!searchResult.content || searchResult.content.length === 0 ? (
                                 <Box>
-                                    <Typography>見つかりませんでした</Typography>
+                                    <Typography>{t('searchResultEmpty')}</Typography>
                                 </Box>
                             ) : (
                                 <>
@@ -129,7 +131,9 @@ export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
                                             gap: 1
                                         }}
                                     >
-                                        <Typography variant="h3">{searchedQuery}の検索結果</Typography>
+                                        <Typography variant="h3">
+                                            {t('searchResultTitle', { query: searchedQuery })}
+                                        </Typography>
                                         {searchResult.content.map((result) => (
                                             <>
                                                 <MessageContainer
@@ -155,7 +159,7 @@ export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
                                                 setSearchPage((e) => e - 1)
                                             }}
                                         >
-                                            Prev
+                                            {t('prev')}
                                         </Button>
                                         <Typography>{searchPage + 1}</Typography>
                                         <Button
@@ -164,7 +168,7 @@ export const SearchDrawerProvider = (props: SearchDrawerProps): JSX.Element => {
                                                 setSearchPage((e) => e + 1)
                                             }}
                                         >
-                                            Next
+                                            {t('next')}
                                         </Button>
                                     </Box>
                                 </>

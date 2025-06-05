@@ -86,7 +86,7 @@ export const EmojiSettings = (): JSX.Element => {
                         window.location.reload()
                     }}
                 >
-                    全ての絵文字パッケージを更新
+                    {t('updateAll')}
                 </Button>
             </Box>
             <Box
@@ -125,7 +125,7 @@ export const EmojiSettings = (): JSX.Element => {
                                     {e.name}
                                 </Typography>
                                 <Typography variant="caption">
-                                    取得日: {e.fetchedAt && new Date(e.fetchedAt).toLocaleString()}
+                                    {t('fetchedAt', { date: e.fetchedAt && new Date(e.fetchedAt).toLocaleString() })}
                                 </Typography>
                             </Box>
                             <IconButton
@@ -158,7 +158,7 @@ export const EmojiSettings = (): JSX.Element => {
                     <ListItemIcon>
                         <CachedIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
-                    <ListItemText>更新</ListItemText>
+                    <ListItemText>{t('update')}</ListItemText>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {
@@ -170,7 +170,7 @@ export const EmojiSettings = (): JSX.Element => {
                     <ListItemIcon>
                         <ContentPasteIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
-                    <ListItemText>URLをコピー</ListItemText>
+                    <ListItemText>{t('copyURL')}</ListItemText>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {
@@ -181,7 +181,7 @@ export const EmojiSettings = (): JSX.Element => {
                     <ListItemIcon>
                         <DeleteForeverIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
-                    <ListItemText>削除</ListItemText>
+                    <ListItemText>{t('delete')}</ListItemText>
                 </MenuItem>
             </Menu>
 

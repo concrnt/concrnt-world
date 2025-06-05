@@ -3,6 +3,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import { useEffect, useMemo, useState } from 'react'
 import { useClient } from '../context/ClientContext'
 import { Box, Button, type SxProps, Tooltip, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 interface PrivateTimelineDoorProps {
     timeline: Timeline<any>
@@ -11,6 +12,8 @@ interface PrivateTimelineDoorProps {
 
 export const PrivateTimelineDoor = (props: PrivateTimelineDoorProps): JSX.Element => {
     const { client } = useClient()
+
+    const { t } = useTranslation('', { keyPrefix: 'ui.privateTimeline' })
 
     const [associations, setAssociations] = useState<Array<Association<any>>>([])
     const [update, setUpdate] = useState<number>(0)
@@ -44,8 +47,8 @@ export const PrivateTimelineDoor = (props: PrivateTimelineDoorProps): JSX.Elemen
                     fontSize: '10rem'
                 }}
             />
-            <Typography variant="h5">このタイムラインはプライベートです。</Typography>
-            <Tooltip title={requestable ? '' : 'このタイムラインはリクエストを送信できない設定になっています。'}>
+            <Typography variant="h5">{t('isPrivate')}</Typography>
+            <Tooltip title={requestable ? '' : t('notRequestable')}>
                 <Box>
                     <Button
                         disabled={!requestable}
@@ -71,7 +74,7 @@ export const PrivateTimelineDoor = (props: PrivateTimelineDoorProps): JSX.Elemen
                             }
                         }}
                     >
-                        {myRequest ? 'リクエスト済み' : 'リクエストする'}
+                        {myRequest ? t('requested') : t('request')}
                     </Button>
                 </Box>
             </Tooltip>

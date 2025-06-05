@@ -6,6 +6,7 @@ import buildTime from '~build/time'
 // @ts-expect-error vite dynamic import
 import { branch, sha } from '~build/git'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const buttonStyle = {
     backgroundColor: '#0476d9',
@@ -19,17 +20,9 @@ const buttonStyle = {
     maxWidth: '400px'
 }
 
-const messages = [
-    'インターネットは素晴らしいものですが、時々問題が発生します。以下のボタンをお試しください。',
-    'コンピューターは不思議なものです。再読み込みすると問題が解決するかもしれません。',
-    '時には不思議なことが起きますね。この現象を一緒に解決していきましょう。以下のボタンをお試しください。',
-    'システムに小さなつまずきがありました。もう一度試すことで乗り越えられるかもしれません。',
-    '何かが予定通りに進みませんでした。再読み込みを試してみてください。',
-    '一時的にうまく動いていないようです。再読み込みを試してみてください。',
-    'おおっと！何かがおかしいようです。再読み込みを試してみてください。'
-]
-
 export function EmergencyKit({ error }: FallbackProps): JSX.Element {
+    const { t } = useTranslation('', { keyPrefix: 'emergency' })
+
     useEffect(() => {
         // do not refresh in 5 minutes
         const lastQuickFix = localStorage.getItem('lastQuickFix')
@@ -93,6 +86,8 @@ branch: ${branch}
 sha: ${sha}
 buildTime: ${buildTime.toLocaleString()}`
 
+    const messages: string[] = t('messages', { returnObjects: true })
+
     return (
         <div
             style={{
@@ -125,7 +120,7 @@ buildTime: ${buildTime.toLocaleString()}`
                         marginBottom: 0
                     }}
                 >
-                    Crash Report
+                    {t('title')}
                 </h1>
                 {messages[(messages.length * Math.random()) | 0]}
                 <button
@@ -159,21 +154,21 @@ buildTime: ${buildTime.toLocaleString()}`
                         window.location.replace('/')
                     }}
                 >
-                    リロード
+                    {t('reload')}
                 </button>
                 <h2
                     style={{
                         marginBottom: 0
                     }}
                 >
-                    Recover tool
+                    {t('recoverTools')}
                 </h2>
-                <div>3回くらい再読み込みしても解決しないなら↓</div>
+                <div>{t('whenToUseTools')}</div>
                 <button style={buttonStyle} onClick={gracefulResetLocalStorage}>
-                    ログイン情報以外をリセットして再読み込み
+                    {t('softReset')}
                 </button>
                 <button style={buttonStyle} onClick={resetThemeAndEnterSafemode}>
-                    テーマをリセットして初回設定同期オフで起動する
+                    {t('recoverTheme')}
                 </button>
                 <button
                     style={{
@@ -182,10 +177,10 @@ buildTime: ${buildTime.toLocaleString()}`
                     }}
                     onClick={resetAllLocalstorage}
                 >
-                    すべてリセットする(ログイン情報も失われます)
+                    {t('hardReset')}
                 </button>
-                <h2 style={{ marginBottom: 0 }}>Support</h2>
-                リロードしても解決しない場合、何か重大な問題が発生中かもしれません。以下のリンクから最新情報を確認できます。
+                <h2 style={{ marginBottom: 0 }}>{t('support')}</h2>
+                {t('supportDesc')}
                 <a href="https://discord.gg/M2UbHquT8B">Discord</a>
                 <h2
                     style={{
@@ -208,9 +203,7 @@ buildTime: ${buildTime.toLocaleString()}`
 
                         if (!url.startsWith('https://')) {
                             console.log(url)
-                            alert(
-                                'レポートの送信に失敗しました(ヒント: このレポートは公式で提供しているもののみ機能します)'
-                            )
+                            alert(t('reportFailed'))
                             return
                         }
 
@@ -223,12 +216,12 @@ buildTime: ${buildTime.toLocaleString()}`
                                 content: report
                             })
                         }).then(() => {
-                            alert('クラッシュレポートを送信しました。ありがとうございます！')
+                            alert(t('reportSent'))
                             window.location.replace('/')
                         })
                     }}
                 >
-                    匿名のクラッシュレポートを送信する
+                    {t('sendAnonymousReport')}
                 </button>
                 <pre
                     style={{

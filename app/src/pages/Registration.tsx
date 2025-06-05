@@ -240,7 +240,7 @@ export default function Registration(): JSX.Element {
                                         setDialogOpen(true)
                                     }}
                                 >
-                                    キーを手動で指定する
+                                    {t('BYOK')}
                                 </Button>
                             </Box>
                         )}
@@ -251,10 +251,10 @@ export default function Registration(): JSX.Element {
                             setDialogOpen(false)
                         }}
                     >
-                        <DialogTitle>キーを手動で指定する</DialogTitle>
+                        <DialogTitle>{t('BYOK')}</DialogTitle>
                         <DialogContent>
                             <TextField
-                                label="キー"
+                                label={t('keyLabel')}
                                 value={manualKey}
                                 onChange={(e) => {
                                     setManualKey(e.target.value)
@@ -269,7 +269,7 @@ export default function Registration(): JSX.Element {
                                     setDialogOpen(false)
                                 }}
                             >
-                                閉じる
+                                {t('close')}
                             </Button>
                             <Button
                                 type="submit"
@@ -280,7 +280,7 @@ export default function Registration(): JSX.Element {
                                     setDialogOpen(false)
                                 }}
                             >
-                                決定
+                                {t('confirm')}
                             </Button>
                         </DialogActions>
                     </Dialog>

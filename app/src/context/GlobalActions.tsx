@@ -50,7 +50,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
     const [emojiPackages, setEmojiPackages] = usePreference('emojiPackages')
     const { enqueueSnackbar } = useSnackbar()
     const theme = useTheme()
-    const { t } = useTranslation('', { keyPrefix: 'welcome' })
+    const { t } = useTranslation('', { keyPrefix: 'globalActions' })
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
 
@@ -151,7 +151,7 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
                         }}
                     >
                         <Typography variant="h2" component="div">
-                            {client.host}に登録情報が見つかりません
+                            {t('noRegistration', { host: client.host })}
                         </Typography>
                         <LogoutButton />
                     </Paper>
@@ -165,10 +165,10 @@ export const GlobalActionsProvider = (props: GlobalActionsProps): JSX.Element =>
                         }}
                     >
                         <Typography variant="h2" component="div">
-                            アカウント設定を完了させましょう！
+                            {t('completeAccountSetup')}
                         </Typography>
-                        見つかった問題:
-                        <ul>{!client?.user?.profile && <li>プロフィールが存在していません</li>}</ul>
+                        {t('foundIssues')}
+                        <ul>{!client?.user?.profile && <li>{t('profileMissing')}</li>}</ul>
                         <ProfileEditor initial={client?.user?.profile} />
                     </Paper>
                 </Modal>

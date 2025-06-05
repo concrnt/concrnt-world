@@ -99,7 +99,7 @@ export function Jobs(): JSX.Element {
     return (
         <>
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-                <Typography variant="h4">ジョブ一覧</Typography>
+                <Typography variant="h4">{t('listTitle')}</Typography>
                 <IconButton
                     onClick={() => {
                         loadJobs()
@@ -109,7 +109,7 @@ export function Jobs(): JSX.Element {
                 </IconButton>
             </Box>
 
-            <Typography variant="h5">実行待ち</Typography>
+            <Typography variant="h5">{t('pending')}</Typography>
             <List>
                 {pending.map((job) => {
                     return (
@@ -134,7 +134,7 @@ export function Jobs(): JSX.Element {
                 })}
             </List>
 
-            <Typography variant="h5">実行中</Typography>
+            <Typography variant="h5">{t('running')}</Typography>
             <List>
                 {running.map((job) => {
                     return (
@@ -149,7 +149,7 @@ export function Jobs(): JSX.Element {
                 })}
             </List>
 
-            <Typography variant="h5">終了済み</Typography>
+            <Typography variant="h5">{t('completed')}</Typography>
             <List>
                 {completedOrFailed.map((job) => {
                     return (
@@ -166,7 +166,7 @@ export function Jobs(): JSX.Element {
 
             {selected && (
                 <>
-                    <Typography variant="h5">ジョブ詳細</Typography>
+                    <Typography variant="h5">{t('detail')}</Typography>
                     <Codeblock language="json">{JSON.stringify(selected, null, 2)}</Codeblock>
                 </>
             )}
@@ -219,7 +219,7 @@ export function Jobs(): JSX.Element {
                                 })
                         }}
                     >
-                        ジョブ作成(dev)
+                        {t('createDev')}
                     </Button>
                 </>
             )}
@@ -245,7 +245,7 @@ export function Jobs(): JSX.Element {
                         setMenuSelected(null)
                     }}
                 >
-                    キャンセル
+                    {t('cancel')}
                 </MenuItem>
             </Menu>
         </>

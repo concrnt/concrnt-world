@@ -7,6 +7,7 @@ import { TimelineChip } from '../ui/TimelineChip'
 import { useClient } from '../../context/ClientContext'
 import { WatchRequestAcceptButton } from '../WatchRequestAccpetButton'
 import { CCLink } from '../ui/CCLink'
+import { Trans } from 'react-i18next'
 
 export interface ReadAccessAssociationProps {
     association: Association<ReadAccessRequestAssociationSchema>
@@ -24,12 +25,19 @@ export const ReadAccessAssociation = (props: ReadAccessAssociationProps): ReactE
         <ContentWithCCAvatar author={props.association.authorUser}>
             <Box display="flex" justifyContent="space-between">
                 <Typography>
-                    <CCLink to={`/${props.association.author}`}>
-                        {props.association.authorUser?.profile?.username}
-                    </CCLink>{' '}
-                    さんが
-                    <TimelineChip timelineFQID={props.association.target + '@' + props.association.owner} />
-                    への読み取りアクセスを希望しています
+                    <Trans
+                        i18nKey="pages.associations.readAccessRequest"
+                        components={{
+                            username: (
+                                <CCLink to={`/${props.association.author}`}>
+                                    {props.association.authorUser?.profile?.username}
+                                </CCLink>
+                            ),
+                            timeline: (
+                                <TimelineChip timelineFQID={props.association.target + '@' + props.association.owner} />
+                            )
+                        }}
+                    />
                 </Typography>
 
                 <TimeDiff date={new Date(props.association.cdate)} />

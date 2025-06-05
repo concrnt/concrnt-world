@@ -5,6 +5,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 import { CCDrawer } from '../ui/CCDrawer'
 import { useGlobalState } from '../../context/GlobalState'
+import { useTranslation } from 'react-i18next'
 
 interface Stats {
     follows: string[]
@@ -16,6 +17,8 @@ export const ApFollowManager = (): JSX.Element => {
     const [stats, setStats] = useState<Stats | null>(null)
     const [userID, setUserID] = useState('')
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
+
+    const { t } = useTranslation('', { keyPrefix: 'settings.ap' })
 
     const follow = (target: string): void => {
         client.api
@@ -67,7 +70,9 @@ export const ApFollowManager = (): JSX.Element => {
             >
                 <Box flex={1} display="flex" flexDirection="column" gap={1} overflow="hidden">
                     <Box display="flex" alignItems="center" justifyContent="space-between" height="40px">
-                        <Typography variant="h2">{stats?.follows.length}フォロー</Typography>
+                        <Typography variant="h2">
+                            {stats?.follows.length} {t('follow')}
+                        </Typography>
                         <IconButton
                             sx={{
                                 backgroundColor: 'primary.main',
@@ -99,7 +104,9 @@ export const ApFollowManager = (): JSX.Element => {
                 </Box>
                 <Box flex={1} display="flex" flexDirection="column" gap={1} overflow="hidden">
                     <Box display="flex" alignItems="center" justifyContent="space-between" height="40px">
-                        <Typography variant="h2">{stats?.followers.length}フォロワー</Typography>
+                        <Typography variant="h2">
+                            {stats?.followers.length} {t('followers')}
+                        </Typography>
                     </Box>
                     {stats?.followers.map((x) => <APUserCard key={x} url={x} />)}
                 </Box>
@@ -111,7 +118,7 @@ export const ApFollowManager = (): JSX.Element => {
                 }}
             >
                 <Box display="flex" flexDirection="column" p={1} gap={1}>
-                    <Typography variant="h2">Activitypubユーザーのフォロー</Typography>
+                    <Typography variant="h2">{t('followApUser')}</Typography>
                     <Divider />
                     <TextField
                         label="follow"

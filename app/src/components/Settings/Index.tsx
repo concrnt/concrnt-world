@@ -133,7 +133,7 @@ export function SettingsIndex(): JSX.Element {
                 <IconButtonWithLabel
                     link
                     disabled={!isDomainApAvailable}
-                    disableMessage={`${client.host}では有効化されていません`}
+                    disableMessage={t('settings.ap.notAvailable', { host: client.host })}
                     icon={SettingsEthernetIcon}
                     label={t('settings.ap.title')}
                     to="/settings/activitypub"

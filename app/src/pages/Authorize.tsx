@@ -13,7 +13,7 @@ export default function AuthorizePage(): JSX.Element {
     const app_name = searchParams.get('app_name')
     const redirect_url = searchParams.get('redirect_url')
 
-    const { t } = useTranslation('', { keyPrefix: 'registration' })
+    const { t } = useTranslation('', { keyPrefix: 'authorize' })
 
     return (
         <MediaViewerProvider>
@@ -73,12 +73,12 @@ export default function AuthorizePage(): JSX.Element {
                                 }}
                             >
                                 <Typography variant="h3">
-                                    {app_name || 'No Name'}に{client?.user?.profile?.username || 'Concrntユーザー'}
-                                    としてログインしますか？
+                                    {t('loginAs', {
+                                        appName: app_name || 'No Name',
+                                        userName: client?.user?.profile?.username || 'Concrntユーザー'
+                                    })}
                                 </Typography>
-                                {!client && (
-                                    <Typography>アプリケーションを認証するには、先にログインが必要です。</Typography>
-                                )}
+                                {!client && <Typography>{t('loginRequired')}</Typography>}
                                 <Box
                                     sx={{
                                         display: 'flex',
@@ -98,7 +98,7 @@ export default function AuthorizePage(): JSX.Element {
                                             window.location.href = `${redirect_url}?jwt=${jwt}&passport=${passport}`
                                         }}
                                     >
-                                        ログイン
+                                        {t('login')}
                                     </Button>
                                     <Button
                                         variant="outlined"
@@ -106,15 +106,15 @@ export default function AuthorizePage(): JSX.Element {
                                             window.location.href = redirect_url || '/'
                                         }}
                                     >
-                                        キャンセル
+                                        {t('cancel')}
                                     </Button>
                                 </Box>
                                 <Divider />
                                 <Typography variant="caption">
-                                    ログインボタンを押すことにより、{app_name || 'このアプリケーション'}
-                                    にあなたがConcrntユーザー{client?.user?.profile?.username}であることを証明しますが、
-                                    <br />
-                                    アプリケーションは、あなたの代わりにConcrntに投稿・閲覧する権限を持ちません。
+                                    {t('loginNotice', {
+                                        appName: app_name || 'このアプリケーション',
+                                        userName: client?.user?.profile?.username || 'Concrntユーザー'
+                                    })}
                                 </Typography>
                             </Paper>
                         </Box>

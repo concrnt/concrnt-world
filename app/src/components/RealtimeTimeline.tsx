@@ -14,6 +14,7 @@ import { useClient } from '../context/ClientContext'
 import { UseSoundFormats } from '../constants'
 import { useGlobalState } from '../context/GlobalState'
 import { PullToRefresh } from './PullToRefresh'
+import { useTranslation } from 'react-i18next'
 
 export interface RealtimeTimelineProps {
     timelineFQIDs: string[]
@@ -238,6 +239,7 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
 timeline.displayName = 'timeline'
 
 const renderError = ({ error }: FallbackProps): JSX.Element => {
+    const { t } = useTranslation()
     const [isDevMode] = usePreference('devMode')
     if (!isDevMode) return <></>
     return (
@@ -246,7 +248,7 @@ const renderError = ({ error }: FallbackProps): JSX.Element => {
                 <HeartBrokenIcon />
             </ListItemIcon>
             <ListItemText
-                primary="この要素の描画中に問題が発生しました"
+                primary={t('common.failedToRender')}
                 secondary={
                     <Box>
                         {error?.message}

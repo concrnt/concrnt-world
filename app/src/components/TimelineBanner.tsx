@@ -13,6 +13,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { usePreference } from '../context/PreferenceContext'
 import { DomainChip } from './ui/DomainChip'
+import { useTranslation } from 'react-i18next'
 
 export interface TimelineBannerProps {
     timeline: Timeline<CommunityTimelineSchema>
@@ -21,6 +22,7 @@ export interface TimelineBannerProps {
 
 export function TimelineBanner(props: TimelineBannerProps): JSX.Element {
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation('', { keyPrefix: 'common' })
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
     const [muteTimelines, setMuteTimelines] = usePreference('muteTimelines')
     const [devMode] = usePreference('devMode')
@@ -79,7 +81,7 @@ export function TimelineBanner(props: TimelineBannerProps): JSX.Element {
                                 my: 1
                             }}
                         />
-                        <Typography>{props.timeline.document.body.description || 'まだ説明はありません'}</Typography>
+                        <Typography>{props.timeline.document.body.description || t('noDescription')}</Typography>
                     </Paper>
                     {props.children}
                 </>
@@ -94,7 +96,7 @@ export function TimelineBanner(props: TimelineBannerProps): JSX.Element {
                 <MenuItem
                     onClick={() => {
                         navigator.clipboard.writeText(`https://concrnt.world/timeline/${props.timeline.fqid}`)
-                        enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
+                        enqueueSnackbar(t('linkCopied'), { variant: 'success' })
                         setMenuAnchor(null)
                     }}
                 >
@@ -129,7 +131,7 @@ export function TimelineBanner(props: TimelineBannerProps): JSX.Element {
                     <MenuItem
                         onClick={() => {
                             setMuteTimelines(muteTimelines.filter((id) => id !== props.timeline.fqid))
-                            enqueueSnackbar('タイムラインのミュートを解除しました', { variant: 'success' })
+                            enqueueSnackbar(t('timelineUnmuted'), { variant: 'success' })
                             setMenuAnchor(null)
                         }}
                     >
@@ -148,7 +150,7 @@ export function TimelineBanner(props: TimelineBannerProps): JSX.Element {
                             if (!muteTimelines.includes(props.timeline.id)) {
                                 setMuteTimelines([...muteTimelines, props.timeline.fqid])
                             }
-                            enqueueSnackbar('タイムラインをミュートしました', { variant: 'success' })
+                            enqueueSnackbar(t('timelineMuted'), { variant: 'success' })
                             setMenuAnchor(null)
                         }}
                     >

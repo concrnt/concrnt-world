@@ -113,7 +113,7 @@ export default function SubkeyInfo(props: { subkey: string }): JSX.Element {
                     setReveal(false)
                 }}
             >
-                閉じる
+                {t('close')}
             </Box>
 
             <Box

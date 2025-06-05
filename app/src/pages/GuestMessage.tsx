@@ -22,6 +22,7 @@ import { PlainMessageView } from '../components/Message/PlainMessageView'
 import { Helmet } from 'react-helmet-async'
 import { MessageSkeleton } from '../components/MessageSkeleton'
 import { MarkdownMessageView } from '../components/Message/MarkdownMessageView'
+import { useTranslation } from 'react-i18next'
 
 export default function GuestMessagePage(): JSX.Element {
     const { authorID, messageID } = useParams()
@@ -42,6 +43,7 @@ export default function GuestMessagePage(): JSX.Element {
     const [replyTo, setReplyTo] = useState<Message<ReplyMessageSchema> | null>(null)
 
     const [client, initializeClient] = useState<Client>()
+    const { t } = useTranslation('', { keyPrefix: 'pages.guestMessage' })
     useEffect(() => {
         if (!authorID || !messageID) return
 
@@ -110,7 +112,7 @@ export default function GuestMessagePage(): JSX.Element {
                     }}
                     additionalButton={
                         <Button component={NavLink} to="/register">
-                            はじめる
+                            {t('getStarted')}
                         </Button>
                     }
                 >

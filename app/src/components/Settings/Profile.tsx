@@ -172,7 +172,7 @@ export const ProfileSettings = (): JSX.Element => {
                             size="small"
                             onClick={() => {
                                 confirm.open(
-                                    'ホーム投稿の閲覧者を制限しますか？',
+                                    t('home.makeRestricted.title'),
                                     () => {
                                         if (!homeTimeline || !client.ccid) return
                                         client.api
@@ -197,18 +197,17 @@ export const ProfileSettings = (): JSX.Element => {
                                             })
                                     },
                                     {
-                                        description:
-                                            '制限するとホームに投稿された内容は、個別に指定したユーザーのみが閲覧できるようになります。'
+                                        description: t('home.makeRestricted.desc')
                                     }
                                 )
                             }}
                         >
-                            閲覧できる人を制限する
+                            {t('home.makeRestricted.do')}
                         </Button>
                     }
                 >
-                    <AlertTitle>ホーム投稿は一般公開に設定されています</AlertTitle>
-                    制限付きのタイムラインへの投稿を除いた投稿がだれでも閲覧可能です。
+                    <AlertTitle>{t('home.isOpenedTitle')}</AlertTitle>
+                    {t('home.isOpenedDesc')}
                 </Alert>
             ) : (
                 <Alert
@@ -220,7 +219,7 @@ export const ProfileSettings = (): JSX.Element => {
                             size="small"
                             onClick={() => {
                                 confirm.open(
-                                    'ホーム投稿を一般公開にしますか？',
+                                    t('home.makeOpened.title'),
                                     () => {
                                         if (!homeTimeline) return
                                         client.api
@@ -244,17 +243,16 @@ export const ProfileSettings = (): JSX.Element => {
                                             })
                                     },
                                     {
-                                        description:
-                                            '一般公開にすると過去の投稿も含めて全てのユーザーが閲覧できるようになります。'
+                                        description: t('home.makeOpened.desc')
                                     }
                                 )
                             }}
                         >
-                            一般公開にする
+                            {t('home.makeOpened.do')}
                         </Button>
                     }
                 >
-                    <AlertTitle>ホーム投稿の閲覧ユーザーを制限しています</AlertTitle>
+                    <AlertTitle>{t('home.isRestrictedTitle')}</AlertTitle>
                     <Box
                         sx={{
                             display: 'flex',
@@ -262,7 +260,7 @@ export const ProfileSettings = (): JSX.Element => {
                             gap: 1
                         }}
                     >
-                        ホームに投稿された内容は、以下のユーザーが閲覧できます。
+                        {t('home.isRestrictedDesc')}
                         <Box
                             sx={{
                                 display: 'flex',
@@ -311,12 +309,12 @@ export const ProfileSettings = (): JSX.Element => {
                                 })
                             }}
                         >
-                            閲覧ユーザーを編集
+                            {t('home.editReaders')}
                         </Button>
                         {requests.length > 0 && homeTimeline && (
                             <>
                                 <Divider />
-                                <Typography variant="h4">閲覧リクエスト</Typography>
+                                <Typography variant="h4">{t('home.requests')}</Typography>
                                 <Box>
                                     {requests.map((request) => (
                                         <WatchRequestAcceptButton
@@ -337,7 +335,7 @@ export const ProfileSettings = (): JSX.Element => {
 
             {enableConcord && badges.length > 0 && (
                 <>
-                    <Typography variant="h3">バッジ</Typography>
+                    <Typography variant="h3">{t('badges.title')}</Typography>
                     <Box>
                         <Grid container spacing={2}>
                             {badges.map((badge) => {
@@ -418,7 +416,7 @@ export const ProfileSettings = (): JSX.Element => {
                                     <ListItemIcon>
                                         <PublishIcon />
                                     </ListItemIcon>
-                                    <ListItemText>公開する</ListItemText>
+                                    <ListItemText>{t('badges.makePublic')}</ListItemText>
                                 </MenuItem>
                             )}
                             {badgeAction === 'unpublish' && (
@@ -443,7 +441,7 @@ export const ProfileSettings = (): JSX.Element => {
                                     <ListItemIcon>
                                         <VisibilityOffIcon />
                                     </ListItemIcon>
-                                    <ListItemText>非公開にする</ListItemText>
+                                    <ListItemText>{t('badges.makePrivate')}</ListItemText>
                                 </MenuItem>
                             )}
                             <MenuItem
@@ -459,7 +457,7 @@ export const ProfileSettings = (): JSX.Element => {
                                 <ListItemIcon>
                                     <ManageSearchIcon />
                                 </ListItemIcon>
-                                <ListItemText>詳細</ListItemText>
+                                <ListItemText>{t('badges.inspect')}</ListItemText>
                             </MenuItem>
                         </Menu>
                     </Box>
@@ -469,7 +467,7 @@ export const ProfileSettings = (): JSX.Element => {
                 <Button
                     variant="outlined"
                     onClick={() => {
-                        confirm.open('バッジを全部外しますか？', () => {
+                        confirm.open(t('badges.removeBadgeConfirm'), () => {
                             client
                                 .setProfile({
                                     badges: []
@@ -479,7 +477,9 @@ export const ProfileSettings = (): JSX.Element => {
                                 })
                         })
                     }}
-                >{`バッジを全部外す(現在${latestProfile?.badges?.length ?? 0}個)`}</Button>
+                >
+                    {t('badges.removeAllBadges', { count: latestProfile?.badges?.length ?? 0 })}
+                </Button>
             )}
 
             <Box
@@ -490,14 +490,14 @@ export const ProfileSettings = (): JSX.Element => {
                     alignItems: 'center'
                 }}
             >
-                <Typography variant="h3">サブプロフィール</Typography>
+                <Typography variant="h3">{t('subprofile.title')}</Typography>
                 <Button
                     onClick={() => {
                         setSubprofileDraft({})
                         setOpenProfileEditor(true)
                     }}
                 >
-                    新規
+                    {t('subprofile.new')}
                 </Button>
             </Box>
             {latestProfile &&
@@ -527,9 +527,9 @@ export const ProfileSettings = (): JSX.Element => {
                 >
                     {openProfileEditor && (
                         <>
-                            <Typography variant="h3">新規サブプロフィール</Typography>
+                            <Typography variant="h3">{t('subprofile.newTitle')}</Typography>
                             <TextField
-                                label="テンプレートのURL"
+                                label={t('subprofile.templateURL')}
                                 value={schemaURLDraft}
                                 onChange={(e) => {
                                     setSchemaURLDraft(e.target.value)
@@ -562,7 +562,7 @@ export const ProfileSettings = (): JSX.Element => {
                                         })
                                 }}
                             >
-                                作成
+                                {t('subprofile.create')}
                             </Button>
                         </>
                     )}
@@ -582,7 +582,7 @@ export const ProfileSettings = (): JSX.Element => {
                         p: 3
                     }}
                 >
-                    <Typography variant="h3">閲覧ユーザーの編集</Typography>
+                    <Typography variant="h3">{t('subprofile.editViewerRestriction')}</Typography>
                     <UserPicker selected={selectedUsers} setSelected={setSelectedUsers} />
                     <Button
                         onClick={() => {
@@ -590,7 +590,7 @@ export const ProfileSettings = (): JSX.Element => {
                             setOpenReaderEditor(null)
                         }}
                     >
-                        更新
+                        {t('subprofile.update')}
                     </Button>
                 </Box>
             </CCDrawer>

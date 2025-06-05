@@ -13,6 +13,7 @@ import { GuestBase } from '../components/GuestBase'
 import { MediaViewerProvider } from '../context/MediaViewer'
 import { Helmet } from 'react-helmet-async'
 import { TimelineBanner } from '../components/TimelineBanner'
+import { useTranslation } from 'react-i18next'
 
 export default function GuestTimelinePage(): JSX.Element {
     const [timeline, setTimeline] = useState<Timeline<CommunityTimelineSchema> | null | undefined>(null)
@@ -21,6 +22,8 @@ export default function GuestTimelinePage(): JSX.Element {
     const { id } = useParams()
 
     const [client, initializeClient] = useState<Client>()
+
+    const { t } = useTranslation('', { keyPrefix: 'pages.guestMessage' })
 
     useEffect(() => {
         if (!id) return
@@ -70,7 +73,7 @@ export default function GuestTimelinePage(): JSX.Element {
                                 if (id) localStorage.setItem('preferredTimeline', id)
                             }}
                         >
-                            はじめる
+                            {t('getStarted')}
                         </Button>
                     }
                 >
@@ -121,10 +124,8 @@ export default function GuestTimelinePage(): JSX.Element {
                                                     fontSize: '10rem'
                                                 }}
                                             />
-                                            <Typography variant="h5">このコミュニティはプライベートです。</Typography>
-                                            <Typography variant="caption">
-                                                ログインすると、閲覧申請を送信できます。
-                                            </Typography>
+                                            <Typography variant="h5">{t('privateTimeline')}</Typography>
+                                            <Typography variant="caption">{t('loginToRequest')}</Typography>
                                         </Box>
                                     </Box>
                                 ) : (

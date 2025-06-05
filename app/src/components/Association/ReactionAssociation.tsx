@@ -20,6 +20,7 @@ import { useClient } from '../../context/ClientContext'
 import { FaTheaterMasks } from 'react-icons/fa'
 import { CCLink } from '../ui/CCLink'
 import { CCImage } from '../ui/CCImage'
+import { useTranslation } from 'react-i18next'
 
 export interface ReactionAssociationProps {
     association: Association<ReactionAssociationSchema>
@@ -29,6 +30,7 @@ export interface ReactionAssociationProps {
 
 export const ReactionAssociation = (props: ReactionAssociationProps): JSX.Element => {
     const { client } = useClient()
+    const { t } = useTranslation('', { keyPrefix: 'pages.associations' })
     const [target, setTarget] = useState<Message<
         MarkdownMessageSchema | ReplyMessageSchema | MediaMessageSchema
     > | null>(null)
@@ -160,7 +162,7 @@ export const ReactionAssociation = (props: ReactionAssociationProps): JSX.Elemen
                         <ListItemIcon>
                             <DeleteForeverIcon sx={{ color: 'text.primary' }} />
                         </ListItemIcon>
-                        <ListItemText>関連付けを削除</ListItemText>
+                        <ListItemText>{t('removeAssociation')}</ListItemText>
                     </MenuItem>
                 </Menu>
             </Box>

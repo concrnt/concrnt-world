@@ -18,13 +18,88 @@
         "reaction": "リアクション",
         "mutedByWord": "ワードミュートした投稿",
         "mutedByTimeline": "タイムラインミュートした投稿",
-        "show": "表示する"
+        "show": "表示する",
+        "followed": "フォローされています",
+        "addToList": "リストに追加",
+        "failedToRender": "この要素の描画中に問題が発生しました",
+        "communicationFailed": "通信に失敗しました",
+        "updated": "更新しました",
+        "update": "更新",
+        "noDescription": "説明はありません",
+        "ignore": "無視",
+        "ignored": "無視しました",
+        "addToViewer": "閲覧ユーザーに追加",
+        "deletedMessage": "このカレントは削除されました",
+        "privateMessage": "このカレントは非公開です",
+        "developerView": "開発者ビュー",
+        "ccidCopied": "CCIDをコピーしました",
+        "currentAddress": "現住所",
+        "linkCopied": "リンクをコピーしました",
+        "timelineUnmuted": "タイムラインのミュートを解除しました",
+        "timelineMuted": "タイムラインをミュートしました"
+    },
+    "globalActions": {
+        "noRegistration": "{{host}}に登録情報が見つかりません",
+        "completeAccountSetup": "アカウント設定を完了させましょう！",
+        "foundIssues": "見つかった問題:",
+        "profileMissing": "プロフィールが存在していません",
+        "welcome": "コンカレントへようこそ！",
+        "startWithCommunity": "コミュニティベースで始める",
+        "startWithCommunityDesc": "コンカレントを始めたての人向けのコミュニティをフォローした状態で始めます",
+        "startWithAlone": "ひとりで始める",
+        "startWithAloneDesc": "最低限の設定で始めます",
+        "start": "はじめる"
     },
     "app": {
         "updateAvailable": "新しいバージョンが利用可能です",
-        "updateNow": "更新"
+        "updateNow": "更新",
+        "isNotCanonicalUser": "現在所属ドメインではないドメインにログインしています。引っ越し作業が完了次第、再ログインしてください。",
+        "domainIsOffline": "あなたのドメイン{{ domain }}は現在オフラインの為、読み込み専用モードです。復旧までしばらくお待ちください。"
     },
     "pages": {
+        "guestProfile": {
+            "getStarted": "はじめる",
+            "privateTimeline": "このタイムラインはプライベートです。",
+            "loginToRequest": "ログインすると、閲覧申請を送信できます。"
+        },
+        "guestMessage": {
+            "getStarted": "はじめる",
+            "privateTimeline": "このタイムラインはプライベートです。",
+            "loginToRequest": "ログインすると、閲覧申請を送信できます。"
+        },
+        "invitation": {
+            "welcome": "Concrntへようこそ！",
+            "description": "Concrntはあなたの世界をちょっとだけより豊かにする、新しい時代のSNSです",
+            "invitedBy": "{{username}}さんに招待されました",
+            "createAccount": "アカウントを作成する"
+        },
+        "apUser": {
+            "following": "フォロー中",
+            "follow": "フォローする",
+            "idCopied": "IDをコピーしました",
+            "followed": "フォローされています",
+            "openRemote": "リモートで開く",
+            "isApUser": "このユーザーはActivityPubのユーザーです。"
+        },
+        "main": {
+            "title": "Concrnt-World 開発中β版",
+            "post": "投稿する",
+            "document": "ドキュメント",
+            "forum": "フォーラム"
+        },
+        "concord": {
+            "badges": {
+                "series": "シリーズ",
+                "addNew": "+ 新規",
+                "mint": "発行",
+                "newSeries": "新規シリーズ",
+                "create": "作成",
+                "mintBadge": "バッジ発行"
+            },
+            "assets": {
+                "send": "送る"
+            }
+        },
         "home": {
             "title": "ホーム"
         },
@@ -36,7 +111,9 @@
             "reactionMany": "{{ name }}さんと他{{ count }}人があなたのカレントにリアクションしました"
         },
         "associations": {
-            "title": "リアクション"
+            "title": "リアクション",
+            "readAccessRequest": "<username/> さんが <timeline/> への読み取りアクセスを希望しています",
+            "removeAssociation": "関連付けを削除"
         },
         "contacts": {
             "title": "連絡先"
@@ -47,6 +124,10 @@
             "communities": "コミュニティ",
             "peoples": "人々",
             "createNew": "新しく作る",
+            "classicEdition": "クラシック版",
+            "globalEdition": "グローバルビュー",
+            "create": "作成",
+            "createFailed": "作成に失敗しました",
             "createNewCommunity": {
                 "title": "コミュニティの新規作成",
                 "desc1": "あなたの管轄ドメイン",
@@ -58,10 +139,23 @@
             "quicklook": "みてみる"
         },
         "devtool": {
-            "title": "開発者ツール"
+            "title": "開発者ツール",
+            "resetTutorial": "チュートリアルをリセット"
         },
         "tutorial": {
-            "title": "チュートリアル"
+            "title": "チュートリアル",
+            "details": {
+                "moreInfo": "より詳しく知りたい人へ",
+                "twoPasswords": "コンカレントには二種類のパスワードがあります。一つは「マスターキー」、もう一つは「サブキー」です。",
+                "sealAnalogy": "これは、いわゆる実印とシャチハタのような関係です。",
+                "digitalSeal": "コンカレントでは、自分の投稿にデジタルな印鑑を押して、自分の投稿であることを証明しています。",
+                "realSeal": "一方で、実印は契約したり銀行からお金を引き下ろしたりなど、非常に強い権限を持っています。これを荷物の受け取りには使いませんよね。",
+                "masterSubUsage": "これと同じように、コンカレントでも引っ越しやアカウントの削除などを行う場合はマスターキー、投稿やフォローなどの日常的な操作にはサブキーを使う仕組みになっています。",
+                "masterKeyWarning": "マスターキーは一度他人に知られてしまえば一巻の終わりですが、サブキーはいつでもその効力を取り消すことができます。"
+            },
+            "community": {
+                "timelineDescription": "コンカレントへようこそ！ここは主にビギナーの方が自分のコミュニティを見つける入口のタイムラインです。困ったら、まずはこのタイムラインをリストに追加してみるのがおススメです。"
+            }
         },
         "settings": {
             "title": "設定",
@@ -95,6 +189,69 @@
         "now": "たった今"
     },
     "ui": {
+        "migrator": {
+            "next": "次へ",
+            "masterLoginRequired": "引っ越しは重要なアカウント操作のため、マスターキーでのログインが必要です。",
+            "step0": {
+                "title": "引っ越し先の入力",
+                "migrateTo": "移行先ドメイン"
+            },
+            "step1": {
+                "title": "引っ越し先に登録",
+                "desc": "まずは引っ越し先ドメインにて登録を行います。",
+                "move": "引っ越し先登録ページに移動",
+                "checkAndNext": "確認して次へ",
+                "error": "登録が完了していないようです。検出された所属: {{domain}}"
+            },
+            "step2": {
+                "title": "現住所からレポジトリデータをダウンロード"
+            },
+            "step3": {
+                "title": "移行先にレポジトリデータをアップロード",
+                "desc": "実際にすべてのデータが読み込まれるまで時間がかかる場合があります。"
+            },
+            "step4": {
+                "title": "移行先に設定をコピー",
+                "error": "エラーが発生しました。",
+                "exec": ""
+            },
+            "step5": {
+                "title": "現住所にデータ削除依頼を送信",
+                "desc": "猶予を7日で作成するので、問題が発生した場合は削除リクエストをキャンセルすることができます。",
+                "exec": "削除リクエストを送信"
+            },
+            "done": {
+                "title": "引っ越し完了!",
+                "reload": "リロードして完了させる"
+            }
+        },
+        "manageRepo": {
+            "idle": "レポジトリデータのインポート",
+            "loading": "インポート中(時間がかかります)",
+            "success": "インポート完了！",
+            "error": "インポートに失敗しました(consoleログを確認してください)",
+            "source": "インポート元ドメイン(オプション)",
+            "log": "インポートログ",
+            "reload": "再読み込み",
+            "syncing": "バックアップデータは現在同期中です。しばらくお待ちください。({{progress}})",
+            "backupAvailable": "最新のバックアップデータがダウンロード可能です。",
+            "syncRequested": "更新をリクエストしました。しばらくお待ちください。",
+            "requestSync": "更新をリクエスト",
+            "backupUnavailable": "バックアップデータが未作成です。更新をリクエストしてください。",
+            "backupOutOfSync": "現在ダウンロードできるバックアップデータは{{ date }}-{{ time }}までのデータです。",
+            "export": "バックアップデータのエクスポート",
+            "preparing": "バックアップデータを準備中です。しばらくお待ちください。",
+            "exportPartial": "{{ date }}-{{ time }}までのバックアップデータをエクスポート。"
+        },
+        "privateTimeline": {
+            "isPrivate": "このタイムラインはプライベートです。",
+            "notRequestable": "このタイムラインはリクエストを送信できない設定になっています。",
+            "requested": "リクエスト済み",
+            "request": "リクエストする"
+        },
+        "userPicker": {
+            "placeholder": "ユーザーの選択…"
+        },
         "postButton": {
             "plaintext": "カレント",
             "markdown": "カレント",
@@ -110,6 +267,7 @@
         },
         "draft": {
             "placeholder": "今、なにしてる？",
+            "freeDescription": "自由に記述できます",
             "attachImage": "画像の添付",
             "cantAttachImage": "設定から画像投稿設定をしてください",
             "preview": "プレビュー",
@@ -118,10 +276,17 @@
             "emoji": "絵文字",
             "clearDraft": "下書きを削除",
             "addDestination": "投稿先を追加",
-            "postToHome": "プロフィールに投稿",
-            "noPostToHome": "プロフィールに投稿しない",
             "current": "カレント",
             "whisper": "ウィスパー",
+            "whisperWarn": "注意事項",
+            "whisperWarnTitle": "wisperはe2e暗号化されません",
+            "whisperWarnDesc": "あくまで基本的な保護機能です。機密情報をConcrntで共有しないでください。",
+            "whisperDesc": "ここでユーザーを選択すると、そのユーザーにのみ閲覧可能な投稿になります。",
+            "fetchImageFailed": "指定のURLからのアクセスが拒否されました",
+            "hideContent": "内容を隠す",
+            "add": "追加",
+            "clickToShow": "クリックして表示",
+            "enterContent": "内容を入力...",
             "plzAttachMedia": "メディア投稿モードではメディアを添付する必要があります",
             "plzAddMessage": "メッセージを入力してください",
             "plzAddDestination": "少なくとも1つの投稿先を選択してください",
@@ -134,7 +299,8 @@
         "secret": {
             "clickToReveal": "クリックして表示",
             "warn": "背後に人がないか、画面を配信していないか確認してください。",
-            "copy": "シークレットコードをコピー"
+            "copy": "シークレットコードをコピー",
+            "close": "閉じる"
         },
         "listSettings": {
             "title": "リスト設定",
@@ -163,7 +329,57 @@
             "inspect": "詳細",
             "delete": "削除",
             "reallyDelete": "本当にこのメッセージを削除しますか？",
-            "confirmDelete": "削除"
+            "confirmDelete": "削除",
+            "removeFromStream": "このStreamから削除"
+        },
+        "emoji": {
+            "letsAddEmojiPack": "設定から絵文字パッケージを追加しましょう",
+            "addEmojis": "絵文字を追加"
+        },
+        "timelineInfo": {
+            "updated": "更新しました",
+            "failedToUpdate": "更新に失敗しました",
+            "warnCustomPolicy": "このコミュニティにはカスタムポリシーが設定されています",
+            "warnCustomPolicyDesc": "そのため、読み込み権限・書き込み権限のあるユーザーの表示が正常に行われない場合があります。",
+            "readRequests": "閲覧リクエスト ({{ count }})",
+            "indexable": "検索可能",
+            "schema": "スキーマ",
+            "schemaDesc": "JsonSchema URLを入力。基本的に変更する必要はありません",
+            "attributes": "属性",
+            "policy": "ポリシー",
+            "policyDesc": "空の場合はデフォルトポリシーが適用されます",
+            "enterPolicy": "PolicyJSONのURLを入力。",
+            "inlineAllowDeny": "基本的な権限設定",
+            "inlineReadWrite": "基本的な権限設定(レガシー)",
+            "restrictAckees": "フォロイー限定設定",
+            "params": "ポリシーパラメーター",
+            "save": "保存",
+            "delete": "削除",
+            "deleteDesc": "この操作は取り消せません。コミュニティを削除しても、コミュニティに投稿されたメッセージは削除されませんが、リンクを失う可能性があります。",
+            "deleteConfirm": "本当にこのコミュニティを削除しますか？",
+            "deleted": "削除しました",
+            "searchResultPlaceholder": "ここに検索結果が表示されます",
+            "searchResultEmpty": "見つかりませんでした",
+            "searchResultTitle": "{{ query }} の検索結果",
+            "prev": "前のページ",
+            "next": "次のページ",
+            "searchNotAvailable": "{{ host }}では検索機能が利用できません",
+            "search": "検索",
+            "info": "情報",
+            "edit": "編集"
+        },
+        "profileProperties": {
+            "viewTemplate": "テンプレートを見る",
+            "templateTitle": "テンプレート: {{title}}",
+            "searchCharacters": "このテンプレートのキャラクターを検索",
+            "createWithTemplate": "このテンプレートで自分も作成する",
+            "viewSource": "ソースを見る"
+        },
+        "rerouteMessage": {
+            "details": "詳細",
+            "confirmDeleteReroute": "リルートを削除しますか？",
+            "delete": "削除",
+            "deleteReroute": "rerouteを削除"
         }
     },
     "settings": {
@@ -171,11 +387,18 @@
         "general": {
             "title": "一般",
             "basic": "基本",
+            "concordPreviewTitle": "Concord Network(Preview)",
+            "concordDesc1": "Concord NetworkはConcrnt本体の機能を拡張する、別の分散合意ネットワークです。以下の規約の元、有効化することができます。",
+            "concordDesc2": "Concord Networkは現在プレビュー版です。ネットワークは予告なくリセット・変更される予定で、その際ネットワーク上のデータは失われます。それらは再生されません。",
+            "concordDesc3": "Concord Networkでは、内部でおたのしみ機能としてポイント機能が提供されますが、いかなる場合でもポイントを換金することはできません。これは、現金化、その他の有価物との交換、その他の仮想通貨とのスワップを含むがこれに限られません。",
+            "concordEnable": "同意してConcord Networkを有効化",
             "showEditorOnTop": "投稿エディタを上部に表示",
             "showEditorOnTopMobile": "投稿エディタを上部に表示（モバイル）",
             "autoSwitchMediaPostType": "画像添付時に自動的に投稿タイプを切り替える",
             "developerMode": "開発者モード",
-            "generateInviteLink": "招待リンクを生成",
+            "invitation": "招待",
+            "inviteNote": "所属ドメインが招待制の場合、あなたが招待権限を持っている必要があります。詳しくはドメイン管理者にお問合せください。",
+            "copyInviteLink": "招待リンクをコピー",
             "inviteComment": "招待コメント(任意)",
             "inviteTimeline": "スタートタイムライン(任意)",
             "copied": "コピーしました",
@@ -217,10 +440,59 @@
         },
         "profile": {
             "title": "プロフィール",
-            "update": "更新",
-            "updated": "更新しました",
-            "secret": "シークレットコード",
-            "secretCannotBeRestored": "このアカウントのインポートがシークレットコードではなく秘密鍵直接入力によるインポートであったため、シークレットコードを復元できません。"
+            "home": {
+                "isRestrictedTitle": "ホーム投稿の閲覧ユーザーを制限しています",
+                "isRestrictedDesc": "ホームに投稿された内容は、以下のユーザーが閲覧できます。",
+                "editReaders": "閲覧ユーザーを編集",
+                "requests": "閲覧リクエスト",
+                "makeRestricted": {
+                    "title": "ホーム投稿の閲覧者を制限しますか？",
+                    "desc": "制限するとホームに投稿された内容は、個別に指定したユーザーのみが閲覧できるようになります。",
+                    "do": "閲覧できる人を制限する"
+                },
+                "isOpenedTitle": "ホーム投稿は一般公開に設定されています",
+                "isOpenedDesc": "制限付きのタイムラインへの投稿を除いた投稿がだれでも閲覧可能です。",
+                "makeOpened": {
+                    "title": "ホーム投稿を一般公開にしますか？",
+                    "desc": "一般公開にすると過去の投稿も含めて全てのユーザーが閲覧できるようになります。",
+                    "do": "一般公開にする"
+                }
+            },
+            "badges": {
+                "title": "バッジ",
+                "makePublic": "公開する",
+                "makePrivate": "非公開にする",
+                "inspect": "詳細",
+                "removeAllBadges": "バッジを全部外す(現在 {{ count }} 個)",
+                "removeBadgeConfirm": "バッジを全部外しますか？"
+            },
+            "subprofile": {
+                "title": "サブプロフィール",
+                "new": "新規作成",
+                "newTitle": "新規サブプロフィール",
+                "templateURL": "テンプレートURL",
+                "edit": "サブプロフィールの編集",
+                "create": "作成",
+                "editViewerRestriction": "閲覧ユーザーの編集",
+                "update": "更新",
+                "updated": "更新しました",
+                "showInProfile": "メインプロフィールに掲載する",
+                "hideInProfile": "メインプロフィールから非掲載にする",
+                "shownInProfile": "メインプロフィールに掲載中",
+                "hiddenInProfile": "メインプロフィールでは非掲載",
+                "visibilityUpdated": "公開設定を更新しました",
+                "makePublic": "投稿を公開する",
+                "makePrivate": "投稿を非公開にする",
+                "requests": "閲覧リクエスト",
+                "requestsWithCount": "{{ count }}件の閲覧リクエスト",
+                "errNoTimeline": "サブプロフィールタイムラインがありません",
+                "errTimelineInvalid": "サブプロフィールタイムラインの設定が不完全です",
+                "fixTimeline": "サブプロフィールタイムラインを修正",
+                "timelineFixed": "サブプロフィールタイムラインを修正しました",
+                "delete": "削除",
+                "confirmDelete": "本当にこのサブプロフィールを削除しますか？",
+                "plzHideBeforeDelete": "削除するにはメインプロフィールから非掲載にしてください"
+            }
         },
         "identity": {
             "title": "ID管理",
@@ -231,6 +503,27 @@
             },
             "hideSubKey": "無効化したサブキーを非表示にする",
             "deactivate": "無効化",
+            "deactivateConfirm": "本当にこのサブキーを無効化しますか？",
+            "deactivateDesc": "サブキーを無効化すると、このサブキーでログインしている端末はログアウトされます。",
+            "sessionInfo": "セッション情報",
+            "deleteAccount": "アカウントを削除",
+            "delete": "削除",
+            "deleteConfirm": "アカウントを削除しますか？",
+            "deleteDescription": "即座にアカウント削除がリクエストされます。削除前にデータ管理よりデータをダウンロードすることをオススメします。",
+            "deleteRequested": "アカウント削除リクエストを受け付けました。",
+            "copySubkeyDesc": "右のボタンからサブキーをコピーできますが、サブキーはパスワードと同じく機密情報なので扱いには注意してください。",
+            "registrationInfo": "ドメイン{{ fqdn }}に届けて出ている情報",
+            "devkeyTitle": "[開発者用] hex形式のマスターキー",
+            "devkeyDesc": "マスターキーのプライベートキーをbot等で利用する場合、ここからコピーできます。",
+            "alias": {
+                "completed": "アカウントにはエイリアス{{ alias }}が設定されています。",
+                "uncompleted": "アカウントエイリアスは未設定です (特権モードのみ設定可能)",
+                "description": "ドメインをお持ちの場合、以下のtxtレコードを作成することで自身のアカウントにエイリアスを設定できます。",
+                "domainToSet": "設定したいドメイン名",
+                "verify": "設定を検証",
+                "verifySuccess": "エイリアスの設定が確認されました。",
+                "verifyFailed": "エイリアスの設定が確認できませんでした。DNS設定を確認してください。"
+            },
             "switchMasterToSub": {
                 "masterKeyFormat": "マスターキーのフォーマット:",
                 "sendEmail": "自分宛にメールで送信(ブラウザでメール立ち上げ設定が有効になっている必要があります)",
@@ -274,6 +567,11 @@
         },
         "emoji": {
             "title": "絵文字",
+            "updateAll": "全ての絵文字パッケージを更新",
+            "fetchedAt": "取得日: {{date}}",
+            "update": "更新",
+            "copyURL": "URLをコピー",
+            "delete": "削除",
             "emojiPackage": "絵文字パッケージ",
             "emojiPackageURL": "絵文字パッケージURL",
             "packageNotFound": "パッケージが見つかりませんでした",
@@ -282,6 +580,8 @@
         },
         "media": {
             "title": "メディア",
+            "copyImageURL": "画像URLをコピー",
+            "copyMarkdownCode": "Markdownコードをコピー",
             "storageProviderLabel": "使用するストレージプロバイダ",
             "corsSettings": "CORS設定",
             "imagePostSettings": "画像投稿設定",
@@ -302,11 +602,36 @@
             "title": "ActivityPub",
             "setup": "ActivityPubにおけるIDを設定します。",
             "cantBeChangedOnceRegistered": "一度登録すると変更できません",
+            "registerDescription": "この操作により、ドメイン{{domain}}にActivityPubのユーザーを登録します。",
+            "domainSelectionWarningTitle": "Activitypubアカウントと紐づけるConcrntドメインは、慎重に選択する必要があります。",
+            "domainSelectionWarningDesc1": "Concrntアカウントの引っ越しに伴い、Activitypubアカウントも外部ドメインへ引っ越すことができますが、",
+            "domainSelectionWarningDesc2": "Concrntアカウントは自由に元のドメインに戻すことができる一方、Activitypub連携は仕様上",
+            "domainSelectionWarningDesc3": "引っ越し元へ戻すことはできません。",
             "confirming": "確認中…",
             "register": "登録",
             "helperText": "a-z, A-Z, 0-9, _が使用できます",
             "alreadyRegistered": "このユーザーは既に登録されています。",
-            "tryAnotherID": "他のIDを試してください"
+            "tryAnotherID": "他のIDを試してください",
+            "follow": "フォロー",
+            "followers": "フォロワー",
+            "followApUser": "ActivityPubユーザーをフォロー",
+            "errApTimelineIsMissing": "Activitypub受信用タイムラインが見つかりません",
+            "errApTimelineWriteSelf": "Activitypub受信用タイムラインへの書き込み権限がありません",
+            "errApTimelineWriteProxy": "受信用botアカウントの書き込み権限が設定されていません",
+            "updated": "更新しました",
+            "serverBroken": "サーバー設定が不正です。管理者に問い合わせてください",
+            "fix": "修復",
+            "settingsNG": "タイムラインの設定に問題があります",
+            "inquery": "照会",
+            "settings": "設定",
+            "forwardTimeline": "転送元タイムライン",
+            "forwardTimelineDesc": "空の場合はホームタイムラインを使用します",
+            "addForwardTimeline": "転送元タイムラインを追加",
+            "update": "更新",
+            "moveOption": "引っ越しオプション",
+            "addMoveOrigins": "引っ越し元を追加",
+            "add": "追加",
+            "notAvailable": "{{host}}では有効化されていません"
         },
         "qr": {
             "title": "ログインQR",
@@ -314,29 +639,36 @@
             "showInstalled": "この端末のキーを表示",
             "tip1": "ここで作成したサブキーの認証情報は、この画面を離れると再度表示されません。使わなかった場合作り直しになってしまう為、必要な時のみ生成して、必要に応じてメモを取るなどしてください。",
             "tip2": "アカウントが持つキーのリストは設定の管理ページから確認できます。",
-            "createNewSubKey": "サブキーを新しく生成する"
+            "createNewSubKey": "サブキーを新しく生成する",
+            "notLoggedInWithSubkey": "この端末はサブキーでログインしていません"
         },
         "importexport": {
             "title": "データ管理",
             "import": "インポート",
-            "export": "エクスポート"
+            "export": "エクスポート",
+            "manageTab": "データ管理",
+            "migrateTab": "引っ越し"
         },
         "jobs": {
-            "title": "ジョブ"
+            "title": "ジョブ",
+            "listTitle": "ジョブ一覧",
+            "pending": "実行待ち",
+            "running": "実行中",
+            "completed": "終了済み",
+            "detail": "ジョブ詳細",
+            "createDev": "ジョブ作成(dev)",
+            "cancel": "キャンセル"
         }
     },
     "welcome": {
-        "welcome": "コンカレントへようこそ！",
-        "startWithCommunity": "コミュニティベースで始める",
-        "startWithCommunityDesc": "コンカレントを始めたての人向けのコミュニティをフォローした状態で始めます",
-        "startWithAlone": "ひとりで始める",
-        "startWithAloneDesc": "最低限の設定で始めます",
-
         "start": "はじめる",
+        "arrivalTimelineDescription": "ariake.concrnt.netサーバーへようこそ！わからない事があれば、ここで呟いてみましょう。",
+        "devCentralDescription": "開発者の憩い場",
+        "pageTitle": "Concrnt | コンカレント",
+        "metaDescription": "Concrntはあなたの世界をちょっとだけより豊かにする、新しい時代のSNSです",
         "guide": "ユーザーガイド",
         "gettingStarted": "さぁ、はじめよう",
         "import": "ログイン",
-
         "catch": "もし、こんなSNSがあったら...",
         "wish1": "自分の友達や興味のある人が「いま、なにしてる」のかをリアルタイムで知れる。",
         "wish2": "1つのアカウントで、複数のコミュニティと交流できる。",
@@ -344,24 +676,20 @@
         "wish4": "そんなSNSが、あったらいいですよね。",
         "wish5": "Concrntは、この願いにこたえるために開発されました。",
         "wish6": "新時代のSNSへ、ようこそ。",
-
         "feature1title": "みんなで楽しむためのSNS",
         "feature1subtitle": "知らない人しか流れてこないおすすめ欄に疲れた？",
         "feature1p1": "知らない人しか流れてこないオススメより、自分の好きな人のことの方が、もっと知りたいですよね。",
         "feature1p2": "Concrntでは、アルゴリズムに任せるのではなく、自分でカスタマイズできるリスト機能を活用して、自分にとって本当に価値のある情報を手に入れることができます。好きな人、興味のあるコミュニティを選び、自分にピッタリなタイムラインを作り上げましょう。",
         "feature1p3": "Concrntは、あなたが本当に大切にしたいつながりを中心に据えた、みんなで楽しむためのSNSです。",
-
         "feature2title": "あなたのアカウントはあなたのもの",
         "feature2subtitle": "凍結に怯える日々とバイバイ👋",
         "feature2p1": "Concrntは、ユーザーの自由と安全を最優先に考えた分散型SNSです。一つの企業や組織による独裁的な管理から解放され、複数の個人や組織が独立してサーバーを運営しています。",
         "feature2p2": "これにより、あなたのアカウントが突然凍結されるリスクに怯える必要はもうありません。仮に一つのサーバーで理不尽な対応を受けたとしても、別のサーバーへと簡単に移行でき、投稿やフォロワーをそのまま引き継いで活動を続けることが可能です。従来のSNSでは考えられなかった、自分自身で管理できる安心感と自由がここにあります。",
         "feature2p3": "Concrntでは、あなたのアカウントは本当に「あなたのもの」として存在します。",
-
         "feature3title": "1つのSNSで無数の居場所を",
         "feature3subtitle": "趣味に合わせてアカウントを使い分ける時代は終わり",
         "feature3p1": "Concrntでは、ホームタイムラインに加え、複数のコミュニティタイムラインを使い分けることができます。投稿時には、複数のコミュニティに同時に投稿できるため、人間にとって自然な「複数のコミュニティとゆるくつながる」ことが簡単に行えます。",
         "feature3p2": "Xのように世界と過剰につながりすぎることもなく、Discordのように閉じすぎることもない。適度に他のコミュニティと接続しながら、自分に合った居場所を見つけることができるのがConcrntの特徴です。",
-
         "crnt1": "使い方が新しいけどなれたら快適！",
         "crnt2": "自分が依存するものは、オープンなものじゃなくっちゃね",
         "crnt3": "複数のコミュニティに同時に発信したい！",
@@ -376,8 +704,33 @@
         "crnt12": "絵文字リアクションでのコミュニケーションが快適！",
         "crnt13": "いまいるサーバーが閉鎖しちゃっても、<br/>関係をそのまま引っ越せるから安心！",
         "crnt14": "おなかすいたYO",
-
         "crnt_totegamma": "こういうの、あれ！"
+    },
+    "mock": {
+        "home": {
+            "title": "ホーム",
+            "crnt1": "この時間の静かさ、ほんとに好き。休日はひとりの時間が一番。",
+            "crnt2": "音楽といえば、最近アニソンが頭から離れない。聴くとなんかテンション上がる。",
+            "crnt3": "昼下がりの音楽セレクト、今日は何を聴こう。ちょっと悩むな。",
+            "crnt4": "新しい本が届いた！紅茶を淹れて読書の時間。最高の休日。",
+            "crnt5": "今日は久々に好きなアニメの再放送。これからまったり視聴タイム。"
+        },
+        "game": {
+            "title": "ゲーム界隈",
+            "crnt1": "『魔界の冒険者』のセーブデータ、消失…。泣きたい。",
+            "crnt2": "VRゲームの新作、現実感がすごい！酔わないよう気をつけないと。",
+            "crnt3": "昨晩のオンラインバトル、完璧な連携だった。次も頼むぞ、チーム！",
+            "crnt4": "古いアーケードゲームを発見。コイン入れてプレイする感覚、懐かしい。",
+            "crnt5": "ゲームのOST集めるのが趣味。今日は新しい1枚ゲット！"
+        },
+        "food": {
+            "title": "ごはん",
+            "crnt1": "手作りのビーガン料理に挑戦中。今日はトマトとキヌアのサラダ。",
+            "crnt2": "新しいスパイスショップを発見！エキゾチックな味で実験開始。",
+            "crnt3": "今日のラーメン、絶品だった。辛さがちょうど良い。",
+            "crnt4": "自家製のコールドブリュー、夏の定番。コーヒー豆の選び方が鍵。",
+            "crnt5": "お店で食べた焼き鳥、外はサクサク、中はジューシー。次は友達を連れて行く！"
+        }
     },
     "registration": {
         "welcome": {
@@ -410,40 +763,25 @@
             "title": "準備完了！",
             "next": "はじめる"
         },
-        "alreadyHaveAccount": "すでにアカウントをお持ちですか？",
-        "importAccount": "ログイン"
+        "importAccount": "ログイン",
+        "BYOK": "キーを手動で指定する",
+        "keyLabel": "キー",
+        "close": "閉じる",
+        "confirm": "決定"
     },
-
-    "mock": {
-        "home": {
-            "title": "ホーム",
-            "crnt1": "この時間の静かさ、ほんとに好き。休日はひとりの時間が一番。",
-            "crnt2": "音楽といえば、最近アニソンが頭から離れない。聴くとなんかテンション上がる。",
-            "crnt3": "昼下がりの音楽セレクト、今日は何を聴こう。ちょっと悩むな。",
-            "crnt4": "新しい本が届いた！紅茶を淹れて読書の時間。最高の休日。",
-            "crnt5": "今日は久々に好きなアニメの再放送。これからまったり視聴タイム。"
-        },
-        "game": {
-            "title": "ゲーム界隈",
-            "crnt1": "『魔界の冒険者』のセーブデータ、消失…。泣きたい。",
-            "crnt2": "VRゲームの新作、現実感がすごい！酔わないよう気をつけないと。",
-            "crnt3": "昨晩のオンラインバトル、完璧な連携だった。次も頼むぞ、チーム！",
-            "crnt4": "古いアーケードゲームを発見。コイン入れてプレイする感覚、懐かしい。",
-            "crnt5": "ゲームのOST集めるのが趣味。今日は新しい1枚ゲット！"
-        },
-        "food": {
-            "title": "ごはん",
-            "crnt1": "手作りのビーガン料理に挑戦中。今日はトマトとキヌアのサラダ。",
-            "crnt2": "新しいスパイスショップを発見！エキゾチックな味で実験開始。",
-            "crnt3": "今日のラーメン、絶品だった。辛さがちょうど良い。",
-            "crnt4": "自家製のコールドブリュー、夏の定番。コーヒー豆の選び方が鍵。",
-            "crnt5": "お店で食べた焼き鳥、外はサクサク、中はジューシー。次は友達を連れて行く！"
-        }
+    "authorize": {
+        "loginAs": "{{appName}}に{{userName}}としてログインしますか？",
+        "loginRequired": "アプリケーションを認証するには、先にログインが必要です。",
+        "login": "ログイン",
+        "cancel": "キャンセル",
+        "loginNotice": "ログインボタンを押すことにより、{{appName}}にあなたがConcrntユーザー{{userName}}であることを証明しますが、アプリケーションは、あなたの代わりにConcrntに投稿・閲覧する権限を持ちません。"
     },
-
     "import": {
         "scan": "QRスキャン",
         "manual": "手動入力",
+        "getStarted": "はじめる",
+        "or": "または",
+        "qrHint": "ログイン用のQRコードは、ログイン済みのデバイスの「設定 > ログインQR」から取得できます。",
         "searching": "検索中…",
         "notFound": "お住まいのサーバーが見つかりませんでした。手動入力することで継続できます。",
         "invalidSecret": "シークレットコードが正しくありません。",
@@ -461,7 +799,6 @@
         "privLogin": "特権モードでログイン",
         "normalLogin": "通常モードでログイン"
     },
-
     "tutorial": {
         "title": "チュートリアル",
         "common": {
@@ -476,7 +813,6 @@
             "customize": "カスタマイズ",
             "done": "完了！"
         },
-
         "login": {
             "congrat": "無事に特権モードから通常モードに切り替えることができました！すばらしい！",
             "block": "次へ進む前に、特権モードから通常モードへ切り替えてみましょう。",
@@ -501,7 +837,6 @@
                 "handsonDesc": "登録直後はまだ特権モードになっています。特権モードから通常モードに切り替えてみましょう。"
             }
         },
-
         "post": {
             "title": "投稿",
             "desc": "デスクトップではデフォルトで画面上部に投稿UIがあります。スマートフォンでは右下のボタンを押すことで投稿画面を表示することができます。まずは試しに1つ投稿してみましょう。",
@@ -509,11 +844,9 @@
             "handsonContent": "ハロー！コンカレント！",
             "syntax": "## 装飾とプレビュー\n\nコンカレントでは、投稿に記号を使うことで装飾を行うことができます。\n例えば、`**太字**`と書くことで**太字**にすることができます。\n実際に記法がどのように表示されるかは、投稿画面の下部のプレビューでリアルタイムに確認することができます。\n\n## 記法の一覧\n- `# 見出し`: 見出し (#の数で大きさが変わります)\n- `**太字**`: **太字**\n- `*斜体*`: *斜体*\n- `~~取り消し線~~`: ~~取り消し線~~"
         },
-
         "follow&watch": {
             "desc": "# フォローとウォッチ\n\nコンカレントではいわゆる「フォロー」が、一般的なSNSとは異なる仕組みになっています。\nコンカレントでの「フォロー」は、いわゆる「連絡先に追加」のようなものです。知ってる人・興味のある人は積極的にフォローしてみましょう。\n\n一方、「ウォッチ」は、その人を特定のリストに追加し、その人の投稿すべてを見るためのものです。\n\nコンカレントはコミュニティベースなSNSでもあるので、いろんな人を直接ウォッチしてしまうと、タイムラインが雑多に埋まってしまいがちです。\nウォッチは本当に興味のある人だけにするのがおすすめです。"
         },
-
         "community": {
             "title": "コミュニティ",
             "desc1": "コンカレントにはコミュニティタイムラインがあります。コミュニティタイムラインは「探索」タブから探すことができます。1つみつけてみましょう。無ければ、新しく自分で作ってみるのもいいですね。",
@@ -529,15 +862,13 @@
                 "descafter": "を押すことで、デフォルト投稿先の設定を行うことができます。"
             }
         },
-
         "list": {
+            "goExplore": "フォローするユーザー・コミュニティを探しに行く",
             "desc": "# リスト\n\n複数コミュニティをウォッチしていると、タイムラインが雑多になりすぎてしまうことがあります。\nそういう時は、リストを増やして整理しましょう。 メニューの「リスト」からリストの管理画面を開くことができます。\n\n## リストのピン止め\n\nリスト設定から特定のリストをピン止めすることができます。ピン止めをすると、画面上部のタブからいつでもそのリストにアクセスすることができます。\n\n## プリセットとしてのリスト\n\nコンカレントのリストはただまとめるだけではなく、プリセットとして強力に機能します。\nたとえば、複数のリストにそれぞれ別のデフォルト投稿先を設定しておくことで、素早く投稿先を切り替えることができます。\n"
         },
-
         "customize": {
             "desc": "# 便利な使い方\n\n## アプリ化\nコンカレントはPWAという技術を使って、このwebページをスマートフォンのアプリのように使うことができます。\n\n<説明の画像>\n\n### 通知設定\n\nアプリ化することで、通知を受け取る設定を行うことができます。デフォルトではすべての通知がオフになっていますが、設定>一般から「通知を有効にする」ボタンを押すことで通知を有効にすることができます。また有効にした後、どういうときに通知を受け取るかの詳細を設定することもできます。\n\nまた、通知を有効にできる端末は1つのみです。別の端末で通知を有効にすると、前の端末の通知設定は解除されます。\n\n## カスタマイズ\n\nコンカレントでは、様々なカスタマイズ機能があります。\n### カラーテーマ\nコンカレントのカラーテーマは、設定画面のテーマから変更することができます。また、自分で新しいテーマを作成することも、そしてそのテーマを共有することもできます。\n共有されたテーマはタイムライン上でこのように表示されます。\n```theme\n{\"meta\":{\"name\":\"おりーぶ\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\nテーマのインストールボタンを押すことで、すぐにそのテーマを適用することができます。\n\n### 絵文字パック\n\nコンカレントでは投稿の本文やリアクションとして絵文字を使うことができますが、この絵文字は絵文字パックをインストールすることで追加することができます。\n\n共有された絵文字パックはタイムライン上でこのように表示されます。実際にクリックして、絵文字パックをインストールしてみましょう。\n\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\nまた、少し手間が必要ですが、自分で絵文字パックを作成することもできます。詳細は[こちら](https://square.concrnt.net/general/world/emojipack/)を参照してください。\n"
         },
-
         "done": {
             "desc": "# 完了！\n\nこれで、コンカレントの基本的な使い方をマスターしました！\n\nこれからは、自分の好きなようにコンカレントを使ってみてください。\n",
             "handsonButton": "マスターした！ する",
@@ -546,5 +877,28 @@
             "hideTutorial": "メニューからチュートリアルを非表示にする",
             "otherTips": "## その他Tips\n\n### パスワードマネージャをお使いの方・頻繁にログインする方へ\n\nパスワードマネージャーを使ってコンカレントにログインする場合は、マスターキーではなくサブキーを使う方がオススメです。\nこれは、パスワードマネージャーが日本語をパスワードとして取り扱う際に難があることがある為・マスターキーによるログインは新しいセッションを作成してしまう為です。\n\nサブキーは、通常モードログイン時に、設定/ID管理からコピーして控えることができます。ログインは、マスターキーによるログインと同じ画面にサブキー向けの入力欄あがるので、そこからログイン可能です。\n\n\n## その他の機能\n\n### サブプロフィール\nコンカレントでは、自分のプロフィールを複数作ることができます。投稿する際に、どのプロフィールで投稿するか選ぶことができます。\n\n### Activitypubとの連携\nコンカレントでは、Activitypub連携を有効化することで、ほかのActivitypubに対応したSNS(Mastodon, Misskey, Pleromaなど)と連携することができます。\n\n### データ管理と引っ越し\nコンカレントは分散型SNSです。自分のデータを自分で管理することができます。\nサーバーがいつ消滅してもいいように、定期的に「設定>データ管理」からデータをエクスポートして、自分の手元に保存しておくと安心です。\nまた、自分がいるサーバーがサービス終了するときは、ほかのサーバーに引っ越すことができます。\n\n"
         }
+    },
+    "emergency": {
+        "title": "クラッシュレポート",
+        "reload": "リロード",
+        "recoverTools": "復旧ツール",
+        "whenToUseTools": "3回くらい再読み込みしても解決しないなら↓",
+        "softReset": "ログイン情報以外をリセットして再読み込み",
+        "recoverTheme": "テーマをリセットして初回設定同期オフで起動する",
+        "hardReset": "すべてリセットする(ログイン情報も失われます)",
+        "support": "Support",
+        "supportDesc": "リロードしても解決しない場合、何か重大な問題が発生中かもしれません。以下のリンクから最新情報を確認できます。",
+        "reportFailed": "レポートの送信に失敗しました(ヒント: このレポートは公式で提供しているもののみ機能します)",
+        "reportSent": "クラッシュレポートを送信しました。ありがとうございます！",
+        "sendAnonymousReport": "匿名でクラッシュレポートを送信する",
+        "messages": [
+            "インターネットは素晴らしいものですが、時々問題が発生します。以下のボタンをお試しください。",
+            "コンピューターは不思議なものです。再読み込みすると問題が解決するかもしれません。",
+            "時には不思議なことが起きますね。この現象を一緒に解決していきましょう。以下のボタンをお試しください。",
+            "システムに小さなつまずきがありました。もう一度試すことで乗り越えられるかもしれません。",
+            "何かが予定通りに進みませんでした。再読み込みを試してみてください。",
+            "一時的にうまく動いていないようです。再読み込みを試してみてください。",
+            "おおっと！何かがおかしいようです。再読み込みを試してみてください。"
+        ]
     }
 }

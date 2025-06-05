@@ -147,29 +147,14 @@ export function Tutorial(): JSX.Element {
                                 )}
 
                                 <details>
-                                    <summary>より詳しく知りたい人へ</summary>
+                                    <summary>{t('details.moreInfo')}</summary>
 
-                                    <Typography>
-                                        コンカレントには二種類のパスワードがあります。一つは「マスターキー」、もう一つは「サブキー」です。
-                                    </Typography>
-
-                                    <Typography>これは、いわゆる実印とシャチハタのような関係です。</Typography>
-
-                                    <Typography>
-                                        コンカレントでは、自分の投稿にデジタルな印鑑を押して、自分の投稿であることを証明しています。
-                                    </Typography>
-
-                                    <Typography>
-                                        一方で、実印は契約したり銀行からお金を引き下ろしたりなど、非常に強い権限を持っています。これを荷物の受け取りには使いませんよね。
-                                    </Typography>
-
-                                    <Typography>
-                                        これと同じように、コンカレントでも引っ越しやアカウントの削除などを行う場合はマスターキー、投稿やフォローなどの日常的な操作にはサブキーを使う仕組みになっています。
-                                    </Typography>
-
-                                    <Typography>
-                                        マスターキーは一度他人に知られてしまえば一巻の終わりですが、サブキーはいつでもその効力を取り消すことができます。
-                                    </Typography>
+                                    <Typography>{t('details.twoPasswords')}</Typography>
+                                    <Typography>{t('details.sealAnalogy')}</Typography>
+                                    <Typography>{t('details.digitalSeal')}</Typography>
+                                    <Typography>{t('details.realSeal')}</Typography>
+                                    <Typography>{t('details.masterSubUsage')}</Typography>
+                                    <Typography>{t('details.masterKeyWarning')}</Typography>
                                 </details>
 
                                 {client.ckid ? (
@@ -207,7 +192,7 @@ export function Tutorial(): JSX.Element {
                                         goNext()
                                     }}
                                 >
-                                    次へ
+                                    {t('common.next')}
                                 </Button>
                             </>
                         )}
@@ -221,7 +206,7 @@ export function Tutorial(): JSX.Element {
                                         goNext()
                                     }}
                                 >
-                                    次へ
+                                    {t('common.next')}
                                 </Button>
                             </>
                         )}
@@ -235,7 +220,7 @@ export function Tutorial(): JSX.Element {
                                     sx={{ minWidth: '300px' }}
                                     timelineFQID="tar69vv26r5s4wk0r067v20bvyw@ariake.concrnt.net"
                                     name="Arrival Lounge"
-                                    description="コンカレントへようこそ！ここは主にビギナーの方が自分のコミュニティを見つける入口のタイムラインです。困ったら、まずはこのタイムラインをリストに追加してみるのがおススメです。"
+                                    description={t('community.timelineDescription')}
                                     banner="https://worldfile.cc/CC2d97694D850Df2089F48E639B4795dD95D2DCE2E/f696009d-f1f0-44f8-83fe-6387946f1b86"
                                     domain="ariake.concrnt.net"
                                 />
@@ -295,7 +280,7 @@ export function Tutorial(): JSX.Element {
                                         goNext()
                                     }}
                                 >
-                                    次へ
+                                    {t('common.next')}
                                 </Button>
                             </>
                         )}

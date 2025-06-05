@@ -998,7 +998,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             return newMedias
                         })
                     }}
-                    helperText="自由に記述できます"
+                    helperText={t('freeDescription')}
                 />
                 <Button
                     onClick={() => {

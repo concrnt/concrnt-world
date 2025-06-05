@@ -95,7 +95,7 @@ export const AckList = (props: AckListProps): JSX.Element => {
                                 <Typography>{user.profile?.username}</Typography>
                                 {client.ackers.find((ack) => ack.ccid === user.ccid) && (
                                     <Chip
-                                        label={'フォローされています'}
+                                        label={t('followed')}
                                         sx={{
                                             fontSize: '10px',
                                             padding: '0.5',

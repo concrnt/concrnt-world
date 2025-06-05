@@ -15,9 +15,11 @@ import { GuestBase } from '../components/GuestBase'
 import { MediaViewerProvider } from '../context/MediaViewer'
 import { Helmet } from 'react-helmet-async'
 import { loadPolicy } from '@concrnt/worldlib'
+import { useTranslation } from 'react-i18next'
 
 export default function GuestProfilePage(): JSX.Element {
     const [user, setUser] = useState<User | null | undefined>(null)
+    const { t } = useTranslation('', { keyPrefix: 'pages.guestProfile' })
     const [targetStream, setTargetStream] = useState<string[]>([])
     const [isPrivateTimeline, setIsPrivateTimeline] = useState<boolean>(false)
 
@@ -95,7 +97,7 @@ export default function GuestProfilePage(): JSX.Element {
                     }}
                     additionalButton={
                         <Button component={NavLink} to="/register">
-                            はじめる
+                            {t('getStarted')}
                         </Button>
                     }
                 >
@@ -157,10 +159,8 @@ export default function GuestProfilePage(): JSX.Element {
                                                     fontSize: '10rem'
                                                 }}
                                             />
-                                            <Typography variant="h5">このタイムラインはプライベートです。</Typography>
-                                            <Typography variant="caption">
-                                                ログインすると、閲覧申請を送信できます。
-                                            </Typography>
+                                            <Typography variant="h5">{t('privateTimeline')}</Typography>
+                                            <Typography variant="caption">{t('loginToRequest')}</Typography>
                                         </Box>
                                     </Box>
                                 ) : (

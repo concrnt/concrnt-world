@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material'
 import { useClient } from '../context/ClientContext'
 import { useState } from 'react'
 import { useSnackbar } from 'notistack'
+import { useTranslation } from 'react-i18next'
 
 interface WatchRequestAcceptButtonProps {
     request: Association<ReadAccessRequestAssociationSchema>
@@ -13,6 +14,8 @@ interface WatchRequestAcceptButtonProps {
 }
 
 export const WatchRequestAcceptButton = (props: WatchRequestAcceptButtonProps): JSX.Element => {
+    const { t } = useTranslation('', { keyPrefix: 'common' })
+
     const { client } = useClient()
     const { enqueueSnackbar } = useSnackbar()
     const requester = props.request.authorUser
@@ -34,12 +37,12 @@ export const WatchRequestAcceptButton = (props: WatchRequestAcceptButtonProps): 
                 onClick={() => {
                     setWorking(true)
                     props.request.delete().then(() => {
-                        enqueueSnackbar('無視しました', { variant: 'success' })
+                        enqueueSnackbar(t('ignored'), { variant: 'success' })
                         props.onAccept?.()
                     })
                 }}
             >
-                無視
+                {t('ignore')}
             </Button>
             <Button
                 disabled={working}
@@ -57,13 +60,13 @@ export const WatchRequestAcceptButton = (props: WatchRequestAcceptButtonProps): 
                         .then(() => {
                             props.request.delete().then(() => {
                                 target.invalidate()
-                                enqueueSnackbar('更新しました', { variant: 'success' })
+                                enqueueSnackbar(t('updated'), { variant: 'success' })
                                 props.onAccept?.()
                             })
                         })
                 }}
             >
-                閲覧者に追加
+                {t('addToViewer')}
             </Button>
         </Box>
     )

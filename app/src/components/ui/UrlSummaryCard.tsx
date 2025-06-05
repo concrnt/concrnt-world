@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { type Summary, useUrlSummary } from '../../context/urlSummaryContext'
 import { useGlobalState } from '../../context/GlobalState'
+import { useTranslation } from 'react-i18next'
 
 export const UrlSummaryCard = (props: { url: string }): JSX.Element | null => {
     const service = useUrlSummary()
@@ -10,6 +11,7 @@ export const UrlSummaryCard = (props: { url: string }): JSX.Element | null => {
     const [preview, setPreview] = useState<Summary | undefined>(undefined)
     const [errored, setErrored] = useState(false)
 
+    const { t } = useTranslation('', { keyPrefix: 'common' })
     const { getImageURL } = useGlobalState()
 
     useEffect(() => {
@@ -94,7 +96,7 @@ export const UrlSummaryCard = (props: { url: string }): JSX.Element | null => {
                 </Typography>
 
                 <Typography variant="body2" width="100%" height="40px" textOverflow="ellipsis" overflow="hidden">
-                    {preview?.description || '説明はありません'}
+                    {preview?.description || t('noDescription')}
                 </Typography>
 
                 <Typography

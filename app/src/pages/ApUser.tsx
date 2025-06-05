@@ -20,6 +20,7 @@ import { CCWallpaper } from '../components/ui/CCWallpaper'
 import { CCIconButton } from '../components/ui/CCIconButton'
 import { CCAvatar } from '../components/ui/CCAvatar'
 import { enqueueSnackbar } from 'notistack'
+import { useTranslation } from 'react-i18next'
 
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
@@ -33,6 +34,7 @@ interface Stats {
 
 export function ApUserPage(): JSX.Element {
     const { client } = useClient()
+    const { t } = useTranslation('', { keyPrefix: 'pages.apUser' })
     const { id } = useParams()
     const theme = useTheme()
 
@@ -227,7 +229,7 @@ export function ApUserPage(): JSX.Element {
                                     }
                                 }}
                             >
-                                {following ? 'フォロー中' : 'フォローする'}
+                                {following ? t('following') : t('follow')}
                             </Button>
                         </Box>
                     </Box>
@@ -262,7 +264,7 @@ export function ApUserPage(): JSX.Element {
                             onClick={() => {
                                 if (id) {
                                     navigator.clipboard.writeText(id)
-                                    enqueueSnackbar('IDをコピーしました', { variant: 'success' })
+                                    enqueueSnackbar(t('idCopied'), { variant: 'success' })
                                 }
                             }}
                             sx={{
@@ -272,7 +274,7 @@ export function ApUserPage(): JSX.Element {
                         >
                             {id}
                         </Typography>
-                        {followed && <Typography variant="caption">フォローされています</Typography>}
+                        {followed && <Typography variant="caption">{t('followed')}</Typography>}
                     </Box>
 
                     <Box
@@ -307,7 +309,7 @@ export function ApUserPage(): JSX.Element {
                                 }}
                             />
                         </ListItemIcon>
-                        <ListItemText>リモートで開く</ListItemText>
+                        <ListItemText>{t('openRemote')}</ListItemText>
                     </MenuItem>
                 </Menu>
             </Box>
@@ -329,11 +331,11 @@ export function ApUserPage(): JSX.Element {
                             }
                         }}
                     >
-                        リモートで開く
+                        {t('openRemote')}
                     </Button>
                 }
             >
-                このユーザーはActivityPubのユーザーです。
+                {t('isApUser')}
             </Alert>
         </Box>
     )

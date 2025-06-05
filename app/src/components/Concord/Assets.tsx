@@ -19,6 +19,7 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward'
 import { type Badge } from '../../model'
 import { useConcord } from '../../context/ConcordContext'
 import { CurrencyText } from '../ui/CurrencyText'
+import { useTranslation } from 'react-i18next'
 
 export interface AssetsProps {
     address: string
@@ -26,6 +27,7 @@ export interface AssetsProps {
 
 export const Assets = (props: AssetsProps): JSX.Element => {
     const concord = useConcord()
+    const { t } = useTranslation('', { keyPrefix: 'pages.concord.assets' })
 
     const [balance, setBalance] = useState<any>(null)
     const [badges, setBadges] = useState<Badge[]>([])
@@ -58,7 +60,7 @@ export const Assets = (props: AssetsProps): JSX.Element => {
                     }}
                     startIcon={<ArrowOutwardIcon />}
                 >
-                    送る
+                    {t('send')}
                 </Button>
             </Box>
             <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
@@ -121,7 +123,7 @@ export const Assets = (props: AssetsProps): JSX.Element => {
                 }}
             >
                 <Box display="flex" flexDirection="column" gap={1} padding={2}>
-                    <Typography variant="h2">送る</Typography>
+                    <Typography variant="h2">{t('send')}</Typography>
 
                     <TextField
                         label="Amount"
@@ -150,7 +152,7 @@ export const Assets = (props: AssetsProps): JSX.Element => {
                             })
                         }}
                     >
-                        送る
+                        {t('send')}
                     </Button>
                 </Box>
             </CCDrawer>

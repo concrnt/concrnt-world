@@ -317,7 +317,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                     onClick={() => {
                         if (props.user) {
                             navigator.clipboard.writeText(props.user.ccid)
-                            enqueueSnackbar('CCIDをコピーしました', { variant: 'success' })
+                            enqueueSnackbar(t('ccidCopied'), { variant: 'success' })
                         }
                     }}
                     sx={{
@@ -344,7 +344,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                 <Box>
                     <Typography variant="caption">
                         {props.user ? (
-                            `現住所: ${props.user.domain !== '' ? props.user.domain : client.host}` +
+                            `${t('currentAddress')}: ${props.user.domain !== '' ? props.user.domain : client.host}` +
                             ` (${affiliationDate?.toLocaleDateString() ?? ''}~)`
                         ) : (
                             <Skeleton variant="text" width={200} />
@@ -429,7 +429,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                                     id +
                                     (props.overrideSubProfileID ? '/profile/' + props.overrideSubProfileID : '')
                             )
-                            enqueueSnackbar('リンクをコピーしました', { variant: 'success' })
+                            enqueueSnackbar(t('linkCopied'), { variant: 'success' })
                             setMenuAnchor(null)
                         }
                     }}
@@ -462,7 +462,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                     <MenuItem
                         onClick={() => {
                             setMuteTimelines(muteTimelines.filter((id) => id !== timelineID))
-                            enqueueSnackbar('タイムラインのミュートを解除しました', { variant: 'success' })
+                            enqueueSnackbar(t('timelineUnmuted'), { variant: 'success' })
                             setMenuAnchor(null)
                         }}
                     >
@@ -481,7 +481,7 @@ export function Profile(props: ProfileProps): JSX.Element {
                             if (!muteTimelines.includes(timelineID)) {
                                 setMuteTimelines([...muteTimelines, timelineID])
                             }
-                            enqueueSnackbar('タイムラインをミュートしました', { variant: 'success' })
+                            enqueueSnackbar(t('timelineMuted'), { variant: 'success' })
                             setMenuAnchor(null)
                         }}
                     >

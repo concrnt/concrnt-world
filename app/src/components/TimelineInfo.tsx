@@ -12,7 +12,7 @@ import {
     TextField,
     Typography
 } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useClient } from '../context/ClientContext'
 import {
     type Timeline,
@@ -32,6 +32,7 @@ import { fetchWithTimeout, IsCCID, IsCSID } from '@concrnt/client'
 import { MessageContainer } from './Message/MessageContainer'
 import { SearchBox } from './ui/SearchBox'
 import { TimelineBanner } from './TimelineBanner'
+import { useTranslation } from 'react-i18next'
 
 export interface TimelineInfoProps {
     id: string
@@ -51,6 +52,8 @@ interface SearchResult {
 }
 
 export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
+    const { t } = useTranslation('', { keyPrefix: 'ui.timelineInfo' })
+
     const { client } = useClient()
     const confirm = useConfirm()
     const { enqueueSnackbar } = useSnackbar()
@@ -137,12 +140,20 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
             .upsertTimeline(schemaDraft, documentBody, opts)
             .then((_) => {
                 setUpdate((e) => e + 1)
-                enqueueSnackbar('更新しました', { variant: 'success' })
+                enqueueSnackbar(t('updated'), { variant: 'success' })
             })
             .catch((_) => {
-                enqueueSnackbar('更新に失敗しました', { variant: 'error' })
+                enqueueSnackbar(t('failedToUpdate'), { variant: 'error' })
             })
     }, [client.api, timeline, schemaDraft, props.id, visible, enqueueSnackbar, documentBody, policyDraft, policyParams])
+
+    const options = useMemo(() => {
+        const opts: Record<string, string> = {}
+        opts[t('inlineAllowDeny')] = 'https://policy.concrnt.world/t/inline-allow-deny.json'
+        opts[t('inlineReadWrite')] = 'https://policy.concrnt.world/t/inline-read-write.json'
+        opts[t('restrictAckees')] = 'https://policy.concrnt.world/t/restrict-ackees.json'
+        return opts
+    }, [])
 
     if (!timeline) {
         return <>stream information not found</>
@@ -163,15 +174,15 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
             {!timeline.policy.isRegistered() && (
                 <>
                     <Alert severity="info">
-                        <AlertTitle>このコミュニティにはカスタムポリシーが設定されています</AlertTitle>
-                        そのため、読み込み権限・書き込み権限のあるユーザーの表示が正常に行われない場合があります。
+                        <AlertTitle>{t('warnCustomPolicy')}</AlertTitle>
+                        {t('warnCustomPolicyDesc')}
                     </Alert>
                 </>
             )}
 
             {isAuthor && (
                 <>
-                    <Typography variant="h3">閲覧リクエスト({requests.length})</Typography>
+                    <Typography variant="h3">{t('readRequests', { count: requests.length })}</Typography>
                     <Box>
                         {requests.map((request) => (
                             <WatchRequestAcceptButton
@@ -252,25 +263,21 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                             }}
                         />
                     }
-                    label="検索可能"
+                    label={t('indexable')}
                 />
             </FormGroup>
-            <Typography variant="h3">権限</Typography>
-            <Box>
-                <Typography>空の場合パブリックになります。</Typography>
-            </Box>
-            <Typography variant="h3">スキーマ</Typography>
+            <Typography variant="h3">{t('schema')}</Typography>
             <TextField
                 label="Schema"
                 error={!schemaDraft?.startsWith('https://')}
-                helperText="JsonSchema URLを入力。基本的に変更する必要はありません"
+                helperText={t('schemaDesc')}
                 value={schemaDraft}
                 onChange={(e) => {
                     setSchemaDraft(e.target.value)
                 }}
             />
             <Box>
-                <Typography variant="h3">属性</Typography>
+                <Typography variant="h3">{t('attributes')}</Typography>
                 <CCEditor
                     schemaURL={schemaDraft}
                     value={documentBody}
@@ -279,19 +286,13 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                     }}
                 />
             </Box>
-            <Typography variant="h3">ポリシー</Typography>
+            <Typography variant="h3">{t('policy')}</Typography>
 
             <CCComboBox
                 label="Policy"
                 error={!policyDraft?.startsWith('https://') && policyDraft !== ''}
-                helperText={
-                    policyDraft === '' ? '空の場合はデフォルトポリシーが適用されます' : 'PolicyJSONのURLを入力。'
-                }
-                options={{
-                    基本的な権限設定: 'https://policy.concrnt.world/t/inline-allow-deny.json',
-                    '基本的な権限設定(レガシー)': 'https://policy.concrnt.world/t/inline-read-write.json',
-                    フォロイー限定設定: 'https://policy.concrnt.world/t/restrict-ackees.json'
-                }}
+                helperText={policyDraft === '' ? t('policyDesc') : t('enterPolicy')}
+                options={options}
                 value={policyDraft ?? ''}
                 onChange={(value) => {
                     setPolicyDraft(value)
@@ -300,7 +301,7 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
 
             {policyDraft && (
                 <Box>
-                    <Typography variant="h3">ポリシーパラメーター</Typography>
+                    <Typography variant="h3">{t('params')}</Typography>
                     <PolicyEditor
                         policyURL={policyDraft}
                         value={policyParams}
@@ -319,27 +320,26 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                 }}
                 disabled={!settingValid || (policyErrors && policyErrors.length > 0)}
             >
-                保存
+                {t('save')}
             </Button>
             <Button
                 color="error"
                 onClick={() => {
                     confirm.open(
-                        'コミュニティを削除しますか？',
+                        t('deleteConfirm'),
                         () => {
                             client.api.deleteTimeline(props.id.split('@')[0]).then((_) => {
-                                enqueueSnackbar('削除しました', { variant: 'success' })
+                                enqueueSnackbar(t('deleted'), { variant: 'success' })
                             })
                         },
                         {
-                            confirmText: '削除',
-                            description:
-                                'この操作は取り消せません。コミュニティを削除しても、コミュニティに投稿されたメッセージは削除されませんが、リンクを失う可能性があります。'
+                            confirmText: t('delete'),
+                            description: t('deleteDesc')
                         }
                     )
                 }}
             >
-                削除
+                {t('delete')}
             </Button>
         </Box>
     )
@@ -348,13 +348,13 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
         <Box p={2}>
             {searchResult === null ? (
                 <Box>
-                    <Typography variant="caption">ここに検索結果が表示されます</Typography>
+                    <Typography variant="caption">{t('searchResultPlaceholder')}</Typography>
                 </Box>
             ) : (
                 <>
                     {!searchResult.content || searchResult.content.length === 0 ? (
                         <Box>
-                            <Typography>見つかりませんでした</Typography>
+                            <Typography>{t('searchResultEmpty')}</Typography>
                         </Box>
                     ) : (
                         <>
@@ -371,7 +371,7 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                                     gap: 1
                                 }}
                             >
-                                <Typography variant="h3">{searchedQuery}の検索結果</Typography>
+                                <Typography variant="h3">{t('searchResultTitle', { query: searchedQuery })}</Typography>
                                 {searchResult.content.map((result) => (
                                     <>
                                         <MessageContainer
@@ -397,7 +397,7 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                                         setSearchPage((e) => e - 1)
                                     }}
                                 >
-                                    Prev
+                                    {t('prev')}
                                 </Button>
                                 <Typography>{searchPage + 1}</Typography>
                                 <Button
@@ -406,7 +406,7 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                                         setSearchPage((e) => e + 1)
                                     }}
                                 >
-                                    Next
+                                    {t('next')}
                                 </Button>
                             </Box>
                         </>
@@ -425,7 +425,9 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                     }}
                     updateFocused={setSearchFocused}
                     disabled={searchService === null}
-                    placeholder={searchService === null ? `${timeline.host}では検索が利用できません` : 'Search (beta)'}
+                    placeholder={
+                        searchService === null ? t('searchNotAvailable', { host: timeline.host }) : t('search')
+                    }
                     onClear={() => {
                         setSearchResult(null)
                         setSearchedQuery('')
@@ -443,8 +445,8 @@ export function TimelineInfo(props: TimelineInfoProps): JSX.Element {
                             setTab(v)
                         }}
                     >
-                        <Tab value="info" label={'情報'} />
-                        <Tab value="edit" label={'編集'} disabled={!isAuthor} />
+                        <Tab value="info" label={t('info')} />
+                        <Tab value="edit" label={t('edit')} disabled={!isAuthor} />
                     </Tabs>
 
                     <Divider />

@@ -2,9 +2,11 @@ import { Box, Button, Typography } from '@mui/material'
 import { forwardRef } from 'react'
 import { useSnackbar } from 'notistack'
 import { usePreference } from '../../context/PreferenceContext'
+import { useTranslation } from 'react-i18next'
 
 export const Debugger = forwardRef<HTMLDivElement>((props, ref): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation('', { keyPrefix: 'pages.devtool' })
 
     const [_progress, setProgress] = usePreference('tutorialProgress')
 
@@ -42,7 +44,7 @@ export const Debugger = forwardRef<HTMLDivElement>((props, ref): JSX.Element => 
                             setProgress(0)
                         }}
                     >
-                        チュートリアルをリセット
+                        {t('resetTutorial')}
                     </Button>
                 </Box>
             </Box>

@@ -424,7 +424,7 @@ function WelcomeBody(): JSX.Element {
                         sx={{ minWidth: '300px' }}
                         timelineFQID="tar69vv26r5s4wk0r067v20bvyw@ariake.concrnt.net"
                         name="Arrival Lounge"
-                        description="ariake.concrnt.netサーバーへようこそ！わからない事があれば、ここで呟いてみましょう。"
+                        description={t('arrivalTimelineDescription')}
                         banner="https://worldfile.cc/CC2d97694D850Df2089F48E639B4795dD95D2DCE2E/f696009d-f1f0-44f8-83fe-6387946f1b86"
                         domain="ariake.concrnt.net"
                     />
@@ -432,7 +432,7 @@ function WelcomeBody(): JSX.Element {
                         sx={{ minWidth: '300px' }}
                         timelineFQID="tdvtb8ha1d1pbckx3067v1wv8xr@denken.concrnt.net"
                         name="Dev Central"
-                        description="開発者の憩い場"
+                        description={t('devCentralDescription')}
                         banner="https://worldfile.cc/CC2d97694D850Df2089F48E639B4795dD95D2DCE2E/16e8e34f-460f-4a01-b0d1-6d0661a18ca4"
                         domain="denken.concrnt.net"
                     />
@@ -516,11 +516,8 @@ export default function Welcome(): JSX.Element {
             }
         >
             <Helmet>
-                <title>Concrnt | コンカレント</title>
-                <meta
-                    name="description"
-                    content="Concrntはあなたの世界をちょっとだけより豊かにする、新しい時代のSNSです"
-                />
+                <title>{t('pageTitle')}</title>
+                <meta name="description" content={t('metaDescription')} />
             </Helmet>
             <WelcomeBody />
         </GuestBase>

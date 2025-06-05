@@ -17,8 +17,8 @@ export function ImportExport(): JSX.Element {
                     navigate(`/settings/importexport/${v}`)
                 }}
             >
-                <Tab value={'manage'} label={'データ管理'} />
-                <Tab value={'migrate'} label={'引っ越し'} />
+                <Tab value={'manage'} label={t('manageTab')} />
+                <Tab value={'migrate'} label={t('migrateTab')} />
             </Tabs>
             <Divider sx={{ mb: 2 }} />
 

@@ -3,6 +3,7 @@ import { type User } from '@concrnt/worldlib'
 import { useClient } from '../../context/ClientContext'
 import { CCUserChip } from './CCUserChip'
 import { CCAvatar } from './CCAvatar'
+import { useTranslation } from 'react-i18next'
 
 export interface UserPickerProps {
     selected: User[]
@@ -12,6 +13,8 @@ export interface UserPickerProps {
 
 export const UserPicker = (props: UserPickerProps): JSX.Element => {
     const { client } = useClient()
+
+    const { t } = useTranslation('', { keyPrefix: 'ui.userPicker' })
 
     return (
         <Box
@@ -42,7 +45,7 @@ export const UserPicker = (props: UserPickerProps): JSX.Element => {
                             {...params.InputProps}
                             {...rest}
                             sx={{ color: 'props.theme.palette.text.secondary' }}
-                            placeholder={props.selected.length === 0 ? 'ユーザーの選択…' : ''}
+                            placeholder={props.selected.length === 0 ? t('placeholder') : ''}
                         />
                     )
                 }}

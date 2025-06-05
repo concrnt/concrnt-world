@@ -316,7 +316,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                             borderRadius: `100px`
                         }}
                     >
-                        投稿する
+                        {t('main.post')}
                     </Button>
                 )}
                 <Divider />
@@ -330,7 +330,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                     }}
                 >
                     <Box sx={{ textAlign: 'center', fontWeight: 600, mb: 'env(safe-area-inset-bottom)' }}>
-                        Concrnt-World 開発中β版
+                        {t('main.title')}
                         <br />
                         <Link
                             underline="hover"
@@ -338,7 +338,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                             href="https://square.concrnt.net/"
                             target="_blank"
                         >
-                            ドキュメント
+                            {t('main.document')}
                         </Link>
                         {' / '}
                         <Link
@@ -347,7 +347,7 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                             href="https://github.com/orgs/concrnt/discussions"
                             target="_blank"
                         >
-                            フォーラム
+                            {t('main.forum')}
                         </Link>
                         {' / '}
                         <Link

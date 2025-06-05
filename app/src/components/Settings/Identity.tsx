@@ -177,11 +177,9 @@ export const KeyTree = (props: KeyTreeProps): JSX.Element => {
                     setDeactivateTarget(null)
                 }}
             >
-                <DialogTitle>本当に無効化しますか？</DialogTitle>
+                <DialogTitle>{t('deactivateConfirm')}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        サブキーを無効化すると、このサブキーでログインしている端末はログアウトされます。
-                    </DialogContentText>
+                    <DialogContentText>{t('deactivateDesc')}</DialogContentText>
                     <Button
                         color="error"
                         fullWidth
@@ -305,13 +303,13 @@ export const IdentitySettings = (): JSX.Element => {
                 </Box>
 
                 <Accordion disableGutters>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} disabled={!isMasterSession}>
                         {client.user?.alias ? (
                             <Typography variant="body1">
-                                アカウントにはエイリアス{client.user.alias}が設定されています。
+                                {t('alias.completed', { alias: client.user.alias })}
                             </Typography>
                         ) : (
-                            <Typography variant="body1">アカウントエイリアス未設定 (特権モードのみ設定可能)</Typography>
+                            <Typography variant="body1">{t('alias.uncompleted')}</Typography>
                         )}
                     </AccordionSummary>
                     <AccordionDetails
@@ -321,48 +319,40 @@ export const IdentitySettings = (): JSX.Element => {
                             gap: 1
                         }}
                     >
-                        {isMasterSession ? (
-                            <>
-                                <Typography gutterBottom>
-                                    ドメインをお持ちの場合、以下のtxtレコードを作成することで自身のアカウントにエイリアスを設定できます。
-                                </Typography>
+                        <Typography gutterBottom>{t('alias.description')}</Typography>
 
-                                <TextField
-                                    fullWidth
-                                    label="設定したいドメイン"
-                                    value={aliasDraft}
-                                    onChange={(e) => {
-                                        setAliasDraft(e.target.value)
-                                    }}
-                                />
+                        <TextField
+                            fullWidth
+                            label={t('alias.domainToSet')}
+                            value={aliasDraft}
+                            onChange={(e) => {
+                                setAliasDraft(e.target.value)
+                            }}
+                        />
 
-                                <Codeblock language="js">{`_concrnt.${aliasDraft} TXT "ccid=${client.ccid}"
+                        <Codeblock language="js">{`_concrnt.${aliasDraft} TXT "ccid=${client.ccid}"
 _concrnt.${aliasDraft} TXT "sig=${signature}"
 _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
-                                <Button
-                                    fullWidth
-                                    onClick={() => {
-                                        fetch(`https://${client.host}/api/v1/entity/${aliasDraft}`)
-                                            .then(async (res) => {
-                                                const resjson = await res.json()
-                                                if (resjson.content.alias) {
-                                                    enqueueSnackbar('検証成功', { variant: 'success' })
-                                                } else {
-                                                    enqueueSnackbar('検証に失敗しました。', { variant: 'error' })
-                                                }
-                                            })
-                                            .catch((e) => {
-                                                console.error(e)
-                                                enqueueSnackbar('検証に失敗しました。', { variant: 'error' })
-                                            })
-                                    }}
-                                >
-                                    設定を検証
-                                </Button>
-                            </>
-                        ) : (
-                            <Typography>マスターキーログイン時のみエイリアス設定が可能です。</Typography>
-                        )}
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                fetch(`https://${client.host}/api/v1/entity/${aliasDraft}`)
+                                    .then(async (res) => {
+                                        const resjson = await res.json()
+                                        if (resjson.content.alias) {
+                                            enqueueSnackbar(t('alias.verifySuccess'), { variant: 'success' })
+                                        } else {
+                                            enqueueSnackbar(t('alias.verifyFailed'), { variant: 'error' })
+                                        }
+                                    })
+                                    .catch((e) => {
+                                        console.error(e)
+                                        enqueueSnackbar(t('alias.verifyFailed'), { variant: 'error' })
+                                    })
+                            }}
+                        >
+                            {t('alias.verify')}
+                        </Button>
                     </AccordionDetails>
                 </Accordion>
 
@@ -388,8 +378,8 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                                 </CCIconButton>
                             }
                         >
-                            <AlertTitle>[開発者用] hex形式のマスターキー</AlertTitle>
-                            マスターキーのプライベートキーをbot等で利用する場合、ここからコピーできます。
+                            <AlertTitle>{t('devkeyTitle')}</AlertTitle>
+                            {t('devkeyDesc')}
                         </Alert>
                     </Box>
                 )}
@@ -420,7 +410,7 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                             }
                         >
                             <AlertTitle>{t('loginType.subKey')}</AlertTitle>
-                            右のボタンからサブキーをコピーできますが、サブキーはパスワードと同じく機密情報なので扱いには注意してください。
+                            {t('copySubkeyDesc')}
                         </Alert>
                     </Box>
                 )}
@@ -429,7 +419,7 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
 
                 <Accordion disableGutters slotProps={{ transition: { unmountOnExit: true } }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="body1">ドメイン{client.host}に届けて出ている情報</Typography>
+                        <Typography variant="body1">{t('registrationInfo', { fqdn: client.host })}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <EntityMetaEditor />
@@ -447,7 +437,7 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                             color="error"
                             onClick={() => {
                                 confirm.open(
-                                    'アカウントを削除しますか？',
+                                    t('deleteConfirm'),
                                     () => {
                                         const job: JobRequest = {
                                             type: 'clean',
@@ -464,20 +454,19 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                                                 body: JSON.stringify(job)
                                             })
                                             .then(async (res) => {
-                                                enqueueSnackbar('アカウント削除リクエストを受け付けました。', {
+                                                enqueueSnackbar(t('deleteRequested'), {
                                                     variant: 'success'
                                                 })
                                             })
                                     },
                                     {
-                                        confirmText: '削除',
-                                        description:
-                                            '即座にアカウント削除がリクエストされます。削除前にデータ管理よりデータをダウンロードすることをオススメします。'
+                                        confirmText: t('delete'),
+                                        description: t('deleteDescription')
                                     }
                                 )
                             }}
                         >
-                            アカウントを削除
+                            {t('deleteAccount')}
                         </Button>
                     </AccordionDetails>
                 </Accordion>
@@ -490,7 +479,7 @@ _concrnt.${aliasDraft} TXT "hint=${client.host}"`}</Codeblock>
                         overflow: 'scroll'
                     }}
                 >
-                    <Typography variant="h3">セッション情報</Typography>
+                    <Typography variant="h3">{t('sessionInfo')}</Typography>
                     <Box
                         sx={{
                             px: 1

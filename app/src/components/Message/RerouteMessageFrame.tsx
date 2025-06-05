@@ -18,6 +18,7 @@ import { FaTheaterMasks } from 'react-icons/fa'
 import { useConfirm } from '../../context/Confirm'
 import { CCLink } from '../ui/CCLink'
 import { CfmRenderer } from '../ui/CfmRenderer'
+import { useTranslation } from 'react-i18next'
 
 export interface RerouteMessageFrameProp {
     message: Message<RerouteMessageSchema>
@@ -27,6 +28,7 @@ export interface RerouteMessageFrameProp {
 }
 
 export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element => {
+    const { t } = useTranslation('', { keyPrefix: 'ui.rerouteMessage' })
     const { client } = useClient()
     const inspector = useInspector()
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
@@ -135,25 +137,25 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                     <ListItemIcon>
                         <ManageSearchIcon sx={{ color: 'text.primary' }} />
                     </ListItemIcon>
-                    <ListItemText>詳細</ListItemText>
+                    <ListItemText>{t('details')}</ListItemText>
                 </MenuItem>
                 {props.additionalMenuItems}
                 {props.message.author === client?.user?.ccid && (
                     <MenuItem
                         onClick={() => {
                             confirm.open(
-                                'リルートを削除しますか？',
+                                t('confirmDeleteReroute'),
                                 () => {
                                     props.message.delete()
                                 },
-                                { confirmText: '削除' }
+                                { confirmText: t('delete') }
                             )
                         }}
                     >
                         <ListItemIcon>
                             <DeleteForeverIcon sx={{ color: 'text.primary' }} />
                         </ListItemIcon>
-                        <ListItemText>rerouteを削除</ListItemText>
+                        <ListItemText>{t('deleteReroute')}</ListItemText>
                     </MenuItem>
                 )}
             </Menu>

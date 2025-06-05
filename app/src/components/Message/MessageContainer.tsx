@@ -205,7 +205,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                             />
                         </Box>
                         <Typography variant="caption" color="textDisabled">
-                            このカレントは削除されました
+                            {t('deletedMessage')}
                         </Typography>
                     </Box>
                     {props.after}
@@ -241,7 +241,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                             color="textDisabled"
                             onClick={() => navigator.clipboard.writeText(props.messageID)}
                         >
-                            このカレントは非公開です
+                            {t('privateMessage')}
                         </Typography>
                     </Box>
                     {props.after}
@@ -280,7 +280,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                                     </Box>
                                     <Box display="flex" justifyContent="center" alignItems="center" gap={1}>
                                         <TerminalIcon />
-                                        <Typography variant="caption">開発者ビュー</Typography>
+                                        <Typography variant="caption">{t('developerView')}</Typography>
                                     </Box>
                                 </Box>
                                 <Box display="flex" flexDirection="row" justifyContent="center" gap={1} width="100%">

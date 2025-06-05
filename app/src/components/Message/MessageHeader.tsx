@@ -11,6 +11,7 @@ import LockIcon from '@mui/icons-material/Lock'
 import { CCUserChip } from '../ui/CCUserChip'
 import { FaTheaterMasks } from 'react-icons/fa'
 import { CCLink } from '../ui/CCLink'
+import { useTranslation } from 'react-i18next'
 
 export interface MessageHeaderProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -20,6 +21,7 @@ export interface MessageHeaderProps {
 }
 
 export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
+    const { t } = useTranslation()
     const { client } = useClient()
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
@@ -70,7 +72,7 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                 {props.message.document.body.profileOverride &&
                     Object.keys(props.message.document.body.profileOverride).length > 0 && <FaTheaterMasks />}{' '}
                 {myAck && (
-                    <Tooltip arrow title="フォローしています" placement="top">
+                    <Tooltip arrow title={t('common.following')} placement="top">
                         <CheckCircleIcon
                             sx={{
                                 fontSize: '1rem',

@@ -195,11 +195,11 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
                                     setMediaMenuAnchorEl(null)
                                 })
                                 .catch((_) => {
-                                    enqueueSnackbar('指定のURLからのアクセスが拒否されました', { variant: 'error' })
+                                    enqueueSnackbar(t('fetchImageFailed'), { variant: 'error' })
                                 })
                         }}
                     >
-                        追加
+                        {t('add')}
                     </Button>
                 </Popover>
                 <Tooltip title={t('emoji')} arrow placement="top" enterDelay={500}>
@@ -219,14 +219,14 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
                     </CCIconButton>
                 </Tooltip>
 
-                <Tooltip title={'内容を隠す'} arrow placement="top" enterDelay={500}>
+                <Tooltip title={t('hideContent')} arrow placement="top" enterDelay={500}>
                     <CCIconButton
                         disabled={props.disableEmoji}
                         onClick={(_) => {
                             props.setDraft(`<details>
-<summary>クリックして表示</summary>
+<summary>${t('clickToShow')}</summary>
 
-${props.draft.trim() || '内容を入力...'}
+${props.draft.trim() || t('enterContent')}
 </details>`)
                         }}
                     >
@@ -297,7 +297,7 @@ ${props.draft.trim() || '内容を入力...'}
                             justifyContent: 'space-between'
                         }}
                     >
-                        <Typography variant="h4">ウィスパー</Typography>
+                        <Typography variant="h4">{t('whisper')}</Typography>
                         <Typography
                             onClick={() => {
                                 setOpenWhisperWarning(!openWhisperWarning)
@@ -309,7 +309,7 @@ ${props.draft.trim() || '内容を入力...'}
                                 alignItems: 'center'
                             }}
                         >
-                            注意事項
+                            {t('whisperWarn')}
                             <ExpandMoreIcon
                                 sx={{
                                     marginLeft: 1,
@@ -320,13 +320,11 @@ ${props.draft.trim() || '内容を入力...'}
                     </Box>
                     <Collapse in={openWhisperWarning}>
                         <Alert severity="warning">
-                            <AlertTitle>wisperはe2e暗号化されません</AlertTitle>
-                            あくまで基本的な保護機能です。機密情報をConcrntで共有しないでください。
+                            <AlertTitle>{t('whisperWarnTitle')}</AlertTitle>
+                            {t('whisperWarnDesc')}
                         </Alert>
                     </Collapse>
-                    <Typography variant="caption">
-                        ここでユーザーを選択すると、そのユーザーにのみ閲覧可能な投稿になります。
-                    </Typography>
+                    <Typography variant="caption">{t('whisperDesc')}</Typography>
                     <Box
                         sx={{
                             my: 1

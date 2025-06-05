@@ -9,9 +9,11 @@ import { usePersistent } from '../hooks/usePersistent'
 import { GenerateIdentity, Identity } from '@concrnt/client'
 import { CCAvatar } from '../components/ui/CCAvatar'
 import { jumpToDomainRegistration } from '../util'
+import { useTranslation } from 'react-i18next'
 
 export default function Invitation(): JSX.Element {
     const location = useLocation()
+    const { t } = useTranslation('', { keyPrefix: 'pages.invitation' })
 
     const [client, setClient] = useState<Client>()
     const [identity] = usePersistent<Identity>('Identity', GenerateIdentity())
@@ -97,9 +99,7 @@ export default function Invitation(): JSX.Element {
                                     textAlign: 'center'
                                 }}
                             >
-                                Concrntへ
-                                <wbr />
-                                ようこそ！
+                                {t('welcome')}
                             </Typography>
                             <Typography
                                 variant="caption"
@@ -110,11 +110,7 @@ export default function Invitation(): JSX.Element {
                                     wordBreak: 'keep-all'
                                 }}
                             >
-                                Concrntはあなたの世界をちょっとだけ
-                                <wbr />
-                                より豊かにする、
-                                <wbr />
-                                新しい時代のSNSです
+                                {t('description')}
                             </Typography>
                         </Box>
 
@@ -126,9 +122,7 @@ export default function Invitation(): JSX.Element {
                                 wordBreak: 'keep-all'
                             }}
                         >
-                            {inviter?.profile?.username}さんに
-                            <wbr />
-                            招待されました
+                            {t('invitedBy', { username: inviter?.profile?.username })}
                         </Typography>
 
                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={2}>
@@ -157,7 +151,7 @@ export default function Invitation(): JSX.Element {
                                 jumpToDomainRegistration(identity.CCID, identity.privateKey, domain, next, ticket)
                             }}
                         >
-                            アカウントを作成する
+                            {t('createAccount')}
                         </Button>
                     </Box>
                 </Paper>

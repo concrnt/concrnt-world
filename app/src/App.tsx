@@ -394,7 +394,7 @@ function App(): JSX.Element {
                                 padding: '10px'
                             }}
                         >
-                            現在所属ドメインではないドメインにログインしています。引っ越し作業が完了次第、再ログインしてください。
+                            {t('app.isNotCanonicalUser')}
                         </Typography>
                     )}
                     {isMasterSession && isCanonicalUser && progress !== 0 && (
@@ -425,8 +425,7 @@ function App(): JSX.Element {
                                 padding: '10px'
                             }}
                         >
-                            あなたのドメイン{client.host}
-                            は現在オフラインの為、読み込み専用モードです。復旧までしばらくお待ちください。
+                            {t('app.domainIsOffline', { domain: client.host })}
                         </Typography>
                     )}
                 </Box>

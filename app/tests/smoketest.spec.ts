@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 test(`detect-crash`, async ({ page }) => {
     await page.goto(`http://localhost:5173/crash`)
     await page.waitForLoadState('networkidle')
-    const errorButton = page.getByRole('button', { name: 'リロード' })
+    const errorButton = page.getByRole('button', { name: 'Reload', exact: true })
     await expect(errorButton).toHaveCount(1)
 })
 

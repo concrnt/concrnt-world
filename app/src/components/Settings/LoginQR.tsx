@@ -28,7 +28,7 @@ export function LoginQR(): JSX.Element {
             {tab === 0 && (
                 <>
                     {subkey && <SubkeyInfo subkey={subkey} />}
-                    {!subkey && <p>この端末はサブキーでログインしていません</p>}
+                    {!subkey && <p>{t('notLoggedInWithSubkey')}</p>}
                 </>
             )}
 

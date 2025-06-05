@@ -18,13 +18,88 @@
         "reaction": "Reaction",
         "mutedByWord": "Post muted by word",
         "mutedByTimeline": "Post muted by timeline",
-        "show": "Show"
+        "show": "Show",
+        "followed": "Follows you",
+        "addToList": "Add to List",
+        "failedToRender": "An error occurred while rendering this element",
+        "communicationFailed": "Communication failed",
+        "updated": "Updated",
+        "update": "Update",
+        "noDescription": "No description available",
+        "ignore": "Ignore",
+        "ignored": "Ignored",
+        "addToViewer": "Allow",
+        "deletedMessage": "This post has been deleted",
+        "privateMessage": "This post is private",
+        "developerView": "Developer View",
+        "ccidCopied": "CCID copied",
+        "currentAddress": "Current address",
+        "linkCopied": "Link copied",
+        "timelineUnmuted": "Timeline unmuted",
+        "timelineMuted": "Timeline muted"
+    },
+    "globalActions": {
+        "noRegistration": "No registration info found for {{host}}",
+        "completeAccountSetup": "Let's complete your account setup!",
+        "foundIssues": "Found issues:",
+        "profileMissing": "Profile does not exist",
+        "welcome": "Welcome to Concurrent!",
+        "startWithCommunity": "Start with Community",
+        "startWithCommunityDesc": "Begin your journey by following communities tailored for newcomers to Concurrent.",
+        "startWithAlone": "Start Alone",
+        "startWithAloneDesc": "Begin with a minimal setup.",
+        "start": "Get Started"
     },
     "app": {
         "updateAvailable": "New version available",
-        "updateNow": "Update"
+        "updateNow": "Update",
+        "isNotCanonicalUser": "You are currently logged in to a domain that is not your canonical domain. Please log in again after completing the migration process.",
+        "domainIsOffline": "Your domain {{ domain }} is currently in read-only mode due to being offline. Please wait until it is restored."
     },
     "pages": {
+        "guestProfile": {
+            "getStarted": "Get Started",
+            "privateTimeline": "This timeline is private.",
+            "loginToRequest": "Log in to request access."
+        },
+        "guestMessage": {
+            "getStarted": "Get Started",
+            "privateTimeline": "This timeline is private.",
+            "loginToRequest": "Log in to send a request."
+        },
+        "invitation": {
+            "welcome": "Welcome to Concrnt!",
+            "description": "Concrnt is a new era SNS that enriches your world just a little bit.",
+            "invitedBy": "Invited by {{username}}",
+            "createAccount": "Create Account"
+        },
+        "apUser": {
+            "following": "Following",
+            "follow": "Follow",
+            "idCopied": "ID copied",
+            "followed": "Followed",
+            "openRemote": "Open remotely",
+            "isApUser": "This user is an ActivityPub user."
+        },
+        "main": {
+            "title": "Concrnt-World Beta",
+            "post": "Post",
+            "document": "Document",
+            "forum": "Forum"
+        },
+        "concord": {
+            "badges": {
+                "series": "Series",
+                "addNew": "+ New",
+                "mint": "Mint",
+                "newSeries": "New Series",
+                "create": "Create",
+                "mintBadge": "Mint Badge"
+            },
+            "assets": {
+                "send": "Send"
+            }
+        },
         "home": {
             "title": "Home"
         },
@@ -36,7 +111,9 @@
             "reactionMany": "{{ name }} and {{ count }} others reacted to your post"
         },
         "associations": {
-            "title": "Associations"
+            "title": "Associations",
+            "readAccessRequest": "<username/> is requesting read access to <timeline/>",
+            "removeAssociation": "Remove Association"
         },
         "contacts": {
             "title": "Contacts"
@@ -47,6 +124,10 @@
             "communities": "Communities",
             "peoples": "Peoples",
             "createNew": "Create new",
+            "classicEdition": "Classic Edition",
+            "globalEdition": "Global View",
+            "create": "Create",
+            "createFailed": "Failed to create",
             "createNewCommunity": {
                 "title": "Create new community",
                 "desc1": "Create a new community on ",
@@ -58,10 +139,23 @@
             "quicklook": "Quick Look"
         },
         "devtool": {
-            "title": "Devtool"
+            "title": "Devtool",
+            "resetTutorial": "Reset Tutorial"
         },
         "tutorial": {
-            "title": "Tutorial"
+            "title": "Tutorial",
+            "details": {
+                "moreInfo": "More information",
+                "twoPasswords": "Concrnt has two types of passwords: a 'Master Key' and a 'Sub Key'.",
+                "sealAnalogy": "This is like the relationship between a registered seal and a self-inking seal.",
+                "digitalSeal": "In Concrnt, you stamp your posts with a digital seal to prove they are yours.",
+                "realSeal": "A registered seal is used for contracts or withdrawing money from a bank, but you wouldn't use it to receive a package.",
+                "masterSubUsage": "Similarly, in Concrnt, the Master Key is used for important actions like migration or account deletion, while the Sub Key is used for everyday actions like posting or following.",
+                "masterKeyWarning": "If your Master Key is ever leaked, it's over, but you can always revoke a Sub Key."
+            },
+            "community": {
+                "timelineDescription": "Welcome to Concrnt! This is the main timeline for beginners to find their community. If you're unsure, try adding this timeline to your list."
+            }
         },
         "settings": {
             "title": "Settings",
@@ -95,6 +189,69 @@
         "now": "just now"
     },
     "ui": {
+        "migrator": {
+            "next": "Next",
+            "masterLoginRequired": "Migration is a critical account operation and requires login with your master key.",
+            "step0": {
+                "title": "Enter destination",
+                "migrateTo": "Destination domain"
+            },
+            "step1": {
+                "title": "Register on the destination",
+                "desc": "First, register on the destination domain.",
+                "move": "Go to registration page",
+                "checkAndNext": "Verify and continue",
+                "error": "It seems registration has not been completed. Detected domain: {{domain}}"
+            },
+            "step2": {
+                "title": "Download repository data from current address"
+            },
+            "step3": {
+                "title": "Upload repository data to destination",
+                "desc": "It may take some time for all data to be fully loaded."
+            },
+            "step4": {
+                "title": "Copy settings to destination",
+                "error": "An error occurred.",
+                "exec": ""
+            },
+            "step5": {
+                "title": "Send deletion request to current address",
+                "desc": "A 7-day grace period will be set, during which you can cancel the deletion if necessary.",
+                "exec": "Send deletion request"
+            },
+            "done": {
+                "title": "Migration complete!",
+                "reload": "Reload to finish"
+            }
+        },
+        "manageRepo": {
+            "idle": "Import repository data",
+            "loading": "Importing (this may take some time)",
+            "success": "Import completed!",
+            "error": "Import failed (please check the console logs)",
+            "source": "Import source domain (optional)",
+            "log": "Import log",
+            "reload": "Reload",
+            "syncing": "Backup data is currently syncing. Please wait... ({{progress}})",
+            "backupAvailable": "The latest backup data is available for download.",
+            "syncRequested": "Update requested. Please wait a moment.",
+            "requestSync": "Request update",
+            "backupUnavailable": "No backup data available. Please request an update.",
+            "backupOutOfSync": "The currently downloadable backup data is from {{ date }} {{ time }}.",
+            "export": "Export backup data",
+            "preparing": "Preparing backup data. Please wait...",
+            "exportPartial": "Exporting backup data as of {{ date }} {{ time }}."
+        },
+        "privateTimeline": {
+            "isPrivate": "This timeline is private.",
+            "notRequestable": "This timeline does not accept access requests.",
+            "requested": "Request sent",
+            "request": "Send request"
+        },
+        "userPicker": {
+            "placeholder": "Select users"
+        },
         "postButton": {
             "plaintext": "Post",
             "markdown": "Post",
@@ -110,6 +267,7 @@
         },
         "draft": {
             "placeholder": "What are you up to?",
+            "freeDescription": "You can write freely",
             "attachImage": "Attach image",
             "cantAttachImage": "Please set up Imgur client ID in settings.",
             "preview": "Preview",
@@ -118,10 +276,17 @@
             "emoji": "Emojis",
             "clearDraft": "Clear draft",
             "addDestination": "Add destination",
-            "postToHome": "Also posting to home timeline",
-            "noPostToHome": "Not posting to home timeline",
             "current": "Post",
             "whisper": "Whisper",
+            "whisperWarn": "Caution",
+            "whisperWarnTitle": "Whisper is NOT end-to-end encrypted",
+            "whisperWarnDesc": "This is a basic protection feature. Do not share sensitive information on Concrnt.",
+            "whisperDesc": "Selecting users here will make the post visible only to those users.",
+            "fetchImageFailed": "Access to the specified URL was denied",
+            "hideContent": "Hide content",
+            "add": "Add",
+            "clickToShow": "Click to show",
+            "enterContent": "Enter content...",
             "plzAttachMedia": "You need to attach media in media post mode",
             "plzAddMessage": "Message must not be empty",
             "plzAddDestination": "Select at least one destination",
@@ -134,7 +299,8 @@
         "secret": {
             "clickToReveal": "Click to reveal",
             "warn": "Make sure no one is looking at your screen.",
-            "copy": "Copy"
+            "copy": "Copy",
+            "close": "Close"
         },
         "listSettings": {
             "title": "List settings",
@@ -163,7 +329,57 @@
             "inspect": "Inspect",
             "delete": "Delete",
             "reallyDelete": "Really delete this message?",
-            "confirmDelete": "Confirm"
+            "confirmDelete": "Confirm",
+            "removeFromStream": "Remove from Stream"
+        },
+        "emoji": {
+            "letsAddEmojiPack": "Let's add an emoji package from settings",
+            "addEmojis": "Add Emojis"
+        },
+        "timelineInfo": {
+            "updated": "Updated",
+            "failedToUpdate": "Failed to update",
+            "warnCustomPolicy": "This community has a custom policy set",
+            "warnCustomPolicyDesc": "As a result, displaying users with read/write permissions may not work correctly.",
+            "readRequests": "Read Requests ({{ count }})",
+            "indexable": "Indexable",
+            "schema": "Schema",
+            "schemaDesc": "Enter the JsonSchema URL. Normally, you don’t need to change this.",
+            "attributes": "Attributes",
+            "policy": "Policy",
+            "policyDesc": "If empty, the default policy will be applied.",
+            "enterPolicy": "Enter the URL of the Policy JSON.",
+            "inlineAllowDeny": "Basic Permission Settings",
+            "inlineReadWrite": "Basic Permission Settings (Legacy)",
+            "restrictAckees": "Restrict to Followees",
+            "params": "Policy Parameters",
+            "save": "Save",
+            "delete": "Delete",
+            "deleteDesc": "This action cannot be undone. Deleting a community does not remove messages, but may sever links to them.",
+            "deleteConfirm": "Are you sure you want to delete this community?",
+            "deleted": "Deleted",
+            "searchResultPlaceholder": "Search results will appear here",
+            "searchResultEmpty": "No results found",
+            "searchResultTitle": "Search results for {{ query }}",
+            "prev": "Previous",
+            "next": "Next",
+            "searchNotAvailable": "Search is not available on {{ host }}",
+            "search": "Search",
+            "info": "Info",
+            "edit": "Edit"
+        },
+        "profileProperties": {
+            "viewTemplate": "View Template",
+            "templateTitle": "Template: {{title}}",
+            "searchCharacters": "Search characters with this template",
+            "createWithTemplate": "Create your own with this template",
+            "viewSource": "View Source"
+        },
+        "rerouteMessage": {
+            "details": "Details",
+            "confirmDeleteReroute": "Are you sure you want to delete this reroute?",
+            "delete": "Delete",
+            "deleteReroute": "Delete reroute"
         }
     },
     "settings": {
@@ -171,11 +387,18 @@
         "general": {
             "title": "General",
             "basic": "Basic",
+            "concordPreviewTitle": "Concord Network (Preview)",
+            "concordDesc1": "Concord Network is a separate distributed consensus network that extends the core functionality of Concrnt. You can enable it under the following terms.",
+            "concordDesc2": "Concord Network is currently in preview. The network may be reset or changed without notice, and any data on the network may be lost and will not be restored.",
+            "concordDesc3": "Concord Network provides a point feature for fun, but under no circumstances can points be exchanged for cash or any other valuable items, including but not limited to currency exchange or swaps with other cryptocurrencies.",
+            "concordEnable": "Agree and Enable Concord Network",
             "showEditorOnTop": "Show editor on top",
             "showEditorOnTopMobile": "Show editor on top (mobile)",
             "autoSwitchMediaPostType": "Automatically switch the post type when an image is attached",
             "developerMode": "Developer mode",
-            "generateInviteLink": "Generate invite link",
+            "invitation": "Invitation",
+            "inviteNote": "If your domain is invitation-only, you need to have invitation privileges. Please contact your domain administrator for more details.",
+            "copyInviteLink": "Copy invite link",
             "inviteComment": "Invite comment (optional)",
             "inviteTimeline": "Invite timeline (optional)",
             "copied": "Copied",
@@ -217,10 +440,59 @@
         },
         "profile": {
             "title": "Profile",
-            "update": "Update",
-            "updated": "Updated",
-            "secret": "Secret code",
-            "secretCannotBeRestored": "Since this account was imported using the private key instead of the secret code, the secret code cannot be restored."
+            "home": {
+                "isRestrictedTitle": "Currently, the viewers of home posts are restricted",
+                "isRestrictedDesc": "Currently, the content posted on the home timeline can be viewed by the following users.",
+                "editReaders": "Edit Home Viewers",
+                "requests": "Home View Requests",
+                "makeRestricted": {
+                    "title": "Do you want to restrict the viewers of home posts?",
+                    "desc": "If you restrict it, the content posted on the home timeline will only be viewable by users you specify individually.",
+                    "do": "Restrict Viewers"
+                },
+                "isOpenedTitle": "Currently, home posts are set to public",
+                "isOpenedDesc": "Currently, posts on the home timeline, except for those to restricted timelines, are viewable by anyone.",
+                "makeOpened": {
+                    "title": "Do you want to make home posts public?",
+                    "desc": "If you make it public, all past posts will be viewable by all users.",
+                    "do": "Make Public"
+                }
+            },
+            "badges": {
+                "title": "Badges",
+                "makePublic": "Make Public",
+                "makePrivate": "Make Private",
+                "inspect": "Inspect",
+                "removeAllBadges": "Remove all badges (currently {{ count }})",
+                "removeBadgeConfirm": "Are you sure you want to remove all badges?"
+            },
+            "subprofile": {
+                "title": "Sub Profile",
+                "new": "Create New",
+                "newTitle": "New Sub Profile",
+                "templateURL": "Template URL",
+                "create": "Create",
+                "editViewerRestriction": "Edit Viewer Restriction",
+                "update": "Update",
+                "updated": "Updated",
+                "showInProfile": "Show in Main Profile",
+                "hideInProfile": "Hide from Main Profile",
+                "shownInProfile": "Currently shown in Main Profile",
+                "hiddenInProfile": "Currently hidden from Main Profile",
+                "visibilityUpdated": "Visibility updated",
+                "makePublic": "Make Post Public",
+                "makePrivate": "Make Post Private",
+                "requests": "View Requests",
+                "requestsWithCount": "{{ count }} View Requests",
+                "errNoTimeline": "No sub-profile timeline found",
+                "errTimelineInvalid": "Sub-profile timeline settings are incomplete",
+                "edit": "Edit Sub Profile",
+                "fixTimeline": "Fix Sub Profile Timeline",
+                "timelineFixed": "Sub Profile Timeline fixed",
+                "delete": "Delete",
+                "confirmDelete": "Are you sure you want to delete this sub-profile?",
+                "plzHideBeforeDelete": "Please hide from the main profile before deleting"
+            }
         },
         "identity": {
             "title": "Identity",
@@ -231,6 +503,27 @@
             },
             "hideSubKey": "Hide deactivated sub-keys",
             "deactivate": "Deactivate",
+            "deactivateConfirm": "Are you sure you want to deactivate this sub-key?",
+            "deactivateDesc": "Deactivating a sub-key will log out all devices currently logged in with that sub-key.",
+            "sessionInfo": "Session Information",
+            "deleteAccount": "Delete Account",
+            "delete": "Delete",
+            "deleteConfirm": "Are you sure you want to delete your account?",
+            "deleteDescription": "Your account deletion request will be processed immediately. It is recommended to download your data from Data Management before deletion.",
+            "deleteRequested": "Your account deletion request has been accepted.",
+            "copySubkeyDesc": "You can copy your sub-key using the button on the right, but please handle it with care as it is sensitive information like a password.",
+            "registrationInfo": "Information registered with the domain {{ fqdn }}",
+            "devkeyTitle": "[For Developers] Master Key in hex format",
+            "devkeyDesc": "You can copy the private key of the master key from here for use in bots or other applications.",
+            "alias": {
+                "completed": "An alias {{ alias }} has been set for your account.",
+                "uncompleted": "Account alias is not set (can only be set in privileged mode)",
+                "description": "If you own a domain, you can set an alias for your account by creating the following TXT record.",
+                "domainToSet": "Domain to set",
+                "verify": "Verify Settings",
+                "verifySuccess": "Alias settings have been verified successfully.",
+                "verifyFailed": "Failed to verify alias settings. Please check your DNS configuration."
+            },
             "switchMasterToSub": {
                 "masterKeyFormat": "Master-key format:",
                 "sendEmail": "Send to my email",
@@ -238,7 +531,6 @@
                 "mailHerf": "mailto:?subject=concrnt secret&body=**Set the recipient of this email to yourself and send it.**%0D%0A%0D%0A=== Identification Info ===%0D%0AIdentifier: {{ ccid }}%0D%0AMaster Key: {{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0AThe master key is the only passphrase that proves you own the account identified by this identifier.%0D%0AIf this key becomes known to a malicious third party, the security of this account will be compromised, and you will need to take steps to freeze the account yourself.%0D%0A%0D%0AThe master key will be used for important operations such as migrating your account or recovering lost sub-keys.%0D%0AUntil then, store it securely, such as by printing it and keeping it in a safe deposit box.%0D%0A",
                 "downloadPDF": "Download as PDF",
                 "processing": "Processing...",
-                "ready": "Remove the master-key completely from this device and switch to the sub-key",
                 "identification": "Identification",
                 "confidential": "CONFIDENTIAL",
                 "identifier": "Identifier",
@@ -275,6 +567,11 @@
         },
         "emoji": {
             "title": "Emoji",
+            "updateAll": "Update all emoji packages",
+            "fetchedAt": "Fetched at: {{date}}",
+            "update": "Update",
+            "copyURL": "Copy URL",
+            "delete": "Delete",
             "emojiPackage": "Emoji packages",
             "emojiPackageURL": "Emoji package URL",
             "packageNotFound": "Package not found",
@@ -283,6 +580,8 @@
         },
         "media": {
             "title": "Media",
+            "copyImageURL": "Copy Image URL",
+            "copyMarkdownCode": "Copy Markdown Code",
             "storageProviderLabel": "Storage provider to use",
             "corsSettings": "CORS settings",
             "imagePostSettings": "Image post settings",
@@ -303,11 +602,36 @@
             "title": "ActivityPub",
             "setup": "ActivityPub ID setup.",
             "cantBeChangedOnceRegistered": "**Can't be changed once registered.",
+            "registerDescription": "This operation will register an ActivityPub user on domain {{domain}}.",
+            "domainSelectionWarningTitle": "The Concrnt domain to link with your ActivityPub account must be chosen carefully.",
+            "domainSelectionWarningDesc1": "When migrating your Concrnt account, your ActivityPub account can also be migrated to an external domain.",
+            "domainSelectionWarningDesc2": "While Concrnt accounts can freely return to their original domain, ActivityPub integration, due to specifications,",
+            "domainSelectionWarningDesc3": "cannot be moved back to the original domain.",
             "confirming": "Confirming...",
             "register": "Register",
             "helperText": "The following charaters can be used: a-z, A-Z, 0-9",
             "alreadyRegistered": "This user is already registered.",
-            "tryAnotherID": "Try another ID."
+            "tryAnotherID": "Try another ID.",
+            "follow": "Follow",
+            "followers": "Followers",
+            "followApUser": "Follow ActivityPub user",
+            "errApTimelineIsMissing": "ActivityPub receiving timeline is missing",
+            "errApTimelineWriteSelf": "You do not have write permission to the ActivityPub receiving timeline",
+            "errApTimelineWriteProxy": "The receiving bot account does not have write permission",
+            "updateFailed": "Failed to update",
+            "serverBroken": "Server configuration is invalid. Please contact the administrator.",
+            "fix": "Fix",
+            "settingsNG": "There is a problem with the timeline settings",
+            "inquery": "Inquiry",
+            "settings": "Settings",
+            "forwardTimeline": "Forwarding Timeline",
+            "forwardTimelineDesc": "If empty, the home timeline will be used",
+            "addForwardTimeline": "Add Forwarding Timeline",
+            "update": "Update",
+            "moveOption": "Move Options",
+            "addMoveOrigins": "Add Move Origins",
+            "add": "Add",
+            "notAvailable": "Not available on {{host}}"
         },
         "qr": {
             "title": "Login Code",
@@ -315,29 +639,36 @@
             "showInstalled": "Show installed",
             "tip1": "You can only see generated codes once. Generate a new code only when you need it.",
             "tip2": "You can check created keys in the Settings > Identity page.",
-            "createNewSubKey": "Create New Sub Key"
+            "createNewSubKey": "Create New Sub Key",
+            "notLoggedInWithSubkey": "This device is not logged in with a sub-key"
         },
         "importexport": {
             "title": "Import/Export",
             "import": "Import",
-            "export": "Export"
+            "export": "Export",
+            "manageTab": "Data Management",
+            "migrateTab": "Migration"
         },
         "jobs": {
-            "title": "Jobs"
+            "title": "Jobs",
+            "listTitle": "Job List",
+            "pending": "Pending",
+            "running": "Running",
+            "completed": "Completed",
+            "detail": "Job Details",
+            "createDev": "Create Job (dev)",
+            "cancel": "Cancel"
         }
     },
     "welcome": {
-        "welcome": "Welcome to Concurrent!",
-        "startWithCommunity": "Start with Community",
-        "startWithCommunityDesc": "Begin your journey by following communities tailored for newcomers to Concurrent.",
-        "startWithAlone": "Start Alone",
-        "startWithAloneDesc": "Begin with a minimal setup.",
-
-        "start": "Get Started",
+        "start": "Let's Get Started",
+        "arrivalTimelineDescription": "Welcome to the ariake.concrnt.net server! If you have any questions, feel free to post here.",
+        "devCentralDescription": "A place for developers to relax",
+        "pageTitle": "Concrnt | Concurrent",
+        "metaDescription": "Concrnt is a new era SNS that enriches your world just a little bit.",
         "guide": "User Guide",
         "gettingStarted": "Let's Get Started",
         "import": "Log In",
-
         "catch": "What if there was an SNS like this...",
         "wish1": "You could know in real-time what your friends and people you're interested in are doing.",
         "wish2": "You could interact with multiple communities using a single account.",
@@ -345,24 +676,20 @@
         "wish4": "Wouldn't it be great if there was such an SNS?",
         "wish5": "Concrnt was developed to fulfill this wish.",
         "wish6": "Welcome to the new era of SNS.",
-
         "feature1title": "An SNS for Enjoying Together",
         "feature1subtitle": "Tired of recommendation feeds filled with strangers?",
         "feature1p1": "Wouldn't you rather know more about the people you like than just seeing recommendations filled with strangers?",
         "feature1p2": "With Concrnt, instead of relying on algorithms, you can use customizable lists to access information that truly matters to you. Select the people you like and the communities you're interested in, and create a timeline that fits you perfectly.",
         "feature1p3": "Concrnt is an SNS focused on the connections that truly matter to you, making it enjoyable for everyone.",
-
         "feature2title": "Your Account is Truly Yours",
         "feature2subtitle": "Say goodbye to the days of fearing account suspension 👋",
         "feature2p1": "Concrnt is a decentralized SNS that prioritizes user freedom and safety. It is free from the dictatorship of a single company or organization, with independent individuals and organizations running their own servers.",
         "feature2p2": "This means you no longer have to live in fear of your account being suddenly suspended. Even if you experience unfair treatment on one server, you can easily move to another server, retaining your posts and followers, and continue your activities. Here, you'll find the security and freedom of being able to manage your account in a way that was unimaginable with conventional SNS.",
         "feature2p3": "On Concrnt, your account truly belongs to you.",
-
         "feature3title": "Countless Communities in One SNS",
         "feature3subtitle": "The era of using separate accounts for different interests is over",
         "feature3p1": "On Concrnt, in addition to the home timeline, you can switch between multiple community timelines. When posting, you can simultaneously share across multiple communities, making it easy to connect loosely with multiple communities, which is natural for humans.",
         "feature3p2": "It's not about being overly connected to the world like X, nor is it about being too closed off like Discord. The charm of Concrnt is that you can find your place while moderately connecting with other communities.",
-
         "crnt1": "It’s a new way of using SNS, but once you get used to it, it's comfortable!",
         "crnt2": "What I depend on must be open!",
         "crnt3": "I want to broadcast to multiple communities simultaneously!",
@@ -377,10 +704,8 @@
         "crnt12": "Communicating with emoji reactions is so smooth!",
         "crnt13": "Even if the server I’m on shuts down, <br/> I can easily move my relationships to a new server, so no worries!",
         "crnt14": "I’m hungry YO",
-
         "crnt_totegamma": "This is exactly it!"
     },
-
     "mock": {
         "home": {
             "title": "Home",
@@ -407,7 +732,6 @@
             "crnt5": "The yakitori I had at the restaurant was crispy on the outside and juicy on the inside. Next time, I'm bringing friends!"
         }
     },
-
     "registration": {
         "welcome": {
             "title": "Let's Create Your Concrnt Account!",
@@ -439,12 +763,25 @@
             "title": "Ready to go!",
             "next": "Start"
         },
-        "alreadyHaveAccount": "Already have an account?",
-        "importAccount": "Sign in"
+        "importAccount": "Sign in",
+        "BYOK": "Enter key manually",
+        "keyLabel": "Key",
+        "close": "Close",
+        "confirm": "Confirm"
+    },
+    "authorize": {
+        "loginAs": "Log in to {{appName}} as {{userName}}?",
+        "loginRequired": "You need to log in before authorizing the application.",
+        "login": "Log In",
+        "cancel": "Cancel",
+        "loginNotice": "By pressing the login button, you prove to {{appName}} that you are Concrnt user {{userName}}, but the application will not have permission to post or view on your behalf."
     },
     "import": {
         "scan": "Scan",
         "manual": "Manual",
+        "getStarted": "Get Started",
+        "or": "or",
+        "qrHint": "You can get a login QR code from 'Settings > Login QR' on a logged-in device.",
         "searching": "Searching…",
         "notFound": "Your server could not be found. You can continue by entering it manually.",
         "invalidSecret": "The secret code is not correct.",
@@ -462,7 +799,6 @@
         "privLogin": "Log in with Privileged Mode",
         "normalLogin": "Log in with Normal Mode"
     },
-
     "tutorial": {
         "title": "Tutorial",
         "common": {
@@ -477,7 +813,6 @@
             "customize": "Customize",
             "done": "Done!"
         },
-
         "login": {
             "congrat": "Successfully switched from privileged mode to normal mode! Well done!",
             "block": "Before proceeding, let's switch from privileged mode to normal mode.",
@@ -502,7 +837,6 @@
                 "handsonDesc": "You'll be in privileged mode right after registration. Let's switch to normal mode."
             }
         },
-
         "post": {
             "title": "Posting",
             "desc": "On desktop, the posting UI is located at the top of the screen by default. On smartphones, you can access the posting screen by pressing the button at the bottom right. Let's try making your first post.",
@@ -510,11 +844,9 @@
             "handsonContent": "Hello! Concrnt!",
             "syntax": "## Formatting and Preview\n\nIn , you can use symbols in your posts to apply formatting.\nFor example, typing `**bold**` will make the text **bold**.\nYou can check how your formatting looks in real-time using the preview at the bottom of the posting UI.\n\n## Formatting Guide\n- `# Heading`: Heading (size changes with the number of #)\n- `**Bold**`: **Bold**\n- `*Italic*`: *Italic*\n- `~~Strikethrough~~`: ~~Strikethrough~~"
         },
-
         "follow&watch": {
             "desc": "# Follow & Watch\n\nIn , the concept of 'Follow' works differently compared to typical social media.\n'Follow' in Concrnt is more like 'Add to Contacts.' Actively follow people you know or find interesting.\n\nOn the other hand, 'Watch' allows you to add someone to a specific list and view all their posts.\n\nSince Concrnt is community-based, directly watching too many people can clutter your timeline. It's recommended to watch only those you're genuinely interested in."
         },
-
         "community": {
             "title": "Community",
             "desc1": " has community timelines that can be discovered via the 'Explore' tab. Find one and check it out. If there isn't one, consider creating your own.",
@@ -530,15 +862,13 @@
                 "descafter": " button at the top right to set your default posting destination."
             }
         },
-
         "list": {
+            "goExplore": "Find users and communities to follow",
             "desc": "# Lists\n\nWatching multiple communities can make your timeline too cluttered.\nIn such cases, create more lists to organize them.\nYou can access the list management screen from 'Lists' in the menu.\n\n## Pinning Lists\n\nFrom the list settings, you can pin specific lists. Pinned lists are always accessible from the tabs at the top of the screen.\n\n## Lists as Presets\n\nLists in  are more than just collections; they serve as powerful presets.\nFor example, you can assign different default posting destinations to multiple lists, allowing you to switch between them quickly."
         },
-
         "customize": {
             "desc": "# Advanced Usage\n\n## App Installation\n uses PWA technology, enabling you to use this web page like a smartphone app.\n\n<Illustration>\n\n### Notification Settings\n\nInstalling the app lets you configure notifications. By default, all notifications are turned off, but you can enable them in Settings > General by pressing the 'Enable Notifications' button. Once enabled, you can customize which events trigger notifications.\n\nOnly one device can have notifications enabled at a time. Enabling notifications on a new device will disable them on the previous one.\n\n## Customization\n\nConcrnt offers a variety of customization features.\n### Color Themes\nYou can change the color theme in the Settings > Theme menu. You can also create your own themes and share them. Shared themes appear on the timeline like this:\n```theme\n{\"meta\":{\"name\":\"Olive\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\nPress the install button to instantly apply the theme.\n\n### Emoji Packs\n\nConcrnt allows you to use emojis in posts and reactions by installing emoji packs.\nShared emoji packs appear on the timeline like this:\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\nYou can also create your own emoji packs, though it requires some effort. See [here](https://square.concrnt.net/general/world/emojipack/) for details."
         },
-
         "done": {
             "desc": "# Done!\n\nYou've now mastered the basics of using !\n\nFrom here on, feel free to explore and use Concrnt however you like.",
             "handsonButton": "I've mastered!",
@@ -547,5 +877,28 @@
             "hideTutorial": "Hide tutorial from the menu",
             "otherTips": "## Additional Tips\n\n### For Password Manager Users & Frequent Logins\n\nIf you're using a password manager to log in to , it's recommended to use a Sub Key instead of the Master Key.\nThis is because:\n1. Some password managers struggle with handling Japanese characters as passwords.\n2. Logging in with the Master Key creates a new session.\n\nYou can copy your Sub Key from Settings > ID Management while logged in under normal mode. Sub Key login works via the same login screen as the Master Key, with a dedicated input field.\n\n## Other Features\n\n### Sub-Profiles\nConcrnt lets you create multiple profiles. You can choose which profile to use when posting.\n\n### ActivityPub Integration\nBy enabling ActivityPub integration, you can interact with other ActivityPub-compatible platforms (Mastodon, Misskey, Pleroma, etc.).\n\n### Data Management & Migration\nConcrnt is a decentralized SNS, allowing you to manage your own data.\nTo safeguard against server shutdowns, regularly export your data from Settings > Data Management and keep it securely.\nYou can also migrate to a different server if your current one shuts down."
         }
+    },
+    "emergency": {
+        "title": "Crash Report",
+        "reload": "Reload",
+        "recoverTools": "Recovery Tools",
+        "whenToUseTools": "If reloading doesn’t help after 3 tries ↓",
+        "softReset": "Reset everything except login info and reload",
+        "recoverTheme": "Reset theme and launch with sync disabled",
+        "hardReset": "Reset everything (login info will also be lost)",
+        "support": "Support",
+        "supportDesc": "If reloading doesn't resolve the issue, there may be a serious problem. Check the latest updates using the link below.",
+        "reportFailed": "Failed to send report (Hint: This only works on official deployments)",
+        "reportSent": "Crash report sent. Thank you!",
+        "sendAnonymousReport": "Send anonymous crash report",
+        "messages": [
+            "The internet is a wonderful place, but sometimes things go wrong. Try the buttons below.",
+            "Computers are mysterious. Reloading might fix the issue.",
+            "Strange things happen sometimes. Let’s solve this together — try the buttons below.",
+            "The system hit a small bump. A retry might do the trick.",
+            "Something didn’t go as planned. Try reloading.",
+            "Things might not be working correctly right now. Try reloading.",
+            "Oops! Something went wrong. Try reloading."
+        ]
     }
 }

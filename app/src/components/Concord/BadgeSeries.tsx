@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import { CCDrawer } from '../ui/CCDrawer'
 import { type DeepPartial } from '../../util'
 import { type BadgeSeriesType, useConcord } from '../../context/ConcordContext'
+import { useTranslation } from 'react-i18next'
 
 export interface BadgeSeriesProps {
     address: string
@@ -22,6 +23,7 @@ export interface BadgeSeriesProps {
 
 export const BadgeSeries = (props: BadgeSeriesProps): JSX.Element => {
     const concord = useConcord()
+    const { t } = useTranslation('', { keyPrefix: 'pages.concord.badges' })
 
     const [processing, setProcessing] = useState<boolean>(false)
 
@@ -51,14 +53,14 @@ export const BadgeSeries = (props: BadgeSeriesProps): JSX.Element => {
                     justifyContent: 'space-between'
                 }}
             >
-                <Typography variant="h3">シリーズ</Typography>
+                <Typography variant="h3">{t('series')}</Typography>
                 <Button
                     disabled={processing || !concord.cosmJS}
                     onClick={() => {
                         setCreateSeries(true)
                     }}
                 >
-                    + 新規
+                    {t('addNew')}
                 </Button>
             </Box>
             <Box>
@@ -88,7 +90,7 @@ export const BadgeSeries = (props: BadgeSeriesProps): JSX.Element => {
                                             setMintingSeries(b.id)
                                         }}
                                     >
-                                        発行
+                                        {t('mint')}
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -113,7 +115,7 @@ export const BadgeSeries = (props: BadgeSeriesProps): JSX.Element => {
                         gap: 1
                     }}
                 >
-                    <Typography variant="h3">新規シリーズ</Typography>
+                    <Typography variant="h3">{t('newSeries')}</Typography>
                     <TextField
                         label="Name"
                         value={seriesDraft?.name}
@@ -172,7 +174,7 @@ export const BadgeSeries = (props: BadgeSeriesProps): JSX.Element => {
                                 })
                         }}
                     >
-                        作成
+                        {t('create')}
                     </Button>
                 </Box>
             </CCDrawer>
@@ -193,7 +195,7 @@ export const BadgeSeries = (props: BadgeSeriesProps): JSX.Element => {
                         gap: 1
                     }}
                 >
-                    <Typography variant="h3">バッジ発行</Typography>
+                    <Typography variant="h3">{t('mintBadge')}</Typography>
                     <Typography>{mintingSeries}</Typography>
                     <TextField
                         label="Receiver"
@@ -220,7 +222,7 @@ export const BadgeSeries = (props: BadgeSeriesProps): JSX.Element => {
                             })
                         }}
                     >
-                        発行
+                        {t('mint')}
                     </Button>
                 </Box>
             </CCDrawer>

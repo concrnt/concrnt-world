@@ -183,7 +183,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                 props.message.deleteAssociation(ownFavorite)
                             } else {
                                 props.message.favorite().catch(() => {
-                                    enqueueSnackbar('通信に失敗しました', { variant: 'error' })
+                                    enqueueSnackbar(t('common.communicationFailed'), { variant: 'error' })
                                 })
                             }
                         }}
@@ -196,7 +196,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                         e.stopPropagation()
                         emojiPicker.open(e.currentTarget, (emoji) => {
                             props.message.reaction(emoji.shortcode, emoji.imageURL).catch(() => {
-                                enqueueSnackbar('通信に失敗しました', { variant: 'error' })
+                                enqueueSnackbar(t('common.communicationFailed'), { variant: 'error' })
                             })
                             emojiPicker.close()
                         })
@@ -324,7 +324,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                             <ListItemIcon>
                                 <PlaylistRemoveIcon sx={{ color: 'text.primary' }} />
                             </ListItemIcon>
-                            <ListItemText>このStreamから削除</ListItemText>
+                            <ListItemText>{t('removeFromStream')}</ListItemText>
                         </MenuItem>
                     )}
                 */}

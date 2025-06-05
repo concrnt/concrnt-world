@@ -30,7 +30,7 @@ export default function AccountImport(): JSX.Element {
             }}
             additionalButton={
                 <Button component={Link} to="/register">
-                    はじめる
+                    {t('getStarted')}
                 </Button>
             }
         >
@@ -63,7 +63,7 @@ export default function AccountImport(): JSX.Element {
                             setImportMode('scan')
                         }}
                     />
-                    <Divider orientation="vertical">または</Divider>
+                    <Divider orientation="vertical">{t('or')}</Divider>
                     <IconButtonWithLabel
                         icon={PasswordIcon}
                         label={t('manual')}
@@ -75,9 +75,7 @@ export default function AccountImport(): JSX.Element {
 
                 {importMode === 'scan' && (
                     <>
-                        <Alert severity="info">
-                            {'ログイン用のQRコードは、ログイン済みのデバイスの「設定 > ログインQR」から取得できます。'}
-                        </Alert>
+                        <Alert severity="info">{t('qrHint')}</Alert>
                         <Suspense fallback={<Typography>loading...</Typography>}>
                             <QRCodeReader
                                 onRead={(result) => {
@@ -98,7 +96,7 @@ export default function AccountImport(): JSX.Element {
                 {importMode === 'manual' && (
                     <>
                         <ImportMasterKey />
-                        <Divider>または</Divider>
+                        <Divider>{t('or')}</Divider>
                         <ImportSubkey />
                     </>
                 )}

@@ -37,7 +37,7 @@ export const WatchButton = (props: WatchButtonProps): JSX.Element => {
     return (
         <Box>
             {props.minimal ? (
-                <Tooltip title="リストに追加" placement="top" arrow>
+                <Tooltip title={t('addToList')} placement="top" arrow>
                     <IconButton
                         sx={{ flexGrow: 0 }}
                         size={props.small ? 'small' : 'medium'}

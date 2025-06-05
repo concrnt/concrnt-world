@@ -244,11 +244,11 @@ export function ExplorerPlusPage(): JSX.Element {
             .then((e: any) => {
                 const id: string = e.id
                 if (id) navigate('/timeline/' + id)
-                else enqueueSnackbar('コミュニティの作成に失敗しました', { variant: 'error' })
+                else enqueueSnackbar(t('createFailed'), { variant: 'error' })
             })
             .catch((e) => {
                 console.error(e)
-                enqueueSnackbar('コミュニティの作成に失敗しました', { variant: 'error' })
+                enqueueSnackbar(t('createFailed'), { variant: 'error' })
             })
     }
 
@@ -281,7 +281,7 @@ export function ExplorerPlusPage(): JSX.Element {
                             size={'small'}
                             disableElevation
                         >
-                            クラッシック版
+                            {t('classicEdition')}
                         </Button>
                     </Box>
 
@@ -504,7 +504,7 @@ export function ExplorerPlusPage(): JSX.Element {
                                             if (timelineDraft) createNewTimeline(timelineDraft)
                                         }}
                                     >
-                                        作成
+                                        {t('create')}
                                     </Button>
                                 </Box>
                             </CCDrawer>
@@ -608,7 +608,7 @@ export function ExplorerPlusPage(): JSX.Element {
                                                     small
                                                     timelineFQID={'world.concrnt.t-home@' + u.author}
                                                 />
-                                                <Tooltip title={'みてみる'} placement={'top'} arrow>
+                                                <Tooltip title={t('quicklook')} placement={'top'} arrow>
                                                     <CCIconButton
                                                         size={'small'}
                                                         onClick={() => {

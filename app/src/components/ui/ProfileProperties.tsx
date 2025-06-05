@@ -2,6 +2,7 @@ import { type Profile } from '@concrnt/client'
 import { Box, Button, Typography } from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { CCDrawer } from './CCDrawer'
 import { CCEditor } from './cceditor'
 
@@ -13,6 +14,7 @@ export interface ProfilePropertiesProps {
 const defaultProperties = ['username', 'avatar', 'description', 'banner', 'links']
 
 export const ProfileProperties = (props: ProfilePropertiesProps): JSX.Element => {
+    const { t } = useTranslation('', { keyPrefix: 'ui.profileProperties' })
     const [schema, setSchema] = useState<any>()
     const [inspecting, setInspecting] = useState(false)
 
@@ -74,7 +76,7 @@ export const ProfileProperties = (props: ProfilePropertiesProps): JSX.Element =>
                         }}
                     >
                         <Typography variant="caption" sx={{ textDecoration: 'underline', cursor: 'pointer' }}>
-                            テンプレートを見る
+                            {t('viewTemplate')}
                         </Typography>
                     </Box>
                 )}
@@ -86,14 +88,14 @@ export const ProfileProperties = (props: ProfilePropertiesProps): JSX.Element =>
                 }}
             >
                 <Box p={2}>
-                    <Typography variant="h3">テンプレート: {schema?.title}</Typography>
+                    <Typography variant="h3">{t('templateTitle', { title: schema?.title })}</Typography>
                     <Box>{schema?.description}</Box>
                     <Box mt={2} gap={1} display="flex" flexDirection="column">
                         <Button component={RouterLink} to={`/explorer/users#schema=${props.character.schema}`}>
-                            このテンプレートのキャラクターを検索
+                            {t('searchCharacters')}
                         </Button>
                         <Button component={RouterLink} to={`/settings/profile#${props.character.schema}`}>
-                            このテンプレートで自分も作成する
+                            {t('createWithTemplate')}
                         </Button>
                         <Button
                             component={RouterLink}
@@ -101,7 +103,7 @@ export const ProfileProperties = (props: ProfilePropertiesProps): JSX.Element =>
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            ソースを見る
+                            {t('viewSource')}
                         </Button>
                     </Box>
                     {schema && (

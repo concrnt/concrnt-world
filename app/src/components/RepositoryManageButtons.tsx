@@ -3,19 +3,14 @@ import { useClient } from '../context/ClientContext'
 import { Accordion, AccordionSummary, Alert, Box, Button, TextField } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { Codeblock } from './ui/Codeblock'
-
-const status = {
-    idle: 'レポジトリデータのインポート',
-    loading: 'インポート中(時間がかかります)',
-    success: 'インポート完了！',
-    error: 'インポートに失敗しました(consoleログを確認してください)'
-}
+import { useTranslation } from 'react-i18next'
 
 export function RepositoryImportButton(props: {
     source?: string
     domain?: string
     onImport?: (err: string) => void
 }): JSX.Element {
+    const { t } = useTranslation('', { keyPrefix: 'ui.manageRepo' })
     const { client } = useClient()
 
     const fileInputRef = useRef<HTMLInputElement>(null)
@@ -100,7 +95,7 @@ export function RepositoryImportButton(props: {
                 }}
             />
             <TextField
-                label="インポート元ドメイン(オプション)"
+                label={t('source')}
                 placeholder="example.com"
                 value={sourceDomain}
                 onChange={(e) => {
@@ -114,11 +109,11 @@ export function RepositoryImportButton(props: {
                     fileInputRef.current?.click()
                 }}
             >
-                {status[importStatus] + (importStatus === 'loading' ? `(${progress})` : '')}
+                {t(importStatus) + (importStatus === 'loading' ? `(${progress})` : '')}
             </Button>
             {importLog && (
                 <Accordion>
-                    <AccordionSummary>インポートログ</AccordionSummary>
+                    <AccordionSummary>{t('log')}</AccordionSummary>
                     <Codeblock language="json">{importLog}</Codeblock>
                 </Accordion>
             )}
@@ -127,6 +122,7 @@ export function RepositoryImportButton(props: {
 }
 
 export function RepositoryExportButton(): JSX.Element {
+    const { t } = useTranslation('', { keyPrefix: 'ui.manageRepo' })
     const { client } = useClient()
     const { enqueueSnackbar } = useSnackbar()
     const [syncStatus, setSyncStatus] = useState<any>(null)
@@ -163,16 +159,14 @@ export function RepositoryExportButton(): JSX.Element {
                                     })
                             }
                         >
-                            リロード
+                            {t('reload')}
                         </Button>
                     }
                 >
-                    バックアップデータは現在同期中です。しばらくお待ちください。({syncStatus?.progress})
+                    {t('syncing', { progress: syncStatus?.progress })}
                 </Alert>
             )}
-            {syncStatus?.status === 'insync' && (
-                <Alert severity="success">最新のバックアップデータがダウンロード可能です。</Alert>
-            )}
+            {syncStatus?.status === 'insync' && <Alert severity="success">{t('backupAvailable')}</Alert>}
             {syncStatus?.status === 'outofsync' && (
                 <Alert
                     severity="info"
@@ -187,24 +181,25 @@ export function RepositoryExportButton(): JSX.Element {
                                     .then((data) => {
                                         console.log(data)
                                         setSyncStatus(data)
-                                        enqueueSnackbar('更新をリクエストしました。しばらくお待ちください。', {
+                                        enqueueSnackbar(t('syncRequested'), {
                                             variant: 'info'
                                         })
                                     })
                             }
                         >
-                            更新をリクエスト
+                            {t('requestSync')}
                         </Button>
                     }
                 >
                     {isDateValid ? (
                         <>
-                            現在ダウンロードできるバックアップデータは
-                            {new Date(syncStatus?.latestOnFile).toLocaleDateString()}-
-                            {new Date(syncStatus?.latestOnFile).toLocaleTimeString()}までのデータです。
+                            {t('backupOutOfSync', {
+                                date: new Date(syncStatus?.latestOnFile).toLocaleDateString(),
+                                time: new Date(syncStatus?.latestOnFile).toLocaleTimeString()
+                            })}
                         </>
                     ) : (
-                        <>バックアップデータが未作成です。更新をリクエストしてください。</>
+                        <>{t('backupUnavailable')}</>
                     )}
                 </Alert>
             )}
@@ -227,14 +222,15 @@ export function RepositoryExportButton(): JSX.Element {
                 }}
             >
                 {!isDateValid
-                    ? 'バックアップデータのエクスポート'
+                    ? t('export')
                     : syncStatus?.status === 'syncing'
-                      ? '準備中...'
+                      ? t('preparing')
                       : syncStatus?.status === 'insync'
-                        ? 'バックアップデータのエクスポート'
-                        : `${new Date(syncStatus?.latestOnFile).toLocaleDateString()}-${new Date(
-                              syncStatus?.latestOnFile
-                          ).toLocaleTimeString()}までのレポジトリデータをエクスポート`}
+                        ? t('export')
+                        : t('exportPartial', {
+                              date: new Date(syncStatus?.latestOnFile).toLocaleDateString(),
+                              time: new Date(syncStatus?.latestOnFile).toLocaleTimeString()
+                          })}
             </Button>
         </Box>
     )

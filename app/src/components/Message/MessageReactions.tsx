@@ -19,6 +19,7 @@ import { useConcord } from '../../context/ConcordContext'
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx'
 import { enqueueSnackbar } from 'notistack'
 import { useGlobalState } from '../../context/GlobalState'
+import { useTranslation } from 'react-i18next'
 
 export interface MessageReactionsProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema>
@@ -34,6 +35,7 @@ const superReactionColor = '#FFD700'
 const superReactionColorText = '#000000'
 
 export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
+    const { t } = useTranslation()
     const theme = useTheme()
     const concord = useConcord()
     const { client } = useClient()
@@ -281,13 +283,13 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                                     if (reactionMembers[imageUrl]) {
                                         const shortcode = reactionMembers[imageUrl]?.[0].document.body.shortcode
                                         props.message.reaction(shortcode, imageUrl).catch(() => {
-                                            enqueueSnackbar('通信に失敗しました', { variant: 'error' })
+                                            enqueueSnackbar(t('common.communicationFailed'), { variant: 'error' })
                                         })
                                     } else {
                                         props.message.getReactions(imageUrl).then((reactions) => {
                                             const shortcode = reactions[0].document.body.shortcode
                                             props.message.reaction(shortcode, imageUrl).catch(() => {
-                                                enqueueSnackbar('通信に失敗しました', { variant: 'error' })
+                                                enqueueSnackbar(t('common.communicationFailed'), { variant: 'error' })
                                             })
                                         })
                                     }

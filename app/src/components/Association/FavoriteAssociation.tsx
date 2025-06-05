@@ -21,6 +21,7 @@ import { CfmRendererLite } from '../ui/CfmRendererLite'
 import { FaTheaterMasks } from 'react-icons/fa'
 import { CCLink } from '../ui/CCLink'
 import { CCImage } from '../ui/CCImage'
+import { useTranslation } from 'react-i18next'
 
 export interface FavoriteAssociationProps {
     association: Association<LikeAssociationSchema>
@@ -30,6 +31,7 @@ export interface FavoriteAssociationProps {
 
 export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Element => {
     const { client } = useClient()
+    const { t } = useTranslation('', { keyPrefix: 'pages.associations' })
     const [target, setTarget] = useState<Message<
         MarkdownMessageSchema | ReplyMessageSchema | MediaMessageSchema
     > | null>(null)
@@ -158,7 +160,7 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
                         <ListItemIcon>
                             <DeleteForeverIcon sx={{ color: 'text.primary' }} />
                         </ListItemIcon>
-                        <ListItemText>関連付けを削除</ListItemText>
+                        <ListItemText>{t('removeAssociation')}</ListItemText>
                     </MenuItem>
                 </Menu>
             </Box>

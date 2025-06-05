@@ -40,9 +40,11 @@ import { MessageSkeleton } from '../components/MessageSkeleton'
 import { MarkdownMessageView } from '../components/Message/MarkdownMessageView'
 import { GfmMessageView } from '../components/Message/GfmMessageView'
 import { MisskeyMessageView } from '../components/Message/MisskeyMessageView'
+import { useTranslation } from 'react-i18next'
 
 export function MessagePage(): JSX.Element {
     const { authorID, messageID } = useParams()
+    const { t } = useTranslation('', { keyPrefix: 'pages.associations' })
     const { client } = useClient()
     const lastUpdated = 0
 
@@ -385,7 +387,9 @@ export function MessagePage(): JSX.Element {
                                                                                 sx={{ color: 'text.primary' }}
                                                                             />
                                                                         </ListItemIcon>
-                                                                        <ListItemText>関連付けを削除</ListItemText>
+                                                                        <ListItemText>
+                                                                            {t('removeAssociation')}
+                                                                        </ListItemText>
                                                                     </MenuItem>
                                                                 ) : undefined
                                                             }
@@ -431,7 +435,9 @@ export function MessagePage(): JSX.Element {
                                                                                 sx={{ color: 'text.primary' }}
                                                                             />
                                                                         </ListItemIcon>
-                                                                        <ListItemText>関連付けを削除</ListItemText>
+                                                                        <ListItemText>
+                                                                            {t('removeAssociation')}
+                                                                        </ListItemText>
                                                                     </MenuItem>
                                                                 ) : undefined
                                                             }

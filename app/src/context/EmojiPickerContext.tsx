@@ -25,6 +25,7 @@ import Fuzzysort from 'fuzzysort'
 import { experimental_VGrid as VGrid, type VGridHandle, VList } from 'virtua'
 import { fetchWithTimeout } from '../util'
 import { useGlobalState } from './GlobalState'
+import { useTranslation } from 'react-i18next'
 
 export interface EmojiPickerState {
     open: (anchor: HTMLElement, onSelected: (selected: Emoji) => void) => void
@@ -43,6 +44,8 @@ interface EmojiPickerProps {
 }
 
 export const EmojiPickerProvider = (props: EmojiPickerProps): JSX.Element => {
+    const { t } = useTranslation('', { keyPrefix: 'ui.emoji' })
+
     const theme = useTheme()
     const [emojiPackageURLs, setEmojiPackageURLs] = usePreference('emojiPackages')
     const { getImageURL, isMobileSize } = useGlobalState()
@@ -79,7 +82,7 @@ export const EmojiPickerProvider = (props: EmojiPickerProps): JSX.Element => {
             if (emojiPickerTab === 0) {
                 return 'Frequently Used'
             } else {
-                return emojiPackages[emojiPickerTab - 1]?.name ?? '設定から絵文字パッケージを追加しましょう'
+                return emojiPackages[emojiPickerTab - 1]?.name ?? t('letsAddEmojiPack')
             }
         }
     }, [emojiPickerTab, emojiPackages, query])
@@ -648,7 +651,7 @@ export const EmojiPickerProvider = (props: EmojiPickerProps): JSX.Element => {
                                     setAnchor(null)
                                 }}
                             >
-                                絵文字を追加
+                                {t('addEmojis')}
                             </Button>
                         </Box>
                     </Popover>

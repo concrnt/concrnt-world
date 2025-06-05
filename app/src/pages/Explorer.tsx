@@ -162,11 +162,11 @@ export function Explorer(): JSX.Element {
             .then((e: any) => {
                 const id: string = e.id
                 if (id) navigate('/timeline/' + id)
-                else enqueueSnackbar('コミュニティの作成に失敗しました', { variant: 'error' })
+                else enqueueSnackbar(t('createFailed'), { variant: 'error' })
             })
             .catch((e) => {
                 console.error(e)
-                enqueueSnackbar('コミュニティの作成に失敗しました', { variant: 'error' })
+                enqueueSnackbar(t('createFailed'), { variant: 'error' })
             })
     }
 
@@ -214,7 +214,7 @@ export function Explorer(): JSX.Element {
                             size={'small'}
                             disableElevation
                         >
-                            グローバルビュー
+                            {t('globalEdition')}
                         </Button>
                     </Box>
                     <Divider sx={{ my: 1 }} />
@@ -328,7 +328,7 @@ export function Explorer(): JSX.Element {
                                         if (timelineDraft) createNewTimeline(timelineDraft)
                                     }}
                                 >
-                                    作成
+                                    {t('create')}
                                 </Button>
                             </Box>
                         </CCDrawer>

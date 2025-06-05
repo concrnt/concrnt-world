@@ -26,9 +26,11 @@ import { useEditorModal } from '../components/EditorModal'
 import { type StreamList } from '../model'
 import { Helmet } from 'react-helmet-async'
 import { useGlobalActions } from '../context/GlobalActions'
+import { useTranslation } from 'react-i18next'
 
 export function ListPage(): JSX.Element {
     const { client } = useClient()
+    const { t } = useTranslation('', { keyPrefix: 'pages.list' })
     const path = useLocation()
     const navigate = useNavigate()
     const editorModal = useEditorModal()
@@ -337,7 +339,7 @@ export function ListPage(): JSX.Element {
                                         </Typography>
                                         <ExploreIcon sx={{ fontSize: '10rem', verticalAlign: 'middle' }} />
                                     </Button>
-                                    <p>フォローするユーザー・コミュニティを探しに行く</p>
+                                    <p>{t('goExplore')}</p>
                                 </Box>
                             </Box>
                         )}

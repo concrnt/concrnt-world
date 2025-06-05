@@ -10,8 +10,11 @@ import { useSnackbar } from 'notistack'
 import { RepositoryExportButton, RepositoryImportButton } from './RepositoryManageButtons'
 import { usePersistent } from '../hooks/usePersistent'
 import { type JobRequest } from '../model'
+import { useTranslation } from 'react-i18next'
 
 export function Migrator(): JSX.Element {
+    const { t } = useTranslation('', { keyPrefix: 'ui.migrator' })
+
     const { client } = useClient()
     const [currentDomain, setCurrentDomain] = useState<Domain | null>(null)
     const [destFqdn, setDestFqdn] = usePersistent<string>('migrator-dest-fqdn', '')
@@ -49,11 +52,11 @@ export function Migrator(): JSX.Element {
 
     const steps = [
         {
-            label: '引っ越し先の入力',
+            label: t('step0.title'),
             content: (
                 <>
                     <TextField
-                        label="移行先ドメイン"
+                        label={t('step0.migrateTo')}
                         fullWidth
                         value={destFqdn}
                         onChange={(e) => {
@@ -74,17 +77,17 @@ export function Migrator(): JSX.Element {
                                 currentDomain.fqdn === destinationDomain.fqdn
                             }
                         >
-                            次へ
+                            {t('next')}
                         </Button>
                     </Box>
                 </>
             )
         },
         {
-            label: '引っ越し先に登録',
+            label: t('step1.title'),
             content: (
                 <Box display="flex" flexDirection="column" gap={2}>
-                    <Typography>まずは引っ越し先ドメインにて登録を行います。</Typography>
+                    <Typography>{t('step1.desc')}</Typography>
                     <Button
                         fullWidth
                         color="primary"
@@ -98,7 +101,7 @@ export function Migrator(): JSX.Element {
                             )
                         }}
                     >
-                        引っ越し先登録ページに移動
+                        {t('step1.move')}
                     </Button>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
                         <Box />
@@ -112,24 +115,21 @@ export function Migrator(): JSX.Element {
                                         if (e.content.domain === destFqdn) {
                                             setActiveStep(activeStep + 1)
                                         } else {
-                                            enqueueSnackbar(
-                                                `登録が完了していないようです。検出された所属: ${e.content.domain}`,
-                                                {
-                                                    variant: 'error'
-                                                }
-                                            )
+                                            enqueueSnackbar(t('step1.error', { domain: e.content.domain }), {
+                                                variant: 'error'
+                                            })
                                         }
                                     })
                             }}
                         >
-                            確認して次へ
+                            {t('step1.checkAndNext')}
                         </Button>
                     </Box>
                 </Box>
             )
         },
         {
-            label: '現住所からレポジトリデータをダウンロード',
+            label: t('step2.title'),
             content: (
                 <>
                     <RepositoryExportButton />
@@ -142,17 +142,17 @@ export function Migrator(): JSX.Element {
                                 setActiveStep(activeStep + 1)
                             }}
                         >
-                            次へ
+                            {t('next')}
                         </Button>
                     </Box>
                 </>
             )
         },
         {
-            label: '移行先にレポジトリデータをアップロード',
+            label: t('step3.title'),
             content: (
                 <>
-                    <Typography>実際にすべてのデータが読み込まれるまで時間がかかる場合があります。</Typography>
+                    <Typography>{t('step3.desc')}</Typography>
                     <RepositoryImportButton
                         source={client.host}
                         domain={destFqdn}
@@ -170,14 +170,14 @@ export function Migrator(): JSX.Element {
                                 setActiveStep(activeStep + 1)
                             }}
                         >
-                            次へ
+                            {t('next')}
                         </Button>
                     </Box>
                 </>
             )
         },
         {
-            label: '移行先に設定をコピー',
+            label: t('step4.title'),
             content: (
                 <>
                     <Button
@@ -193,24 +193,22 @@ export function Migrator(): JSX.Element {
                                     })
                                     .catch((e) => {
                                         console.error(e)
-                                        enqueueSnackbar('エラーが発生しました。', { variant: 'error' })
+                                        enqueueSnackbar(t('step4.error'), { variant: 'error' })
                                     })
                             })
                         }}
                     >
-                        実行
+                        {t('step4.exec')}
                     </Button>
                 </>
             ),
             ok: () => imported
         },
         {
-            label: '現住所にデータ削除依頼を送信',
+            label: t('step5.title'),
             content: (
                 <>
-                    <Typography>
-                        猶予を7日で作成するので、問題が発生した場合は削除リクエストをキャンセルすることができます。
-                    </Typography>
+                    <Typography>{t('step5.desc')}</Typography>
                     <Button
                         onClick={() => {
                             const job: JobRequest = {
@@ -232,14 +230,14 @@ export function Migrator(): JSX.Element {
                                 })
                         }}
                     >
-                        削除リクエストを送信
+                        {t('step5.exec')}
                     </Button>
                 </>
             ),
             ok: () => false
         },
         {
-            label: '引っ越し完了!',
+            label: t('done.title'),
             content: (
                 <Button
                     onClick={() => {
@@ -249,7 +247,7 @@ export function Migrator(): JSX.Element {
                         window.location.href = '/'
                     }}
                 >
-                    リロードして完了させる
+                    {t('done.reload')}
                 </Button>
             )
         }
@@ -258,7 +256,7 @@ export function Migrator(): JSX.Element {
     if (client.ckid)
         return (
             <>
-                <Typography>引っ越しは重要なアカウント操作のため、マスターキーでのログインが必要です。</Typography>
+                <Typography>{t('masterLoginRequired')}</Typography>
                 <LogoutButton />
             </>
         )

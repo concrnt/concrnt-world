@@ -191,7 +191,7 @@ export const MediaServerInventory = (): JSX.Element => {
                     <ListItemIcon>
                         <ContentPasteIcon />
                     </ListItemIcon>
-                    <ListItemText>画像URLをコピー</ListItemText>
+                    <ListItemText>{t('copyImageURL')}</ListItemText>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {
@@ -202,7 +202,7 @@ export const MediaServerInventory = (): JSX.Element => {
                     <ListItemIcon>
                         <CodeIcon />
                     </ListItemIcon>
-                    <ListItemText>Markdownコードをコピー</ListItemText>
+                    <ListItemText>{t('copyMarkdownCode')}</ListItemText>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {

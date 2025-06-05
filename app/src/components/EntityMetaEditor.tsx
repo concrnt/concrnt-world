@@ -3,10 +3,12 @@ import { useClient } from '../context/ClientContext'
 import { CCEditor } from './ui/cceditor'
 import { Button } from '@mui/material'
 import { useSnackbar } from 'notistack'
+import { useTranslation } from 'react-i18next'
 
 export const EntityMetaEditor = () => {
     const { client } = useClient()
     const { enqueueSnackbar } = useSnackbar()
+    const { t } = useTranslation('', { keyPrefix: 'common' })
 
     const [meta, setMeta] = useState<any>(null)
 
@@ -33,11 +35,11 @@ export const EntityMetaEditor = () => {
                         })
                         .then((res) => {
                             console.log(res)
-                            enqueueSnackbar('更新しました', { variant: 'success' })
+                            enqueueSnackbar(t('updated'), { variant: 'success' })
                         })
                 }}
             >
-                更新
+                {t('update')}
             </Button>
         </>
     ) : (

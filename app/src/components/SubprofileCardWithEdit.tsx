@@ -30,6 +30,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import { UserPicker } from './ui/UserPicker'
 import { WatchRequestAcceptButton } from './WatchRequestAccpetButton'
+import { useTranslation } from 'react-i18next'
 
 interface SubprofileCardWithEditProps {
     mainProfile: ProfileSchema
@@ -38,6 +39,8 @@ interface SubprofileCardWithEditProps {
 }
 
 export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.Element => {
+    const { t } = useTranslation('', { keyPrefix: 'settings.profile.subprofile' })
+
     const { client } = useClient()
     const { enqueueSnackbar } = useSnackbar()
     const confirm = useConfirm()
@@ -101,7 +104,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                     <PublishIcon sx={{ color: 'text.primary' }} />
                 )}
             </ListItemIcon>
-            <ListItemText>{published ? <>掲載をやめる</> : <>掲載する</>}</ListItemText>
+            <ListItemText>{published ? <>{t('hideInProfile')}</> : <>{t('showInProfile')}</>}</ListItemText>
         </MenuItem>,
         <MenuItem
             key="togglePrivate"
@@ -129,7 +132,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                         timeline.invalidate()
                         props.onModified?.()
                         setUpdate((prev) => prev + 1)
-                        enqueueSnackbar('公開設定を変更しました', { variant: 'success' })
+                        enqueueSnackbar(t('visibilityUpdated'), { variant: 'success' })
                     })
             }}
         >
@@ -140,7 +143,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                     <LockOpenIcon sx={{ color: 'text.primary' }} />
                 )}
             </ListItemIcon>
-            <ListItemText>{isTimelinePublic ? <>ホームを非公開にする</> : <>ホームを公開する</>}</ListItemText>
+            <ListItemText>{isTimelinePublic ? <>{t('makePrivate')}</> : <>{t('makePublic')}</>}</ListItemText>
         </MenuItem>,
         <MenuItem
             key="edit"
@@ -154,7 +157,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
             <ListItemIcon>
                 <EditIcon sx={{ color: 'text.primary' }} />
             </ListItemIcon>
-            <ListItemText>編集</ListItemText>
+            <ListItemText>{t('edit')}</ListItemText>
         </MenuItem>,
         ...(!timeline || !isTimelineValid
             ? [
@@ -179,7 +182,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                                   client.api.invalidateTimeline(
                                       'world.concrnt.t-subhome.' + props.subProfile.id + '@' + client.ccid!
                                   )
-                                  enqueueSnackbar('サブプロフィールタイムラインを修正しました', {
+                                  enqueueSnackbar(t('timelineFixed'), {
                                       variant: 'success'
                                   })
                                   props.onModified?.()
@@ -189,7 +192,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                       <ListItemIcon>
                           <MedicationIcon sx={{ color: 'text.primary' }} />
                       </ListItemIcon>
-                      <ListItemText>サブプロフィールタイムラインを修正</ListItemText>
+                      <ListItemText>{t('fixTimeline')}</ListItemText>
                   </MenuItem>
               ]
             : []),
@@ -210,7 +213,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                       <ListItemIcon>
                           <ManageAccountsIcon sx={{ color: 'text.primary' }} />
                       </ListItemIcon>
-                      <ListItemText>読者を管理</ListItemText>
+                      <ListItemText>{t('editViewerRestriction')}</ListItemText>
                   </MenuItem>
               ]
             : []),
@@ -219,20 +222,20 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
             disabled={published}
             onClick={() => {
                 confirm.open(
-                    'サブプロフィールを削除しますか？',
+                    t('confirmDelete'),
                     () => {
                         client.api.deleteProfile(props.subProfile.id).then((_) => {
                             props.onModified?.()
                         })
                     },
-                    { confirmText: '削除' }
+                    { confirmText: t('delete') }
                 )
             }}
         >
             <ListItemIcon>
                 <DeleteForeverIcon sx={{ color: 'error.main' }} />
             </ListItemIcon>
-            <ListItemText>{published ? <>削除するには非公開にしてください</> : <>削除</>}</ListItemText>
+            <ListItemText>{published ? <>{t('plzHideBeforeDelete')}</> : <>{t('delete')}</>}</ListItemText>
         </MenuItem>
     ]
 
@@ -255,16 +258,16 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                             justifyContent: 'flex-end'
                         }}
                     >
-                        {published ? <>掲載中</> : <>未掲載</>}
+                        {published ? <>{t('shownInProfile')}</> : <>{t('hiddenInProfile')}</>}
                         {isTimelinePublic ? <></> : <LockIcon />}
                     </Box>
-                    {requests.length > 0 ? <>{requests.length} 件の閲覧リクエスト</> : <></>}
+                    {requests.length > 0 ? <>{t('requestsWithCount', { count: requests.length })}</> : <></>}
                     {timeline ? (
                         <></>
                     ) : (
                         <>
                             <br />
-                            サブプロフィールタイムラインがありません
+                            {t('errNoTimeline')}
                         </>
                     )}
                     {isTimelineValid ? (
@@ -272,7 +275,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                     ) : (
                         <>
                             <br />
-                            サブプロフィールタイムラインの設定が不完全です
+                            {t('errTimelineInvalid')}
                         </>
                     )}
                 </Box>
@@ -291,9 +294,9 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                         p: 3
                     }}
                 >
-                    <Typography variant="h3">サブプロフィールの編集</Typography>
+                    <Typography variant="h3">{t('edit')}</Typography>
                     <TextField
-                        label="テンプレートのURL"
+                        label={t('templateURL')}
                         value={schemaURLDraft}
                         onChange={(e) => {
                             setSchemaURLDraft(e.target.value)
@@ -313,7 +316,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                                 })
                         }}
                     >
-                        更新
+                        {t('update')}
                     </Button>
                 </Box>
             </CCDrawer>
@@ -331,7 +334,7 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                         p: 3
                     }}
                 >
-                    <Typography variant="h3">閲覧ユーザーの編集</Typography>
+                    <Typography variant="h3">{t('editViewerRestriction')}</Typography>
                     <UserPicker selected={selectedUsers} setSelected={setSelectedUsers} />
                     <Button
                         onClick={() => {
@@ -356,16 +359,16 @@ export const SubprofileCardWithEdit = (props: SubprofileCardWithEditProps): JSX.
                                     timeline.invalidate()
                                     setOpenReaderEditor(false)
                                     props.onModified?.()
-                                    enqueueSnackbar('更新しました', { variant: 'success' })
+                                    enqueueSnackbar(t('updated'), { variant: 'success' })
                                 })
                         }}
                     >
-                        更新
+                        {t('update')}
                     </Button>
                     {requests.length > 0 && timeline && (
                         <>
                             <Divider />
-                            <Typography variant="h4">閲覧リクエスト</Typography>
+                            <Typography variant="h4">{t('requests')}</Typography>
                             <Box>
                                 {requests.map((request) => (
                                     <WatchRequestAcceptButton

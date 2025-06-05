@@ -307,6 +307,7 @@ timeline.displayName = 'timeline'
 
 const renderError = ({ error }: FallbackProps): JSX.Element => {
     const [isDevMode] = usePreference('devMode')
+    const { t } = useTranslation()
     if (!isDevMode) return <></>
     return (
         <ListItem>
@@ -314,7 +315,7 @@ const renderError = ({ error }: FallbackProps): JSX.Element => {
                 <HeartBrokenIcon />
             </ListItemIcon>
             <ListItemText
-                primary="この要素の描画中に問題が発生しました"
+                primary={t('common.failedToRender')}
                 secondary={
                     <Box>
                         {error?.message}
