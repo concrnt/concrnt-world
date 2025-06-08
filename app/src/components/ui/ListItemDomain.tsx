@@ -16,6 +16,7 @@ export interface ListItemDomainProps {
     domainFQDN: string
     sx?: SxProps
     onClick?: () => void
+    filter?: (domain: any) => boolean
 }
 
 export const ListItemDomain = (props: ListItemDomainProps): JSX.Element | null => {
@@ -30,6 +31,10 @@ export const ListItemDomain = (props: ListItemDomainProps): JSX.Element | null =
 
     if (!domain) {
         return <></>
+    }
+
+    if (props.filter && !props.filter(domain)) {
+        return null
     }
 
     return (

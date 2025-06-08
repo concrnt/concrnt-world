@@ -753,7 +753,10 @@
             "jump": "Go to the registration page",
             "notRegistered": "Registration at the domain is not confirmed. Please register at the domain you jump to.",
             "nextDisabled": "You can proceed to the next step once registration at the domain is complete",
-            "next": "Next: Creating a Profile"
+            "next": "Next: Creating a Profile",
+            "openedDomain": "Open",
+            "inviteDomain": "Invitation Only",
+            "devDomain": "For Developers"
         },
         "createProfile": {
             "title": "Creating a Profile",

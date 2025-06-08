@@ -1,10 +1,11 @@
 import { type Identity } from '@concrnt/client'
 import { Client } from '@concrnt/worldlib'
 import { Box, Button, Divider, Link, List, TextField, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { jumpToDomainRegistration } from '../../util'
 import { useTranslation } from 'react-i18next'
 import { ListItemDomain } from '../ui/ListItemDomain'
+import { CCChip } from '../ui/CCChip'
 
 interface ChooseDomainProps {
     next: () => void
@@ -50,6 +51,22 @@ export function ChooseDomain(props: ChooseDomainProps): JSX.Element {
     // add next hash
     next = `${next}#2`
 
+    const [showOpen, setShowOpen] = useState<boolean>(true)
+    const [showInvite, setShowInvite] = useState<boolean>(false)
+    const [showDev, setShowDev] = useState<boolean>(false)
+
+    const filter = useMemo(() => {
+        return (domain: any) => {
+            const isOpen = (domain: any) =>
+                domain?.dimension === 'concrnt-mainnet' && domain?.meta?.registration === 'open'
+            const isInvite = (domain: any) =>
+                domain?.dimension === 'concrnt-mainnet' && domain?.meta?.registration === 'invite'
+            const isDev = (domain: any) => domain?.dimension === 'concrnt-devnet'
+
+            return (showOpen && isOpen(domain)) || (showInvite && isInvite(domain)) || (showDev && isDev(domain))
+        }
+    }, [showOpen, showInvite, showDev])
+
     return (
         <Box
             sx={{
@@ -61,11 +78,47 @@ export function ChooseDomain(props: ChooseDomainProps): JSX.Element {
         >
             <Box width="100%" display="flex" flexDirection="column">
                 <Typography variant="h3">{t('chooseFromList')}</Typography>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: '10px',
+                        flexWrap: 'wrap',
+                        marginBottom: '10px'
+                    }}
+                >
+                    <CCChip
+                        label={t('openedDomain')}
+                        onClick={() => {
+                            setShowOpen(!showOpen)
+                        }}
+                        variant={showOpen ? 'filled' : 'outlined'}
+                        color="primary"
+                    />
+                    <CCChip
+                        label={t('inviteDomain')}
+                        onClick={() => {
+                            setShowInvite(!showInvite)
+                        }}
+                        variant={showInvite ? 'filled' : 'outlined'}
+                        color="primary"
+                    />
+                    <CCChip
+                        label={t('devDomain')}
+                        onClick={() => {
+                            setShowDev(!showDev)
+                        }}
+                        variant={showDev ? 'filled' : 'outlined'}
+                        color="primary"
+                    />
+                </Box>
+
                 <List>
                     {domainlist.map((domain) => (
                         <ListItemDomain
                             key={domain}
                             domainFQDN={domain}
+                            filter={filter}
                             onClick={() => {
                                 setJumped(true)
                                 props.setDomain(domain)

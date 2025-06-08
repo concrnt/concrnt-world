@@ -661,9 +661,11 @@ export const GeneralSettings = (): JSX.Element => {
                     <Typography variant="h4">{t('invitation')}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Alert severity="info" sx={{ marginBottom: 2 }}>
-                        {t('inviteNote')}
-                    </Alert>
+                    {domainInfo?.meta?.registration == 'invite' && (
+                        <Alert severity="info" sx={{ marginBottom: 2 }}>
+                            {t('inviteNote')}
+                        </Alert>
+                    )}
                     <Box
                         sx={{
                             display: 'flex',
@@ -699,15 +701,20 @@ export const GeneralSettings = (): JSX.Element => {
                                 if (client.host === undefined) {
                                     return
                                 }
-                                const jwt = client.api.authProvider.issueJWT({
-                                    aud: client.host,
-                                    sub: 'CONCRNT_INVITE',
-                                    exp: Math.floor((new Date().getTime() + 14 * 24 * 60 * 60 * 1000) / 1000).toString()
-                                })
 
-                                let link = `${window.location.origin}/invitation#inviter=${client.ccid}&domain=${client.host}&ticket=${jwt}`
+                                let link = `${window.location.origin}/invitation#inviter=${client.ccid}&domain=${client.host}`
                                 if (inviteComment) link += `&comment=${encodeURIComponent(inviteComment)}`
                                 if (preferredTimeline) link += `&timeline=${preferredTimeline.id}`
+                                if (domainInfo?.meta?.registration == 'invite') {
+                                    const jwt = client.api.authProvider.issueJWT({
+                                        aud: client.host,
+                                        sub: 'CONCRNT_INVITE',
+                                        exp: Math.floor(
+                                            (new Date().getTime() + 14 * 24 * 60 * 60 * 1000) / 1000
+                                        ).toString()
+                                    })
+                                    link += `&ticket=${jwt}`
+                                }
 
                                 navigator.clipboard.writeText(link)
                                 enqueueSnackbar(t('copied'), { variant: 'success' })

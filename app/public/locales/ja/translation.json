@@ -753,7 +753,10 @@
             "jump": "登録ページへ",
             "notRegistered": "ドメインでの登録が確認できません。ジャンプ先のドメインで登録を行ってください。",
             "nextDisabled": "ドメインでの登録が完了したら次に進めます",
-            "next": "Next: プロフィールの作成"
+            "next": "Next: プロフィールの作成",
+            "openedDomain": "解放中",
+            "inviteDomain": "招待制",
+            "devDomain": "開発者向け"
         },
         "createProfile": {
             "title": "プロフィールの作成",

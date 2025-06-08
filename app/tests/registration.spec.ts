@@ -21,6 +21,11 @@ test('Account registration', async ({ page }) => {
     const customSetupButton = page.locator('#RegistrationCustomButton')
     await customSetupButton.click()
 
+    // select dev environment
+    const devEnvText = page.locator('text=For Developers')
+    const devEnvButton = page.locator('div[role="button"]').filter({ has: devEnvText })
+    await devEnvButton.click()
+
     // select zyouya.concrnt.net
     const zyouyaText = page.locator('text=zyouya.concrnt.net')
     const zyouyaButton = page.locator('div[role="button"]').filter({ has: zyouyaText })

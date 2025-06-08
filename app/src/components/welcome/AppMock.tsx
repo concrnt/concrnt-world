@@ -199,10 +199,11 @@ export default function AppMock(): JSX.Element {
             <Box
                 sx={{
                     display: 'flex',
-                    flex: 1,
                     flexDirection: 'column',
                     py: { xs: 1, sm: 1 },
-                    px: { xs: 1, sm: 2 }
+                    px: { xs: 1, sm: 2 },
+                    height: '400px',
+                    overflowY: 'auto'
                 }}
             >
                 <List sx={{ flex: 1, width: '100%' }}>
