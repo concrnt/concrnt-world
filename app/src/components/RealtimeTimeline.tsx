@@ -1,5 +1,5 @@
 import { Box, Divider, ListItem, ListItemIcon, ListItemText, type SxProps, Typography, useTheme } from '@mui/material'
-import React, { memo, useEffect, useState, useRef, forwardRef, type ForwardedRef } from 'react'
+import React, { memo, useEffect, useState, useRef, forwardRef, type ForwardedRef, useLayoutEffect } from 'react'
 import { AssociationFrame } from './Association/AssociationFrame'
 import { Loading } from './ui/Loading'
 import { MessageContainer } from './Message/MessageContainer'
@@ -15,6 +15,7 @@ import { UseSoundFormats } from '../constants'
 import { useGlobalState } from '../context/GlobalState'
 import { PullToRefresh } from './PullToRefresh'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
 export interface RealtimeTimelineProps {
     timelineFQIDs: string[]
@@ -144,6 +145,15 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
             })
     }
 
+    const location = useLocation()
+
+    // restore scroll position
+    useLayoutEffect(() => {
+        if (!ref) return
+        const handle = ref as React.RefObject<VListHandle>
+        handle.current?.scrollTo(positionRef.current)
+    }, [location.pathname])
+
     return (
         <PullToRefresh positionRef={positionRef} isFetching={isFetching} onRefresh={onRefresh}>
             <VList
@@ -161,7 +171,7 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
                     positionRef.current = top
                     props.onScroll?.(top)
                 }}
-                onRangeChange={(_, end) => {
+                onRangeChange={(start, end) => {
                     if (end + 3 > count && hasMoreData) readMore()
                 }}
                 ref={ref}

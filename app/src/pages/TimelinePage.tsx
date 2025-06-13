@@ -89,7 +89,7 @@ export const TimelinePage = memo((): JSX.Element => {
                     titleIcon={timeline?.policy.isReadPublic() ? <TagIcon /> : <LockIcon />}
                     secondaryAction={isOwner ? <TuneIcon /> : <InfoIcon />}
                     onTitleClick={() => {
-                        timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
+                        timelineRef.current?.scrollToIndex(0, { align: 'start' })
                     }}
                     onSecondaryActionClick={() => {
                         setTimelineBannerOpen(true)

@@ -183,6 +183,9 @@ importers:
       react-qrcode-logo:
         specifier: ^3.0.0
         version: 3.0.0(react-dom@18.2.0)(react@18.2.0)
+      react-reverse-portal:
+        specifier: ^2.3.0
+        version: 2.3.0(react-dom@18.2.0)(react@18.2.0)
       react-router-dom:
         specifier: ^6.11.0
         version: 6.11.0(react-dom@18.2.0)(react@18.2.0)
@@ -8425,6 +8428,16 @@ packages:
     dependencies:
       lodash.isequal: 4.5.0
       qrcode-generator: 1.4.4
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-reverse-portal@2.3.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-kvbPfLPKg6Y3S6tVq83us2RghvDpOS4GcJxbI7cZ0V0tuzUaSzblRIhVnKLOucfqF4lN/i9oWvEmpEi6bAOYlQ==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false

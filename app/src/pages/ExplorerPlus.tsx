@@ -632,7 +632,7 @@ export function ExplorerPlusPage(): JSX.Element {
                             variant={'outlined'}
                             onClick={() => {
                                 reroll((prev) => prev + 1)
-                                pageRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+                                pageRef.current?.scrollTo({ top: 0 })
                             }}
                             startIcon={<CasinoIcon />}
                         >

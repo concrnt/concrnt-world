@@ -72,7 +72,7 @@ export const TimelineDrawerProvider = (props: TimelineDrawerProps): JSX.Element 
                     titleIcon={timeline?.policy.isReadPublic() ? <TagIcon /> : <LockIcon />}
                     secondaryAction={<OpenInFullIcon />}
                     onTitleClick={() => {
-                        timelineRef.current?.scrollToIndex(0, { align: 'start', smooth: true })
+                        timelineRef.current?.scrollToIndex(0, { align: 'start' })
                     }}
                     onSecondaryActionClick={() => {
                         setTimelineID(null)
