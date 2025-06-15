@@ -94,7 +94,9 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                         display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
-                        gap: 0.5
+                        gap: 0.5,
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap'
                     }}
                 >
                     <CCLink to={link} underline="hover" color="inherit">

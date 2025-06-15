@@ -45,7 +45,8 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 0.5,
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap'
                 }}
             >
                 <CCLink
