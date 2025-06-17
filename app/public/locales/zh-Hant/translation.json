@@ -17,51 +17,145 @@
         "fav": "喜歡",
         "reaction": "回應",
         "mutedByWord": "關鍵詞靜音貼文",
-        "mutedByTimeline": "時間綫靜音貼文",
-        "show": "顯示"
+        "mutedByTimeline": "時間軸靜音貼文",
+        "show": "顯示",
+        "followed": "追蹤了你",
+        "addToList": "加入清單",
+        "failedToRender": "渲染此元素時發生錯誤",
+        "communicationFailed": "通訊失敗",
+        "updated": "已更新",
+        "update": "更新",
+        "noDescription": "無可用描述",
+        "ignore": "忽略",
+        "ignored": "已忽略",
+        "addToViewer": "允許",
+        "deletedMessage": "此貼文已被刪除",
+        "privateMessage": "此貼文為私人內容",
+        "developerView": "開發者視圖",
+        "ccidCopied": "CCID 已複製",
+        "currentAddress": "目前地址",
+        "linkCopied": "連結已複製",
+        "timelineUnmuted": "時間軸已取消靜音",
+        "timelineMuted": "時間軸已靜音"
+    },
+    "globalActions": {
+        "noRegistration": "找不到 {{host}} 的註冊資訊",
+        "completeAccountSetup": "讓我們完成您的帳號設定！",
+        "foundIssues": "發現問題：",
+        "profileMissing": "個人資料不存在",
+        "welcome": "歡迎來到 Concurrent！",
+        "startWithCommunity": "與社群一同開始",
+        "startWithCommunityDesc": "透過關注為 Concurrent 新手量身打造的社群來開始您的旅程。",
+        "startWithAlone": "獨自開始",
+        "startWithAloneDesc": "從最小設定開始。",
+        "start": "開始使用"
     },
     "app": {
-        "updateAvailable": "有新版本已可用！",
-        "updateNow": "更新"
+        "updateAvailable": "有新版本可用",
+        "updateNow": "更新",
+        "isNotCanonicalUser": "您目前登入的網域不是您的標準網域。請在完成遷移程序後重新登入。",
+        "domainIsOffline": "您的網域 {{ domain }} 目前因離線而處於唯讀模式。請等待恢復。"
     },
     "pages": {
+        "guestProfile": {
+            "getStarted": "開始使用",
+            "privateTimeline": "此時間軸為私人內容。",
+            "loginToRequest": "登入以請求存取權限。"
+        },
+        "guestMessage": {
+            "getStarted": "開始使用",
+            "privateTimeline": "此時間軸為私人內容。",
+            "loginToRequest": "登入以發送請求。"
+        },
+        "invitation": {
+            "welcome": "歡迎來到 Concrnt！",
+            "description": "Concrnt 是一個能稍微豐富您世界的新時代 SNS。",
+            "invitedBy": "由 {{username}} 邀請",
+            "createAccount": "建立帳號"
+        },
+        "apUser": {
+            "following": "正在追蹤",
+            "follow": "追蹤",
+            "idCopied": "ID 已複製",
+            "followed": "已追蹤",
+            "openRemote": "遠端開啟",
+            "isApUser": "此使用者為 ActivityPub 使用者。"
+        },
+        "main": {
+            "title": "Concrnt-World Beta",
+            "post": "貼文",
+            "document": "文件",
+            "forum": "論壇"
+        },
+        "concord": {
+            "badges": {
+                "series": "系列",
+                "addNew": "+ 新增",
+                "mint": "鑄造",
+                "newSeries": "新系列",
+                "create": "建立",
+                "mintBadge": "鑄造徽章"
+            },
+            "assets": {
+                "send": "發送"
+            }
+        },
         "home": {
             "title": "首頁"
         },
         "notifications": {
             "title": "通知",
             "favorite": "{{ name }} 喜歡了您的貼文",
-             "favoriteMany": "{{ name }} 和其他 {{ count }} 人喜歡了您的貼文",
-             "reaction": "{{ name }} 回應了您的貼文",
-             "reactionMany": "{{ name }} 和其他 {{ count }} 人回應了您的貼文"
+            "favoriteMany": "{{ name }} 和其他 {{ count }} 人喜歡了您的貼文",
+            "reaction": "{{ name }} 回應了您的貼文",
+            "reactionMany": "{{ name }} 和其他 {{ count }} 人回應了您的貼文"
         },
         "associations": {
-            "title": "社群關聯"
+            "title": "關聯",
+            "readAccessRequest": "<username/> 正在請求讀取 <timeline/> 的權限",
+            "removeAssociation": "移除關聯"
         },
         "contacts": {
-            "title": "聯絡"
+            "title": "聯絡人"
         },
         "explore": {
             "title": "探索",
-            "communities": "網域",
-            "peoples": "人們",
-            "community": "社群",
+            "domains": "網域",
+            "communities": "社群",
+            "peoples": "用戶",
             "createNew": "建立新的",
+            "classicEdition": "經典版",
+            "globalEdition": "全域視圖",
+            "create": "建立",
+            "createFailed": "建立失敗",
             "createNewCommunity": {
                 "title": "建立新社群",
-                "desc1": "建立一個新的社群在 ",
-                "desc2": " 上，使用以下設定。"
+                "desc1": "在 ",
+                "desc2": " 上建立一個新社群，使用以下設定。"
             },
             "reroll": "重新抽選",
-            "searchForPeoples": "輸入想要搜尋的人",
-            "searchForCommunities": "輸入想要搜尋的社群",
+            "searchForPeoples": "輸入以搜尋用戶",
+            "searchForCommunities": "輸入以搜尋社群",
             "quicklook": "快速瀏覽"
         },
         "devtool": {
-            "title": "開發者工具"
+            "title": "開發工具",
+            "resetTutorial": "重設教學"
         },
         "tutorial": {
-            "title": "教學"
+            "title": "教學",
+            "details": {
+                "moreInfo": "更多資訊",
+                "twoPasswords": "Concrnt 有兩種密碼類型：'主金鑰'和'子金鑰'。",
+                "sealAnalogy": "這就像是正式印章和私人印章之間的關係。",
+                "digitalSeal": "在 Concrnt 中，您用'數位印章'來證明貼文是您的。",
+                "realSeal": "正式印章用於合約或銀行提款，但您不會用它來收包裹。",
+                "masterSubUsage": "同樣地，在 Concrnt 中，主金鑰用於重要操作如遷移或刪除帳號，而子金鑰用於日常操作如發文或追蹤。",
+                "masterKeyWarning": "如果主金鑰外洩，就完蛋了，但您隨時可以撤銷子金鑰。"
+            },
+            "community": {
+                "timelineDescription": "歡迎來到 Concrnt！這是新手尋找社群的主要時間軸。如果不確定，試著將此時間軸加入您的清單。"
+            }
         },
         "settings": {
             "title": "設定",
@@ -70,16 +164,16 @@
                 "clearCache": "清除快取",
                 "forceReload": "強制重新載入",
                 "logout": "登出",
-                "areYouSure": "確定嗎?",
-                "logoutWarn": "若要再次登入，您需要主金鑰或 QR Code。"
+                "areYouSure": "確定嗎？",
+                "logoutWarn": "若要再次登入，您需要主金鑰或 QR 碼。"
             }
         },
         "lists": {
             "title": "清單"
         },
         "manageSubs": {
-            "title": "清單",
-            "new": "建立清單",
+            "title": "清單管理",
+            "new": "建立新的",
             "listed": "已列出",
             "unlisted": "未列出",
             "newlist": "新清單"
@@ -87,7 +181,7 @@
     },
     "time": {
         "seconds": "秒",
-        "minutes": "分鐘",
+        "minutes": "分",
         "hours": "小時",
         "before": "前",
         "after": "後",
@@ -95,6 +189,69 @@
         "now": "剛剛"
     },
     "ui": {
+        "migrator": {
+            "next": "下一步",
+            "masterLoginRequired": "遷移是重要的帳號操作，需要使用主金鑰登入。",
+            "step0": {
+                "title": "輸入目的地",
+                "migrateTo": "目標網域"
+            },
+            "step1": {
+                "title": "在目的地註冊",
+                "desc": "首先，在目標網域上註冊。",
+                "move": "前往註冊頁面",
+                "checkAndNext": "驗證並繼續",
+                "error": "似乎尚未完成註冊。偵測到的網域：{{domain}}"
+            },
+            "step2": {
+                "title": "從目前地址下載儲存庫資料"
+            },
+            "step3": {
+                "title": "將儲存庫資料上傳至目的地",
+                "desc": "所有資料完全載入可能需要一些時間。"
+            },
+            "step4": {
+                "title": "將設定複製到目的地",
+                "error": "發生錯誤。",
+                "exec": ""
+            },
+            "step5": {
+                "title": "向目前地址發送刪除請求",
+                "desc": "將設定 7 天寬限期，期間如有必要可取消刪除。",
+                "exec": "發送刪除請求"
+            },
+            "done": {
+                "title": "遷移完成！",
+                "reload": "重新載入以完成"
+            }
+        },
+        "manageRepo": {
+            "idle": "匯入儲存庫資料",
+            "loading": "匯入中（可能需要一些時間）",
+            "success": "匯入完成！",
+            "error": "匯入失敗（請檢查控制台日誌）",
+            "source": "匯入來源網域（選填）",
+            "log": "匯入日誌",
+            "reload": "重新載入",
+            "syncing": "備份資料正在同步中。請稍候...（{{progress}}）",
+            "backupAvailable": "最新備份資料可供下載。",
+            "syncRequested": "已請求更新。請稍候片刻。",
+            "requestSync": "請求更新",
+            "backupUnavailable": "無可用備份資料。請請求更新。",
+            "backupOutOfSync": "目前可下載的備份資料來自 {{ date }} {{ time }}。",
+            "export": "匯出備份資料",
+            "preparing": "準備備份資料中。請稍候...",
+            "exportPartial": "匯出截至 {{ date }} {{ time }} 的備份資料。"
+        },
+        "privateTimeline": {
+            "isPrivate": "此時間軸為私人內容。",
+            "notRequestable": "此時間軸不接受存取請求。",
+            "requested": "已發送請求",
+            "request": "發送請求"
+        },
+        "userPicker": {
+            "placeholder": "選擇用戶"
+        },
         "postButton": {
             "plaintext": "發佈",
             "markdown": "發佈",
@@ -110,92 +267,167 @@
         },
         "draft": {
             "placeholder": "有什麼新鮮事嗎？",
-            "attachImage": "上傳圖片",
-            "cantAttachImage": "請在設定中設定 Imgur Client ID。",
+            "freeDescription": "您可以自由書寫",
+            "attachImage": "附加圖片",
+            "cantAttachImage": "請在設定中設定 Imgur 客戶端 ID。",
             "preview": "預覽",
             "openPreview": "開啟預覽",
             "closePreview": "關閉預覽",
-            "emoji": "貼圖",
-            "clearDraft": "清空草稿",
-            "postToHome": "同時發佈在主時間軸中",
-            "noPostToHome": "不發佈在主時間軸中",
+            "emoji": "表情符號",
+            "clearDraft": "清除草稿",
+            "addDestination": "新增目的地",
             "current": "發佈",
-            "whisper": "悄悄話"
+            "whisper": "悄悄話",
+            "whisperWarn": "注意",
+            "whisperWarnTitle": "悄悄話並非端到端加密",
+            "whisperWarnDesc": "這是基本保護功能。請勿在 Concrnt 上分享敏感資訊。",
+            "whisperDesc": "在此選擇的用戶將使貼文僅對這些用戶可見。",
+            "fetchImageFailed": "拒絕存取指定 URL",
+            "hideContent": "隱藏內容",
+            "add": "新增",
+            "clickToShow": "點擊顯示",
+            "enterContent": "輸入內容...",
+            "plzAttachMedia": "您需要在媒體貼文模式中附加媒體",
+            "plzAddMessage": "訊息不得為空",
+            "plzAddDestination": "請至少選擇一個目的地",
+            "flags": "標記設定（選填）",
+            "flag-warn": "內容警告",
+            "flag-nude": "裸露",
+            "flag-porn": "色情內容",
+            "flag-hard": "強烈暴力"
         },
         "secret": {
             "clickToReveal": "點擊顯示",
-            "warn": "請確保沒有人正在窺視你的螢幕，注意周遭的攝影機和環境安全。",
-            "copy": "複製"
+            "warn": "確保沒有人正在看您的螢幕。",
+            "copy": "複製",
+            "close": "關閉"
         },
         "listSettings": {
             "title": "清單設定",
             "name": "清單名稱",
             "update": "更新",
             "defaultDest": "預設目的地",
-            "addDefaultDest": "新增到預設目的地",
-            "postWithHome": "發佈到首頁",
-            "defaultProfile": "預設身份",
-            "stream": "資訊流",
+            "addDefaultDest": "新增預設目的地",
+            "postWithHome": "同時發佈至首頁",
+            "defaultProfile": "預設個人資料",
+            "stream": "串流",
             "community": "社群",
             "user": "使用者",
             "pin": "釘選",
-            "isIconTab": "使用圖示選項卡",
+            "isIconTab": "在標籤上使用圖示",
             "delete": "刪除",
-            "reallyDelete": "確定要刪除這個清單嗎？",
-            "confirmDelete": "確定"
+            "reallyDelete": "確定要刪除此清單嗎？",
+            "confirmDelete": "確認"
         },
         "messageActions": {
             "linkCopied": "連結已複製",
             "copyLink": "複製分享連結",
-            "copySource": "複製原始內容",
+            "copySource": "複製原始碼",
             "share": "分享",
             "superReaction": "超級回應",
             "translate": "翻譯",
-            "inspect": "詳情",
+            "inspect": "檢查",
             "delete": "刪除",
-            "reallyDelete": "確定要刪除這條訊息嗎？",
-            "confirmDelete": "確定"
+            "reallyDelete": "確定要刪除此訊息嗎？",
+            "confirmDelete": "確認",
+            "removeFromStream": "從串流中移除"
+        },
+        "emoji": {
+            "letsAddEmojiPack": "讓我們從設定新增表情符號包",
+            "addEmojis": "新增表情符號"
+        },
+        "timelineInfo": {
+            "updated": "已更新",
+            "failedToUpdate": "更新失敗",
+            "warnCustomPolicy": "此社群設有自訂政策",
+            "warnCustomPolicyDesc": "因此，顯示具有讀寫權限的用戶可能無法正常運作。",
+            "readRequests": "讀取請求（{{ count }}）",
+            "indexable": "可索引",
+            "schema": "架構",
+            "schemaDesc": "輸入 JsonSchema URL。通常不需要變更此設定。",
+            "attributes": "屬性",
+            "policy": "政策",
+            "policyDesc": "若為空，將套用預設政策。",
+            "enterPolicy": "輸入政策 JSON 的 URL。",
+            "inlineAllowDeny": "基本權限設定",
+            "inlineReadWrite": "基本權限設定（舊版）",
+            "restrictAckees": "限制為追蹤對象",
+            "params": "政策參數",
+            "save": "儲存",
+            "delete": "刪除",
+            "deleteDesc": "此操作無法撤銷。刪除社群不會移除訊息，但可能會切斷與它們的連結。",
+            "deleteConfirm": "確定要刪除此社群嗎？",
+            "deleted": "已刪除",
+            "searchResultPlaceholder": "搜尋結果將顯示在此處",
+            "searchResultEmpty": "找不到結果",
+            "searchResultTitle": "「{{ query }}」的搜尋結果",
+            "prev": "上一頁",
+            "next": "下一頁",
+            "searchNotAvailable": "{{ host }} 上不提供搜尋功能",
+            "search": "搜尋",
+            "info": "資訊",
+            "edit": "編輯"
+        },
+        "profileProperties": {
+            "viewTemplate": "查看範本",
+            "templateTitle": "範本：{{title}}",
+            "searchCharacters": "使用此範本搜尋角色",
+            "createWithTemplate": "使用此範本建立您自己的內容",
+            "viewSource": "查看原始碼"
+        },
+        "rerouteMessage": {
+            "details": "詳細資訊",
+            "confirmDeleteReroute": "確定要刪除此轉貼嗎？",
+            "delete": "刪除",
+            "deleteReroute": "刪除轉貼"
         }
     },
     "settings": {
         "title": "設定",
         "general": {
-            "title": "一般設定",
+            "title": "一般",
             "basic": "基本",
+            "concordPreviewTitle": "Concord 網路（預覽）",
+            "concordDesc1": "Concord 網路是一個獨立的分散式共識網路，擴展了 Concrnt 的核心功能。您可以在以下條款下啟用它。",
+            "concordDesc2": "Concord 網路目前處於預覽階段。網路可能會在沒有通知的情況下重設或變更，網路上的任何資料可能會遺失且不會恢復。",
+            "concordDesc3": "Concord 網路提供了一個有趣的功能，但在任何情況下，點數都不能兌換現金或任何其他有價物品，包括但不限於貨幣兌換或與其他加密貨幣的交換。",
+            "concordEnable": "同意並啟用 Concord 網路",
             "showEditorOnTop": "在頂部顯示編輯器",
             "showEditorOnTopMobile": "在頂部顯示編輯器（行動裝置）",
             "autoSwitchMediaPostType": "附加圖片時自動切換貼文類型",
             "developerMode": "開發者模式",
-            "generateInviteCode": "產生邀請碼",
-            "inviteCode": "邀請碼（24 小時內有效）",
-            "copyInviteCode": "複製邀請碼",
+            "invitation": "邀請",
+            "inviteNote": "如果您的網域僅限邀請，您需要擁有邀請權限。請聯繫您的網域管理員以獲取更多詳細資訊。",
+            "copyInviteLink": "複製邀請連結",
+            "inviteComment": "邀請評論（選填）",
+            "inviteTimeline": "邀請時間軸（選填）",
             "copied": "已複製",
             "language": "語言",
             "showTutorial": "在選單中顯示教學",
-            "add": "添加",
+            "add": "新增",
             "cancel": "取消",
-            "addMuteWord": "添加靜音關鍵詞",
-            "addMuteWordDesc": "靜音關鍵字不會區分大小寫，可用於隱藏包含特定字詞的貼文。",
+            "addMuteWord": "新增靜音詞",
+            "addMuteWordDesc": "靜音詞不區分大小寫，可用於隱藏包含特定詞語的貼文。",
             "mute": "靜音",
-            "wordMute": "靜音關鍵詞",
-            "timelineMute": "靜音時間綫",
-            "fontSize": "字符大小",
-            "stripExif": "發佈時壓縮圖片並移除 EXIF 訊息",
+            "wordMute": "詞語靜音",
+            "timelineMute": "時間軸靜音",
+            "fontSize": "字型大小",
+            "stripExif": "發佈時壓縮圖片並移除 EXIF 資訊",
             "notification": {
                 "title": "通知",
-                "notsupported": "你所在的網域目前還不支援通知",
+                "notsupported": "您的網域不支援通知",
                 "enable": "啟用通知",
                 "enabled": "通知已啟用",
                 "disable": "停用通知",
                 "disabled": "通知已停用",
-                "tryAgain": "請重試",
+                "tryAgain": "請再試一次",
                 "failed": "失敗",
                 "updated": "通知設定已更新",
-                "updateFailed": "通知設定更新失敗",
+                "updateFailed": "更新通知設定失敗",
                 "update": "更新",
                 "reply": "回覆",
                 "mention": "提及",
-                "viewerRequest": "查看請求",
+                "viewerRequest": "檢視請求",
                 "fav": "喜歡",
                 "reaction": "回應",
                 "reroute": "轉貼"
@@ -203,60 +435,129 @@
         },
         "privileged": {
             "title": "您目前以特權模式登入",
-            "desc": "特權模式允許執行如刪除帳號等關鍵操作。\n建議在完成特權操作後切換回普通模式。",
-            "action": "切換到普通模式"
+            "desc": "特權模式允許執行如帳號刪除等關鍵操作。\n建議在完成特權操作後切換回普通模式。",
+            "action": "切換至普通模式"
         },
         "profile": {
             "title": "個人資料",
-            "update": "更新",
-            "updated": "已更新",
-            "secret": "金鑰代碼",
-            "secretCannotBeRestored": "由於該帳號是使用私鑰而非金鑰代碼匯入的，因此無法還原金鑰代碼。"
+            "home": {
+                "isRestrictedTitle": "目前，首頁貼文的檢視者受到限制",
+                "isRestrictedDesc": "目前，發佈在首頁時間軸的內容僅限以下用戶檢視。",
+                "editReaders": "編輯首頁檢視者",
+                "requests": "首頁檢視請求",
+                "makeRestricted": {
+                    "title": "您要限制首頁貼文的檢視者嗎？",
+                    "desc": "如果限制，發佈在首頁時間軸的內容將僅限您個別指定的用戶檢視。",
+                    "do": "限制檢視者"
+                },
+                "isOpenedTitle": "目前，首頁貼文設為公開",
+                "isOpenedDesc": "目前，首頁時間軸上的貼文（限制時間軸除外）可供任何人檢視。",
+                "makeOpened": {
+                    "title": "您要將首頁貼文設為公開嗎？",
+                    "desc": "如果設為公開，所有過去的貼文將可供所有用戶檢視。",
+                    "do": "設為公開"
+                }
+            },
+            "badges": {
+                "title": "徽章",
+                "makePublic": "設為公開",
+                "makePrivate": "設為私人",
+                "inspect": "檢查",
+                "removeAllBadges": "移除所有徽章（目前 {{ count }} 個）",
+                "removeBadgeConfirm": "確定要移除所有徽章嗎？"
+            },
+            "subprofile": {
+                "title": "子個人資料",
+                "new": "建立新的",
+                "newTitle": "新的子個人資料",
+                "templateURL": "範本 URL",
+                "create": "建立",
+                "editViewerRestriction": "編輯檢視者限制",
+                "update": "更新",
+                "updated": "已更新",
+                "showInProfile": "在主個人資料中顯示",
+                "hideInProfile": "從主個人資料中隱藏",
+                "shownInProfile": "目前在主個人資料中顯示",
+                "hiddenInProfile": "目前從主個人資料中隱藏",
+                "visibilityUpdated": "可見性已更新",
+                "makePublic": "設為公開貼文",
+                "makePrivate": "設為私人貼文",
+                "requests": "檢視請求",
+                "requestsWithCount": "{{ count }} 個檢視請求",
+                "errNoTimeline": "找不到子個人資料時間軸",
+                "errTimelineInvalid": "子個人資料時間軸設定不完整",
+                "edit": "編輯子個人資料",
+                "fixTimeline": "修復子個人資料時間軸",
+                "timelineFixed": "子個人資料時間軸已修復",
+                "delete": "刪除",
+                "confirmDelete": "確定要刪除此子個人資料嗎？",
+                "plzHideBeforeDelete": "請在刪除前從主個人資料中隱藏"
+            }
         },
         "identity": {
             "title": "身份",
             "loginType": {
-                "masterKey": "您目前使用主金鑰登入，請切換到更安全的子金鑰登入。",
-                "subKey": "您目前正在使用子金鑰登入。",
-                "secret": "您目前已透過直接輸入金鑰的方式使用主金鑰登入。"
+                "masterKey": "您目前使用主金鑰登入。請立即切換至更安全的子金鑰登入。",
+                "subKey": "您目前使用子金鑰登入。",
+                "secret": "您目前透過直接輸入私鑰的方式使用主金鑰登入。"
             },
             "hideSubKey": "隱藏已停用的子金鑰",
             "deactivate": "停用",
+            "deactivateConfirm": "確定要停用此子金鑰嗎？",
+            "deactivateDesc": "停用子金鑰將登出所有目前使用該子金鑰登入的裝置。",
+            "sessionInfo": "會話資訊",
+            "deleteAccount": "刪除帳號",
+            "delete": "刪除",
+            "deleteConfirm": "確定要刪除您的帳號嗎？",
+            "deleteDescription": "您的帳號刪除請求將立即處理。建議在刪除前從資料管理中下載您的資料。",
+            "deleteRequested": "您的帳號刪除請求已被接受。",
+            "copySubkeyDesc": "您可以使用右側按鈕複製您的子金鑰，但請謹慎處理，因為它像密碼一樣是敏感資訊。",
+            "registrationInfo": "已註冊到網域 {{ fqdn }} 的資訊",
+            "devkeyTitle": "[開發者專用] 十六進位格式的主金鑰",
+            "devkeyDesc": "您可以從此處複製主金鑰的私鑰，用於機器人或其他應用程式。",
+            "alias": {
+                "completed": "已為您的帳號設定別名 {{ alias }}。",
+                "uncompleted": "帳號別名未設定（僅限在特權模式下設定）",
+                "description": "如果您擁有網域，可以透過建立以下 TXT 記錄來為您的帳號設定別名。",
+                "domainToSet": "要設定的網域",
+                "verify": "驗證設定",
+                "verifySuccess": "別名設定已成功驗證。",
+                "verifyFailed": "驗證別名設定失敗。請檢查您的 DNS 設定。"
+            },
             "switchMasterToSub": {
                 "masterKeyFormat": "主金鑰格式：",
-                "sendEmail": "寄送到我的信箱",
+                "sendEmail": "發送至我的電子郵件",
                 "copyToClipboard": "複製到剪貼簿",
-                "mailHerf": "mailto:?subject=concrnt secret&body=**請將該郵件的收件人設定為您自己並發送。**%0D%0A%0D%0A=== 識別資訊 ===%0D%0A識別碼：{{ ccid }}%0D%0A主金鑰：{{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0A主金鑰是證明您擁有此識別碼所標識的帳號的唯一方式。%0D%0A如果該主金鑰被惡意的第三方知悉，該帳號的安全性將受到損害，您將需要採取措施自行凍結該帳號。%0D%0A%0D%0A主金鑰將用於移轉您的帳號或還原遺失的子金鑰等重要操作。%0D%0A在此之前，請將其安全地儲存，例如列印出來並保存在安全的實體位置。%0D%0A",
+                "mailHerf": "mailto:?subject=concrnt secret&body=**請將此郵件的收件人設為您自己並發送。**%0D%0A%0D%0A=== 識別資訊 ===%0D%0A識別碼：{{ ccid }}%0D%0A主金鑰：{{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0A主金鑰是證明您擁有此識別碼所標識帳號的唯一方式。%0D%0A如果此金鑰被惡意第三方知悉，此帳號的安全性將受到威脅，您需要自行採取措施凍結帳號。%0D%0A%0D%0A主金鑰將用於重要操作，例如遷移您的帳號或恢復遺失的子金鑰。%0D%0A在此之前，請將其安全儲存，例如列印出來並保存在保險箱中。%0D%0A",
                 "downloadPDF": "下載 PDF",
                 "processing": "處理中...",
-                "ready": "從此裝置中完全移除主金鑰並切換到子金鑰",
-                "identification": "識別資訊",
-                "confidential": "機密資訊",
+                "identification": "識別",
+                "confidential": "機密",
                 "identifier": "識別碼",
                 "undifined": "未定義",
                 "masterKey": "主金鑰",
-                "aboutMasterKey": "主金鑰是證明您是此識別碼所標識帳號所有者的唯一方式。<br/>如果惡意第三方獲知此金鑰，則此帳號的安全性將受到威脅，您需要採取措施自行凍結帳號。<br/>主金鑰將用於重要操作，例如移轉您的帳號或還原遺失的子金鑰。在此之前，請以安全可靠的方式保存它，例如將其列印出來並保存在安全的實體位置。",
+                "aboutMasterKey": "主金鑰是證明您擁有此識別碼所標識帳號的唯一方式。<br/>如果此金鑰被惡意第三方知悉，此帳號的安全性將受到威脅，您需要自行採取措施凍結帳號。<br/>主金鑰將用於重要操作，例如遷移您的帳號或恢復遺失的子金鑰。在此之前，請以安全可靠的方式儲存，例如列印出來並保存在保險箱中。",
                 "reference": "參考資訊",
                 "name": "名稱",
                 "unset": "未設定",
-                "domain": "所在網域",
-                "addition": "以上參考資訊來自此檔案簽發時，此後可能已發生變化。",
-                "date": "簽發於:",
+                "domain": "管轄網域",
+                "addition": "參考資訊來自此憑證簽發時，此後可能已變更。",
+                "date": "簽發於：",
                 "checkMasterKey": "備份主金鑰",
                 "backToSwitch": "返回切換",
-                "testPrompt": "若要繼續，請輸入主金鑰的 {{first}} 個單字和 {{second}} 個單字",
+                "testPrompt": "若要繼續，請輸入主金鑰的第 {{first}} 和第 {{second}} 個單字",
                 "nthWord": "第 {{nth}} 個單字",
                 "switchToNormalMode": "切換至普通模式",
                 "exitPrivilegedMode": "退出特權模式",
-                "privilegeModeDesc": "特權模式允許執行刪除帳號等關鍵操作。"
+                "privilegeModeDesc": "特權模式允許執行如帳號刪除等關鍵操作。"
             }
         },
         "theme": {
             "title": "主題"
         },
         "sound": {
-            "title": "聲音",
-            "sound": "聲音",
+            "title": "音效",
+            "sound": "音效",
             "volume": "音量",
             "override": {
                 "title": "覆蓋",
@@ -265,185 +566,241 @@
             }
         },
         "emoji": {
-            "title": "貼圖",
-            "emojiPackage": "貼圖包",
-            "emojiPackageURL": "貼圖包網址",
-            "packageNotFound": "沒有找到貼圖包",
+            "title": "表情符號",
+            "updateAll": "更新所有表情符號包",
+            "fetchedAt": "取得於：{{date}}",
+            "update": "更新",
+            "copyURL": "複製 URL",
+            "delete": "刪除",
+            "emojiPackage": "表情符號包",
+            "emojiPackageURL": "表情符號包 URL",
+            "packageNotFound": "找不到表情符號包",
             "copied": "已複製",
-            "alreadyAdded": "貼圖包已新增"
+            "alreadyAdded": "表情符號包已新增"
         },
         "media": {
-            "title": "媒體位置",
+            "title": "媒體",
+            "copyImageURL": "複製圖片 URL",
+            "copyMarkdownCode": "複製 Markdown 代碼",
             "storageProviderLabel": "使用的儲存提供者",
             "corsSettings": "CORS 設定",
-            "imagePostSettings": "媒體發佈設定",
+            "imagePostSettings": "圖片發佈設定",
             "afterRegisteringImgur": "在 Imgur 註冊後，前往 ",
-            "thisPage": "該頁面",
-            "deleteCompletely": "徹底刪除",
-            "copyURL": "複製網址",
+            "thisPage": "此頁面",
+            "deleteCompletely": "完全刪除",
+            "copyURL": "複製 URL",
             "copyID": "複製 ID",
-            "oauth2": " 並使用「OAuth 2 授權，無需回呼網址」選項建立應用程式",
+            "oauth2": " 並使用「無回調 URL 的 OAuth 2 授權」選項建立應用程式",
             "descs": {
-                "domain": "網域儲存是指此網域提供的儲存空間，無需設定即可使用，但有最大容量限制。此外，管理員可以查看檔案清單，違反條款的檔案可能會被刪除。",
-                "imgur": "將圖片上傳到 Imgur，設定起來相對簡單。上傳的內容需遵守 Imgur 的條款。",
-                "s3": "將圖片上傳到 S3。也可以使用與 S3 協定相容的服務，例如 CloudFlare R2、Backblaze B2 等。它需要設定更多的選項，但可以讓您自行控制檔案。根據服務提供商的不同，可能會收取費用，但在大多數情況下，許多服務提供商都提供免費方案和額度。"
+                "domain": "網域儲存是指此網域提供的儲存空間。無需設定即可使用，但有最大容量限制。此外，管理員可以查看檔案清單，違反條款的檔案可能會被刪除。",
+                "imgur": "Imgur 用於圖片上傳。設定相對簡單。可上傳的內容需遵守 Imgur 的條款。",
+                "s3": "S3 用於圖片上傳。也可以使用如 CloudFlare R2 等 S3 相容服務。設定需要更多努力，但可讓您自行控制檔案。根據服務不同可能會產生費用，但在大多數情況下，會符合免費方案。"
             },
             "storageQuota": "儲存用量"
         },
         "ap": {
             "title": "ActivityPub",
-            "setup": "ActivityPub ID 設定",
-            "cantBeChangedOnceRegistered": "**一旦註冊將不可更改！",
+            "setup": "ActivityPub ID 設定。",
+            "cantBeChangedOnceRegistered": "**註冊後無法變更。",
+            "registerDescription": "此操作將在網域 {{domain}} 上註冊一個 ActivityPub 用戶。",
+            "domainSelectionWarningTitle": "連結到您 ActivityPub 帳號的 Concrnt 網域需謹慎選擇。",
+            "domainSelectionWarningDesc1": "當遷移您的 Concrnt 帳號時，您的 ActivityPub 帳號也可以遷移到外部網域。",
+            "domainSelectionWarningDesc2": "雖然 Concrnt 帳號可以自由返回原始網域，但 ActivityPub 整合由於規格限制，",
+            "domainSelectionWarningDesc3": "無法移回原始網域。",
             "confirming": "確認中...",
             "register": "註冊",
-            "helperText": "可以使用以下字元：a-z、A-Z、0-9",
-            "alreadyRegistered": "該使用者已被註冊。",
-            "tryAnotherID": "請嘗試其他 ID。"
+            "helperText": "可使用以下字元：a-z、A-Z、0-9",
+            "alreadyRegistered": "此用戶已註冊。",
+            "tryAnotherID": "請嘗試其他 ID。",
+            "follow": "追蹤",
+            "followers": "追蹤者",
+            "followApUser": "追蹤 ActivityPub 用戶",
+            "errApTimelineIsMissing": "缺少 ActivityPub 接收時間軸",
+            "errApTimelineWriteSelf": "您沒有 ActivityPub 接收時間軸的寫入權限",
+            "errApTimelineWriteProxy": "接收機器人帳號沒有寫入權限",
+            "updateFailed": "更新失敗",
+            "serverBroken": "伺服器設定無效。請聯繫管理員。",
+            "fix": "修復",
+            "settingsNG": "時間軸設定有問題",
+            "inquery": "查詢",
+            "settings": "設定",
+            "forwardTimeline": "轉發時間軸",
+            "forwardTimelineDesc": "若為空，將使用首頁時間軸",
+            "addForwardTimeline": "新增轉發時間軸",
+            "update": "更新",
+            "moveOption": "遷移選項",
+            "addMoveOrigins": "新增遷移來源",
+            "add": "新增",
+            "notAvailable": "{{host}} 上不可用"
         },
         "qr": {
             "title": "登入碼",
-            "createNew": "建立",
-            "showInstalled": "已設定",
-            "tip1": "該 QR Code 僅顯示一次，請僅在需要時才產生新的 QR Code。",
-            "tip2": "您可以在「設定」>「身份」頁面中檢查建立的金鑰。",
-            "createNewSubKey": "建立新的子金鑰"
+            "createNew": "建立新的",
+            "showInstalled": "顯示已安裝",
+            "tip1": "您只能看到生成的代碼一次。僅在需要時生成新代碼。",
+            "tip2": "您可以在設定 > 身份頁面中查看已建立的密鑰。",
+            "createNewSubKey": "建立新的子金鑰",
+            "notLoggedInWithSubkey": "此裝置未使用子金鑰登入"
         },
         "importexport": {
-            "title": "匯入匯出",
+            "title": "匯入/匯出",
             "import": "匯入",
-            "export": "匯出"
+            "export": "匯出",
+            "manageTab": "資料管理",
+            "migrateTab": "遷移"
         },
         "jobs": {
-            "title": "任務"
+            "title": "工作",
+            "listTitle": "工作清單",
+            "pending": "待處理",
+            "running": "執行中",
+            "completed": "已完成",
+            "detail": "工作詳情",
+            "createDev": "建立工作（開發）",
+            "cancel": "取消"
         }
     },
     "welcome": {
-        "welcome": "歡迎來到 Concurrent！",
-        "startWithCommunity": "與社群一同開始",
-        "startWithCommunityDesc": "透過关注於為 Concurrent 新手量身定制的社群來開始您的旅程。",
-        "startWithAlone": "獨自開始",
-        "startWithAloneDesc": "從最小設定開始。",
-        
-        "start": "快速開始",
+        "start": "讓我們開始吧",
+        "arrivalTimelineDescription": "歡迎來到 ariake.concrnt.net 伺服器！如有任何問題，請隨時在此發文。",
+        "devCentralDescription": "開發者放鬆的地方",
+        "pageTitle": "Concrnt | Concurrent",
+        "metaDescription": "Concrnt 是一個能稍微豐富您世界的新時代 SNS。",
         "guide": "使用者指南",
-        "gettingStarted": "讓我們來開始吧！",
+        "gettingStarted": "讓我們開始吧",
         "import": "登入",
-        "catch": "如果社群網路像是這樣...",
-        "wish1": "可以即時了解你的朋友和你感興趣的人在做什麼",
-        "wish2": "可以使用一個帳號與多個社群互動",
-        "wish3": "可以選擇平台管理者，而不是被獨裁的單一實體控制",
-        "wish4": "如果有一個這樣的社群網路，不是很棒嗎？",
-        "wish5": "Concrnt 就是為了實現這些期待而開發。",
-        "wish6": "歡迎來到社群網路的新紀元。",
-        "feature1title": "與人人共享的社群網路",
-        "feature1subtitle": "厭倦了充滿陌生人的推薦時間軸嗎？",
-        "feature1p1": "你是否更希望了解你喜歡的人，而不是看到充滿陌生人的推薦？",
-        "feature1p2": "在 Concrnt，你可以使用自訂清單來存取對你真正重要的資訊，而不是依賴演算法。選擇你喜歡的人和你感興趣的社群，並建立一個完美適合你的時間軸。",
-        "feature1p3": "Concrnt 是一個專注於對你真正重要的人際關係的社群網路，讓每個人都能享受其中。",
-        "feature2title": "你的帳號真正屬於你",
-        "feature2subtitle": "再見，擔心帳號被封鎖的日子 👋",
-        "feature2p1": "Concrnt 是一個去中心化的社群網路，優先考慮使用者自由和安全。它擺脫了單一公司或組織的獨裁，每個獨立的個人和組織都可以執行他們自己的伺服器。",
-        "feature2p2": "這意味著你不再需要擔心帳號被突然封鎖。即使你在某個伺服器上受到不公平對待，你也可以輕鬆轉移到另一個伺服器，保留你的貼文和追蹤者，並繼續你的活動。在這裡，你會發現一種前所未有的安全和自由，你可以管理你自己的帳號。",
-        "feature2p3": "在 Concrnt，你的帳號真正屬於你。",
-        "feature3title": "無數社群在一個社群網路中",
-        "feature3subtitle": "為不同興趣使用不同帳號的時代已經結束了",
-        "feature3p1": "在 Concrnt，除了首頁時間軸，你可以在多個社群時間軸之間切換。發佈時，你可以同時分享到多個社群，輕鬆地與多個社群鬆散地連接，這符合人類的自然屬性。",
-        "feature3p2": "這不像是 X 那樣過於關注世界，也不像 Discord 那樣過於封閉。Concrnt 的魅力在於你可以在適度連接其他社群的同時，找到屬於自己的位置。",
-        "crnt1": "這是一種新的使用社群網路的方式，但一旦習慣了，就會覺得很舒服！",
+        "catch": "如果有這樣的 SNS...",
+        "wish1": "您可以即時了解朋友和感興趣的人在做什麼。",
+        "wish2": "您可以使用單一帳號與多個社群互動。",
+        "wish3": "您可以選擇誰來管理平台，而不是被單一實體控制。",
+        "wish4": "如果有這樣的 SNS，不是很棒嗎？",
+        "wish5": "Concrnt 就是為了實現這個願望而開發的。",
+        "wish6": "歡迎來到 SNS 的新時代。",
+        "feature1title": "共享的 SNS",
+        "feature1subtitle": "厭倦了充滿陌生人的推薦動態嗎？",
+        "feature1p1": "您是否更想了解您喜歡的人，而不是看到充滿陌生人的推薦？",
+        "feature1p2": "在 Concrnt 中，您可以使用可自訂的清單來存取對您真正重要的資訊，而不是依賴演算法。選擇您喜歡的人和感興趣的社群，建立一個完美適合您的時間軸。",
+        "feature1p3": "Concrnt 是一個專注於對您真正重要的聯繫的 SNS，讓每個人都能享受其中。",
+        "feature2title": "您的帳號真正屬於您",
+        "feature2subtitle": "告別擔心帳號被封鎖的日子 👋",
+        "feature2p1": "Concrnt 是一個優先考慮用戶自由和安全的去中心化 SNS。它擺脫了單一公司或組織的獨裁，由獨立的個人和組織運行自己的伺服器。",
+        "feature2p2": "這意味著您不再需要擔心帳號突然被封鎖。即使在某個伺服器上受到不公平對待，您也可以輕鬆轉移到另一個伺服器，保留您的貼文和追蹤者，繼續您的活動。在這裡，您會發現一種前所未有的安全和自由，可以管理自己的帳號。",
+        "feature2p3": "在 Concrnt 中，您的帳號真正屬於您。",
+        "feature3title": "無數社群在一個 SNS 中",
+        "feature3subtitle": "為不同興趣使用不同帳號的時代已經結束",
+        "feature3p1": "在 Concrnt 中，除了首頁時間軸，您可以在多個社群時間軸之間切換。發佈時，您可以同時分享到多個社群，輕鬆地與多個社群建立鬆散的聯繫，這符合人類的自然屬性。",
+        "feature3p2": "它不像 X 那樣過度關注世界，也不像 Discord 那樣過於封閉。Concrnt 的魅力在於您可以在適度連接其他社群的同時，找到屬於自己的位置。",
+        "crnt1": "這是一種新的 SNS 使用方式，但一旦習慣了，就會覺得很舒服！",
         "crnt2": "我依賴的東西必須是開放的！",
         "crnt3": "我想同時向多個社群廣播！",
-        "crnt4": "也許我會嘗試建立自己的伺服器？",
-        "crnt5": "我想要一個我不需要去中心化的去中心化社群網路！",
+        "crnt4": "也許我會試著建立自己的伺服器？",
+        "crnt5": "我想要一個不需要去中心化的去中心化 SNS！",
         "crnt6": "你在做什麼？",
-        "crnt7": "太棒了！",
-        "crnt8": "晚安！",
+        "crnt7": "太好了！",
+        "crnt8": "晚上好！",
         "crnt9": "有人想一起出去嗎？",
         "crnt10": "自訂主題太有趣了！",
         "crnt11": "因為我的帳號真正掌握在自己手中，<br/> 我可以自信地將其用作我的網路身份。",
-        "crnt12": "用貼圖反應來交流真是順暢！",
-        "crnt13": "即使我在的伺服器關閉了，<br/> 我也可以輕鬆地將我的關係轉移到一個新的伺服器，所以不用擔心！",
-        "crnt14": "肚子餓了 嘿",
+        "crnt12": "用表情符號回應來交流真是太順暢了！",
+        "crnt13": "即使我所在的伺服器關閉了，<br/> 我也可以輕鬆地將我的關係轉移到新伺服器，所以不用擔心！",
+        "crnt14": "我餓了 YO",
         "crnt_totegamma": "就是這個！"
     },
     "mock": {
         "home": {
             "title": "首頁",
-            "crnt1": "我真的很喜歡這個時候的安靜。假期裡的獨處時光是最棒的。",
-            "crnt2": "說到音樂，最近總是忘不了動畫歌曲。它們真的讓我很振奮。",
-            "crnt3": "下午的音樂選擇——今天聽什麼？真是個艱難的選擇。",
-            "crnt4": "新書到了！時候泡杯茶，專心閱讀了。完美的假期。",
-            "crnt5": "好久沒看了，今天重播我最喜歡的動畫。是時候放鬆一下，看看吧。"
+            "crnt1": "我真的很喜歡這個時候的安靜。假期的獨處時光是最棒的。",
+            "crnt2": "說到音樂，最近腦海中總是響起動漫歌曲。它們真的讓我精神振奮。",
+            "crnt3": "下午的音樂選擇—今天該聽什麼呢？真是個艱難的選擇。",
+            "crnt4": "新書到了！是時候泡杯茶，專心閱讀了。完美的假期。",
+            "crnt5": "好久沒看了，今天重播我最喜歡的動畫。是時候放鬆一下，看看了。"
         },
         "game": {
-            "title": "遊戲",
-            "crnt1": "在《地下世界冒險家》裡遺失了存檔資料……我想哭。",
-            "crnt2": "新的 VR 遊戲非常逼真！要小心不要暈眩。",
-            "crnt3": "昨晚的線上團隊戰鬥合作完美無缺。團隊，我們再來一次！",
-            "crnt4": "找到了一台老街機遊戲。投幣玩遊戲的感覺真令人懷念。",
-            "crnt5": "收集遊戲原聲帶是我的興趣。我今天又得到了一個新的！"
+            "title": "遊戲場景",
+            "crnt1": "在《地下世界冒險家》中遺失了存檔資料...我想哭。",
+            "crnt2": "新的 VR 遊戲超級逼真！我得小心不要頭暈。",
+            "crnt3": "昨晚的線上戰鬥團隊合作完美。團隊，我們再來一次！",
+            "crnt4": "找到了一台老舊的街機遊戲。投幣玩遊戲的感覺真讓人懷念。",
+            "crnt5": "收集遊戲原聲帶是我的愛好。今天又得到了一張新的！"
         },
         "food": {
             "title": "美食",
-            "crnt1": "嘗試自製素食料理。今天是番茄和藜麥沙拉。",
-            "crnt2": "發現了一家新的香料店！時候嘗試一些異國風味了。",
-            "crnt3": "今天吃的拉麵真是太棒了。辣度剛剛好。",
+            "crnt1": "嘗試自製素食料理。今天是番茄藜麥沙拉。",
+            "crnt2": "發現了一家新的香料店！是時候嘗試一些異國風味了。",
+            "crnt3": "今天的拉麵非常棒。辣度剛剛好。",
             "crnt4": "自製冷萃咖啡，夏日必備。選擇咖啡豆是關鍵。",
-            "crnt5": "餐廳裡的烤雞肉串外酥內嫩。下次我要帶朋友一起來！"
+            "crnt5": "餐廳的烤雞肉串外酥內嫩。下次我要帶朋友一起來！"
         }
     },
     "registration": {
         "welcome": {
-            "title": "來建立你的 Concrnt 帳號吧！",
-            "desc1": "Concrnt 是一個去中心化的社群網路，",
-            "desc2": "請選擇一個伺服器以註冊。",
+            "title": "讓我們建立您的 Concrnt 帳號！",
+            "desc1": "Concrnt 是一個去中心化的 SNS。",
+            "desc2": "選擇一個伺服器註冊。",
             "infoTitle": "任何伺服器都可以！",
-            "info1": "在 Concrnt，伺服器之間沒有障礙。就像選擇電信業者一樣，",
-            "info2": "你可以隨時在伺服器之間切換，所以如果你沒有特別偏好，就交給我們來選擇吧！",
-            "auto1": "替我選擇一個伺服器",
-            "auto2": "開始",
+            "info1": "在 Concrnt 中，伺服器之間沒有障礙。就像選擇電信業者一樣。",
+            "info2": "您可以隨時在伺服器之間移動，所以如果沒有特別偏好，我們建議讓系統為您選擇。",
+            "auto1": "為我選擇一個伺服器",
+            "auto2": "開始使用",
             "custom": "自己選擇伺服器"
         },
         "chooseDomain": {
             "title": "選擇網域",
             "chooseFromList": "從清單中選擇",
             "or": "或",
-            "directInput": "直接輸入網址",
-            "tips": "提示：如果你要設定自己的伺服器，請點擊這裡",
-            "jump": "跳轉到註冊頁面",
-            "notRegistered": "在該網域上的註冊尚未確認。請在你跳轉到的網域上進行註冊。",
-            "nextDisabled": "在網域註冊完成後，你可以進入下一步",
-            "next": "下一步：建立個人資料"
+            "directInput": "直接輸入 URL",
+            "tips": "提示：如果您要設定自己的伺服器，請點擊這裡",
+            "jump": "前往註冊頁面",
+            "notRegistered": "未確認在該網域的註冊。請在您跳轉到的網域上註冊。",
+            "nextDisabled": "在網域註冊完成後，您可以繼續下一步",
+            "next": "下一步：建立個人資料",
+            "openedDomain": "開放",
+            "inviteDomain": "僅限邀請",
+            "devDomain": "開發者專用"
         },
         "createProfile": {
             "title": "建立個人資料",
-            "desc": "在這裡設定你的名稱、大頭貼和自我介紹。"
+            "desc": "在此設定您的名稱、圖示和自我介紹。"
         },
         "ready": {
-            "title": "準備好了！",
+            "title": "準備就緒！",
             "next": "開始"
         },
-        "alreadyHaveAccount": "已有帳號？",
-        "importAccount": "登入"
+        "importAccount": "登入",
+        "BYOK": "手動輸入金鑰",
+        "keyLabel": "金鑰",
+        "close": "關閉",
+        "confirm": "確認"
+    },
+    "authorize": {
+        "loginAs": "以 {{userName}} 的身份登入 {{appName}}？",
+        "loginRequired": "授權應用程式前需要登入。",
+        "login": "登入",
+        "cancel": "取消",
+        "loginNotice": "按下登入按鈕，您向 {{appName}} 證明您是 Concrnt 用戶 {{userName}}，但應用程式不會獲得代表您發文或檢視的權限。"
     },
     "import": {
         "scan": "掃描",
         "manual": "手動",
+        "getStarted": "開始使用",
+        "or": "或",
+        "qrHint": "您可以從已登入裝置的「設定 > 登入 QR」取得登入 QR 碼。",
         "searching": "搜尋中…",
-        "notFound": "無法找到你的伺服器，您可以嘗試手動輸入",
-        "invalidSecret": "金鑰代碼不正確。",
-        "notFoundOnServer": "在指定伺服器上找不到你的帳號。",
-        "connectionError": "無法連接到指定的伺服器。",
-        "input": "輸入金鑰代碼或私鑰",
+        "notFound": "找不到您的伺服器。您可以繼續手動輸入。",
+        "invalidSecret": "秘密代碼不正確。",
+        "notFoundOnServer": "在指定伺服器上找不到您的帳號。",
+        "connectionError": "無法連接到指定伺服器。",
+        "input": "輸入秘密代碼或私鑰",
         "withSubkey": "使用子金鑰登入",
-        "secretPlaceholder": "這是由 12 個單字組成的咒語",
+        "secretPlaceholder": "由 12 個單字組成的咒語",
         "welcome": "歡迎",
         "domain": "網域",
         "import": "登入",
-        "noAccount": "還沒有帳號？",
+        "noAccount": "還沒有帳號嗎？",
         "createAccount": "建立帳號",
         "masterKeyDesc": "輸入主金鑰，12 個單字以空格分隔",
-        "privLogin": "登入至特權模式",
-        "normalLogin": "登入至普通模式"
+        "privLogin": "以特權模式登入",
+        "normalLogin": "以普通模式登入"
     },
     "tutorial": {
         "title": "教學",
@@ -451,8 +808,8 @@
             "next": "下一步"
         },
         "tabs": {
-            "login": "密碼和登入",
-            "post": "發貼",
+            "login": "密碼與登入",
+            "post": "發文",
             "follow&watch": "追蹤與關注",
             "community": "社群",
             "list": "清單",
@@ -460,67 +817,91 @@
             "done": "完成！"
         },
         "login": {
-            "congrat": "已成功從特權模式切換到普通模式！幹得漂亮！",
-            "block": "在繼續之前，請讓我們從先特權模式切換到普通模式。",
+            "congrat": "成功從特權模式切換到普通模式！做得好！",
+            "block": "在繼續之前，讓我們從特權模式切換到普通模式。",
             "password&login": {
-                "title": "密碼和登入",
-                "desc1": "在本平台，您使用預定義的私鑰登入，而不是自己選擇的密碼。這個私鑰極其重要，被稱為'主金鑰'。如果您的主金鑰洩露給他人，可能會導致不可挽回的後果，切勿與任何人分享。",
-                "desc2": "此外，如果您遺失了主金鑰，帳號也將無法恢復，您需要建立一個新帳號。因此，請確保將其列印或寫下來，並像貴重物品一樣安全保管。",
+                "title": "密碼與登入",
+                "desc1": "您使用預定義的密碼登入，而不是自行決定密碼。此密碼極其重要，稱為「主金鑰」。如果主金鑰洩露給他人，可能導致永久帳號接管。切勿與任何人分享。",
+                "desc2": "此外，如果遺失主金鑰，您將永久失去帳號存取權。需要建立新帳號才能繼續使用服務。因此，請確保列印或寫下並安全保存，就像貴重物品一樣。",
                 "handsonTitle": "保存您的主金鑰",
-                "handsonDesc": "請使用下面的按鈕以您喜歡的方式安全地保存您的主金鑰。"
+                "handsonDesc": "使用下方按鈕以您喜歡的方式安全保存主金鑰。"
             },
             "howtologin": {
                 "title": "如何登入",
-                "desc1": "若要登入，請在首頁的登入界面輸入您的主金鑰。或者，您也可以使用 QR Code 登入。",
-                "desc2": "請在已登入的裝置上，前往設定 > 登入 QR Code 來顯示 QR Code，然後用新裝置掃描它。"
+                "desc1": "要登入，請在登入頁面輸入主金鑰。或者，您也可以使用 QR 碼登入。",
+                "desc2": "在已登入的裝置上，前往設定 > 登入 QR 碼以顯示 QR 碼，然後用新裝置掃描。"
             },
             "privmode": {
                 "title": "特權模式",
-                "desc1": "當您在本平台使用主金鑰登入時，您可以存取特權模式。此模式允許您執行關鍵操作，如移轉或刪除您的帳號。",
-                "desc2": "如果不需要使用特權模式，您可以點擊螢幕頂部的'特權模式'來忘記敏感資訊並切換到普通模式。",
-                "desc3": "要從普通模式切換回特權模式，請登出並重新輸入主金鑰登入。",
+                "desc1": "使用主金鑰登入時，您可以存取特權模式。此模式允許執行如帳號遷移或刪除等關鍵操作。",
+                "desc2": "如果不需要特權模式，可以點擊畫面頂部的「特權模式」移除敏感資訊並切換到普通模式。",
+                "desc3": "要從普通模式切換回特權模式，請登出並使用主金鑰重新登入。",
                 "handsonTitle": "退出特權模式",
-                "handsonDesc": "註冊後，您仍處於特權模式，請先讓我們切換到普通模式。"
+                "handsonDesc": "註冊後您將處於特權模式。讓我們切換到普通模式。"
             }
         },
         "post": {
-            "title": "發貼",
-            "desc": "在桌面端，發貼界面預設位於螢幕頂部。在智慧型手機上，您可以透過右下角的按鈕存取發貼界面。讓我們嘗試發佈您的第一條貼文。",
-            "handsonButton": "來打個招呼吧！",
+            "title": "發文",
+            "desc": "在桌面上，發文 UI 預設位於畫面頂部。在智慧型手機上，您可以按右下角的按鈕存取發文畫面。讓我們嘗試發佈您的第一篇貼文。",
+            "handsonButton": "打招呼！",
             "handsonContent": "你好！Concrnt！",
-            "syntax": "## 格式化和預覽\n\n在本平台，您可以在貼文中使用符號來應用格式。\n例如，輸入 `**粗體**` 將使文字變成**粗體**。\n您可以使用發貼界面底部的預覽即時查看格式化效果。\n\n## 格式化指南\n- `# 標題`：標題（大小隨#數量變化）\n- `**粗體**`：**粗體**\n- `*斜體*`：*斜體*\n- `~~刪除線~~`：~~刪除線~~"
+            "syntax": "## 格式化與預覽\n\n在 Concrnt 中，您可以在貼文中使用符號來套用格式。\n例如，輸入 `**粗體**` 會使文字變為**粗體**。\n您可以使用發文 UI 底部的預覽即時查看格式效果。\n\n## 格式化指南\n- `# 標題`：標題（大小隨 # 數量變化）\n- `**粗體**`：**粗體**\n- `*斜體*`：*斜體*\n- `~~刪除線~~`：~~刪除線~~"
         },
         "follow&watch": {
-            "desc": "# 追蹤與關注\n\n在本平台，'追蹤'與'關注'的概念與傳統的社群媒體不同。\n這裡的'追蹤'更像是'新增到聯絡人'，您可以主動追蹤您認識或感興趣的人。\n\n另一方面，'關注'允許您將某人新增到特定清單並查看他們的所有貼文。\n\n由於本平台是基於社群的，直接關注太多人可能會使您的時間軸變得混亂。建議只關注您真正感興趣的人。"
+            "desc": "# 追蹤與關注\n\n在 Concrnt 中，「追蹤」的概念與典型社群媒體不同。\nConcrnt 中的「追蹤」更像是「新增到聯絡人」。主動追蹤您認識或感興趣的人。\n\n另一方面，「關注」允許您將某人新增到特定清單並查看其所有貼文。\n\n由於 Concrnt 以社群為基礎，直接關注太多人可能會使時間軸混亂。建議僅關注您真正感興趣的人。"
         },
         "community": {
             "title": "社群",
-            "desc1": "在這裡你可以透過'探索'標籤發現的社群時間軸，找到一個並查看。如果沒有您感興趣的，您也可以考慮建立自己的社群。",
-            "desc2before": "找到後你喜歡的社群後，請按下",
-            "desc2after": "按鈕將社群新增到您的清單中（並關注它）。",
+            "desc1": "Concrnt 有可透過「探索」標籤發現的社群時間軸。找到一個並查看。如果沒有，考慮建立自己的。",
+            "desc2before": "找到後，按下 ",
+            "desc2after": " 按鈕將社群新增到您的清單（關注它）。",
             "postToCommunity": {
-                "title": "在社群發貼",
-                "desc": "將社群新增到清單後，它將作為一個選項顯示在發佈界面中，您也可以為貼文選擇多個發佈目的地。"
+                "title": "在社群發文",
+                "desc": "將社群新增到清單後，它將顯示為發文 UI 中的選項。您可以為貼文選擇多個目的地。"
             },
             "changeDefault": {
-                "title": "設定預設發佈目的地",
-                "descbefore": "如果您找到了您最鍾愛的社群，將其設定為您的預設發貼目的地也許會方便許多。在查看清單時，按右上角的",
-                "descafter": "按鈕來設定預設發貼目的地。"
+                "title": "設定預設發文目的地",
+                "descbefore": "如果找到適合的社群，將其設為預設發文目的地會很方便。查看清單時，按右上角的 ",
+                "descafter": " 按鈕設定預設發文目的地。"
             }
         },
         "list": {
-            "desc": "# 清單\n\n關注多個社群可能會使您的時間軸過於混亂。\n在這種情況下，您可以建立更多清單來組織它們。\n您可以從選單中的'清單'存取清單管理界面。\n\n## 固定清單\n\n在清單設定中，您可以固定特定清單，固定的清單將始終可以顯示在選項卡的頂部便於存取。\n\n## 將清單作為預設\n\n本平台中的清單不僅僅是集合，它們還可以作為強大的預設。\n例如，您可以為多個清單分配不同的預設發貼目的地，允許您快速在它們之間切換。"
+            "goExplore": "尋找用戶和社群來追蹤",
+            "desc": "# 清單\n\n關注多個社群可能使時間軸過於混亂。\n在這種情況下，建立更多清單來組織它們。\n您可以從選單中的「清單」存取清單管理畫面。\n\n## 釘選清單\n\n從清單設定中，您可以釘選特定清單。釘選的清單始終可從畫面頂部的標籤存取。\n\n## 清單作為預設\n\nConcrnt 中的清單不僅是集合，還是強大的預設。\n例如，您可以為多個清單分配不同的預設發文目的地，快速在它們之間切換。"
         },
         "customize": {
-            "desc": "# 高級用法\n\n## 應用安裝\n本平台採用 PWA 技術，使您能夠像應用一樣使用這個網頁。\n\n<Illustration>\n\n### 通知設定\n\n安裝應用後可以配置通知。預設情況下，所有通知都是關閉的，但您可以在設定 > 通用中按'啟用通知'按鈕來啟用它們。啟用後，您可以自訂觸發通知的事件。\n\n同一時間只能有一個裝置啟用通知。在新裝置上啟用通知將會停用前一個裝置上的通知。\n\n## 自訂\n\n本平台提供多種自訂功能。\n### 顏色主題\n您可以在設定 > 主題選單中更改顏色主題。您也可以建立自己的主題並分享。分享的主題在時間軸上顯示如下：\n```theme\n{\"meta\":{\"name\":\"橄欖\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\n按安裝按鈕立即應用主題。\n\n### 貼圖包\n\n本平台允許您在貼文和回應中使用表情符號，您還可以安裝貼圖包。\n分享的貼圖包在時間軸上顯示如下：\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\n您也可以建立自己的貼圖包，不過這需要一些努力。詳情請參見[這裡](https://square.concrnt.net/general/world/emojipack/)。"
+            "desc": "# 進階用法\n\n## 應用程式安裝\nConcrnt 使用 PWA 技術，讓您能像智慧型手機應用程式一樣使用此網頁。\n\n<Illustration>\n\n### 通知設定\n\n安裝應用程式可設定通知。預設所有通知關閉，但您可以在設定 > 一般中按「啟用通知」按鈕啟用。啟用後，可自訂觸發通知的事件。\n\n一次僅一台裝置可啟用通知。在新裝置啟用會停用先前裝置的通知。\n\n## 自訂\n\nConcrnt 提供多種自訂功能。\n### 顏色主題\n您可在設定 > 主題選單變更顏色主題。也可建立並分享自己的主題。分享的主題在時間軸上顯示如下：\n```theme\n{\"meta\":{\"name\":\"Olive\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\n按安裝按鈕立即套用主題。\n\n### 表情符號包\n\nConcrnt 允許您在貼文和回應中使用表情符號，透過安裝表情符號包。\n分享的表情符號包在時間軸上顯示如下：\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\n您也可建立自己的表情符號包，但需要一些努力。詳情請見[此處](https://square.concrnt.net/general/world/emojipack/)。"
         },
         "done": {
-            "desc": "# 恭喜！\n\n您現在已經掌握了使用本平台的基本知識！\n\n從現在開始，請隨意探索並按照您喜歡的方式使用 Concrnt 吧。",
-            "handsonButton": "我掌握了！",
-            "handsonContent": "我已經掌握了 Concrnt！",
+            "desc": "# 完成！\n\n您已掌握使用 Concrnt 的基本知識！\n\n從現在開始，請隨意探索並按您喜歡的方式使用 Concrnt。",
+            "handsonButton": "我已掌握！",
+            "handsonContent": "我已掌握 Concrnt！",
             "showTutorial": "在選單中顯示教學",
             "hideTutorial": "從選單中隱藏教學",
-            "otherTips": "## 附加提示\n\n### 密碼管理器使用者和登入頻繁的使用者\n\n如果您使用密碼管理器登入本平台，建議使用子金鑰而不是主金鑰。\n這是因為：\n1. 某些密碼管理器在處理日文字符作為密碼時會遇到問題。\n2. 使用主金鑰登入會建立新會話。\n\n您可以在普通模式下登入時從 設定 > 身份管理 中複製您的子金鑰，子金鑰登入透過與主金鑰相同的登入界面進行，有專門的輸入字段。\n\n## 其他功能\n\n### 子身份\n本平台允許您建立多個身份的個人資料。發貼時您可以自由選擇需要使用哪個身份。\n\n### ActivityPub 集成\n透過啟用 ActivityPub 集成，您可以與其他支援 ActivityPub 的平台（Mastodon、Misskey、Pleroma 等）進行互動。\n\n### 數據管理和遷移\n本平台是去中心化的社群網路，允許您管理自己的數據。\n為防止伺服器關閉，請定期從 設定 > 匯入匯出 匯出您的數據並安全保存。\n如果當前伺服器關閉，您也可以遷移到其他伺服器。"
+            "otherTips": "## 其他提示\n\n### 密碼管理器使用者與頻繁登入者\n\n如果您使用密碼管理器登入 Concrnt，建議使用子金鑰而非主金鑰。\n這是因為：\n1. 某些密碼管理器難以處理日文字元作為密碼。\n2. 使用主金鑰登入會建立新會話。\n\n您可在普通模式下登入時從設定 > 身份管理複製子金鑰。子金鑰登入透過與主金鑰相同的登入畫面進行，有專用輸入欄位。\n\n## 其他功能\n\n### 子個人資料\nConcrnt 讓您建立多個個人資料。發文時可選擇使用哪個個人資料。\n\n### ActivityPub 整合\n啟用 ActivityPub 整合後，可與其他相容平台（Mastodon、Misskey、Pleroma 等）互動。\n\n### 資料管理與遷移\nConcrnt 是去中心化 SNS，允許您管理自己的資料。\n為防範伺服器關閉，請定期從設定 > 資料管理匯出資料並安全保存。\n當前伺服器關閉時，也可遷移到其他伺服器。"
         }
+    },
+    "emergency": {
+        "title": "當機報告",
+        "reload": "重新載入",
+        "recoverTools": "復原工具",
+        "whenToUseTools": "如果重新載入 3 次後仍無幫助 ↓",
+        "softReset": "重設除登入資訊外的所有內容並重新載入",
+        "recoverTheme": "重設主題並停用同步啟動",
+        "hardReset": "重設所有內容（登入資訊也會遺失）",
+        "support": "支援",
+        "supportDesc": "如果重新載入無法解決問題，可能存在嚴重問題。使用下方連結檢查最新更新。",
+        "reportFailed": "發送報告失敗（提示：僅在官方部署上有效）",
+        "reportSent": "當機報告已發送。謝謝！",
+        "sendAnonymousReport": "發送匿名當機報告",
+        "messages": [
+            "網路是個美妙的地方，但有時會出問題。試試下面的按鈕。",
+            "電腦很神秘。重新載入可能解決問題。",
+            "有時會發生奇怪的事情。讓我們一起解決—試試下面的按鈕。",
+            "系統遇到小問題。重試可能有效。",
+            "事情沒有按計劃進行。試試重新載入。",
+            "現在可能運作不正常。試試重新載入。",
+            "糟糕！出錯了。試試重新載入。"
+        ]
     }
 }

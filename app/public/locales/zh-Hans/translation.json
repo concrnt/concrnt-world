@@ -18,13 +18,88 @@
         "reaction": "回应",
         "mutedByWord": "关键词静音帖子",
         "mutedByTimeline": "时间线静音帖子",
-        "show": "显示"
+        "show": "显示",
+        "followed": "关注了你",
+        "addToList": "添加到列表",
+        "failedToRender": "渲染此元素时出错",
+        "communicationFailed": "通信失败",
+        "updated": "已更新",
+        "update": "更新",
+        "noDescription": "无描述可用",
+        "ignore": "忽略",
+        "ignored": "已忽略",
+        "addToViewer": "允许",
+        "deletedMessage": "此帖子已被删除",
+        "privateMessage": "此帖子是私密的",
+        "developerView": "开发者视图",
+        "ccidCopied": "CCID 已复制",
+        "currentAddress": "当前地址",
+        "linkCopied": "链接已复制",
+        "timelineUnmuted": "时间线已取消静音",
+        "timelineMuted": "时间线已静音"
+    },
+    "globalActions": {
+        "noRegistration": "未找到 {{host}} 的注册信息",
+        "completeAccountSetup": "让我们完成您的账户设置！",
+        "foundIssues": "发现问题：",
+        "profileMissing": "个人资料不存在",
+        "welcome": "欢迎来到 Concurrent！",
+        "startWithCommunity": "与社区一同开始",
+        "startWithCommunityDesc": "通过关注为 Concurrent 新手量身定制的社区来开始您的旅程。",
+        "startWithAlone": "独自开始",
+        "startWithAloneDesc": "从最小设置开始。",
+        "start": "快速开始"
     },
     "app": {
-        "updateAvailable": "有新版本已可用！",
-        "updateNow": "更新"
+        "updateAvailable": "有新版本可用",
+        "updateNow": "更新",
+        "isNotCanonicalUser": "您当前登录的域不是您的规范域。请在完成迁移过程后重新登录。",
+        "domainIsOffline": "您的域 {{ domain }} 当前因离线而处于只读模式。请等待其恢复。"
     },
     "pages": {
+        "guestProfile": {
+            "getStarted": "快速开始",
+            "privateTimeline": "此时间线是私密的。",
+            "loginToRequest": "登录以请求访问。"
+        },
+        "guestMessage": {
+            "getStarted": "快速开始",
+            "privateTimeline": "此时间线是私密的。",
+            "loginToRequest": "登录以发送请求。"
+        },
+        "invitation": {
+            "welcome": "欢迎来到 Concrnt！",
+            "description": "Concrnt 是一个次世代的 SNS，让您的世界更加丰富多彩。",
+            "invitedBy": "由 {{username}} 邀请",
+            "createAccount": "创建账户"
+        },
+        "apUser": {
+            "following": "正在跟随",
+            "follow": "跟随",
+            "idCopied": "ID 已复制",
+            "followed": "已跟随",
+            "openRemote": "远程打开",
+            "isApUser": "此用户是 ActivityPub 用户。"
+        },
+        "main": {
+            "title": "Concrnt-World Beta",
+            "post": "帖子",
+            "document": "文档",
+            "forum": "论坛"
+        },
+        "concord": {
+            "badges": {
+                "series": "系列",
+                "addNew": "+ 新建",
+                "mint": "铸造",
+                "newSeries": "新系列",
+                "create": "创建",
+                "mintBadge": "铸造徽章"
+            },
+            "assets": {
+                "send": "发送"
+            }
+        },
         "home": {
             "title": "主页"
         },
@@ -36,32 +111,51 @@
             "reactionMany": "{{ name }} 和其他 {{ count }} 人对您的帖子做出了回应"
         },
         "associations": {
-            "title": "Associations"
+            "title": "关联",
+            "readAccessRequest": "<username/> 正在请求对 <timeline/> 的读取权限",
+            "removeAssociation": "移除关联"
         },
         "contacts": {
-            "title": "联系"
+            "title": "联系人"
         },
         "explore": {
             "title": "探索",
             "domains": "域",
             "communities": "社区",
-            "peoples": "人们",
+            "peoples": "用户",
             "createNew": "创建新的",
+            "classicEdition": "经典版",
+            "globalEdition": "全局视图",
+            "create": "创建",
+            "createFailed": "创建失败",
             "createNewCommunity": {
-                "title": "创建新的社区",
-                "desc1": "创建一个新的社区在 ",
-                "desc2": " 上，使用以下设置。"
+                "title": "创建新社区",
+                "desc1": "在",
+                "desc2": "上使用以下设置创建新社区。"
             },
             "reroll": "重新抽选",
-            "searchForPeoples": "输入想要搜索的人",
-            "searchForCommunities": "输入想要搜索的社区",
+            "searchForPeoples": "输入以搜索用户",
+            "searchForCommunities": "输入以搜索社区",
             "quicklook": "快速浏览"
         },
         "devtool": {
-            "title": "开发者工具"
+            "title": "开发者工具",
+            "resetTutorial": "重置教程"
         },
         "tutorial": {
-            "title": "教学"
+            "title": "教程",
+            "details": {
+                "moreInfo": "更多信息",
+                "twoPasswords": "Concrnt 有两种密码类型：'主密钥'和'子密钥'。",
+                "sealAnalogy": "这就像公章和私章之间的关系。",
+                "digitalSeal": "在 Concrnt 中，您用'数字印章'标记您的帖子以证明它们是您的。",
+                "realSeal": "公章用于合同或从银行取款，但您不会用它来接收包裹。",
+                "masterSubUsage": "同样，在 Concrnt 中，主密钥用于重要操作如迁移或账户删除，而子密钥用于日常操作如发帖或跟随。",
+                "masterKeyWarning": "如果主密钥泄露，一切就都结束了，但您可以随时撤销子密钥。"
+            },
+            "community": {
+                "timelineDescription": "欢迎来到 Concrnt！这是供新手寻找社区的主时间线。如果不确定，请尝试将此时间线添加到您的列表中。"
+            }
         },
         "settings": {
             "title": "设置",
@@ -70,16 +164,16 @@
                 "clearCache": "清除缓存",
                 "forceReload": "强制重新加载",
                 "logout": "登出",
-                "areYouSure": "确定吗?",
-                "logoutWarn": "若要再次登录，您需要主密钥或二维码。"
+                "areYouSure": "确定吗？",
+                "logoutWarn": "要再次登录，您需要主密钥或二维码。"
             }
         },
         "lists": {
             "title": "列表"
         },
         "manageSubs": {
-            "title": "列表",
-            "new": "创建列表",
+            "title": "列表管理",
+            "new": "创建新的",
             "listed": "已列出",
             "unlisted": "未列出",
             "newlist": "新列表"
@@ -95,6 +189,69 @@
         "now": "刚刚"
     },
     "ui": {
+        "migrator": {
+            "next": "下一步",
+            "masterLoginRequired": "迁移是关键的账户操作，需要使用主密钥登录。",
+            "step0": {
+                "title": "输入目的地",
+                "migrateTo": "目标域"
+            },
+            "step1": {
+                "title": "在目标上注册",
+                "desc": "首先，在目标域上注册。",
+                "move": "前往注册页面",
+                "checkAndNext": "验证并继续",
+                "error": "似乎注册尚未完成。检测到的域：{{domain}}"
+            },
+            "step2": {
+                "title": "从当前地址下载仓库数据"
+            },
+            "step3": {
+                "title": "将仓库数据上传到目标",
+                "desc": "所有数据完全加载可能需要一些时间。"
+            },
+            "step4": {
+                "title": "将设置复制到目标",
+                "error": "发生错误。",
+                "exec": ""
+            },
+            "step5": {
+                "title": "向当前地址发送删除请求",
+                "desc": "将设置 7 天的宽限期，在此期间可以取消删除。",
+                "exec": "发送删除请求"
+            },
+            "done": {
+                "title": "迁移完成！",
+                "reload": "重新加载以完成"
+            }
+        },
+        "manageRepo": {
+            "idle": "导入仓库数据",
+            "loading": "正在导入（可能需要一些时间）",
+            "success": "导入完成！",
+            "error": "导入失败（请检查控制台日志）",
+            "source": "导入源域（可选）",
+            "log": "导入日志",
+            "reload": "重新加载",
+            "syncing": "备份数据正在同步中。请稍候...（{{progress}}）",
+            "backupAvailable": "最新的备份数据可供下载。",
+            "syncRequested": "已请求更新。请稍等片刻。",
+            "requestSync": "请求更新",
+            "backupUnavailable": "无备份数据可用。请请求更新。",
+            "backupOutOfSync": "当前可下载的备份数据来自 {{ date }} {{ time }}。",
+            "export": "导出备份数据",
+            "preparing": "正在准备备份数据。请稍候...",
+            "exportPartial": "导出截至 {{ date }} {{ time }} 的备份数据。"
+        },
+        "privateTimeline": {
+            "isPrivate": "此时间线是私密的。",
+            "notRequestable": "此时间线不接受访问请求。",
+            "requested": "已发送请求",
+            "request": "发送请求"
+        },
+        "userPicker": {
+            "placeholder": "选择用户"
+        },
         "postButton": {
             "plaintext": "发布",
             "markdown": "发布",
@@ -110,84 +267,159 @@
         },
         "draft": {
             "placeholder": "有什么新鲜事吗？",
+            "freeDescription": "您可以自由书写",
             "attachImage": "上传图片",
-            "cantAttachImage": "请在设置中设置 Imgur Client ID。",
+            "cantAttachImage": "请在设置中设置 Imgur 客户端 ID。",
             "preview": "预览",
             "openPreview": "打开预览",
             "closePreview": "关闭预览",
             "emoji": "表情",
             "clearDraft": "清空草稿",
-            "postToHome": "同时发布在主时间线中",
-            "noPostToHome": "不发布在主时间线中",
+            "addDestination": "添加目的地",
             "current": "发布",
-            "whisper": "悄悄话"
+            "whisper": "悄悄话",
+            "whisperWarn": "注意",
+            "whisperWarnTitle": "悄悄话不是端到端加密",
+            "whisperWarnDesc": "这是一个基本保护功能。不要在 Concrnt 上分享敏感信息。",
+            "whisperDesc": "在此选择用户将使帖子仅对这些用户可见。",
+            "fetchImageFailed": "访问指定 URL 被拒绝",
+            "hideContent": "隐藏内容",
+            "add": "添加",
+            "clickToShow": "点击显示",
+            "enterContent": "输入内容...",
+            "plzAttachMedia": "您需要在媒体发布模式下附加媒体",
+            "plzAddMessage": "消息不能为空",
+            "plzAddDestination": "至少选择一个目的地",
+            "flags": "标记设置（可选）",
+            "flag-warn": "内容警告",
+            "flag-nude": "裸露",
+            "flag-porn": "色情内容",
+            "flag-hard": "强烈暴力"
         },
         "secret": {
             "clickToReveal": "点击显示",
             "warn": "请确保没有人正在窥视你的屏幕，注意周围的摄像头和环境安全。",
-            "copy": "复制"
+            "copy": "复制",
+            "close": "关闭"
         },
         "listSettings": {
             "title": "列表设置",
             "name": "列表名称",
             "update": "更新",
             "defaultDest": "默认目的地",
-            "addDefaultDest": "添加到默认目的地",
-            "postWithHome": "发布到主页",
-            "defaultProfile": "默认身份",
+            "addDefaultDest": "添加默认目的地",
+            "postWithHome": "与主页一起发布",
+            "defaultProfile": "默认个人资料",
             "stream": "信息流",
             "community": "社区",
             "user": "用户",
             "pin": "固定",
-            "isIconTab": "使用图标选项卡",
+            "isIconTab": "在选项卡上使用图标",
             "delete": "删除",
-            "reallyDelete": "确定要删除这个列表吗？",
-            "confirmDelete": "确定"
+            "reallyDelete": "确定要删除此列表吗？",
+            "confirmDelete": "确认"
         },
         "messageActions": {
             "linkCopied": "链接已复制",
             "copyLink": "复制分享链接",
-            "copySource": "复制原始内容",
+            "copySource": "复制源",
             "share": "分享",
             "superReaction": "超级回应",
             "translate": "翻译",
             "inspect": "详情",
             "delete": "删除",
-            "reallyDelete": "确定要删除这条消息吗？",
-            "confirmDelete": "确定"
+            "reallyDelete": "确定要删除此消息吗？",
+            "confirmDelete": "确认",
+            "removeFromStream": "从信息流中移除"
+        },
+        "emoji": {
+            "letsAddEmojiPack": "让我们从设置中添加表情包",
+            "addEmojis": "添加表情"
+        },
+        "timelineInfo": {
+            "updated": "已更新",
+            "failedToUpdate": "更新失败",
+            "warnCustomPolicy": "此社区设置了自定义策略",
+            "warnCustomPolicyDesc": "因此，显示具有读写权限的用户可能无法正常工作。",
+            "readRequests": "读取请求（{{ count }}）",
+            "indexable": "可索引",
+            "schema": "架构",
+            "schemaDesc": "输入 JsonSchema URL。通常不需要更改此设置。",
+            "attributes": "属性",
+            "policy": "策略",
+            "policyDesc": "如果为空，将应用默认策略。",
+            "enterPolicy": "输入策略 JSON 的 URL。",
+            "inlineAllowDeny": "基本权限设置",
+            "inlineReadWrite": "基本权限设置（旧版）",
+            "restrictAckees": "限制为关注者",
+            "params": "策略参数",
+            "save": "保存",
+            "delete": "删除",
+            "deleteDesc": "此操作无法撤销。删除社区不会删除消息，但可能会切断与它们的链接。",
+            "deleteConfirm": "确定要删除此社区吗？",
+            "deleted": "已删除",
+            "searchResultPlaceholder": "搜索结果将显示在此处",
+            "searchResultEmpty": "未找到结果",
+            "searchResultTitle": "{{ query }} 的搜索结果",
+            "prev": "上一页",
+            "next": "下一页",
+            "searchNotAvailable": "{{ host }} 上搜索不可用",
+            "search": "搜索",
+            "info": "信息",
+            "edit": "编辑"
+        },
+        "profileProperties": {
+            "viewTemplate": "查看模板",
+            "templateTitle": "模板：{{title}}",
+            "searchCharacters": "使用此模板搜索角色",
+            "createWithTemplate": "使用此模板创建您自己的",
+            "viewSource": "查看源"
+        },
+        "rerouteMessage": {
+            "details": "详情",
+            "confirmDeleteReroute": "确定要删除此转贴吗？",
+            "delete": "删除",
+            "deleteReroute": "删除转贴"
         }
     },
     "settings": {
         "title": "设置",
         "general": {
-            "title": "通用设置",
+            "title": "通用",
             "basic": "基本",
+            "concordPreviewTitle": "Concord 网络（预览）",
+            "concordDesc1": "Concord 网络是一个独立的分布式共识网络，扩展了 Concrnt 的核心功能。您可以在以下条款下启用它。",
+            "concordDesc2": "Concord 网络目前处于预览阶段。网络可能会被重置或更改而不另行通知，网络上的任何数据可能会丢失且不会恢复。",
+            "concordDesc3": "Concord 网络提供了一个有趣的点数功能，但在任何情况下，点数都不能兑换现金或任何其他有价值的物品，包括但不限于货币兑换或与其他加密货币的交换。",
+            "concordEnable": "同意并启用 Concord 网络",
             "showEditorOnTop": "在顶部显示编辑器",
             "showEditorOnTopMobile": "在顶部显示编辑器（移动端）",
             "autoSwitchMediaPostType": "附加图片时自动切换帖子类型",
             "developerMode": "开发者模式",
-            "generateInviteCode": "生成邀请码",
-            "inviteCode": "邀请码（24 小时内有效）",
-            "copyInviteCode": "复制邀请码",
+            "invitation": "邀请",
+            "inviteNote": "如果您的域是仅限邀请的，您需要拥有邀请权限。请联系您的域管理员获取更多详情。",
+            "copyInviteLink": "复制邀请链接",
+            "inviteComment": "邀请评论（可选）",
+            "inviteTimeline": "邀请时间线（可选）",
             "copied": "已复制",
             "language": "语言",
-            "showTutorial": "在菜单中显示教学", 
+            "showTutorial": "在菜单中显示教程",
             "add": "添加",
             "cancel": "取消",
             "addMuteWord": "添加静音关键词",
             "addMuteWordDesc": "静音关键词不区分大小写，可用于隐藏包含特定词语的帖子。",
             "mute": "静音",
-            "wordMute": "静音关键词",
-            "timelineMute": "静音时间线",
-            "fontSize": "字符大小",
+            "wordMute": "关键词静音",
+            "timelineMute": "时间线静音",
+            "fontSize": "字体大小",
             "stripExif": "发布时压缩图片并移除 EXIF 信息",
             "notification": {
                 "title": "通知",
-                "notsupported": "你所在的域当前还不支持通知",
+                "notsupported": "您的域不支持通知",
                 "enable": "启用通知",
                 "enabled": "通知已启用",
-                "disable": "停用通知",
-                "disabled": "通知已停用",
+                "disable": "禁用通知",
+                "disabled": "通知已禁用",
                 "tryAgain": "请重试",
                 "failed": "失败",
                 "updated": "通知设置已更新",
@@ -203,52 +435,121 @@
         },
         "privileged": {
             "title": "您当前以特权模式登录",
-            "desc": "特权模式允许执行诸如删除帐户等关键操作。\n建议在完成特权操作后切换回普通模式。",
+            "desc": "特权模式允许执行诸如删除账户等关键操作。\n建议在完成特权操作后切换回普通模式。",
             "action": "切换到普通模式"
         },
         "profile": {
-            "title": "个人信息",
-            "update": "更新",
-            "updated": "已更新",
-            "secret": "密钥代码",
-            "secretCannotBeRestored": "由于该账户是使用私钥而不是密钥代码导入的，因此无法恢复密钥代码。"
+            "title": "个人资料",
+            "home": {
+                "isRestrictedTitle": "当前，主页帖子的查看者受到限制",
+                "isRestrictedDesc": "当前，主页时间线上发布的内容只允许由以下用户查看。",
+                "editReaders": "编辑主页查看者",
+                "requests": "主页查看请求",
+                "makeRestricted": {
+                    "title": "您想限制主页帖子的查看者吗？",
+                    "desc": "如果限制，主页时间线上发布的内容将仅对您单独指定的用户可见。",
+                    "do": "限制查看者"
+                },
+                "isOpenedTitle": "当前，主页帖子设置为公开",
+                "isOpenedDesc": "当前，主页时间线上的帖子（限制时间线的除外）对任何人可见。",
+                "makeOpened": {
+                    "title": "您想使主页帖子公开吗？",
+                    "desc": "如果公开，所有过去的帖子将对所有用户可见。",
+                    "do": "设为公开"
+                }
+            },
+            "badges": {
+                "title": "徽章",
+                "makePublic": "设为公开",
+                "makePrivate": "设为私密",
+                "inspect": "详情",
+                "removeAllBadges": "移除所有徽章（当前 {{ count }}）",
+                "removeBadgeConfirm": "确定要移除所有徽章吗？"
+            },
+            "subprofile": {
+                "title": "子个人资料",
+                "new": "创建新的",
+                "newTitle": "新的子个人资料",
+                "templateURL": "模板 URL",
+                "create": "创建",
+                "editViewerRestriction": "编辑查看者限制",
+                "update": "更新",
+                "updated": "已更新",
+                "showInProfile": "在主个人资料中显示",
+                "hideInProfile": "从主个人资料中隐藏",
+                "shownInProfile": "当前在主个人资料中显示",
+                "hiddenInProfile": "当前从主个人资料中隐藏",
+                "visibilityUpdated": "可见性已更新",
+                "makePublic": "使帖子公开",
+                "makePrivate": "使帖子私密",
+                "requests": "查看请求",
+                "requestsWithCount": "{{ count }} 个查看请求",
+                "errNoTimeline": "未找到子个人资料时间线",
+                "errTimelineInvalid": "子个人资料时间线设置不完整",
+                "edit": "编辑子个人资料",
+                "fixTimeline": "修复子个人资料时间线",
+                "timelineFixed": "子个人资料时间线已修复",
+                "delete": "删除",
+                "confirmDelete": "确定要删除此子个人资料吗？",
+                "plzHideBeforeDelete": "请在删除前从主个人资料中隐藏"
+            }
         },
         "identity": {
             "title": "身份",
             "loginType": {
-                "masterKey": "您当前使用主密钥登录，请切换到更安全的子密钥登录。",
-                "subKey": "您当前正在使用子密钥登录。",
-                "secret": "您当前已通过直接输入密钥的方式使用主密钥登录。"
+                "masterKey": "您当前使用主密钥登录。请立即切换到更安全的子密钥登录。",
+                "subKey": "您当前使用子密钥登录。",
+                "secret": "您当前通过直接输入密钥的方式使用主密钥登录。"
             },
             "hideSubKey": "隐藏已停用的子密钥",
             "deactivate": "停用",
+            "deactivateConfirm": "确定要停用此子密钥吗？",
+            "deactivateDesc": "停用子密钥将注销当前使用该子密钥登录的所有设备。",
+            "sessionInfo": "会话信息",
+            "deleteAccount": "删除账户",
+            "delete": "删除",
+            "deleteConfirm": "确定要删除您的账户吗？",
+            "deleteDescription": "您的账户删除请求将立即处理。建议在删除前从数据管理中下载您的数据。",
+            "deleteRequested": "您的账户删除请求已被接受。",
+            "copySubkeyDesc": "您可以使用右侧的按钮复制您的子密钥，但请小心处理，因为它像密码一样是敏感信息。",
+            "registrationInfo": "在域 {{ fqdn }} 上注册的信息",
+            "devkeyTitle": "[开发者] 十六进制格式的主密钥",
+            "devkeyDesc": "您可以从此处复制主密钥的私钥，用于机器人或其他应用程序。",
+            "alias": {
+                "completed": "已为您的账户设置别名 {{ alias }}。",
+                "uncompleted": "账户别名未设置（只允许在特权模式下设置）",
+                "description": "如果您拥有一个域，可以通过创建以下 TXT 记录为您的账户设置别名。",
+                "domainToSet": "要设置的域",
+                "verify": "验证设置",
+                "verifySuccess": "别名设置验证成功。",
+                "verifyFailed": "别名设置验证失败。请检查您的 DNS 配置。"
+            },
             "switchMasterToSub": {
                 "masterKeyFormat": "主密钥格式：",
                 "sendEmail": "发送到我的邮箱",
                 "copyToClipboard": "复制到剪贴板",
-                "mailHerf": "mailto:?subject=concrnt secret&body=**请将该邮件的收件人设置为您自己并发送。**%0D%0A%0D%0A=== Identification Info ===%0D%0AIdentifier: {{ ccid }}%0D%0AMaster Key: {{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0A主密钥是证明您拥有此标识符所标识的帐户的唯一方式。%0D%0A如果该主密钥被恶意的第三方知晓，该帐户的安全性将受到损害，您将需要采取措施自行冻结该帐户。%0D%0A%0D%0A主密钥将用于迁移您的帐户或恢复丢失的子密钥等重要操作。%0D%0A在此之前，请将其安全地存储，例如打印出来并保存在安全的物理位置。%0D%0A",
+                "mailHerf": "mailto:?subject=concrnt secret&body=** 请将此邮件的收件人设置为您自己并发送。**%0D%0A%0D%0A=== 标识信息 ===%0D%0A 标识符：{{ ccid }}%0D%0A 主密钥：{{ mnemonic }}%0D%0A================%0D%0A%0D%0A%0D%0A 主密钥是证明您拥有此标识符所标识账户的唯一方式。%0D%0A 如果此密钥被恶意第三方知晓，此账户的安全性将受到损害，您将需要采取措施自行冻结账户。%0D%0A%0D%0A 主密钥将用于重要操作，如迁移账户或恢复丢失的子密钥。%0D%0A 在此之前，请将其安全存储，例如打印并保存在保险箱中。%0D%0A",
                 "downloadPDF": "下载 PDF",
                 "processing": "处理中...",
-                "ready": "从此设备中完全移除主密钥并切换到子密钥",
                 "identification": "标识信息",
-                "confidential": "机密信息",
+                "confidential": "机密",
                 "identifier": "标识符",
                 "undifined": "未定义",
                 "masterKey": "主密钥",
-                "aboutMasterKey": "主密钥是证明您是此标识符所标识帐户所有者的唯一方式。<br/>如果恶意第三方获知此密钥，则此帐户的安全性将受到威胁，您需要采取措施自行冻结帐户。<br/>主密钥将用于重要操作，例如迁移您的帐户或恢复丢失的子密钥。在此之前，请以安全可靠的方式保存它，例如将其打印出来并保存在安全的物理位置。",
+                "aboutMasterKey": "主密钥是证明您拥有此标识符所标识账户的唯一方式。<br/> 如果此密钥被恶意第三方知晓，此账户的安全性将受到威胁，您将需要采取措施自行冻结账户。<br/> 主密钥将用于重要操作，如迁移账户或恢复丢失的子密钥。在此之前，请将其安全可靠地存储，例如打印并保存在保险箱中。",
                 "reference": "参考信息",
                 "name": "名称",
                 "unset": "未设置",
-                "domain": "所在域",
-                "addition": "以上参考信息来自此文件签发时，此后可能已发生变化。",
-                "date": "签发于:",
+                "domain": "管辖域",
+                "addition": "参考信息来自此文件签发时，此后可能已发生变化。",
+                "date": "签发于：",
                 "checkMasterKey": "备份主密钥",
                 "backToSwitch": "返回切换",
-                "testPrompt": "若要继续，请输入主密钥的 {{first}} 个单词和 {{second}} 个单词",
+                "testPrompt": "要继续，请输入主密钥的第 {{first}} 个和第 {{second}} 个单词",
                 "nthWord": "第 {{nth}} 个单词",
-                "switchToNormalMode": "切换至普通模式",
+                "switchToNormalMode": "切换到普通模式",
                 "exitPrivilegedMode": "退出特权模式",
-                "privilegeModeDesc": "特权模式允许执行删除帐户等关键操作。"
+                "privilegeModeDesc": "特权模式允许执行账户删除等关键操作。"
             }
         },
         "theme": {
@@ -266,117 +567,157 @@
         },
         "emoji": {
             "title": "表情",
+            "updateAll": "更新所有表情包",
+            "fetchedAt": "获取于：{{date}}",
+            "update": "更新",
+            "copyURL": "复制 URL",
+            "delete": "删除",
             "emojiPackage": "表情包",
-            "emojiPackageURL": "表情包地址",
-            "packageNotFound": "没有找到表情包",
+            "emojiPackageURL": "表情包 URL",
+            "packageNotFound": "未找到表情包",
             "copied": "已复制",
             "alreadyAdded": "表情包已添加"
         },
         "media": {
-            "title": "媒体位置",
+            "title": "媒体",
+            "copyImageURL": "复制图片 URL",
+            "copyMarkdownCode": "复制 Markdown 代码",
             "storageProviderLabel": "使用的存储提供者",
             "corsSettings": "CORS 设置",
-            "imagePostSettings": "媒体发布设置",
-            "afterRegisteringImgur": "在 Imgur 注册后，前往 ",
-            "thisPage": "该页面",
-            "deleteCompletely": "彻底删除",
+            "imagePostSettings": "图片发布设置",
+            "afterRegisteringImgur": "在 Imgur 注册后，前往",
+            "thisPage": "此页面",
+            "deleteCompletely": "完全删除",
             "copyURL": "复制 URL",
             "copyID": "复制 ID",
-            "oauth2": " 并使用“OAuth 2 授权，无需回调 URL”选项创建应用程序",
+            "oauth2": "并使用 \"OAuth 2 授权，无需回调 URL\"选项创建应用程序",
             "descs": {
-                "domain": "域存储是指此域提供的存储空间，无需设置即可使用，但有最大容量限制。此外，管理员可以查看文件列表，违反条款的文件可能会被删除。",
-                "imgur": "将图片上传到 Imgur，设置起来相对简单。上传的内容需遵守 Imgur 的条款。",
-                "s3": "将图片上传到 S3。也可以使用与 S3 协议兼容的服务，例如 CloudFlare R2、Backblaze B2 等。它需要设置更多的选项，但可以让您自行控制文件。根据服务提供商的不同，可能会收取费用，但在大多数情况下，许多服务提供商都提供免费套餐和额度。"
+                "domain": "域存储指此域提供的存储。无需设置即可使用，但有最大容量限制。此外，文件列表可能被管理员查看，违反条款的文件可能被删除。",
+                "imgur": "Imgur 用于图片上传。设置相对简单。上传内容需遵守 Imgur 的条款。",
+                "s3": "S3 用于图片上传。也可使用 CloudFlare R2 等 S3 兼容服务。设置需要更多努力，但允许您自行控制文件。根据服务不同可能产生费用，但在大多数情况下，许多服务提供商都提供足够使用的额度。"
             },
             "storageQuota": "存储用量"
         },
         "ap": {
             "title": "ActivityPub",
-            "setup": "ActivityPub ID 设置.",
-            "cantBeChangedOnceRegistered": "**一旦注册将不可更改！",
+            "setup": "ActivityPub ID 设置。",
+            "cantBeChangedOnceRegistered": "** 一旦注册将不可更改。",
+            "registerDescription": "此操作将在域 {{domain}} 上注册一个 ActivityPub 用户。",
+            "domainSelectionWarningTitle": "链接到您的 ActivityPub 账户的 Concrnt 域必须谨慎选择。",
+            "domainSelectionWarningDesc1": "迁移 Concrnt 账户时，您的 ActivityPub 账户也可以迁移到外部域。",
+            "domainSelectionWarningDesc2": "虽然 Concrnt 账户可以自由返回原始域，但由于规范限制，ActivityPub 集成",
+            "domainSelectionWarningDesc3": "无法移回原始域。",
             "confirming": "确认中...",
             "register": "注册",
-            "helperText": "可以使用以下字符：a-z、A-Z、0-9",
-            "alreadyRegistered": "该用户已被注册。",
-            "tryAnotherID": "请尝试其他 ID。"
+            "helperText": "可使用以下字符：a-z, A-Z, 0-9",
+            "alreadyRegistered": "此用户已注册。",
+            "tryAnotherID": "请尝试其他 ID。",
+            "follow": "跟随",
+            "followers": "跟随者",
+            "followApUser": "跟随 ActivityPub 用户",
+            "errApTimelineIsMissing": "ActivityPub 接收时间线缺失",
+            "errApTimelineWriteSelf": "您没有 ActivityPub 接收时间线的写入权限",
+            "errApTimelineWriteProxy": "接收机器人账户没有写入权限",
+            "updateFailed": "更新失败",
+            "serverBroken": "服务器配置无效。请联系管理员。",
+            "fix": "修复",
+            "settingsNG": "时间线设置有问题",
+            "inquery": "查询",
+            "settings": "设置",
+            "forwardTimeline": "转发时间线",
+            "forwardTimelineDesc": "如果为空，将使用主页时间线",
+            "addForwardTimeline": "添加转发时间线",
+            "update": "更新",
+            "moveOption": "移动选项",
+            "addMoveOrigins": "添加移动来源",
+            "add": "添加",
+            "notAvailable": "{{host}} 上不可用"
         },
         "qr": {
             "title": "登录码",
-            "createNew": "创建",
-            "showInstalled": "已设置",
-            "tip1": "该二维码仅显示一次，请仅在需要时才生成新二维码。",
-            "tip2": "您可以在“设置”>“身份”页面中检查创建的密钥。",
-            "createNewSubKey": "创建新的子密钥"
+            "createNew": "创建新的",
+            "showInstalled": "显示已安装的",
+            "tip1": "生成的码只允许查看一次。请仅在需要时生成新码。",
+            "tip2": "您可以在设置 > 身份页面中查看创建的密钥。",
+            "createNewSubKey": "创建新的子密钥",
+            "notLoggedInWithSubkey": "此设备未使用子密钥登录"
         },
         "importexport": {
-            "title": "导入导出",
+            "title": "导入 / 导出",
             "import": "导入",
-            "export": "导出"
+            "export": "导出",
+            "manageTab": "数据管理",
+            "migrateTab": "迁移"
         },
         "jobs": {
-            "title": "任务"
+            "title": "任务",
+            "listTitle": "任务列表",
+            "pending": "待处理",
+            "running": "运行中",
+            "completed": "已完成",
+            "detail": "任务详情",
+            "createDev": "创建任务（开发）",
+            "cancel": "取消"
         }
     },
     "welcome": {
-        "welcome": "欢迎来到 Concurrent！",
-        "startWithCommunity": "与社区一同开始",
-        "startWithCommunityDesc": "通过关注为 Concurrent 新手量身定制的社区来开始您的旅程。",
-        "startWithAlone": "独自开始",
-        "startWithAloneDesc": "从最小设置开始。",
-        
-        "start": "快速开始",
+        "start": "让我们开始吧",
+        "arrivalTimelineDescription": "欢迎来到 ariake.concrnt.net 服务器！如有任何问题，请随时在此发帖。",
+        "devCentralDescription": "开发者放松的地方",
+        "pageTitle": "Concrnt | Concurrent",
+        "metaDescription": "Concrnt 是一个次世代的 SNS，让您的世界更加丰富多彩。",
         "guide": "用户指南",
-        "gettingStarted": "让我们来开始吧！",
+        "gettingStarted": "让我们开始吧",
         "import": "登录",
-        "catch": "如果社交网络像是这样...",
-        "wish1": "可以即时了解你的朋友和你感兴趣的人在做什么",
-        "wish2": "可以使用一个账户与多个社区互动",
-        "wish3": "可以选择平台管理者，而不是被独裁的单一实体控制",
-        "wish4": "如果有一个这样的社交网络，不是很棒吗？",
-        "wish5": "Concrnt 就是为了实现这些期待而开发。",
-        "wish6": "欢迎来到社交网络的新纪元。",
-        "feature1title": "与人人共享的社交网络",
-        "feature1subtitle": "厌倦了充满陌生人的推荐时间线吗？",
-        "feature1p1": "你是否更希望了解你喜欢的人，而不是看到充满陌生人的推荐？",
-        "feature1p2": "在 Concrnt，你可以使用自定义列表来访问对你真正重要的信息，而不是依赖算法。选择你喜欢的人和你感兴趣的社区，并创建一个完美适合你的时间线。",
-        "feature1p3": "Concrnt 是一个专注于对你真正重要的人际关系的社交网络，让每个人都能享受其中。",
-        "feature2title": "你的账户真正属于你",
-        "feature2subtitle": "再见，担心账户被封禁的日子 👋",
-        "feature2p1": "Concrnt 是一个去中心化的社交网络，优先考虑用户自由和安全。它摆脱了单一公司或组织的独裁，每个独立的个人和组织都可以运行他们自己的自己服务器。",
-        "feature2p2": "这意味着你不再需要担心账户被突然封禁。即使你在某个服务器上受到不公正对待，你也可以轻松转移到另一个服务器，保留你的帖子和关注者，并继续你的活动。在这里，你会发现一种前所未有的安全和自由，你可以管理你自己的账户。",
-        "feature2p3": "在 Concrnt，你的账户真正属于你。",
-        "feature3title": "无数社区在一个社交网络中",
-        "feature3subtitle": "为不同兴趣使用不同账户的时代已经结束了",
-        "feature3p1": "在 Concrnt，除了首页时间线，你可以在多个社区时间线之间切换。发布时，你可以同时分享到多个社区，轻松地与多个社区松散地连接，这符合人类的自然属性。",
-        "feature3p2": "这不像是 X 那样过于关注世界，也不像 Discord 那样过于封闭。Concrnt 的魅力在于你可以在适度连接其他社区的同时，找到属于自己的位置。",
-        "crnt1": "这是一种新的使用社交网络的方式，但一旦习惯了，就会觉得很舒服！",
+        "catch": "如果有这样的 SNS...",
+        "wish1": "您可以实时了解您的朋友和您感兴趣的人在做什么。",
+        "wish2": "您可以使用一个账户与多个社区互动。",
+        "wish3": "您可以选择平台管理者，而不是被单一实体控制。",
+        "wish4": "如果有这样的 SNS，不是很棒吗？",
+        "wish5": "Concrnt 就是为了实现这些愿望而开发的。",
+        "wish6": "欢迎来到 SNS 的新纪元。",
+        "feature1title": "与人共享的 SNS",
+        "feature1subtitle": "厌倦了充满陌生人的推荐时间线？",
+        "feature1p1": "您是否更希望了解您喜欢的人，而不是看到充满陌生人的推荐？",
+        "feature1p2": "在 Concrnt，您可以使用自定义列表访问对您真正重要的信息，而不是依赖算法。选择您喜欢的人和您感兴趣的社区，创建完美适合您的时间线。",
+        "feature1p3": "Concrnt 是一个专注于对您真正重要的人际关系的 SNS，让每个人都能享受其中。",
+        "feature2title": "您的账户真正属于您",
+        "feature2subtitle": "告别担心账户被封禁的日子👋",
+        "feature2p1": "Concrnt 是一个去中心化的 SNS，优先考虑用户自由和安全。它摆脱了单一公司或组织的独裁，独立的个人和组织运行自己的服务器。",
+        "feature2p2": "这意味着您不再需要担心账户被突然封禁。即使在一个服务器上受到不公正对待，您也可以轻松转移到另一个服务器，保留帖子和关注者，继续活动。在这里，您会发现前所未有的安全和自由，可以管理自己的账户。",
+        "feature2p3": "在 Concrnt，您的账户真正属于您。",
+        "feature3title": "无数社区在一个 SNS 中",
+        "feature3subtitle": "为不同兴趣使用不同账户的时代结束了",
+        "feature3p1": "在 Concrnt，除了主页时间线，您可以在多个社区时间线之间切换。发布时，您可以同时分享到多个社区，轻松与多个社区松散连接，这符合人类的自然属性。",
+        "feature3p2": "这不像是 X 那样过于关注世界，也不像 Discord 那样过于封闭。Concrnt 的魅力在于您可以在适度连接其他社区的同时，找到自己的位置。",
+        "crnt1": "这是一种新的 SNS 使用方式，但一旦习惯了，就会觉得很舒服！",
         "crnt2": "我所依赖的东西必须是开放的！",
         "crnt3": "我想同时向多个社区广播！",
         "crnt4": "也许我会尝试建立自己的服务器？",
-        "crnt5": "我想要一个我不需要去中心化的去中心化社交网络！",
+        "crnt5": "我想要一个不需要去中心化的去中心化 SNS！",
         "crnt6": "你在做什么？",
         "crnt7": "太棒了！",
         "crnt8": "晚上好！",
         "crnt9": "有人想一起出去吗？",
         "crnt10": "定制主题太有趣了！",
         "crnt11": "因为我的账户真正掌握在自己手中，<br/> 我可以自信地将其用作我的网络身份。",
-        "crnt12": "用表情反应来交流真是顺畅！",
-        "crnt13": "即使我在的服务器关闭了，<br/> 我也可以轻松地将我的关系转移到一个新的服务器，所以不用担心！",
-        "crnt14": "饿了 嘿",
+        "crnt12": "用表情反应交流真是顺畅！",
+        "crnt13": "即使我所在的服务器关闭了，<br/> 我也可以轻松将关系转移到新服务器，所以不用担心！",
+        "crnt14": "饿了 YO",
         "crnt_totegamma": "就是这个！"
     },
     "mock": {
         "home": {
-            "title": "首页",
-            "crnt1": "我真的很喜欢这个时候的安静。假期里的独处时光是最好的。",
+            "title": "主页",
+            "crnt1": "我真的很喜欢这个时候的安静。假期的独处时光是最好的。",
             "crnt2": "说到音乐，最近总是忘不了动画歌曲。它们真的让我很振奋。",
-            "crnt3": "下午的音乐选择——今天听什么？真是个困难的选择。",
+            "crnt3": "下午的音乐选择 —— 今天听什么？真是个困难的选择。",
             "crnt4": "新书到了！是时候泡杯茶，潜心阅读了。完美的假期。",
             "crnt5": "好久没看了，今天重播我最喜欢的动画。到时候放松一下，看看吧。"
         },
         "game": {
-            "title": "游戏",
-            "crnt1": "在《地下世界冒险家》里失去了存档数据……我想哭。",
+            "title": "游戏场景",
+            "crnt1": "在《地下世界冒险家》中丢失了存档数据... 我想哭。",
             "crnt2": "新的 VR 游戏非常逼真！要小心不要晕眩。",
             "crnt3": "昨晚的线上团队战斗合作完美无缺。团队，我们再来一次！",
             "crnt4": "找到了一台老街机游戏。插入硬币玩游戏的感觉真令人怀念。",
@@ -393,13 +734,13 @@
     },
     "registration": {
         "welcome": {
-            "title": "来创建你的 Concrnt 账户吧！",
-            "desc1": "Concrnt 是一个去中心化的社交网络，",
+            "title": "来创建您的 Concrnt 账户吧！",
+            "desc1": "Concrnt 是一个去中心化的 SNS。",
             "desc2": "请选择一个服务器以注册。",
             "infoTitle": "任何服务器都可以！",
             "info1": "在 Concrnt，服务器之间没有障碍。就像选择手机运营商一样，",
-            "info2": "你可以随时在服务器之间切换，所以如果你没有特别偏好，就交给我们来选择吧！",
-            "auto1": "替我选择一个服务器",
+            "info2": "您可以随时在服务器之间切换，所以如果您没有特别偏好，就让我们为您选择吧！",
+            "auto1": "为我选择一个服务器",
             "auto2": "开始",
             "custom": "自己选择服务器"
         },
@@ -408,34 +749,50 @@
             "chooseFromList": "从列表中选择",
             "or": "或",
             "directInput": "直接输入 URL",
-            "tips": "提示：如果你要设置自己的服务器，请点击这里",
+            "tips": "提示：如果您要设置自己的服务器，请点击这里",
             "jump": "跳转到注册页面",
-            "notRegistered": "在该域上的注册尚未确认。请在你跳转到的域上进行注册。",
-            "nextDisabled": "在域注册完成后，你可以进入下一步",
-            "next": "下一步：创建个人资料"
+            "notRegistered": "在该域上的注册尚未确认。请在跳转到的域上注册。",
+            "nextDisabled": "在域注册完成后，您可以进入下一步",
+            "next": "下一步：创建个人资料",
+            "openedDomain": "开放",
+            "inviteDomain": "仅限邀请",
+            "devDomain": "面向开发者"
         },
         "createProfile": {
             "title": "创建个人资料",
-            "desc": "在这里设置你的名称、头像和自我介绍。"
+            "desc": "在这里设置您的名称、头像和自我介绍。"
         },
         "ready": {
             "title": "准备好了！",
             "next": "开始"
         },
-        "alreadyHaveAccount": "已有账户？",
-        "importAccount": "登录"
+        "importAccount": "登录",
+        "BYOK": "手动输入密钥",
+        "keyLabel": "密钥",
+        "close": "关闭",
+        "confirm": "确认"
+    },
+    "authorize": {
+        "loginAs": "以 {{userName}} 的身份登录 {{appName}}？",
+        "loginRequired": "授权应用前需要登录。",
+        "login": "登录",
+        "cancel": "取消",
+        "loginNotice": "按下登录按钮，您向 {{appName}} 证明您是 Concrnt 用户 {{userName}}，但应用将无权代表您发帖或查看。"
     },
     "import": {
         "scan": "扫描",
         "manual": "手动",
-        "searching": "搜索中…",
-        "notFound": "无法找到你的服务器，您可以尝试手动输入",
+        "getStarted": "快速开始",
+        "or": "或",
+        "qrHint": "您可以从已登录设备的'设置 > 登录二维码'获取登录二维码。",
+        "searching": "搜索中...",
+        "notFound": "找不到您的服务器。您可以手动输入继续。",
         "invalidSecret": "密钥代码不正确。",
-        "notFoundOnServer": "在指定服务器上找不到你的账户。",
+        "notFoundOnServer": "在指定服务器上找不到您的账户。",
         "connectionError": "无法连接到指定的服务器。",
         "input": "输入密钥代码或私钥",
         "withSubkey": "使用子密钥登录",
-        "secretPlaceholder": "这是由 12 个单词组成的咒语",
+        "secretPlaceholder": "由 12 个单词组成的咒语",
         "welcome": "欢迎",
         "domain": "域",
         "import": "登录",
@@ -446,12 +803,12 @@
         "normalLogin": "登录至普通模式"
     },
     "tutorial": {
-        "title": "教学",
+        "title": "教程",
         "common": {
             "next": "下一步"
         },
         "tabs": {
-            "login": "密码和登录",
+            "login": "密码与登录",
             "post": "发帖",
             "follow&watch": "关注与跟随",
             "community": "社区",
@@ -461,9 +818,9 @@
         },
         "login": {
             "congrat": "已成功从特权模式切换到普通模式！干得漂亮！",
-            "block": "在继续之前，请让我们从先特权模式切换到普通模式。",
+            "block": "在继续之前，让我们从特权模式切换到普通模式。",
             "password&login": {
-                "title": "密码和登录",
+                "title": "密码与登录",
                 "desc1": "在本平台，您使用预定义的私钥登录，而不是自己选择的密码。这个私钥极其重要，被称为'主密钥'。如果您的主密钥泄露给他人，可能会导致不可挽回的后果，切勿与任何人分享。",
                 "desc2": "此外，如果您丢失了主密钥，账户也将无法恢复，您需要创建一个新账户。因此，请确保将其打印或写下来，并像贵重物品一样安全保管。",
                 "handsonTitle": "保存您的主密钥",
@@ -488,10 +845,10 @@
             "desc": "在桌面端，发帖界面默认位于屏幕顶部。在智能手机上，您可以通过右下角的按钮访问发帖界面。让我们尝试发布您的第一条帖子。",
             "handsonButton": "来打个招呼吧！",
             "handsonContent": "你好！Concrnt！",
-            "syntax": "## 格式化和预览\n\n在本平台，您可以在帖子中使用符号来应用格式。\n例如，输入 `**粗体**` 将使文本变成**粗体**。\n您可以使用发帖界面底部的预览实时查看格式化效果。\n\n## 格式化指南\n- `# 标题`：标题（大小随#数量变化）\n- `**粗体**`：**粗体**\n- `*斜体*`：*斜体*\n- `~~删除线~~`：~~删除线~~"
+            "syntax": "## 格式化和预览 \n\n 在本平台，您可以在帖子中使用符号来应用格式。\n 例如，输入`** 粗体 **`将使文本变成 ** 粗体 **。\n 您可以使用发帖界面底部的预览实时查看格式化效果。\n\n## 格式化指南 \n-`# 标题 `：标题（大小随 #数量变化）\n-`** 粗体 **`：** 粗体 **\n-`* 斜体 *`：* 斜体 *\n-`~~ 删除线～～`：~~ 删除线～～"
         },
         "follow&watch": {
-            "desc": "# 关注与跟随\n\n在本平台，'关注'与'跟随'的概念与传统的社交媒体不同。\n这里的'跟随'更像是'添加到联系人'，您可以主动跟随您认识或感兴趣的人。\n\n另一方面，'关注'允许您将某人添加到特定列表并查看他们的所有帖子。\n\n由于本平台是基于社区的，直接关注太多人可能会使您的时间线变得混乱。建议只关注您真正感兴趣的人。"
+            "desc": "# 关注与跟随 \n\n 在本平台，'关注'与'跟随'的概念与传统的社交媒体不同。\n 这里的'跟随'更像是'添加到联系人'，您可以主动跟随您认识或感兴趣的人。\n\n 另一方面，'关注'允许您将某人添加到特定列表并查看他们的所有帖子。\n\n 由于本平台是基于社区的，直接关注太多人可能会使您的时间线变得混乱。建议只关注您真正感兴趣的人。"
         },
         "community": {
             "title": "社区",
@@ -509,18 +866,42 @@
             }
         },
         "list": {
-            "desc": "# 列表\n\n关注多个社区可能会使您的时间线过于混乱。\n在这种情况下，您可以创建更多列表来组织它们。\n您可以从菜单中的'列表'访问列表管理界面。\n\n## 固定列表\n\n在列表设置中，您可以固定特定列表，固定的列表将始终可以显示在选项卡的顶部便于访问。\n\n## 将列表作为预设\n\n本平台中的列表不仅仅是集合，它们还可以作为强大的预设。\n例如，您可以为多个列表分配不同的默认发帖目的地，允许您快速在它们之间切换。"
+            "goExplore": "寻找用户和社区关注",
+            "desc": "# 列表 \n\n 关注多个社区可能会使您的时间线过于混乱。\n 在这种情况下，您可以创建更多列表来组织它们。\n 您可以从菜单中的'列表'访问列表管理界面。\n\n## 固定列表 \n\n 在列表设置中，您可以固定特定列表，固定的列表将始终可以显示在选项卡的顶部便于访问。\n\n## 将列表作为预设 \n\n 本平台中的列表不仅仅是集合，它们还可以作为强大的预设。\n 例如，您可以为多个列表分配不同的默认发帖目的地，允许您快速在它们之间切换。"
         },
         "customize": {
-            "desc": "# 高级用法\n\n## 应用安装\n本平台采用 PWA 技术，使您能够像应用一样使用这个网页。\n\n<Illustration>\n\n### 通知设置\n\n安装应用后可以配置通知。默认情况下，所有通知都是关闭的，但您可以在设置 > 通用中按'启用通知'按钮来启用它们。启用后，您可以自定义触发通知的事件。\n\n同一时间只能有一个设备启用通知。在新设备上启用通知将会禁用前一个设备上的通知。\n\n## 自定义\n\n本平台提供多种自定义功能。\n### 颜色主题\n您可以在设置 > 主题菜单中更改颜色主题。您也可以创建自己的主题并分享。分享的主题在时间线上显示如下：\n```theme\n{\"meta\":{\"name\":\"橄榄\",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba(41, 46, 36, 0.5)\",\"disabled\":\"rgba(41, 46, 36, 0.5)\"},\"divider\":\"rgba(41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\n按安装按钮立即应用主题。\n\n### 表情包\n\n本平台允许您在帖子和回应中使用表情符号，您还可以安装表情包。\n分享的表情包在时间线上显示如下：\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\n您也可以创建自己的表情包，不过这需要一些努力。详情请参见[这里](https://square.concrnt.net/general/world/emojipack/)。"
+            "desc": "# 高级用法 \n\n## 应用安装 \n 本平台采用 PWA 技术，使您能够像应用一样使用这个网页。\n\n<Illustration>\n\n### 通知设置 \n\n 安装应用后可以配置通知。默认情况下，所有通知都是关闭的，但您可以在设置 > 通用中按'启用通知'按钮来启用它们。启用后，您可以自定义触发通知的事件。\n\n 同一时间只能有一个设备启用通知。在新设备上启用通知将会禁用前一个设备上的通知。\n\n## 自定义 \n\n 本平台提供多种自定义功能。\n### 颜色主题 \n 您可以在设置 > 主题菜单中更改颜色主题。您也可以创建自己的主题并分享。分享的主题在时间线上显示如下：\n```theme\n {\"meta\":{\"name\":\"橄榄 \",\"author\":\"con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2\"},\"palette\":{\"primary\":{\"main\":\"#292e24\",\"contrastText\":\"#ffffff\"},\"secondary\":{\"main\":\"#265E2C\"},\"background\":{\"default\":\"#12a129\",\"paper\":\"#fffcfa\",\"contrastText\":\"#292e24\"},\"text\":{\"primary\":\"#292e24\",\"secondary\":\"#265E2C\",\"hint\":\"rgba (41, 46, 36, 0.5)\",\"disabled\":\"rgba (41, 46, 36, 0.5)\"},\"divider\":\"rgba (41, 46, 36, 0.12)\"},\"components\":{\"MuiButton\":{\"defaultProps\":{\"variant\":\"contained\",\"disableElevation\":false}},\"MuiPaper\":{\"defaultProps\":{\"variant\":\"elevation\"}},\"MuiAppBar\":{\"defaultProps\":{\"color\":\"primary\"}}}}\n```\n\n 按安装按钮立即应用主题。\n\n### 表情包 \n\n 本平台允许您在帖子和回应中使用表情符号，您还可以安装表情包。\n 分享的表情包在时间线上显示如下：\n<emojipack src=\"https://emojis.worldfile.cc/worldpack/emojis.json\"></emojipack>\n\n 您也可以创建自己的表情包，不过这需要一些努力。详情请参见 [这里](https://square.concrnt.net/general/world/emojipack/)。"
         },
         "done": {
-            "desc": "# 恭喜！\n\n您现在已经掌握了使用本平台的基础知识！\n\n从现在开始，请随意探索并按照您喜欢的方式使用 Concrnt 吧。",
+            "desc": "# 恭喜！\n\n 您现在已经掌握了使用本平台的基础知识！\n\n 从现在开始，请随意探索并按照您喜欢的方式使用 Concrnt 吧。",
             "handsonButton": "我掌握了！",
             "handsonContent": "我已经掌握了 Concrnt！",
             "showTutorial": "在菜单中显示教程",
             "hideTutorial": "从菜单中隐藏教程",
-            "otherTips": "## 附加提示\n\n### 密码管理器用户和登录频繁的用户\n\n如果您使用密码管理器登录本平台，建议使用子密钥而不是主密钥。\n这是因为：\n1. 某些密码管理器在处理日文字符作为密码时会遇到问题。\n2. 使用主密钥登录会创建新会话。\n\n您可以在普通模式下登录时从 设置 > 身份管理 中复制您的子密钥，子密钥登录通过与主密钥相同的登录界面进行，有专门的输入字段。\n\n## 其他功能\n\n### 子身份\n本平台允许您创建多个身份的个人信息。发帖时您可以自由选择需要使用哪个身份。\n\n### ActivityPub集成\n通过启用 ActivityPub 集成，您可以与其他支持 ActivityPub 的平台（Mastodon、Misskey、Pleroma 等）进行互动。\n\n### 数据管理和迁移\n本平台是去中心化的社交网络，允许您管理自己的数据。\n为防止服务器关闭，请定期从 设置 > 导入导出 导出您的数据并安全保存。\n如果当前服务器关闭，您也可以迁移到其他服务器。"
+            "otherTips": "## 附加提示 \n\n### 密码管理器用户和登录频繁的用户 \n\n 如果您使用密码管理器登录本平台，建议使用子密钥而不是主密钥。\n 这是因为：\n1. 某些密码管理器在处理日文字符作为密码时会遇到问题。\n2. 使用主密钥登录会创建新会话。\n\n 您可以在普通模式下登录时从设置 > 身份管理中复制您的子密钥，子密钥登录通过与主密钥相同的登录界面进行，有专门的输入字段。\n\n## 其他功能 \n\n### 子身份 \n 本平台允许您创建多个身份的个人信息。发帖时您可以自由选择需要使用哪个身份。\n\n### ActivityPub 集成 \n 通过启用 ActivityPub 集成，您可以与其他支持 ActivityPub 的平台（Mastodon、Misskey、Pleroma 等）进行互动。\n\n### 数据管理和迁移 \n 本平台是去中心化的社交网络，允许您管理自己的数据。\n 为防止服务器关闭，请定期从设置 > 导入导出导出您的数据并安全保存。\n 如果当前服务器关闭，您也可以迁移到其他服务器。"
         }
+    },
+    "emergency": {
+        "title": "崩溃报告",
+        "reload": "重新加载",
+        "recoverTools": "恢复工具",
+        "whenToUseTools": "如果重试 3 次后仍无帮助↓",
+        "softReset": "重置除登录信息外的所有内容并重新加载",
+        "recoverTheme": "重置主题并以禁用同步的方式启动",
+        "hardReset": "重置所有内容（登录信息也将会丢失）",
+        "support": "支持",
+        "supportDesc": "如果重新加载无法解决问题，可能存在严重问题。使用下面的链接查看最新更新。",
+        "reportFailed": "发送报告失败（提示：此功能仅在官方实例中有效）",
+        "reportSent": "崩溃报告已发送。谢谢！",
+        "sendAnonymousReport": "发送匿名崩溃报告",
+        "messages": [
+            "互联网是个奇妙的地方，但有时会出问题。试试下面的按钮。",
+            "计算机很神秘。重新加载可能会解决问题。",
+            "有时会发生奇怪的事情。让我们一起尝试解决 —— 试试下面的按钮。",
+            "系统遇到了小问题。重试可能有效。",
+            "有些事情没有按计划进行。尝试重新加载。",
+            "现在可能无法正常工作。尝试重新加载。",
+            "哎呀！出错了。尝试重新加载。"
+        ]
     }
 }
