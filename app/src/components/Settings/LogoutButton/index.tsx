@@ -76,13 +76,19 @@ export const LogoutButton = (): JSX.Element => {
                     <Typography sx={{ color: theme.palette.text.primary }}>{t('logoutWarn')}</Typography>
 
                     {identity && !override ? (
-                        <TestMasterkey
-                            identity={identity}
-                            onConfirm={() => {
-                                logout()
-                            }}
-                            text={t('logout')}
-                        />
+                        <TestMasterkey identity={identity}>
+                            {(testOK) => (
+                                <Button
+                                    color="error"
+                                    disabled={!testOK}
+                                    onClick={() => {
+                                        logout()
+                                    }}
+                                >
+                                    {t('logout')}
+                                </Button>
+                            )}
+                        </TestMasterkey>
                     ) : (
                         <Button
                             color="error"

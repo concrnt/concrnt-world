@@ -14,6 +14,7 @@ import './i18n'
 import { GA4Provider } from './context/GA4'
 import { ConcrntThemeProvider } from './context/Theme'
 import AuthorizePage from './pages/Authorize'
+import { SnackbarProvider } from 'notistack'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
@@ -102,7 +103,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             path="/import"
                             element={
                                 <GA4Provider tag={tag}>
-                                    <AccountImport />
+                                    <SnackbarProvider preventDuplicate>
+                                        <AccountImport />
+                                    </SnackbarProvider>
                                 </GA4Provider>
                             }
                         />

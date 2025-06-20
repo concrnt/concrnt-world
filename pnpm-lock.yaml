@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@concrnt/client':
-        specifier: ^0.0.20
-        version: 0.0.20
+        specifier: ^0.0.21
+        version: 0.0.21
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -2028,8 +2028,8 @@ packages:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  /@concrnt/client@0.0.20:
-    resolution: {integrity: sha512-rq5LqEqCHnbiXAObwv8BjYex03DSY2bCljKTnpKmZMIeWgGK4o0Yfrj0yyhNRLohjwB2rIeNpSZGgnIMAJLcyg==}
+  /@concrnt/client@0.0.21:
+    resolution: {integrity: sha512-xuMYUP+9ouze9lWLx6kondOYbyWTr2MThNFEnBjdZFxmFfhOwS1WjL2enCFINxD9LUT/4nJOc5/jx6A4oEwtjQ==}
     dependencies:
       '@cosmjs/amino': 0.33.1
       '@cosmjs/crypto': 0.33.1

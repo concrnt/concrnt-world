@@ -143,19 +143,7 @@
             "resetTutorial": "重設教學"
         },
         "tutorial": {
-            "title": "教學",
-            "details": {
-                "moreInfo": "更多資訊",
-                "twoPasswords": "Concrnt 有兩種密碼類型：'主金鑰'和'子金鑰'。",
-                "sealAnalogy": "這就像是正式印章和私人印章之間的關係。",
-                "digitalSeal": "在 Concrnt 中，您用'數位印章'來證明貼文是您的。",
-                "realSeal": "正式印章用於合約或銀行提款，但您不會用它來收包裹。",
-                "masterSubUsage": "同樣地，在 Concrnt 中，主金鑰用於重要操作如遷移或刪除帳號，而子金鑰用於日常操作如發文或追蹤。",
-                "masterKeyWarning": "如果主金鑰外洩，就完蛋了，但您隨時可以撤銷子金鑰。"
-            },
-            "community": {
-                "timelineDescription": "歡迎來到 Concrnt！這是新手尋找社群的主要時間軸。如果不確定，試著將此時間軸加入您的清單。"
-            }
+            "title": "教學"
         },
         "settings": {
             "title": "設定",
@@ -879,6 +867,18 @@
             "showTutorial": "在選單中顯示教學",
             "hideTutorial": "從選單中隱藏教學",
             "otherTips": "## 其他提示\n\n### 密碼管理器使用者與頻繁登入者\n\n如果您使用密碼管理器登入 Concrnt，建議使用子金鑰而非主金鑰。\n這是因為：\n1. 某些密碼管理器難以處理日文字元作為密碼。\n2. 使用主金鑰登入會建立新會話。\n\n您可在普通模式下登入時從設定 > 身份管理複製子金鑰。子金鑰登入透過與主金鑰相同的登入畫面進行，有專用輸入欄位。\n\n## 其他功能\n\n### 子個人資料\nConcrnt 讓您建立多個個人資料。發文時可選擇使用哪個個人資料。\n\n### ActivityPub 整合\n啟用 ActivityPub 整合後，可與其他相容平台（Mastodon、Misskey、Pleroma 等）互動。\n\n### 資料管理與遷移\nConcrnt 是去中心化 SNS，允許您管理自己的資料。\n為防範伺服器關閉，請定期從設定 > 資料管理匯出資料並安全保存。\n當前伺服器關閉時，也可遷移到其他伺服器。"
+        },
+        "details": {
+            "moreInfo": "更多資訊",
+            "twoPasswords": "Concrnt 有兩種密碼類型：'主金鑰'和'子金鑰'。",
+            "sealAnalogy": "這就像是正式印章和私人印章之間的關係。",
+            "digitalSeal": "在 Concrnt 中，您用'數位印章'來證明貼文是您的。",
+            "realSeal": "正式印章用於合約或銀行提款，但您不會用它來收包裹。",
+            "masterSubUsage": "同樣地，在 Concrnt 中，主金鑰用於重要操作如遷移或刪除帳號，而子金鑰用於日常操作如發文或追蹤。",
+            "masterKeyWarning": "如果主金鑰外洩，就完蛋了，但您隨時可以撤銷子金鑰。"
+        },
+        "community": {
+            "timelineDescription": "歡迎來到 Concrnt！這是新手尋找社群的主要時間軸。如果不確定，試著將此時間軸加入您的清單。"
         }
     },
     "emergency": {

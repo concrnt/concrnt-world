@@ -1,4 +1,4 @@
-import { Box, Button, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, MenuItem, Modal, Paper, Select, TextField, Typography } from '@mui/material'
 import { useClient } from '../context/ClientContext'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ComputeCKID, type Identity, GenerateIdentity } from '@concrnt/client'
@@ -9,6 +9,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import html2canvas from 'html2canvas'
 import JsPDF, { GState } from 'jspdf'
 import ccPaper from '../resources/cc-paper.svg'
+import SwitchMasterToPasskey from './SwitchMasterToPasskey'
 
 export interface SwitchMasterToSubProps {
     identity: Identity
@@ -25,6 +26,8 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
     const { t, i18n } = useTranslation('', { keyPrefix: 'settings.identity.switchMasterToSub' })
 
     const [keyFormat, setKeyFormat] = useState<'ja' | 'en'>(i18n.language === 'ja' ? 'ja' : 'en')
+
+    const [openPasskeyModal, setOpenPasskeyModal] = useState<boolean>(false)
 
     const mnemonic = useMemo(() => {
         if (keyFormat === 'ja') {
@@ -415,31 +418,64 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
             )}
             {mode === 'test' && (
                 <>
-                    <TestMasterkey
-                        text={processing ? t('processing') : t('switchToNormalMode')}
-                        identity={props.identity}
-                        disabled={processing}
-                        onConfirm={() => {
-                            setProcessing(true)
+                    <TestMasterkey identity={props.identity}>
+                        {(testOK) => (
+                            <Box display="flex" gap={1} sx={{ width: '100%' }}>
+                                <Button
+                                    fullWidth
+                                    disabled={processing || !testOK}
+                                    onClick={() => {
+                                        setProcessing(true)
 
-                            const newIdentity = GenerateIdentity()
+                                        const newIdentity = GenerateIdentity()
 
-                            const ckid = ComputeCKID(newIdentity.publicKey)
+                                        const ckid = ComputeCKID(newIdentity.publicKey)
 
-                            client.api
-                                .enactSubkey(ckid)
-                                .then(() => {
-                                    const subkey = `concurrent-subkey ${newIdentity.privateKey} ${client.ccid}@${client.host} ${client.user?.profile?.username}`
-                                    localStorage.setItem('SubKey', JSON.stringify(subkey))
-                                    localStorage.removeItem('Identity')
-                                    localStorage.removeItem('PrivateKey')
-                                    window.location.reload()
-                                })
-                                .catch((e) => {
-                                    console.error('error: ', e)
-                                })
-                        }}
-                    />
+                                        client.api
+                                            .enactSubkey(ckid)
+                                            .then(() => {
+                                                const subkey = `concurrent-subkey ${newIdentity.privateKey} ${client.ccid}@${client.host} ${client.user?.profile?.username}`
+                                                localStorage.setItem('SubKey', JSON.stringify(subkey))
+                                                localStorage.removeItem('Identity')
+                                                localStorage.removeItem('PrivateKey')
+                                                window.location.reload()
+                                            })
+                                            .catch((e) => {
+                                                console.error('error: ', e)
+                                            })
+                                    }}
+                                >
+                                    {processing ? t('processing') : t('switchToNormalMode')}
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    disabled={processing || !testOK}
+                                    onClick={() => {
+                                        setOpenPasskeyModal(true)
+                                    }}
+                                >
+                                    パスキーに切り替える(ベータ)
+                                </Button>
+                            </Box>
+                        )}
+                    </TestMasterkey>
+                    <Modal open={openPasskeyModal} onClose={() => setOpenPasskeyModal(false)}>
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '10%',
+                                left: '50%',
+                                transform: 'translate(-50%, 0%)',
+                                width: '700px',
+                                maxWidth: '90vw',
+                                maxHeight: '80vh',
+                                overflowY: 'auto',
+                                padding: 2
+                            }}
+                        >
+                            <SwitchMasterToPasskey />
+                        </Paper>
+                    </Modal>
                 </>
             )}
         </Box>
@@ -448,9 +484,7 @@ export default function SwitchMasterToSub(props: SwitchMasterToSubProps): JSX.El
 
 export interface TestMasterkeyProps {
     identity: Identity
-    onConfirm: () => void
-    disabled?: boolean
-    text: string
+    children?: (testOK: boolean) => JSX.Element
 }
 
 export const TestMasterkey = (props: TestMasterkeyProps): JSX.Element => {
@@ -508,9 +542,7 @@ export const TestMasterkey = (props: TestMasterkeyProps): JSX.Element => {
                     }
                 />
             </Box>
-            <Button fullWidth disabled={props.disabled || !testOK} onClick={props.onConfirm}>
-                {props.text}
-            </Button>
+            {props.children?.(testOK)}
         </>
     )
 }

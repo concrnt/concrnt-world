@@ -143,19 +143,7 @@
             "resetTutorial": "Reset Tutorial"
         },
         "tutorial": {
-            "title": "Tutorial",
-            "details": {
-                "moreInfo": "More information",
-                "twoPasswords": "Concrnt has two types of passwords: a 'Master Key' and a 'Sub Key'.",
-                "sealAnalogy": "This is like the relationship between a registered seal and a self-inking seal.",
-                "digitalSeal": "In Concrnt, you stamp your posts with a digital seal to prove they are yours.",
-                "realSeal": "A registered seal is used for contracts or withdrawing money from a bank, but you wouldn't use it to receive a package.",
-                "masterSubUsage": "Similarly, in Concrnt, the Master Key is used for important actions like migration or account deletion, while the Sub Key is used for everyday actions like posting or following.",
-                "masterKeyWarning": "If your Master Key is ever leaked, it's over, but you can always revoke a Sub Key."
-            },
-            "community": {
-                "timelineDescription": "Welcome to Concrnt! This is the main timeline for beginners to find their community. If you're unsure, try adding this timeline to your list."
-            }
+            "title": "Tutorial"
         },
         "settings": {
             "title": "Settings",
@@ -550,6 +538,17 @@
                 "switchToNormalMode": "Switch to Normal Mode",
                 "exitPrivilegedMode": "Exit Privileged Mode",
                 "privilegeModeDesc": "Privileged Mode allows for critical actions such as account deletion."
+            },
+            "passkey": {
+                "register": "Register a passkey",
+                "completed": "Passkey registered 🎉",
+                "completedDesc": "You can now log in to Concrnt using your passkey. Registering a new passkey will still require your master key. Please keep your master key stored in a safe place.",
+                "clickToFinish": "Click to finish",
+                "failed": "Your passkey does not support required extensions 😭",
+                "failedDesc": "Please try another passkey, or wait until your current passkey supports the required extensions. Unfortunately, you will need to delete the created passkey manually.",
+                "warnTitle": "Passkey registration is only supported by limited applications",
+                "warnDesc": "Concrnt uses advanced passkey extensions, which are not yet supported by all passkey providers. Currently, iCloud Passwords (Safari) and 1Password have been confirmed to work. However, passkeys managed by Chrome are not yet supported. Since this is a globally developing feature, there is no way to know whether a given passkey is supported until registration is attempted. If the passkey turns out to be unsupported, you will need to manually discard it.",
+                "desc": "Registering a passkey allows for easier login to Concrnt. If you lose your passkey, you will need your master key to recover access. Please make sure to keep your master key securely stored."
             }
         },
         "theme": {
@@ -800,7 +799,12 @@
         "createAccount": "Create an Account",
         "masterKeyDesc": "Enter the master key as 12 words separated by spaces",
         "privLogin": "Log in with Privileged Mode",
-        "normalLogin": "Log in with Normal Mode"
+        "normalLogin": "Log in with Normal Mode",
+        "passkeyNoticeTitle": "Passkey login is now available 🎉",
+"passkeyNoticeBody": "After logging in with your master key using privileged login, you can register a passkey from the subkey management screen.",
+"passkeyWarnTitle": "Passkey login is currently in beta",
+"passkeyWarnBody": "Due to potential spec changes, registered passkeys may become unusable in the future.<br/>Additionally, concrnt.world relies on passkey extensions that are still in the process of being adopted globally. Some browsers may not support them yet, and even when they do, there may be limitations—such as lack of cross-platform login support.<br/><br/>Currently confirmed compatibility:<br/>iCloud Keychain (Safari): Supported<br/>1Password: Direct usage supported. Remote authentication via QR code is not supported<br/>Google Chrome: Not supported"
+
     },
     "tutorial": {
         "title": "Tutorial",
@@ -879,6 +883,18 @@
             "showTutorial": "Show tutorial in the menu",
             "hideTutorial": "Hide tutorial from the menu",
             "otherTips": "## Additional Tips\n\n### For Password Manager Users & Frequent Logins\n\nIf you're using a password manager to log in to , it's recommended to use a Sub Key instead of the Master Key.\nThis is because:\n1. Some password managers struggle with handling Japanese characters as passwords.\n2. Logging in with the Master Key creates a new session.\n\nYou can copy your Sub Key from Settings > ID Management while logged in under normal mode. Sub Key login works via the same login screen as the Master Key, with a dedicated input field.\n\n## Other Features\n\n### Sub-Profiles\nConcrnt lets you create multiple profiles. You can choose which profile to use when posting.\n\n### ActivityPub Integration\nBy enabling ActivityPub integration, you can interact with other ActivityPub-compatible platforms (Mastodon, Misskey, Pleroma, etc.).\n\n### Data Management & Migration\nConcrnt is a decentralized SNS, allowing you to manage your own data.\nTo safeguard against server shutdowns, regularly export your data from Settings > Data Management and keep it securely.\nYou can also migrate to a different server if your current one shuts down."
+        },
+        "details": {
+            "moreInfo": "More information",
+            "twoPasswords": "Concrnt has two types of passwords: a 'Master Key' and a 'Sub Key'.",
+            "sealAnalogy": "This is like the relationship between a registered seal and a self-inking seal.",
+            "digitalSeal": "In Concrnt, you stamp your posts with a digital seal to prove they are yours.",
+            "realSeal": "A registered seal is used for contracts or withdrawing money from a bank, but you wouldn't use it to receive a package.",
+            "masterSubUsage": "Similarly, in Concrnt, the Master Key is used for important actions like migration or account deletion, while the Sub Key is used for everyday actions like posting or following.",
+            "masterKeyWarning": "If your Master Key is ever leaked, it's over, but you can always revoke a Sub Key."
+        },
+        "community": {
+            "timelineDescription": "Welcome to Concrnt! This is the main timeline for beginners to find their community. If you're unsure, try adding this timeline to your list."
         }
     },
     "emergency": {

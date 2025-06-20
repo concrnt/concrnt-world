@@ -3,6 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Sign, type CCDocument } from '@concrnt/client'
 import { encode } from 'blurhash'
 
+export const string2Uint8Array = (str: string): Uint8Array => {
+    const encoder = new TextEncoder()
+    return encoder.encode(str)
+}
+
 export const convertToGoogleTranslateCode = (lang: string): string => {
     switch (lang) {
         case 'zh-Hans':

@@ -143,19 +143,7 @@
             "resetTutorial": "重置教程"
         },
         "tutorial": {
-            "title": "教程",
-            "details": {
-                "moreInfo": "更多信息",
-                "twoPasswords": "Concrnt 有两种密码类型：'主密钥'和'子密钥'。",
-                "sealAnalogy": "这就像公章和私章之间的关系。",
-                "digitalSeal": "在 Concrnt 中，您用'数字印章'标记您的帖子以证明它们是您的。",
-                "realSeal": "公章用于合同或从银行取款，但您不会用它来接收包裹。",
-                "masterSubUsage": "同样，在 Concrnt 中，主密钥用于重要操作如迁移或账户删除，而子密钥用于日常操作如发帖或跟随。",
-                "masterKeyWarning": "如果主密钥泄露，一切就都结束了，但您可以随时撤销子密钥。"
-            },
-            "community": {
-                "timelineDescription": "欢迎来到 Concrnt！这是供新手寻找社区的主时间线。如果不确定，请尝试将此时间线添加到您的列表中。"
-            }
+            "title": "教程"
         },
         "settings": {
             "title": "设置",
@@ -879,6 +867,18 @@
             "showTutorial": "在菜单中显示教程",
             "hideTutorial": "从菜单中隐藏教程",
             "otherTips": "## 附加提示 \n\n### 密码管理器用户和登录频繁的用户 \n\n 如果您使用密码管理器登录本平台，建议使用子密钥而不是主密钥。\n 这是因为：\n1. 某些密码管理器在处理日文字符作为密码时会遇到问题。\n2. 使用主密钥登录会创建新会话。\n\n 您可以在普通模式下登录时从设置 > 身份管理中复制您的子密钥，子密钥登录通过与主密钥相同的登录界面进行，有专门的输入字段。\n\n## 其他功能 \n\n### 子身份 \n 本平台允许您创建多个身份的个人信息。发帖时您可以自由选择需要使用哪个身份。\n\n### ActivityPub 集成 \n 通过启用 ActivityPub 集成，您可以与其他支持 ActivityPub 的平台（Mastodon、Misskey、Pleroma 等）进行互动。\n\n### 数据管理和迁移 \n 本平台是去中心化的社交网络，允许您管理自己的数据。\n 为防止服务器关闭，请定期从设置 > 导入导出导出您的数据并安全保存。\n 如果当前服务器关闭，您也可以迁移到其他服务器。"
+        },
+        "details": {
+            "moreInfo": "更多信息",
+            "twoPasswords": "Concrnt 有两种密码类型：'主密钥'和'子密钥'。",
+            "sealAnalogy": "这就像公章和私章之间的关系。",
+            "digitalSeal": "在 Concrnt 中，您用'数字印章'标记您的帖子以证明它们是您的。",
+            "realSeal": "公章用于合同或从银行取款，但您不会用它来接收包裹。",
+            "masterSubUsage": "同样，在 Concrnt 中，主密钥用于重要操作如迁移或账户删除，而子密钥用于日常操作如发帖或跟随。",
+            "masterKeyWarning": "如果主密钥泄露，一切就都结束了，但您可以随时撤销子密钥。"
+        },
+        "community": {
+            "timelineDescription": "欢迎来到 Concrnt！这是供新手寻找社区的主时间线。如果不确定，请尝试将此时间线添加到您的列表中。"
         }
     },
     "emergency": {
