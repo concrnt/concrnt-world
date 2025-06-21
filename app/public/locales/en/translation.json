@@ -781,6 +781,7 @@
     "import": {
         "scan": "Scan",
         "manual": "Manual",
+        "passkey": "Passkey(beta)",
         "getStarted": "Get Started",
         "or": "or",
         "qrHint": "You can get a login QR code from 'Settings > Login QR' on a logged-in device.",
