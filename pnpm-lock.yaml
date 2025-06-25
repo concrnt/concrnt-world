@@ -142,8 +142,8 @@ importers:
         specifier: ^0.24.0
         version: 0.24.0
       mfm-renderer-react:
-        specifier: ^0.0.6
-        version: 0.0.6(@types/react@18.0.26)
+        specifier: ^0.0.8
+        version: 0.0.8(@types/react@18.0.26)
       notistack:
         specifier: ^3.0.2
         version: 3.0.2(csstype@3.1.3)(react-dom@18.2.0)(react@18.2.0)
@@ -7486,8 +7486,8 @@ packages:
       '@twemoji/parser': 15.0.0
     dev: false
 
-  /mfm-renderer-react@0.0.6(@types/react@18.0.26):
-    resolution: {integrity: sha512-CmxH8/MgagZYJVHyl0kozkd54eS57DmWZ1KTHQr8XG6NUaLVUFoJ5Uh4fU5PGE/vC5POCy6ahMojRU97fa5aPg==}
+  /mfm-renderer-react@0.0.8(@types/react@18.0.26):
+    resolution: {integrity: sha512-EdIDioAhvbF561jCwlxCbRe3oCnw3qHNo0sNnN3kNSDRcUiNuXMoCgbXoidI+VAj0D21yDxFLcyph7gIdaibkQ==}
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.0.26)(react@18.2.0)
       '@emotion/styled': 11.14.0(@emotion/react@11.14.0)(@types/react@18.0.26)(react@18.2.0)

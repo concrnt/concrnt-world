@@ -66,7 +66,7 @@ export default function AccountImport(): JSX.Element {
                             setImportMode('scan')
                         }}
                     />
-                    <Divider orientation="vertical">{t('or')}</Divider>
+                    <Typography>{t('or')}</Typography>
                     <IconButtonWithLabel
                         icon={VpnKeyIcon}
                         label={t('passkey')}
@@ -74,7 +74,7 @@ export default function AccountImport(): JSX.Element {
                             setImportMode('passkey')
                         }}
                     />
-                    <Divider orientation="vertical">{t('or')}</Divider>
+                    <Typography>{t('or')}</Typography>
                     <IconButtonWithLabel
                         icon={PasswordIcon}
                         label={t('manual')}
