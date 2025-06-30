@@ -29,7 +29,16 @@ export const CCAvatar = (props: CCAvatarProps): JSX.Element => {
             }}
             variant={props.circle ? 'circular' : 'square'}
         >
-            <BoringAvatar square={!props.circle} name={props.identiconSource} variant="beam" size={1000} />
+            <BoringAvatar
+                square={!props.circle}
+                name={props.identiconSource}
+                variant="beam"
+                size={1000}
+                style={{
+                    width: '100%',
+                    height: '100%',
+                }}
+            />
         </Avatar>
     )
 }

@@ -538,6 +538,17 @@
                 "switchToNormalMode": "切換至普通模式",
                 "exitPrivilegedMode": "退出特權模式",
                 "privilegeModeDesc": "特權模式允許執行如帳號刪除等關鍵操作。"
+            },
+            "passkey": {
+                "register": "註冊通行金鑰",
+                "completed": "通行金鑰已註冊 🎉",
+                "completedDesc": "您現在可以使用您的通行金鑰登入 Concrnt。註冊新金鑰仍需要您的主金鑰。請妥善保管您的主金鑰。",
+                "clickToFinish": "點選完成",
+                "failed": "您的通行密鑰不支援所需的擴充 😭",
+                "failedDesc": "請嘗試其他通行密鑰，或等待當前密鑰支援所需的擴展。很遺憾，您需要手動刪除已建立的通行密鑰。",
+                "warnTitle": "僅有有限的應用程式支援通行金鑰註冊",
+                "warnDesc": "Concrnt 使用高級金鑰擴展，但並非所有通行金鑰提供者都支援。目前，iCloud 密碼（Safari 瀏覽器）和 1Password 已確認支援。然而，Chrome 瀏覽器管理的金鑰尚不受支援。由於此功能仍在開發中，因此在嘗試註冊之前，無法確定特定金鑰是否受支援。如果密鑰不受支持，您需要手動將其丟棄。",
+                "desc": "註冊通行金鑰可以更輕鬆地登入 Concrnt。如果您遺失了通行金鑰，則需要主金鑰來恢復存取權限。請務必妥善保管您的主密鑰。"
             }
         },
         "theme": {
@@ -770,6 +781,7 @@
     "import": {
         "scan": "掃描",
         "manual": "手動",
+        "passkey": "通行金鑰（測試版）",
         "getStarted": "開始使用",
         "or": "或",
         "qrHint": "您可以從已登入裝置的「設定 > 登入 QR」取得登入 QR 碼。",
@@ -788,7 +800,11 @@
         "createAccount": "建立帳號",
         "masterKeyDesc": "輸入主金鑰，12 個單字以空格分隔",
         "privLogin": "以特權模式登入",
-        "normalLogin": "以普通模式登入"
+        "normalLogin": "以普通模式登入",
+        "passkeyNoticeTitle": "密鑰登入現已可用 🎉",
+        "passkeyNoticeBody": "使用特權登入透過主金鑰登入後，您可以從子金鑰管理介面註冊一個通行金鑰。",
+        "passkeyWarnTitle": "通行金鑰登入目前處於測試階段",
+        "passkeyWarnBody": "由於潛在可能的規範變更，已註冊的通行密鑰將來可能會變得無法使用。<br/>此外，concrnt.world 所依賴的密鑰擴展程序仍在全球推廣過程中。某些瀏覽器可能尚不支持這些擴展程序，即使支持，也可能存在一些限制，例如缺乏跨平台登錄名。<br/><br/>目前已確認的兼容性：<br/> (Safari)：支援<br/>1Password：支援直接使用。不支援透過二維碼進行遠端身份驗證<br/>Google Chrome：不支援"
     },
     "tutorial": {
         "title": "教學",

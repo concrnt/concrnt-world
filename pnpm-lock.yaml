@@ -106,8 +106,8 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5
       boring-avatars:
-        specifier: github:totegamma/boring-avatars#49ed345027665e1d6135ae6b0b6f2a442ff52915
-        version: github.com/totegamma/boring-avatars/49ed345027665e1d6135ae6b0b6f2a442ff52915
+        specifier: ^1.11.2
+        version: 1.11.2
       cosmjs-types:
         specifier: ^0.9.0
         version: 0.9.0
@@ -5124,6 +5124,10 @@ packages:
     resolution: {integrity: sha512-eXRvHzWyYPBuB4NBy0cmYQjGitUrtqwbvlzP3G6VFnNRbsZQIxQ10PbKKHt8gZ/HW/D/747aDl+QkDqg3KQLMQ==}
     dev: false
 
+  /boring-avatars@1.11.2:
+    resolution: {integrity: sha512-3+wkwPeObwS4R37FGXMYViqc4iTrIRj5yzfX9Qy4mnpZ26sX41dGMhsAgmKks1r/uufY1pl4vpgzMWHYfJRb2A==}
+    dev: false
+
   /bowser@2.11.0:
     resolution: {integrity: sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==}
     dev: false
@@ -10067,12 +10071,4 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
-    dev: false
-
-  github.com/totegamma/boring-avatars/49ed345027665e1d6135ae6b0b6f2a442ff52915:
-    resolution: {tarball: https://codeload.github.com/totegamma/boring-avatars/tar.gz/49ed345027665e1d6135ae6b0b6f2a442ff52915}
-    name: boring-avatars
-    version: 1.7.0
-    dependencies:
-      uuid: 9.0.1
     dev: false

@@ -35,7 +35,7 @@
     "@zxing/browser": "^0.1.4",
     "@zxing/library": "^0.20.0",
     "blurhash": "^2.0.5",
-    "boring-avatars": "github:totegamma/boring-avatars#49ed345027665e1d6135ae6b0b6f2a442ff52915",
+    "boring-avatars": "^1.11.2",
     "cosmjs-types": "^0.9.0",
     "elliptic": "^6.5.4",
     "ethers": "^6.3.0",
