@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material'
 import { type Message, type PlaintextMessageSchema, type RerouteMessageSchema } from '@concrnt/worldlib'
 import { MessageViewBase } from './MessageViewBase'
+import { TranslatorProvider } from '../../context/Translator'
 
 export interface PlainMessageViewProps {
     message: Message<PlaintextMessageSchema>
@@ -16,14 +17,16 @@ export interface PlainMessageViewProps {
 
 export const PlainMessageView = (props: PlainMessageViewProps): JSX.Element => {
     return (
-        <MessageViewBase {...props}>
-            <Typography
-                sx={{
-                    whiteSpace: 'pre-wrap'
-                }}
-            >
-                {props.message.document.body.body}
-            </Typography>
-        </MessageViewBase>
+        <TranslatorProvider originalText={props.message.document.body.body ?? 'no content'}>
+            <MessageViewBase {...props}>
+                <Typography
+                    sx={{
+                        whiteSpace: 'pre-wrap'
+                    }}
+                >
+                    {props.message.document.body.body}
+                </Typography>
+            </MessageViewBase>
+        </TranslatorProvider>
     )
 }

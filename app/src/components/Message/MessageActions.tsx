@@ -11,6 +11,7 @@ import LinkIcon from '@mui/icons-material/Link'
 import GTranslateIcon from '@mui/icons-material/GTranslate'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import IosShareIcon from '@mui/icons-material/IosShare'
+import TranslateIcon from '@mui/icons-material/Translate'
 import {
     type Association,
     type LikeAssociationSchema,
@@ -37,6 +38,7 @@ import { useTranslation } from 'react-i18next'
 import { convertToGoogleTranslateCode } from '../../util'
 import { useGlobalState } from '../../context/GlobalState'
 import { MarkdownMessageView } from './MarkdownMessageView'
+import { useTranslator } from '../../context/Translator'
 
 export interface MessageActionsProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -70,8 +72,10 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
             setFavoriteMembers(favorites)
         })
     }
+    const translator = useTranslator()
 
     const { t, i18n } = useTranslation('', { keyPrefix: 'ui.messageActions' })
+    const { translate } = useTranslator()
 
     return (
         <>
@@ -277,30 +281,44 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                         <ListItemText>{t('superReaction')}</ListItemText>
                     </MenuItem>
                 )}
-                <MenuItem
-                    component={Link}
-                    href={`https://translate.google.com/?sl=auto&tl=${convertToGoogleTranslateCode(
-                        i18n.language
-                    )}&text=${props.message.document.body.body}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => {
-                        setMenuAnchor(null)
-                    }}
-                >
-                    <ListItemIcon>
-                        <GTranslateIcon sx={{ color: 'text.primary' }} />
-                    </ListItemIcon>
-                    <ListItemText>
-                        {t('translate')}{' '}
-                        <OpenInNewIcon
-                            sx={{
-                                fontSize: 'small',
-                                verticalAlign: 'middle'
-                            }}
-                        />
-                    </ListItemText>
-                </MenuItem>
+                {translator.isAvailable ? (
+                    <MenuItem
+                        onClick={(e) => {
+                            translate()
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <TranslateIcon sx={{ color: 'text.primary' }} />
+                        </ListItemIcon>
+                        <ListItemText>{t('translate')}</ListItemText>
+                    </MenuItem>
+                ) : (
+                    <MenuItem
+                        component={Link}
+                        href={`https://translate.google.com/?sl=auto&tl=${convertToGoogleTranslateCode(
+                            i18n.language
+                        )}&text=${props.message.document.body.body}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                            setMenuAnchor(null)
+                        }}
+                    >
+                        <ListItemIcon>
+                            <GTranslateIcon sx={{ color: 'text.primary' }} />
+                        </ListItemIcon>
+                        <ListItemText>
+                            {t('translate')}{' '}
+                            <OpenInNewIcon
+                                sx={{
+                                    fontSize: 'small',
+                                    verticalAlign: 'middle'
+                                }}
+                            />
+                        </ListItemText>
+                    </MenuItem>
+                )}
                 <MenuItem
                     onClick={(e) => {
                         e.stopPropagation()

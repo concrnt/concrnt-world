@@ -1,4 +1,4 @@
-import { Box, Button, alpha, useTheme } from '@mui/material'
+import { Box, Button, Typography, alpha, useTheme } from '@mui/material'
 import { MessageHeader } from './MessageHeader'
 import { MessageActions } from './MessageActions'
 import { MessageReactions } from './MessageReactions'
@@ -11,6 +11,8 @@ import ReplayIcon from '@mui/icons-material/Replay'
 import { useEffect, useMemo, useState } from 'react'
 import { useClient } from '../../context/ClientContext'
 import { AutoSummaryProvider } from '../../context/AutoSummaryContext'
+import { useTranslator } from '../../context/Translator'
+import { useTranslation } from 'react-i18next'
 
 export interface MessageViewProps {
     message: Message<any>
@@ -34,6 +36,8 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
     const [expanded, setExpanded] = useState(props.forceExpanded ?? false)
 
     const { client } = useClient()
+    const { t } = useTranslation('', { keyPrefix: 'common' })
+    const { translatedText, processing } = useTranslator()
 
     const [characterOverride, setProfileOverride] = useState<Profile<any> | undefined>(undefined)
 
@@ -128,11 +132,26 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
                                 setExpanded(true)
                             }}
                         >
-                            Show more
+                            {t('showMore')}
                         </Button>
                     </Box>
                     <Box itemProp="articleBody">{props.children}</Box>
                 </Box>
+                <>
+                    {processing && (
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                            {t('translating')}
+                        </Typography>
+                    )}
+                    {translatedText && (
+                        <>
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                {t('translatedByChromeLLM')}
+                            </Typography>
+                            <Typography>{translatedText}</Typography>
+                        </>
+                    )}
+                </>
                 {props.afterMessage}
             </AutoSummaryProvider>
             {(!props.simple && (

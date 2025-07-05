@@ -36,7 +36,10 @@
         "currentAddress": "現住所",
         "linkCopied": "リンクをコピーしました",
         "timelineUnmuted": "タイムラインのミュートを解除しました",
-        "timelineMuted": "タイムラインをミュートしました"
+        "timelineMuted": "タイムラインをミュートしました",
+        "translatedByChromeLLM": "Chrome内臓の翻訳LLMを使用して翻訳されました",
+        "translating": "翻訳中...",
+        "showMore": "もっと見る"
     },
     "globalActions": {
         "noRegistration": "{{host}}に登録情報が見つかりません",

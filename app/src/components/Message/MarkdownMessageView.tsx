@@ -2,6 +2,7 @@ import { type Message, type MarkdownMessageSchema, type RerouteMessageSchema } f
 import { MessageViewBase } from './MessageViewBase'
 import { useMemo } from 'react'
 import { CfmRenderer } from '../ui/CfmRenderer'
+import { TranslatorProvider } from '../../context/Translator'
 
 export interface MarkdownMessageViewProps {
     message: Message<MarkdownMessageSchema>
@@ -26,5 +27,9 @@ export const MarkdownMessageView = (props: MarkdownMessageViewProps): JSX.Elemen
         [props.message.id]
     )
 
-    return <MessageViewBase {...props}>{renderer}</MessageViewBase>
+    return (
+        <TranslatorProvider originalText={props.message.document.body.body ?? 'no content'}>
+            <MessageViewBase {...props}>{renderer}</MessageViewBase>
+        </TranslatorProvider>
+    )
 }

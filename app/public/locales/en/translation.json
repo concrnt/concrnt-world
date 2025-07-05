@@ -36,7 +36,11 @@
         "currentAddress": "Current address",
         "linkCopied": "Link copied",
         "timelineUnmuted": "Timeline unmuted",
-        "timelineMuted": "Timeline muted"
+        "timelineMuted": "Timeline muted",
+        "translate": "Translate",
+        "translatedByChromeLLM": "Translated by Chrome Local LLM Translator",
+        "translating": "Translating...",
+        "showMore": "Show more"
     },
     "globalActions": {
         "noRegistration": "No registration info found for {{host}}",

@@ -1,6 +1,7 @@
 import { type Message, type MarkdownMessageSchema, type RerouteMessageSchema } from '@concrnt/worldlib'
 import { MessageViewBase } from './MessageViewBase'
 import { lazy, Suspense, useMemo } from 'react'
+import { TranslatorProvider } from '../../context/Translator'
 
 const GfmRenderer = lazy(() => import('../ui/GfmRenderer'))
 
@@ -26,5 +27,9 @@ export const GfmMessageView = (props: GfmMessageViewProps): JSX.Element => {
         [props.message.id]
     )
 
-    return <MessageViewBase {...props}>{renderer}</MessageViewBase>
+    return (
+        <TranslatorProvider originalText={props.message.document.body.body ?? 'no content'}>
+            <MessageViewBase {...props}>{renderer}</MessageViewBase>
+        </TranslatorProvider>
+    )
 }

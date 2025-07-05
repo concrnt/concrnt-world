@@ -96,6 +96,9 @@ importers:
       '@rjsf/validator-ajv8':
         specifier: ^5.24.3
         version: 5.24.3(@rjsf/utils@5.24.3)
+      '@types/dom-chromium-ai':
+        specifier: ^0.0.9
+        version: 0.0.9
       '@zxing/browser':
         specifier: ^0.1.4
         version: 0.1.4(@zxing/library@0.20.0)
@@ -4648,6 +4651,10 @@ packages:
   /@types/doctrine@0.0.9:
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
     dev: true
+
+  /@types/dom-chromium-ai@0.0.9:
+    resolution: {integrity: sha512-wZNak+04m29hwXqtnDqNUl3TGcU9pvWhemtBpVtN2TKnWQKprJ8KQjaldbMVfdL44UHnUfv9V51rRh7tV8HY7w==}
+    dev: false
 
   /@types/elliptic@6.4.14:
     resolution: {integrity: sha512-z4OBcDAU0GVwDTuwJzQCiL6188QvZMkvoERgcVjq0/mPM8jCfdwZ3x5zQEVoL9WCAru3aG5wl3Z5Ww5wBWn7ZQ==}

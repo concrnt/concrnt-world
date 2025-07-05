@@ -3,6 +3,7 @@ import { EmbeddedGallery } from '../ui/EmbeddedGallery'
 import { MessageViewBase } from './MessageViewBase'
 import { useMemo } from 'react'
 import { CfmRenderer } from '../ui/CfmRenderer'
+import { TranslatorProvider } from '../../context/Translator'
 
 export interface MediaMessageViewProps {
     message: Message<MediaMessageSchema>
@@ -34,8 +35,10 @@ export const MediaMessageView = (props: MediaMessageViewProps): JSX.Element => {
     )
 
     return (
-        <MessageViewBase {...props} afterMessage={gallery}>
-            {renderer}
-        </MessageViewBase>
+        <TranslatorProvider originalText={props.message.document.body.body ?? 'no content'}>
+            <MessageViewBase {...props} afterMessage={gallery}>
+                {renderer}
+            </MessageViewBase>
+        </TranslatorProvider>
     )
 }
