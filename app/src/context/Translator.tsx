@@ -28,7 +28,7 @@ export const TranslatorProvider = (props: TranslatorProps): JSX.Element => {
     const [processing, setProcessing] = useState<boolean>(false)
     const { i18n } = useTranslation()
 
-    const isAvailable = !!LanguageDetector && !!Translator
+    const isAvailable = 'LanguageDetector' in window && 'Translator' in window
 
     const translate = async () => {
         setProcessing(true)
