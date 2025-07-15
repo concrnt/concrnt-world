@@ -36,7 +36,11 @@
         "currentAddress": "当前地址",
         "linkCopied": "链接已复制",
         "timelineUnmuted": "时间线已取消静音",
-        "timelineMuted": "时间线已静音"
+        "timelineMuted": "时间线已静音",
+        "translate": "翻译",
+        "translatedByChromeLLM": "由 Chrome 端侧 LLM 翻译",
+        "translating": "翻译中…",
+        "showMore": "显示更多"
     },
     "globalActions": {
         "noRegistration": "未找到 {{host}} 的注册信息",

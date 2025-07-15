@@ -34,6 +34,7 @@ import AddReactionIcon from '@mui/icons-material/AddReaction'
 import { CfmRendererLite } from './ui/CfmRendererLite'
 import { Link as routerLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { actorToApId } from '../util'
 
 export interface TimelineProps {
     timeline: string
@@ -400,7 +401,11 @@ const SummarisedLike = (props: { items: Association<any>[] }) => {
                     {props.items?.map((item) => (
                         <IconButton
                             key={item.id}
-                            to={`/${item.author}`}
+                            to={
+                                item.document.meta?.apActor
+                                    ? `/ap/${actorToApId(item.document.meta.apActor)}`
+                                    : `/${item.author}`
+                            }
                             component={routerLink}
                             onClick={(e) => e.stopPropagation()}
                             sx={{ p: 0 }}
@@ -534,7 +539,11 @@ const SummarisedReaction = (props: { items: Association<any>[] }) => {
                                     {value.map((item) => (
                                         <IconButton
                                             key={item.id}
-                                            to={`/${item.author}`}
+                                            to={
+                                                item.document.meta?.apActor
+                                                    ? `/ap/${actorToApId(item.document.meta.apActor)}`
+                                                    : `/${item.author}`
+                                            }
                                             component={routerLink}
                                             onClick={(e) => e.stopPropagation()}
                                             sx={{ p: 0 }}

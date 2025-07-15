@@ -3,6 +3,21 @@ import { useTranslation } from 'react-i18next'
 import { Sign, type CCDocument } from '@concrnt/client'
 import { encode } from 'blurhash'
 
+export const actorToApId = (actor: string): string | undefined => {
+    if (actor.startsWith('https://bsky.brid.gy/')) {
+        const id = actor.split('/').pop()
+        return '@' + id + '@bsky.brid.gy'
+    }
+
+    try {
+        const url = new URL(actor)
+        const parts = url.pathname.split('/').filter(Boolean) // Split and remove empty segments
+        return parts.length >= 1 ? parts[parts.length - 1] + '@' + url.hostname : undefined
+    } catch {
+        return undefined // Return undefined if the URL is invalid
+    }
+}
+
 export const string2Uint8Array = (str: string): Uint8Array => {
     const encoder = new TextEncoder()
     return encoder.encode(str)

@@ -13,6 +13,7 @@ import { useClient } from '../../context/ClientContext'
 import { AutoSummaryProvider } from '../../context/AutoSummaryContext'
 import { useTranslator } from '../../context/Translator'
 import { useTranslation } from 'react-i18next'
+import { actorToApId } from '../../util'
 
 export interface MessageViewProps {
     message: Message<any>
@@ -70,18 +71,7 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
         const actor = props.message.document.meta?.apActor
         if (!actor) return undefined
 
-        if (actor.startsWith('https://bsky.brid.gy/')) {
-            const id = actor.split('/').pop()
-            return '@' + id + '@bsky.brid.gy'
-        }
-
-        try {
-            const url = new URL(actor)
-            const parts = url.pathname.split('/').filter(Boolean) // Split and remove empty segments
-            return parts.length >= 1 ? parts[parts.length - 1] + '@' + url.hostname : undefined
-        } catch {
-            return undefined // Return undefined if the URL is invalid
-        }
+        return actorToApId(actor)
     }, [props.message])
 
     return (
