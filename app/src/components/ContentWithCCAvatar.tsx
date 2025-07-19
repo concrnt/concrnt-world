@@ -10,6 +10,7 @@ import { Box, IconButton, ListItem, Paper, type SxProps, Tooltip } from '@mui/ma
 import { UserProfileCard } from './UserProfileCard'
 import { Link as routerLink, useNavigate, useLocation } from 'react-router-dom'
 import { CCAvatar } from './ui/CCAvatar'
+import { useState } from 'react'
 
 export interface ContentWithCCAvatarProps {
     message?: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -27,8 +28,9 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
     const navigate = useNavigate()
     const location = useLocation()
 
-    const navigateTo = props.linkTo ?? `/${props.message?.author}/${props.message?.id}`
+    const [openTooltip, setOpenTooltip] = useState(false)
 
+    const navigateTo = props.linkTo ?? `/${props.message?.author}/${props.message?.id}`
     const apLink = props.apId ? `/ap/${props.apId}` : undefined
 
     return (
@@ -74,6 +76,9 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                             enterNextDelay={500}
                             leaveDelay={300}
                             placement="top"
+                            open={openTooltip}
+                            onOpen={() => setOpenTooltip(true)}
+                            onClose={() => setOpenTooltip(false)}
                             components={{
                                 Tooltip: Paper
                             }}
@@ -108,6 +113,9 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                                         (props.author?.ccid ?? '') +
                                         (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
                                 }
+                                onClick={() => {
+                                    setOpenTooltip(false)
+                                }}
                             >
                                 <CCAvatar
                                     avatarURL={props.author?.profile?.avatar}
