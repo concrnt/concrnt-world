@@ -41,6 +41,7 @@ export function ImportMasterKey(): JSX.Element {
 
     const ccid = useMemo(() => {
         if (!keypair) return ''
+        console.log('ckid', ComputeCKID(keypair.publickey))
         return ComputeCCID(keypair.publickey)
     }, [keypair])
 
