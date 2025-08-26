@@ -13,7 +13,6 @@ import { useClient } from '../../context/ClientContext'
 import { AutoSummaryProvider } from '../../context/AutoSummaryContext'
 import { useTranslator } from '../../context/Translator'
 import { useTranslation } from 'react-i18next'
-import { actorToApId } from '../../util'
 
 export interface MessageViewProps {
     message: Message<any>
@@ -67,12 +66,7 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
         return Aids.every((v, i) => v === Bids[i])
     }, [props.rerouted, props.message])
 
-    const apId = useMemo(() => {
-        const actor = props.message.document.meta?.apActor
-        if (!actor) return undefined
-
-        return actorToApId(actor)
-    }, [props.message])
+    const apId = props.message.document.meta?.apActorId
 
     return (
         <ContentWithCCAvatar

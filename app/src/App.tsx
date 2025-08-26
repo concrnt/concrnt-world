@@ -344,13 +344,13 @@ function App(): JSX.Element {
                                                 <SearchDrawerProvider>
                                                     <ConfirmProvider>
                                                         <InspectorProvider>
+                                                                    <GlobalActionsProvider>
                                                             <TimelineProvider>
                                                                 <CommandPaletteProvider>
-                                                                    <GlobalActionsProvider>
                                                                         {childs}
-                                                                    </GlobalActionsProvider>
                                                                 </CommandPaletteProvider>
                                                             </TimelineProvider>
+                                                                    </GlobalActionsProvider>
                                                         </InspectorProvider>
                                                     </ConfirmProvider>
                                                 </SearchDrawerProvider>
