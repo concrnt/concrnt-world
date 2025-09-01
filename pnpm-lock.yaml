@@ -138,6 +138,9 @@ importers:
       i18next-http-backend:
         specifier: ^2.2.2
         version: 2.2.2
+      ios-haptics:
+        specifier: ^0.1.0
+        version: 0.1.0
       jspdf:
         specifier: ^2.5.1
         version: 2.5.1
@@ -6626,6 +6629,10 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
+  /ios-haptics@0.1.0:
+    resolution: {integrity: sha512-Fk0RApBYJeZNZ9pW3Wx3WcunhdLlpEnVNy/BOn85tx39eZDOHLGhXEb7medoIURGBUjXatOZf5Ozy0+OG466YA==}
+    dev: false
+
   /is-alphabetical@1.0.4:
     resolution: {integrity: sha512-DwzsA04LQ10FHTZuL0/grVDk4rFoVH1pjAToYwBrHSxcrBIGQuXrQMtD5U1b0U2XVgKZCTLLP8u2Qxqhy3l2Vg==}
     dev: false
@@ -8990,6 +8997,7 @@ packages:
   /source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
     dependencies:
       whatwg-url: 7.1.0
     dev: true

@@ -39,6 +39,7 @@ import { convertToGoogleTranslateCode } from '../../util'
 import { useGlobalState } from '../../context/GlobalState'
 import { MarkdownMessageView } from './MarkdownMessageView'
 import { useTranslator } from '../../context/Translator'
+import { haptic } from 'ios-haptics'
 
 export interface MessageActionsProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -182,6 +183,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                         }
                         onClick={(e) => {
                             e.stopPropagation()
+                            haptic()
                             if (ownFavorite) {
                                 props.message.deleteAssociation(ownFavorite)
                             } else {

@@ -46,6 +46,7 @@
     "i18next": "^23.5.1",
     "i18next-browser-languagedetector": "^7.1.0",
     "i18next-http-backend": "^2.2.2",
+    "ios-haptics": "^0.1.0",
     "jspdf": "^2.5.1",
     "mfm-js": "^0.24.0",
     "mfm-renderer-react": "^0.0.9",

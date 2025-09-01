@@ -21,6 +21,8 @@ import { enqueueSnackbar } from 'notistack'
 import { useGlobalState } from '../../context/GlobalState'
 import { useTranslation } from 'react-i18next'
 
+import { haptic } from 'ios-haptics'
+
 export interface MessageReactionsProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema | RerouteMessageSchema>
 }
@@ -277,6 +279,7 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                             variant="outlined"
                             onClick={(e) => {
                                 e.stopPropagation()
+                                haptic()
                                 if (ownReactions[imageUrl]) {
                                     props.message.deleteAssociation(ownReactions[imageUrl])
                                 } else {
