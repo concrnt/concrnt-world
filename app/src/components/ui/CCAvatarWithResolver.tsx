@@ -7,6 +7,7 @@ import { Skeleton, SxProps } from '@mui/material'
 export interface CCAvatarWithResolverProps {
     ccid: string
     sx?: SxProps
+    circle?: boolean
 }
 
 export const CCAvatarWithResolver = (props: CCAvatarWithResolverProps): JSX.Element => {
@@ -28,6 +29,7 @@ export const CCAvatarWithResolver = (props: CCAvatarWithResolverProps): JSX.Elem
             avatarURL={user.profile?.avatar}
             identiconSource={props.ccid}
             sx={props.sx}
+            circle={props.circle}
         />
     )
 }

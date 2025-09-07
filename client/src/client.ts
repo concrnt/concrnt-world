@@ -131,32 +131,133 @@ export class Client {
         c.keyPair = keyPair
 
         if (!opts?.skipInit) {
-            opts?.progressCallback?.('loading user')
-            c.user = await c.getUser(c.ccid).catch((e) => {
-                console.error('CLIENT::create::getUser::error', e)
-                return null
-            })
+            const cachedUserKey = `client-userkey-${c.ccid}`
+            const cachedUser = await cacheEngine.get<string>(cachedUserKey)
+            if (cachedUser) {
+                console.log('cached user found')
+                opts?.progressCallback?.('loading user from cache')
 
-            const loadAA = async (): Promise<void> => {
-                c.ackings = (await c.user?.getAcking()) ?? []
-                c.ackers = (await c.user?.getAcker()) ?? []
-            }
-            loadAA()
+                const recovered = JSON.parse(cachedUser.data)
+                recovered.client = c
+                Object.setPrototypeOf(recovered, User.prototype)
+                c.user = recovered
 
-            opts?.progressCallback?.('loading domain services')
-            c.domainServices = await fetchWithTimeout(`https://${host}/services`, {})
-                .then((res) => res.json())
-                .catch((e) => {
-                    console.error('CLIENT::create::fetch::error', e)
-                    return {}
+                c.getUser(c.ccid).then((freshUser) => {
+                    if (freshUser) {
+                        c.user = freshUser
+                        cacheEngine?.set(cachedUserKey, JSON.stringify(freshUser))
+                    }
                 })
+            } else {
+                console.log('no cached user found, fetching...')
+                opts?.progressCallback?.('loading user from network')
+                c.user = await c.getUser(c.ccid).then((freshUser) => {
+                    if (freshUser) cacheEngine?.set(cachedUserKey, JSON.stringify(freshUser))
+                    return freshUser
+                })
+            }
 
-            opts?.progressCallback?.('loading domain')
-            c.server =
-                (await c.api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 }).catch((e) => {
-                    console.error('CLIENT::create::getDomain::error', e)
-                    return null
-                })) ?? undefined
+            const cachedAckingsKey = `client-ackings-${c.ccid}`
+            const cachedAckings = await cacheEngine.get<string>(cachedAckingsKey)
+            if (cachedAckings) {
+                console.log('cached ackings found')
+                opts?.progressCallback?.('loading ackings from cache')
+                const recovered = JSON.parse(cachedAckings.data)
+                recovered.forEach((e: any) => {
+                    e.client = c
+                    Object.setPrototypeOf(e, User.prototype)
+                })
+                c.ackings = recovered
+                c.user?.getAcking().then((freshAckings) => {
+                    c.ackings = freshAckings
+                    cacheEngine?.set(cachedAckingsKey, JSON.stringify(freshAckings))
+                })
+            } else {
+                console.log('no cached ackings found, fetching...')
+                opts?.progressCallback?.('loading ackings from network')
+                c.ackings = (await c.user?.getAcking()) ?? []
+                cacheEngine.set(cachedAckingsKey, JSON.stringify(c.ackings))
+            }
+
+            const cachedAckersKey = `client-ackers-${c.ccid}`
+            const cachedAckers = await cacheEngine.get<string>(cachedAckersKey)
+            if (cachedAckers) {
+                console.log('cached ackers found')
+                opts?.progressCallback?.('loading ackers from cache')
+                const recovered = JSON.parse(cachedAckers.data)
+                recovered.forEach((e: any) => {
+                    e.client = c
+                    Object.setPrototypeOf(e, User.prototype)
+                })
+                c.ackers = recovered
+                c.user?.getAcker().then((freshAckers) => {
+                    c.ackers = freshAckers
+                    cacheEngine?.set(cachedAckersKey, JSON.stringify(freshAckers))
+                })
+            } else {
+                console.log('no cached ackers found, fetching...')
+                opts?.progressCallback?.('loading ackers from network')
+                c.ackers = (await c.user?.getAcker()) ?? []
+                cacheEngine.set(cachedAckersKey, JSON.stringify(c.ackers))
+            }
+
+            const cachedDomainServicesKey = `client-domain-services-${host}`
+            const cachedDomainServices = await cacheEngine.get<Record<string, Service>>(cachedDomainServicesKey)
+            if (cachedDomainServices) {
+                console.log('cached domain services found')
+                opts?.progressCallback?.('loading domain services from cache')
+                c.domainServices = cachedDomainServices.data
+                fetchWithTimeout(`https://${host}/services`, {})
+                    .then((res) => res.json())
+                    .then((freshServices) => {
+                        if (isNonNull(freshServices)) {
+                            c.domainServices = freshServices
+                            cacheEngine?.set(cachedDomainServicesKey, freshServices)
+                        }
+                    })
+                    .catch((e) => {
+                        console.error('CLIENT::create::fetch::error', e)
+                    })
+            } else {
+                console.log('no cached domain services found, fetching...')
+                opts?.progressCallback?.('loading domain services from network')
+                c.domainServices = await fetchWithTimeout(`https://${host}/services`, {})
+                    .then((res) => res.json())
+                    .catch((e) => {
+                        console.error('CLIENT::create::fetch::error', e)
+                        return {}
+                    })
+                cacheEngine.set(cachedDomainServicesKey, c.domainServices)
+            }
+
+            const domainKey = `client-domain-${host}`
+            const cachedDomain = await cacheEngine.get<CoreDomain>(domainKey)
+            if (cachedDomain) {
+                console.log('cached domain found')
+                opts?.progressCallback?.('loading domain from cache')
+                c.server = cachedDomain.data
+                api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 })
+                    .then((freshDomain) => {
+                        if (isNonNull(freshDomain)) {
+                            c.server = freshDomain
+                            cacheEngine?.set(domainKey, freshDomain)
+                        }
+                    })
+                    .catch((e) => {
+                        console.error('CLIENT::create::getDomain::error', e)
+                    })
+            } else {
+                console.log('no cached domain found, fetching...')
+                opts?.progressCallback?.('loading domain from network')
+                c.server =
+                    (await c.api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 }).catch((e) => {
+                        console.error('CLIENT::create::getDomain::error', e)
+                        return null
+                    })) ?? undefined
+                if (c.server) {
+                    cacheEngine.set(domainKey, c.server)
+                }
+            }
 
             if (c.server) {
                 c.isOnline = true
@@ -170,6 +271,7 @@ export class Client {
             }
         }
 
+        opts?.progressCallback?.('done')
         return c
     }
 
@@ -193,50 +295,151 @@ export class Client {
 
         opts?.progressCallback?.('creating api client')
         const api = new Api(authProvider, cacheEngine)
-
         const host = api.authProvider.getHost()
 
         opts?.progressCallback?.('creating client')
         const c = new Client(api)
         if (!c.ccid) throw new Error('invalid ccid')
 
-        opts?.progressCallback?.('loading user')
-        c.user = await c.getUser(c.ccid).catch((e) => {
-            console.error('CLIENT::create::getUser::error', e)
-            return null
-        })
+        if (!opts?.skipInit) {
+            const cachedUserKey = `client-userkey-${c.ccid}`
+            const cachedUser = await cacheEngine.get<string>(cachedUserKey)
+            if (cachedUser) {
+                console.log('cached user found')
+                opts?.progressCallback?.('loading user from cache')
 
-        const loadAA = async (): Promise<void> => {
-            c.ackings = (await c.user?.getAcking()) ?? []
-            c.ackers = (await c.user?.getAcker()) ?? []
-        }
-        loadAA()
+                const recovered = JSON.parse(cachedUser.data)
+                recovered.client = c
+                Object.setPrototypeOf(recovered, User.prototype)
+                c.user = recovered
 
-        opts?.progressCallback?.('loading domain services')
-        c.domainServices = await fetchWithTimeout(`https://${key.domain}/services`, {})
-            .then((res) => res.json())
-            .catch((e) => {
-                console.error('CLIENT::create::fetch::error', e)
-                return {}
-            })
-
-        opts?.progressCallback?.('loading domain')
-        c.server =
-            (await c.api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 }).catch((e) => {
-                console.error('CLIENT::create::getDomain::error', e)
-                return null
-            })) ?? undefined
-
-        opts?.progressCallback?.('validating profile')
-        if (c.server) {
-            c.isOnline = true
-            opts?.progressCallback?.('validating profile')
-            if (c.user && !(await c.checkProfileIsOk())) {
-                console.warn('profile is not ok! fixing...')
-                await c.setProfile({})
+                c.getUser(c.ccid).then((freshUser) => {
+                    if (freshUser) {
+                        c.user = freshUser
+                        cacheEngine?.set(cachedUserKey, JSON.stringify(freshUser))
+                    }
+                })
+            } else {
+                console.log('no cached user found, fetching...')
+                opts?.progressCallback?.('loading user from network')
+                c.user = await c.getUser(c.ccid).then((freshUser) => {
+                    if (freshUser) cacheEngine?.set(cachedUserKey, JSON.stringify(freshUser))
+                    return freshUser
+                })
             }
-        } else {
-            c.isOnline = false
+
+            const cachedAckingsKey = `client-ackings-${c.ccid}`
+            const cachedAckings = await cacheEngine.get<string>(cachedAckingsKey)
+            if (cachedAckings) {
+                console.log('cached ackings found')
+                opts?.progressCallback?.('loading ackings from cache')
+                const recovered = JSON.parse(cachedAckings.data)
+                recovered.forEach((e: any) => {
+                    e.client = c
+                    Object.setPrototypeOf(e, User.prototype)
+                })
+                c.ackings = recovered
+                c.user?.getAcking().then((freshAckings) => {
+                    c.ackings = freshAckings
+                    cacheEngine?.set(cachedAckingsKey, JSON.stringify(freshAckings))
+                })
+            } else {
+                console.log('no cached ackings found, fetching...')
+                opts?.progressCallback?.('loading ackings from network')
+                c.ackings = (await c.user?.getAcking()) ?? []
+                cacheEngine.set(cachedAckingsKey, JSON.stringify(c.ackings))
+            }
+
+            const cachedAckersKey = `client-ackers-${c.ccid}`
+            const cachedAckers = await cacheEngine.get<string>(cachedAckersKey)
+            if (cachedAckers) {
+                console.log('cached ackers found')
+                opts?.progressCallback?.('loading ackers from cache')
+                const recovered = JSON.parse(cachedAckers.data)
+                recovered.forEach((e: any) => {
+                    e.client = c
+                    Object.setPrototypeOf(e, User.prototype)
+                })
+                c.ackers = recovered
+                c.user?.getAcker().then((freshAckers) => {
+                    c.ackers = freshAckers
+                    cacheEngine?.set(cachedAckersKey, JSON.stringify(freshAckers))
+                })
+            } else {
+                console.log('no cached ackers found, fetching...')
+                opts?.progressCallback?.('loading ackers from network')
+                c.ackers = (await c.user?.getAcker()) ?? []
+                cacheEngine.set(cachedAckersKey, JSON.stringify(c.ackers))
+            }
+
+            const cachedDomainServicesKey = `client-domain-services-${host}`
+            const cachedDomainServices = await cacheEngine.get<Record<string, Service>>(cachedDomainServicesKey)
+            if (cachedDomainServices) {
+                console.log('cached domain services found')
+                opts?.progressCallback?.('loading domain services from cache')
+                c.domainServices = cachedDomainServices.data
+                fetchWithTimeout(`https://${host}/services`, {})
+                    .then((res) => res.json())
+                    .then((freshServices) => {
+                        if (isNonNull(freshServices)) {
+                            c.domainServices = freshServices
+                            cacheEngine?.set(cachedDomainServicesKey, freshServices)
+                        }
+                    })
+                    .catch((e) => {
+                        console.error('CLIENT::create::fetch::error', e)
+                    })
+            } else {
+                console.log('no cached domain services found, fetching...')
+                opts?.progressCallback?.('loading domain services from network')
+                c.domainServices = await fetchWithTimeout(`https://${host}/services`, {})
+                    .then((res) => res.json())
+                    .catch((e) => {
+                        console.error('CLIENT::create::fetch::error', e)
+                        return {}
+                    })
+                cacheEngine.set(cachedDomainServicesKey, c.domainServices)
+            }
+
+            const domainKey = `client-domain-${host}`
+            const cachedDomain = await cacheEngine.get<CoreDomain>(domainKey)
+            if (cachedDomain) {
+                console.log('cached domain found')
+                opts?.progressCallback?.('loading domain from cache')
+                c.server = cachedDomain.data
+                api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 })
+                    .then((freshDomain) => {
+                        if (isNonNull(freshDomain)) {
+                            c.server = freshDomain
+                            cacheEngine?.set(domainKey, freshDomain)
+                        }
+                    })
+                    .catch((e) => {
+                        console.error('CLIENT::create::getDomain::error', e)
+                    })
+            } else {
+                console.log('no cached domain found, fetching...')
+                opts?.progressCallback?.('loading domain from network')
+                c.server =
+                    (await c.api.getDomain(host, { cache: 'no-cache', timeoutms: 3000 }).catch((e) => {
+                        console.error('CLIENT::create::getDomain::error', e)
+                        return null
+                    })) ?? undefined
+                if (c.server) {
+                    cacheEngine.set(domainKey, c.server)
+                }
+            }
+
+            if (c.server) {
+                c.isOnline = true
+                opts?.progressCallback?.('validating profile')
+                if (c.user && !(await c.checkProfileIsOk())) {
+                    console.warn('profile is not ok! fixing...')
+                    await c.setProfile({})
+                }
+            } else {
+                c.isOnline = false
+            }
         }
 
         opts?.progressCallback?.('done')

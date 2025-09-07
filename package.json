@@ -8,9 +8,6 @@
         "dev": "pnpm --filter concrnt-world dev",
         "build-storybook": "pnpm --filter @concrnt/worldlib build && pnpm --filter concrnt-world build-storybook"
     },
-    "dependencies": {
-        "@concrnt/client": "^0.0.21"
-    },
     "devDependencies": {
         "@eslint/eslintrc": "^3.2.0",
         "@eslint/js": "^9.19.0",
@@ -35,5 +32,8 @@
             "eslint --fix",
             "prettier --write"
         ]
+    },
+    "dependencies": {
+        "@concrnt/client": "^0.0.23"
     }
 }

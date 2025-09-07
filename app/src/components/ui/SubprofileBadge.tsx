@@ -11,6 +11,7 @@ export interface SubprofileBadgeProps {
     onClick?: (characterID: string) => void
     sx?: SxProps
     enablePreview?: boolean
+    circle?: boolean
 }
 
 export function SubprofileBadge(props: SubprofileBadgeProps): JSX.Element {
@@ -33,9 +34,8 @@ export function SubprofileBadge(props: SubprofileBadgeProps): JSX.Element {
                 src={character?.parsedDoc.body.avatar}
                 sx={{
                     ...props.sx,
-                    borderRadius: 1
+                    borderRadius: props.circle ? undefined : 1
                 }}
-                variant="square"
                 onClick={() => {
                     if (props.enablePreview) {
                         mediaViewer.openSingle(character?.parsedDoc.body.avatar)
@@ -43,8 +43,14 @@ export function SubprofileBadge(props: SubprofileBadgeProps): JSX.Element {
                         props.onClick?.(props.characterID)
                     }
                 }}
+                variant={props.circle ? 'circular' : 'square'}
             >
-                <BoringAvatar square name={character?.parsedDoc.body.username} variant="beam" size={1000} />
+                <BoringAvatar
+                    square={!props.circle}
+                    name={character?.parsedDoc.body.username}
+                    variant="beam"
+                    size={1000}
+                />
             </Avatar>
         </Tooltip>
     )

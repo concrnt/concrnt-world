@@ -1,11 +1,23 @@
-import { Box, Divider, ListItem, ListItemIcon, ListItemText, type SxProps, Typography, useTheme } from '@mui/material'
+import {
+    AvatarGroup,
+    Box,
+    Button,
+    Divider,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    type SxProps,
+    Typography,
+    useTheme,
+    Zoom
+} from '@mui/material'
 import React, { memo, useEffect, useState, useRef, forwardRef, type ForwardedRef, useLayoutEffect } from 'react'
 import { AssociationFrame } from './Association/AssociationFrame'
 import { Loading } from './ui/Loading'
 import { MessageContainer } from './Message/MessageContainer'
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken'
-import { type TimelineReader } from '@concrnt/client'
+import type { TimelineItem, TimelineReader } from '@concrnt/client'
 import { useRefWithForceUpdate } from '../hooks/useRefWithForceUpdate'
 import useSound from 'use-sound'
 import { usePreference } from '../context/PreferenceContext'
@@ -16,6 +28,8 @@ import { useGlobalState } from '../context/GlobalState'
 import { PullToRefresh } from './PullToRefresh'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
+import NorthIcon from '@mui/icons-material/North'
+import { MessageAuthorAvatar } from './ui/MessageAuthorAvatar'
 
 export interface RealtimeTimelineProps {
     timelineFQIDs: string[]
@@ -51,6 +65,8 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
 
     const positionRef = useRef<number>(0)
 
+    const [newArrivals, setNewArrivals] = useState<TimelineItem[]>([])
+
     const [playBubble] = useSound(sound.post, {
         volume: sound.volume / 100,
         interrupt: false,
@@ -66,6 +82,7 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
 
     useEffect(() => {
         let isCancelled = false
+        setNewArrivals([])
         const request = async () => {
             if (props.timelineFQIDs.length === 0) return
             setTimelineLoading(true)
@@ -87,20 +104,33 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
                 .then((t) => {
                     if (isCancelled) return
                     timeline.current = t
+                    t.haltUpdate = false
                     t.onUpdate = () => {
+                        if (isCancelled) return
                         timelineChanged()
                     }
                     t.onRealtimeEvent = (event) => {
+                        if (isCancelled) return
                         if (event.parsedDoc?.type === 'message') {
                             playBubbleRef.current()
                         }
                     }
+                    t.onNewItem = (item) => {
+                        if (isCancelled) return
+                        if (!t.haltUpdate) return
+                        if (item.resourceID[0] !== 'm') return // only show message
+                        setNewArrivals((prev) => {
+                            return [...prev, item]
+                        })
+                    }
                     timeline.current
                         .listen(props.timelineFQIDs)
                         .then((hasMore) => {
+                            if (isCancelled) return
                             setHasMoreData(hasMore)
                         })
                         .finally(() => {
+                            if (isCancelled) return
                             setTimelineLoading(false)
                         })
                     return t
@@ -120,6 +150,7 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
 
     const onRefresh = async (): Promise<void> => {
         console.log('refresh!')
+        setNewArrivals([])
         setIsFetching(true)
         setHasMoreData(false)
         const hasMore = (await timeline.current?.reload()) ?? false
@@ -155,95 +186,150 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
     }, [location.pathname])
 
     return (
-        <PullToRefresh positionRef={positionRef} isFetching={isFetching} onRefresh={onRefresh}>
-            <VList
-                style={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    listStyle: 'none',
-                    overflowX: 'hidden',
-                    overflowY: 'auto',
-                    overscrollBehaviorY: 'none',
-                    scrollbarGutter: 'stable'
-                }}
-                onScroll={(top) => {
-                    positionRef.current = top
-                    props.onScroll?.(top)
-                }}
-                onRangeChange={(start, end) => {
-                    if (end + 3 > count && hasMoreData) readMore()
-                }}
-                ref={ref}
-            >
-                {props.header}
+        <Box position="relative" display="flex" flex={1} flexDirection="column" overflow="hidden">
+            <Box position="absolute" top={2} display="flex" justifyContent="center" width="100%">
+                <Zoom in={newArrivals.length > 0}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        sx={{
+                            zIndex: 10,
+                            display: 'flex',
+                            borderRadius: '100px'
+                        }}
+                        onClick={() => {
+                            onRefresh()
+                            if (!ref) return
+                            const handle = ref as React.RefObject<VListHandle>
+                            handle.current?.scrollTo(0)
+                        }}
+                    >
+                        <NorthIcon fontSize="small" />
 
-                {(timeline.current?.body.length ?? 0) === 0
-                    ? !timelineLoading && (
-                          <Box
-                              sx={{
-                                  width: '100%',
-                                  display: 'flex',
-                                  justifyContent: 'center'
-                              }}
-                          >
-                              <Typography
+                        <AvatarGroup
+                            max={4}
+                            slotProps={{
+                                additionalAvatar: {
+                                    sx: {
+                                        width: 22,
+                                        height: 22,
+                                        fontSize: '0.75rem'
+                                    }
+                                }
+                            }}
+                        >
+                            {newArrivals.map((item) => (
+                                <MessageAuthorAvatar
+                                    key={item.resourceID}
+                                    circle
+                                    messageID={item.resourceID}
+                                    messageOwner={item.owner}
+                                    resolveHint={item.timelineID.split('@')[1]}
+                                    sx={{
+                                        width: 22,
+                                        height: 22
+                                    }}
+                                />
+                            ))}
+                        </AvatarGroup>
+                    </Button>
+                </Zoom>
+            </Box>
+            <PullToRefresh positionRef={positionRef} isFetching={isFetching} onRefresh={onRefresh}>
+                <VList
+                    style={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        listStyle: 'none',
+                        overflowX: 'hidden',
+                        overflowY: 'auto',
+                        overscrollBehaviorY: 'none',
+                        scrollbarGutter: 'stable'
+                    }}
+                    onScroll={(top) => {
+                        positionRef.current = top
+                        props.onScroll?.(top)
+                    }}
+                    onRangeChange={(start, end) => {
+                        if (timeline.current) {
+                            console.log('visible items:', start, end, 'total:', count)
+                            timeline.current.haltUpdate = start > 2 || newArrivals.length > 0
+                        }
+                        if (end + 3 > count && hasMoreData) readMore()
+                    }}
+                    ref={ref}
+                >
+                    {props.header}
+
+                    {(timeline.current?.body.length ?? 0) === 0
+                        ? !timelineLoading && (
+                              <Box
                                   sx={{
-                                      color: 'text.secondary'
+                                      width: '100%',
+                                      display: 'flex',
+                                      justifyContent: 'center'
                                   }}
                               >
-                                  No currents yet here!
-                              </Typography>
-                          </Box>
-                      )
-                    : (timelineLoading ? [] : (timeline.current?.body ?? [])).map((e) => {
-                          let element
-                          const type = e.resourceID[0]
-                          switch (type) {
-                              case 'm':
-                                  element = (
-                                      <MessageContainer
-                                          dimOnHover
-                                          sx={timelineElemSx}
-                                          messageID={e.resourceID}
-                                          messageOwner={e.owner}
-                                          resolveHint={e.timelineID.split('@')[1]}
-                                          lastUpdated={e.lastUpdate?.getTime() ?? 0}
-                                          after={divider}
-                                          timestamp={e.lastUpdate}
-                                      />
-                                  )
-                                  break
-                              case 'a':
-                                  element = (
-                                      <AssociationFrame
-                                          dimOnHover
-                                          sx={timelineElemSx}
-                                          associationID={e.resourceID}
-                                          associationOwner={e.owner}
-                                          lastUpdated={e.lastUpdate?.getTime() ?? 0}
-                                          after={divider}
-                                          perspective={props.perspective}
-                                      />
-                                  )
-                                  break
-                              default:
-                                  element = <Typography>Unknown message type: {type}</Typography>
-                                  break
-                          }
-
-                          return (
-                              <React.Fragment key={e.resourceID}>
-                                  <ErrorBoundary FallbackComponent={renderError}>{element}</ErrorBoundary>
-                              </React.Fragment>
+                                  <Typography
+                                      sx={{
+                                          color: 'text.secondary'
+                                      }}
+                                  >
+                                      No currents yet here!
+                                  </Typography>
+                              </Box>
                           )
-                      })}
+                        : (timelineLoading ? [] : (timeline.current?.body ?? [])).map((e) => {
+                              let element
+                              const type = e.resourceID[0]
+                              switch (type) {
+                                  case 'm':
+                                      element = (
+                                          <MessageContainer
+                                              dimOnHover
+                                              sx={timelineElemSx}
+                                              messageID={e.resourceID}
+                                              messageOwner={e.owner}
+                                              resolveHint={e.timelineID.split('@')[1]}
+                                              lastUpdated={e.lastUpdate?.getTime() ?? 0}
+                                              after={divider}
+                                              timestamp={e.lastUpdate}
+                                          />
+                                      )
+                                      break
+                                  case 'a':
+                                      element = (
+                                          <AssociationFrame
+                                              dimOnHover
+                                              sx={timelineElemSx}
+                                              associationID={e.resourceID}
+                                              associationOwner={e.owner}
+                                              lastUpdated={e.lastUpdate?.getTime() ?? 0}
+                                              after={divider}
+                                              perspective={props.perspective}
+                                          />
+                                      )
+                                      break
+                                  default:
+                                      element = <Typography>Unknown message type: {type}</Typography>
+                                      break
+                              }
 
-                {!timelineLoading && isFetching && (
-                    <Loading key={0} message="Loading..." color={theme.palette.text.primary} />
-                )}
-            </VList>
-        </PullToRefresh>
+                              return (
+                                  <React.Fragment key={e.resourceID}>
+                                      <ErrorBoundary FallbackComponent={renderError}>{element}</ErrorBoundary>
+                                  </React.Fragment>
+                              )
+                          })}
+
+                    {!timelineLoading && isFetching && (
+                        <Loading key={0} message="Loading..." color={theme.palette.text.primary} />
+                    )}
+                </VList>
+            </PullToRefresh>
+        </Box>
     )
 })
 timeline.displayName = 'timeline'
