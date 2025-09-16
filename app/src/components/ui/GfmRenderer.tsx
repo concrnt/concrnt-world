@@ -192,36 +192,6 @@ export default function GfmRenderer(props: GfmRendererProps): JSX.Element {
                     },
                     a: ({ children, href }) => {
                         if (!href) return <></>
-                        let matchYoutubeVideo = href?.match(/https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/)
-                        if (!matchYoutubeVideo) matchYoutubeVideo = href?.match(/https:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/)
-                        if (matchYoutubeVideo) {
-                            return (
-                                <Box
-                                    component="span"
-                                    sx={{
-                                        display: 'block',
-                                        aspectRatio: '16 / 9',
-                                        overflow: 'hidden',
-                                        width: '100%',
-                                        borderRadius: 1,
-                                        maxWidth: '500px'
-                                    }}
-                                >
-                                    <iframe
-                                        allowFullScreen
-                                        src={`https://www.youtube.com/embed/${matchYoutubeVideo[1]}`}
-                                        title="YouTube video player"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            border: 'none'
-                                        }}
-                                    />
-                                </Box>
-                            )
-                        }
-
                         return (
                             <CCLink to={href} color="secondary" underline="hover">
                                 {children}
