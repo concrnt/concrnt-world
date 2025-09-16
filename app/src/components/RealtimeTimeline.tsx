@@ -11,13 +11,20 @@ import {
     useTheme,
     Zoom
 } from '@mui/material'
+import {
+    type ReplyMessageSchema,
+    type RerouteMessageSchema,
+    type MarkdownMessageSchema,
+    type MediaMessageSchema,
+    type PlaintextMessageSchema
+} from '@concrnt/worldlib'
 import React, { memo, useEffect, useState, useRef, forwardRef, type ForwardedRef, useLayoutEffect } from 'react'
 import { AssociationFrame } from './Association/AssociationFrame'
 import { Loading } from './ui/Loading'
 import { MessageContainer } from './Message/MessageContainer'
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken'
-import type { TimelineItem, TimelineReader } from '@concrnt/client'
+import type { TimelineReader } from '@concrnt/client'
 import { useRefWithForceUpdate } from '../hooks/useRefWithForceUpdate'
 import useSound from 'use-sound'
 import { usePreference } from '../context/PreferenceContext'
@@ -29,7 +36,7 @@ import { PullToRefresh } from './PullToRefresh'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import NorthIcon from '@mui/icons-material/North'
-import { MessageAuthorAvatar } from './ui/MessageAuthorAvatar'
+import { CCAvatar } from './ui/CCAvatar'
 
 export interface RealtimeTimelineProps {
     timelineFQIDs: string[]
@@ -52,6 +59,19 @@ const timelineElemSx: SxProps = {
     p: { xs: 0.5, sm: 1, md: 1 }
 }
 
+interface NewArrivalIcons {
+    id: string
+    author: string
+    src: string
+}
+
+type Messages =
+    | MarkdownMessageSchema
+    | ReplyMessageSchema
+    | RerouteMessageSchema
+    | PlaintextMessageSchema
+    | MediaMessageSchema
+
 const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VListHandle>): JSX.Element => {
     const { client } = useClient()
     const { isDomainOffline } = useGlobalState()
@@ -65,7 +85,7 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
 
     const positionRef = useRef<number>(0)
 
-    const [newArrivals, setNewArrivals] = useState<TimelineItem[]>([])
+    const [newArrivals, setNewArrivals] = useState<NewArrivalIcons[]>([])
 
     const [playBubble] = useSound(sound.post, {
         volume: sound.volume / 100,
@@ -119,9 +139,29 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
                         if (isCancelled) return
                         if (!t.haltUpdate) return
                         if (item.resourceID[0] !== 'm') return // only show message
-                        setNewArrivals((prev) => {
-                            return [...prev, item]
-                        })
+                        if (newArrivals.find((e) => e.id === item.resourceID)) return
+
+                        client
+                            .getMessage<Messages>(item.resourceID, item.owner, item.timelineID.split('@')[1])
+                            .then(async (msg) => {
+                                if (!msg) return
+                                let icon = undefined
+                                if (msg.document.body.profileOverride?.profileID) {
+                                    icon = await client.api
+                                        .getProfile<any>(msg.document.body.profileOverride?.profileID, item.owner)
+                                        .then((p) => p?.parsedDoc.body.avatar)
+                                } else if (msg.document.body.profileOverride?.avatar) {
+                                    icon = msg.document.body.profileOverride?.avatar
+                                } else {
+                                    icon = msg.authorUser?.profile?.avatar
+                                }
+                                setNewArrivals((prev) => {
+                                    if (isCancelled) return prev
+                                    if (!icon) return prev
+                                    if (prev.find((e) => e.src === icon)) return prev
+                                    return [{ id: item.resourceID, author: item.owner, src: icon }, ...prev]
+                                })
+                            })
                     }
                     timeline.current
                         .listen(props.timelineFQIDs)
@@ -220,12 +260,11 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
                             }}
                         >
                             {newArrivals.map((item) => (
-                                <MessageAuthorAvatar
-                                    key={item.resourceID}
+                                <CCAvatar
+                                    key={item.src}
                                     circle
-                                    messageID={item.resourceID}
-                                    messageOwner={item.owner}
-                                    resolveHint={item.timelineID.split('@')[1]}
+                                    avatarURL={item.src}
+                                    identiconSource={item.author}
                                     sx={{
                                         width: 22,
                                         height: 22
