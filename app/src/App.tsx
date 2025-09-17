@@ -1,5 +1,5 @@
 import { useEffect, useRef, Suspense, lazy, useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { darken, Box, Paper, Typography, Modal, useTheme, Button } from '@mui/material'
 import { SnackbarProvider, closeSnackbar, enqueueSnackbar } from 'notistack'
 import { ConcordProvider } from './context/ConcordContext'
@@ -44,6 +44,7 @@ import { ApUserPage } from './pages/ApUser'
 import { DeckPage } from './pages/Deck'
 import { TimelineProvider } from './context/TimelineProvider'
 import { InspectorProvider } from './context/Inspector'
+import { ProfileProvider } from './context/ProfileContext'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -63,6 +64,9 @@ function App(): JSX.Element {
     const { t } = useTranslation()
 
     const [latestNotificationDate, setLatestNotificationDate] = useState<number>(0)
+
+    const location = useLocation()
+    const isDeckPage = location.pathname === '/deck'
 
     useEffect(() => {
         if (!client.user) return
@@ -341,19 +345,21 @@ function App(): JSX.Element {
                                     <EditorModalProvider>
                                         <TimelineDrawerProvider>
                                             <UserDrawerProvider>
-                                                <SearchDrawerProvider>
-                                                    <ConfirmProvider>
-                                                        <InspectorProvider>
-                                                                    <GlobalActionsProvider>
-                                                            <TimelineProvider>
-                                                                <CommandPaletteProvider>
-                                                                        {childs}
-                                                                </CommandPaletteProvider>
-                                                            </TimelineProvider>
-                                                                    </GlobalActionsProvider>
-                                                        </InspectorProvider>
-                                                    </ConfirmProvider>
-                                                </SearchDrawerProvider>
+                                                <ProfileProvider>
+                                                    <SearchDrawerProvider>
+                                                        <ConfirmProvider>
+                                                            <InspectorProvider>
+                                                                <GlobalActionsProvider>
+                                                                    <TimelineProvider>
+                                                                        <CommandPaletteProvider>
+                                                                            {childs}
+                                                                        </CommandPaletteProvider>
+                                                                    </TimelineProvider>
+                                                                </GlobalActionsProvider>
+                                                            </InspectorProvider>
+                                                        </ConfirmProvider>
+                                                    </SearchDrawerProvider>
+                                                </ProfileProvider>
                                             </UserDrawerProvider>
                                         </TimelineDrawerProvider>
                                     </EditorModalProvider>
@@ -442,7 +448,7 @@ function App(): JSX.Element {
                     sx={{
                         display: 'flex',
                         flex: 1,
-                        maxWidth: '1280px',
+                        maxWidth: isDeckPage ? undefined : '1280px',
                         width: '100%',
                         height: '100%',
                         marginLeft: 'env(safe-area-inset-left)',
@@ -454,7 +460,7 @@ function App(): JSX.Element {
                             display: {
                                 xs: 'none',
                                 sm: 'none',
-                                md: 'block'
+                                md: isDeckPage ? 'none' : 'block'
                             },
                             width: '200px',
                             m: 1
@@ -467,7 +473,7 @@ function App(): JSX.Element {
                             display: {
                                 xs: 'none',
                                 sm: 'block',
-                                md: 'none'
+                                md: isDeckPage ? 'block' : 'none'
                             },
                             width: '50px',
                             m: 1
@@ -484,13 +490,14 @@ function App(): JSX.Element {
                         }}
                     >
                         <Paper
+                            elevation={isDeckPage ? 0 : 3}
                             sx={{
                                 flexGrow: '1',
                                 margin: { xs: 0.5, sm: 1 },
                                 mb: { xs: 0, sm: '10px' },
                                 display: 'flex',
                                 flexFlow: 'column',
-                                borderRadius: 2,
+                                borderRadius: isDeckPage ? 0 : 2,
                                 overflow: 'hidden',
                                 background: 'none'
                             }}

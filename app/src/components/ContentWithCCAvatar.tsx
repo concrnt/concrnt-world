@@ -6,11 +6,11 @@ import {
     type User,
     type ProfileOverride
 } from '@concrnt/worldlib'
-import { Box, IconButton, ListItem, Paper, type SxProps, Tooltip } from '@mui/material'
-import { UserProfileCard } from './UserProfileCard'
+import { Box, IconButton, ListItem, type SxProps } from '@mui/material'
 import { Link as routerLink, useNavigate, useLocation } from 'react-router-dom'
 import { CCAvatar } from './ui/CCAvatar'
-import { useState } from 'react'
+import { useRef } from 'react'
+import { ProfileTooltip, useProfile } from '../context/ProfileContext'
 
 export interface ContentWithCCAvatarProps {
     message?: Message<MarkdownMessageSchema | ReplyMessageSchema>
@@ -28,10 +28,11 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
     const navigate = useNavigate()
     const location = useLocation()
 
-    const [openTooltip, setOpenTooltip] = useState(false)
-
     const navigateTo = props.linkTo ?? `/${props.message?.author}/${props.message?.id}`
     const apLink = props.apId ? `/ap/${props.apId}` : undefined
+    const buttonEl = useRef<HTMLElement>(null)
+
+    const profile = useProfile()
 
     return (
         <>
@@ -67,38 +68,15 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                     disablePadding
                 >
                     <Box
+                        ref={buttonEl}
                         onClick={(e) => {
                             e.stopPropagation() // prevent to navigate other page
                         }}
                     >
-                        <Tooltip
-                            enterDelay={500}
-                            enterNextDelay={500}
-                            leaveDelay={300}
-                            placement="top"
-                            open={openTooltip}
-                            onOpen={() => setOpenTooltip(true)}
-                            onClose={() => setOpenTooltip(false)}
-                            components={{
-                                Tooltip: Paper
-                            }}
-                            componentsProps={{
-                                tooltip: {
-                                    sx: {
-                                        m: 1,
-                                        border: '1px solid',
-                                        borderColor: 'divider',
-                                        minWidth: '300px'
-                                    }
-                                }
-                            }}
-                            title={
-                                <UserProfileCard
-                                    user={props.author}
-                                    subProfileID={props.profileOverride?.profileID}
-                                    profileOverride={props.characterOverride}
-                                />
-                            }
+                        <ProfileTooltip
+                            user={props.author}
+                            subProfileID={props.profileOverride?.profileID}
+                            profileOverride={props.profileOverride}
                         >
                             <IconButton
                                 sx={{
@@ -113,9 +91,7 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                                         (props.author?.ccid ?? '') +
                                         (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
                                 }
-                                onClick={() => {
-                                    setOpenTooltip(false)
-                                }}
+                                onPointerDown={() => profile.forceClose()} // prevent to stick showing when clicking
                             >
                                 <CCAvatar
                                     avatarURL={props.author?.profile?.avatar}
@@ -127,7 +103,7 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                                     }}
                                 />
                             </IconButton>
-                        </Tooltip>
+                        </ProfileTooltip>
                     </Box>
                     <Box
                         sx={{

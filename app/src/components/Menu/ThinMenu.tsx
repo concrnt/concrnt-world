@@ -8,6 +8,8 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import ContactsIcon from '@mui/icons-material/Contacts'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
+import ViewColumnIcon from '@mui/icons-material/ViewColumn'
+
 import { memo } from 'react'
 import { CCAvatar } from '../ui/CCAvatar'
 import { useClient } from '../../context/ClientContext'
@@ -141,6 +143,15 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                             />
                         </IconButton>
                     )}
+
+                    <IconButton sx={{ p: 0.5 }} component={Link} to="/deck" onClick={props.onClick}>
+                        <ViewColumnIcon
+                            sx={{
+                                color: 'background.contrastText'
+                            }}
+                        />
+                    </IconButton>
+
                     <IconButton sx={{ p: 0.5 }} component={Link} to="/settings" onClick={props.onClick}>
                         <SettingsIcon
                             sx={{

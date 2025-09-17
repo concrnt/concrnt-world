@@ -168,6 +168,9 @@
             "listed": "表示中のリスト",
             "unlisted": "非表示のリスト",
             "newlist": "新しいリスト"
+        },
+        "deck": {
+            "title": "デッキ"
         }
     },
     "time": {

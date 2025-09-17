@@ -169,6 +169,9 @@
             "listed": "Listed",
             "unlisted": "Unlisted",
             "newlist": "New List"
+        },
+        "deck": {
+            "title": "Deck"
         }
     },
     "time": {

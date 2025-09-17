@@ -293,7 +293,6 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
                     }}
                     onRangeChange={(start, end) => {
                         if (timeline.current) {
-                            console.log('visible items:', start, end, 'total:', count)
                             timeline.current.haltUpdate = start > 2 || newArrivals.length > 0
                         }
                         if (end + 3 > count && hasMoreData) readMore()

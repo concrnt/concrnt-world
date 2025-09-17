@@ -79,8 +79,6 @@ export function EntityPage(): JSX.Element {
         }
     }, [tab, filter])
 
-    if (!user) return <></>
-
     return (
         <>
             <Helmet>
@@ -111,77 +109,82 @@ export function EntityPage(): JSX.Element {
                     </Collapse>
                 </Box>
 
-                {timeline && isPrivate ? (
+                {user && (
                     <>
-                        <Profile
-                            user={user}
-                            overrideSubProfileID={subProfileID}
-                            onSubProfileClicked={(subID) => {
-                                if (subID) {
-                                    navigate(`/${id}/profile/${subID}` + (tab ? '/' + tab : ''))
-                                } else {
-                                    navigate(`/${id}` + (tab ? '/' + tab : ''))
-                                }
-                            }}
-                        />
-                        <PrivateTimelineDoor timeline={timeline} />
-                    </>
-                ) : (
-                    <>
-                        {targetTimeline && (
-                            <QueryTimelineReader
-                                ref={timelineRef}
-                                timeline={targetTimeline}
-                                query={query}
-                                perspective={user?.ccid}
-                                onScroll={(top) => {
-                                    setShowHeader(top > 180)
-                                }}
-                                header={
-                                    <>
-                                        <Profile
-                                            user={user}
-                                            overrideSubProfileID={subProfileID}
-                                            onSubProfileClicked={(subID) => {
-                                                if (subID) {
-                                                    navigate(`/${id}/profile/${subID}` + (tab ? '/' + tab : ''))
-                                                } else {
-                                                    navigate(`/${id}` + (tab ? '/' + tab : ''))
-                                                }
-                                            }}
-                                        />
-                                        <Tabs
-                                            value={tab}
-                                            onChange={(_, value) => {
-                                                if (subProfileID) {
-                                                    navigate(
-                                                        `/${id}/profile/${subProfileID}` + (value ? '/' + value : '')
-                                                    )
-                                                } else {
-                                                    navigate(`/${id}` + (value ? '/' + value : ''))
-                                                }
-                                            }}
-                                            textColor="secondary"
-                                            indicatorColor="secondary"
-                                        >
-                                            <Tab label={t('crnt')} value="" />
-                                            <Tab label={t('media')} value="media" />
-                                            <Tab label={t('activity')} value="activity" />
-                                        </Tabs>
-                                        <Divider />
-                                        {tab === 'activity' && (
+                        {timeline && isPrivate ? (
+                            <>
+                                <Profile
+                                    user={user}
+                                    overrideSubProfileID={subProfileID}
+                                    onSubProfileClicked={(subID) => {
+                                        if (subID) {
+                                            navigate(`/${id}/profile/${subID}` + (tab ? '/' + tab : ''))
+                                        } else {
+                                            navigate(`/${id}` + (tab ? '/' + tab : ''))
+                                        }
+                                    }}
+                                />
+                                <PrivateTimelineDoor timeline={timeline} />
+                            </>
+                        ) : (
+                            <>
+                                {targetTimeline && (
+                                    <QueryTimelineReader
+                                        ref={timelineRef}
+                                        timeline={targetTimeline}
+                                        query={query}
+                                        perspective={user?.ccid}
+                                        onScroll={(top) => {
+                                            setShowHeader(top > 180)
+                                        }}
+                                        header={
                                             <>
-                                                <TimelineFilter
-                                                    selected={filter}
-                                                    setSelected={setFilter}
-                                                    sx={{ px: 1 }}
+                                                <Profile
+                                                    user={user}
+                                                    overrideSubProfileID={subProfileID}
+                                                    onSubProfileClicked={(subID) => {
+                                                        if (subID) {
+                                                            navigate(`/${id}/profile/${subID}` + (tab ? '/' + tab : ''))
+                                                        } else {
+                                                            navigate(`/${id}` + (tab ? '/' + tab : ''))
+                                                        }
+                                                    }}
                                                 />
+                                                <Tabs
+                                                    value={tab}
+                                                    onChange={(_, value) => {
+                                                        if (subProfileID) {
+                                                            navigate(
+                                                                `/${id}/profile/${subProfileID}` +
+                                                                    (value ? '/' + value : '')
+                                                            )
+                                                        } else {
+                                                            navigate(`/${id}` + (value ? '/' + value : ''))
+                                                        }
+                                                    }}
+                                                    textColor="secondary"
+                                                    indicatorColor="secondary"
+                                                >
+                                                    <Tab label={t('crnt')} value="" />
+                                                    <Tab label={t('media')} value="media" />
+                                                    <Tab label={t('activity')} value="activity" />
+                                                </Tabs>
                                                 <Divider />
+                                                {tab === 'activity' && (
+                                                    <>
+                                                        <TimelineFilter
+                                                            selected={filter}
+                                                            setSelected={setFilter}
+                                                            sx={{ px: 1 }}
+                                                        />
+                                                        <Divider />
+                                                    </>
+                                                )}
                                             </>
-                                        )}
-                                    </>
-                                }
-                            />
+                                        }
+                                    />
+                                )}
+                            </>
                         )}
                     </>
                 )}
