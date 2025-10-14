@@ -152,6 +152,32 @@ export const AutoSummaryProvider = (props: AutoSummaryProviderProps): JSX.Elemen
                         )
                     }
 
+                    const matchSoundcloudLink = url?.match(/https:\/\/soundcloud\.com\/([^\s]+)/)
+                    if (matchSoundcloudLink) {
+                        return (
+                            <Box
+                                component="span"
+                                sx={{
+                                    display: 'block',
+                                    overflow: 'hidden',
+                                    width: '100%',
+                                    height: '152px',
+                                    borderRadius: 1
+                                }}
+                            >
+                                <iframe
+                                    allowFullScreen
+                                    src={`https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/${matchSoundcloudLink[1]}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        border: 'none'
+                                    }}
+                                />
+                            </Box>
+                        )
+                    }
+
                     return <UrlSummaryCard key={i} url={url} />
                 })}
             </Box>
