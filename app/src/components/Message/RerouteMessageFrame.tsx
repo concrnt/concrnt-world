@@ -33,8 +33,6 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
     const confirm = useConfirm()
 
-    const link = props.message.document.body.profileOverride?.link ?? '/' + props.message.author
-
     return (
         <>
             <Box display="flex" alignItems="center" gap={1}>
@@ -51,7 +49,11 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                             height: { xs: '12px', sm: '18px' }
                         }}
                         component={RouterLink}
-                        to={link}
+                        to={
+                            props.message.document.meta?.apActorId
+                                ? `/ap/${props.message.document.meta.apActorId}`
+                                : `/${props.message.author}`
+                        }
                     >
                         <CCAvatar
                             avatarURL={props.message.authorProfile.avatar}
@@ -80,7 +82,15 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                         whiteSpace: 'nowrap'
                     }}
                 >
-                    <CCLink to={link} underline="hover" color="inherit">
+                    <CCLink
+                        to={
+                            props.message.document.meta?.apActorId
+                                ? `/ap/${props.message.document.meta.apActorId}`
+                                : `/${props.message.author}`
+                        }
+                        underline="hover"
+                        color="inherit"
+                    >
                         {props.message.authorProfile.username ?? 'anonymous'}
                     </CCLink>
                     {props.message.authorProfile.original && <FaTheaterMasks />} rerouted{' '}

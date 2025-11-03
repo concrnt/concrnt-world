@@ -136,9 +136,11 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                         textDecoration: 'none'
                                     }}
                                     component={RouterLink}
-                                    to={fav.document.body.profileOverride?.link ?? '/' + fav.author}
-                                    target={fav.document.body.profileOverride?.link ? '_blank' : undefined}
-                                    rel={fav.document.body.profileOverride?.link ? 'noopener noreferrer' : undefined}
+                                    to={
+                                        fav.document.meta?.apActorId
+                                            ? `/ap${fav.document.meta.apActorId}`
+                                            : `/${fav.author}`
+                                    }
                                     onClick={(e) => {
                                         e.stopPropagation()
                                     }}

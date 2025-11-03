@@ -1214,8 +1214,53 @@ export class Association<T> implements Omit<CoreAssociation<T>, 'document' | 'pa
     }
 
     static async loadByBody<T>(client: Client, body: CoreAssociation<T>): Promise<Association<T> | null> {
-        const association = new Association<T>(client, body)
+        const association = new Association<any>(client, body)
         association.authorUser = (await client.getUser(association.author)) ?? undefined
+
+        association.authorProfile = { ...association.authorProfile, ...association.authorUser?.profile }
+        association.authorProfile.alias = association.authorUser?.alias
+
+        if (association.document.body.profileOverride) {
+            if (association.document.body.profileOverride.username) {
+                association.authorProfile.original = {
+                    ...association.authorProfile.original,
+                    username: association.authorProfile.username
+                }
+                association.authorProfile.username = association.document.body.profileOverride.username
+            }
+            if (association.document.body.profileOverride.avatar) {
+                association.authorProfile.original = {
+                    ...association.authorProfile.original,
+                    avatar: association.authorProfile.avatar
+                }
+                association.authorProfile.avatar = association.document.body.profileOverride.avatar
+            }
+            if (association.document.body.profileOverride.profileID) {
+                association.authorProfile.profileOverrideID = association.document.body.profileOverride.profileID
+                const profileOverride = await client.api
+                    .getProfile<ProfileSchema>(association.document.body.profileOverride.profileID, association.author)
+                    .catch((e) => {
+                        console.error('CLIENT::getAssociation::getProfile::error', e)
+                        return null
+                    })
+                if (profileOverride) {
+                    if (profileOverride.parsedDoc.body.username) {
+                        association.authorProfile.original = {
+                            ...association.authorProfile.original,
+                            username: association.authorProfile.username
+                        }
+                        association.authorProfile.username = profileOverride.parsedDoc.body.username
+                    }
+                    if (profileOverride.parsedDoc.body.avatar) {
+                        association.authorProfile.original = {
+                            ...association.authorProfile.original,
+                            avatar: association.authorProfile.avatar
+                        }
+                        association.authorProfile.avatar = profileOverride.parsedDoc.body.avatar
+                    }
+                }
+            }
+        }
 
         return association
     }

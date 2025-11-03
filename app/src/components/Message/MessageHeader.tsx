@@ -51,7 +51,11 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                 <CCLink
                     underline="hover"
                     color="inherit"
-                    to={props.message.document.body.profileOverride?.link ?? `/${props.message.author}`}
+                    to={
+                        props.message.document.meta?.apActorId
+                            ? `/ap/${props.message.document.meta.apActorId}`
+                            : `/${props.message.author}`
+                    }
                     sx={{
                         flexShrink: 0
                     }}
