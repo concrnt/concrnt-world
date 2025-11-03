@@ -46,8 +46,7 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
     const masked =
-        (isMeToOther ? props.association.document.body.profileOverride : target?.document.body.profileOverride) !==
-        undefined
+        (isMeToOther ? props.association.authorProfile.original : target?.authorProfile.original) !== undefined
 
     const targetLink = target ? `/${target.author}/${target.id}` : '#' // Link to favorite message
     useEffect(() => {

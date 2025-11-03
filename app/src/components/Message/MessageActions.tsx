@@ -148,9 +148,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                             height: '20px',
                                             width: '20px'
                                         }}
-                                        avatarURL={
-                                            fav.document.body.profileOverride?.avatar ?? fav.authorUser?.profile?.avatar
-                                        }
+                                        avatarURL={fav.authorProfile.avatar}
                                         identiconSource={fav.author}
                                     />
                                     <Typography
@@ -159,9 +157,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                             color: '#fff'
                                         }}
                                     >
-                                        {fav.document.body.profileOverride?.username ||
-                                            fav.authorUser?.profile?.username ||
-                                            'anonymous'}
+                                        {fav.authorProfile.username ?? 'anonymous'}
                                     </Typography>
                                 </Box>
                             ))}
