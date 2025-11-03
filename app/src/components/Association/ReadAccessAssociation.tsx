@@ -22,7 +22,7 @@ export const ReadAccessAssociation = (props: ReadAccessAssociationProps): ReactE
     }, [props.association])
 
     return (
-        <ContentWithCCAvatar author={props.association.authorUser}>
+        <ContentWithCCAvatar author={props.association.authorUser} profile={props.association.authorProfile}>
             <Box display="flex" justifyContent="space-between">
                 <Typography>
                     <Trans
@@ -30,7 +30,7 @@ export const ReadAccessAssociation = (props: ReadAccessAssociationProps): ReactE
                         components={{
                             username: (
                                 <CCLink to={`/${props.association.author}`}>
-                                    {props.association.authorUser?.profile?.username}
+                                    {props.association.authorProfile.username}
                                 </CCLink>
                             ),
                             timeline: (

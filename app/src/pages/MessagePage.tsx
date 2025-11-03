@@ -136,7 +136,7 @@ export function MessagePage(): JSX.Element {
         <>
             {message && (
                 <Helmet>
-                    <title>{`${message.authorUser?.profile?.username || 'anonymous'}: "${
+                    <title>{`${message.authorProfile.username || 'anonymous'}: "${
                         message.document.body.body
                     }" - Concrnt`}</title>
                     <meta name="description" content={message.document.body.body} />

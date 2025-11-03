@@ -201,7 +201,6 @@ export function Profile(props: ProfileProps): JSX.Element {
                     isLoading={!props.user}
                     alt={props.user.profile?.username}
                     avatarURL={props.user.profile?.avatar}
-                    avatarOverride={subProfile ? subProfile.parsedDoc.body.avatar : undefined}
                     identiconSource={props.user.ccid}
                     sx={{
                         width: '100px',

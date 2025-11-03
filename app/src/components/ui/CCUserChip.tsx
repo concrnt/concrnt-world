@@ -1,5 +1,3 @@
-import { Tooltip, Paper } from '@mui/material'
-import { UserProfileCard } from '../UserProfileCard'
 import { ProfileOverride, type User } from '@concrnt/worldlib'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import { useClient } from '../../context/ClientContext'
@@ -48,26 +46,7 @@ export const CCUserChip = (props: CCUserChipProps): JSX.Element => {
     )
 
     return (
-        <Tooltip
-            enterDelay={500}
-            enterNextDelay={500}
-            leaveDelay={300}
-            placement="top"
-            components={{
-                Tooltip: Paper
-            }}
-            componentsProps={{
-                tooltip: {
-                    sx: {
-                        m: 1,
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        minWidth: '300px'
-                    }
-                }
-            }}
-            title={<UserProfileCard user={user ?? undefined} />}
-        >
+        <>
             {props.onDelete ? (
                 <CCChip
                     size={'small'}
@@ -83,6 +62,6 @@ export const CCUserChip = (props: CCUserChipProps): JSX.Element => {
                     icon={icon}
                 />
             )}
-        </Tooltip>
+        </>
     )
 }

@@ -71,10 +71,8 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
     return (
         <ContentWithCCAvatar
             message={props.message}
+            profile={props.message.authorProfile}
             author={props.message.authorUser}
-            profileOverride={props.message.document.body.profileOverride}
-            avatarOverride={characterOverride?.parsedDoc.body.avatar}
-            characterOverride={characterOverride?.parsedDoc.body}
             apId={apId}
         >
             <MessageHeader

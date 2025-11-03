@@ -1,6 +1,7 @@
 import { Tooltip, Paper } from '@mui/material'
 import {
     Schemas,
+    UserProfile,
     type CommunityTimelineSchema,
     type ProfileSchema,
     type SubprofileTimelineSchema,
@@ -21,7 +22,7 @@ export interface TimelineChipProps {
 export const TimelineChip = (props: TimelineChipProps): JSX.Element => {
     const { client } = useClient()
     const [timeline, setTimeline] = useState<Timeline<any> | null | undefined>(undefined)
-    const [profile, setProfile] = useState<ProfileSchema | null | undefined>(null)
+    const [profile, setProfile] = useState<UserProfile | null | undefined>(null)
 
     const domain = props.timelineFQID?.split('@')?.[1]
 
@@ -43,7 +44,11 @@ export const TimelineChip = (props: TimelineChipProps): JSX.Element => {
                     .getProfile<ProfileSchema>(timeline.document.body.subprofile, timeline.author)
                     .then((profile) => {
                         if (!profile) return
-                        setProfile(profile.parsedDoc.body)
+                        setProfile({
+                            ccid: timeline.author,
+                            profileOverrideID: timeline.document.body.subprofile,
+                            ...profile.parsedDoc.body
+                        })
                     })
             }
         })
@@ -87,15 +92,7 @@ export const TimelineChip = (props: TimelineChipProps): JSX.Element => {
             }}
             title={
                 profile ? (
-                    <UserProfileCard
-                        profile={profile}
-                        ccid={timeline.author}
-                        subProfileID={
-                            timeline.schema === Schemas.subprofileTimeline
-                                ? timeline.document.body.subprofile
-                                : undefined
-                        }
-                    />
+                    <UserProfileCard profile={profile} />
                 ) : (
                     <>
                         {domain && (

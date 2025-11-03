@@ -411,9 +411,7 @@ const SummarisedLike = (props: { items: Association<any>[] }) => {
                         >
                             <CCAvatar
                                 circle
-                                avatarURL={
-                                    item.document.body.profileOverride?.avatar ?? item.authorUser?.profile?.avatar
-                                }
+                                avatarURL={item.authorProfile.avatar}
                                 sx={{
                                     width: { width: '32px', height: '32px' }
                                 }}
@@ -425,17 +423,13 @@ const SummarisedLike = (props: { items: Association<any>[] }) => {
                     {props.items.length === 1 ? (
                         <Typography>
                             {t('favorite', {
-                                name:
-                                    props.items[0].document.body.profileOverride?.username ??
-                                    props.items[0].authorUser?.profile?.username
+                                name: props.items[0].authorProfile.username
                             })}
                         </Typography>
                     ) : (
                         <Typography>
                             {t('favoriteMany', {
-                                name:
-                                    props.items[0].document.body.profileOverride?.username ??
-                                    props.items[0].authorUser?.profile?.username,
+                                name: props.items[0].authorProfile.username,
                                 count: props.items.length - 1
                             })}
                         </Typography>
@@ -468,7 +462,6 @@ const SummarisedReaction = (props: { items: Association<any>[] }) => {
 
     const reactions: Record<string, Association<any>[]> = {}
     for (const item of props.items) {
-        if (!item.authorUser) continue
         if (item.variant in reactions) {
             reactions[item.variant].push(item)
         } else {
@@ -549,10 +542,7 @@ const SummarisedReaction = (props: { items: Association<any>[] }) => {
                                         >
                                             <CCAvatar
                                                 circle
-                                                avatarURL={
-                                                    item.document.body.profileOverride?.avatar ??
-                                                    item.authorUser?.profile?.avatar
-                                                }
+                                                avatarURL={item.authorProfile.avatar}
                                                 sx={{
                                                     width: { width: '32px', height: '32px' }
                                                 }}
@@ -569,17 +559,13 @@ const SummarisedReaction = (props: { items: Association<any>[] }) => {
                     {props.items.length === 1 ? (
                         <Typography>
                             {t('reaction', {
-                                name:
-                                    props.items[0].document.body.profileOverride?.username ??
-                                    props.items[0].authorUser?.profile?.username
+                                name: props.items[0].authorProfile.username
                             })}
                         </Typography>
                     ) : (
                         <Typography>
                             {t('reactionMany', {
-                                name:
-                                    props.items[0].document.body.profileOverride?.username ??
-                                    props.items[0].authorUser?.profile?.username,
+                                name: props.items[0].authorProfile.username,
                                 count: props.items.length - 1
                             })}
                         </Typography>
