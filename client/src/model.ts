@@ -1,4 +1,15 @@
 import { CCID } from '@concrnt/client'
+import { ProfileSchema } from './schemas/profile'
+
+export interface UserProfile extends ProfileSchema {
+    ccid: CCID
+    alias?: string
+    profileOverrideID?: string
+    original?: {
+        username?: string
+        avatar?: string
+    }
+}
 
 export interface ProfileOverride {
     username?: string

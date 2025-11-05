@@ -154,8 +154,8 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                                     to={'/' + reaction.reaction.author}
                                 >
                                     <CCAvatar
-                                        avatarURL={reaction.reaction.authorUser?.profile?.avatar}
-                                        identiconSource={reaction.reaction.author}
+                                        avatarURL={reaction.reaction.authorProfile.avatar}
+                                        identiconSource={reaction.reaction.authorProfile.ccid}
                                         sx={{
                                             width: { xs: '12px', sm: '18px' },
                                             height: { xs: '12px', sm: '18px' }
@@ -167,7 +167,7 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                                             color: '#fff'
                                         }}
                                     >
-                                        {reaction.reaction.authorUser?.profile?.username || 'anonymous'}
+                                        {reaction.reaction.authorProfile.username || 'anonymous'}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -224,22 +224,17 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                                             textDecoration: 'none'
                                         }}
                                         component={routerLink}
-                                        to={reaction.document.body.profileOverride?.link ?? '/' + reaction.author}
-                                        target={reaction.document.body.profileOverride?.link ? '_blank' : undefined}
-                                        rel={
-                                            reaction.document.body.profileOverride?.link
-                                                ? 'noopener noreferrer'
-                                                : undefined
+                                        to={
+                                            reaction.document.meta?.apActorId
+                                                ? `/ap/${reaction.document.meta.apActorId}`
+                                                : `/${reaction.author}`
                                         }
                                         onClick={(e) => {
                                             e.stopPropagation()
                                         }}
                                     >
                                         <CCAvatar
-                                            avatarURL={
-                                                reaction.document.body.profileOverride?.avatar ??
-                                                reaction.authorUser?.profile?.avatar
-                                            }
+                                            avatarURL={reaction.authorProfile.avatar}
                                             identiconSource={reaction.author}
                                             sx={{
                                                 width: { xs: '12px', sm: '18px' },
@@ -252,9 +247,7 @@ export const MessageReactions = (props: MessageReactionsProps): JSX.Element => {
                                                 color: '#fff'
                                             }}
                                         >
-                                            {reaction.document.body.profileOverride?.username ||
-                                                reaction.authorUser?.profile?.username ||
-                                                'anonymous'}
+                                            {reaction.authorProfile.username || 'anonymous'}
                                         </Typography>
                                     </Box>
                                 ))}

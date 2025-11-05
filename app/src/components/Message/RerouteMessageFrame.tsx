@@ -1,14 +1,13 @@
 import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 
 import { type Message, type RerouteMessageSchema } from '@concrnt/worldlib'
-import { Profile } from '@concrnt/client'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import { CCAvatar } from '../ui/CCAvatar'
 import { Link as RouterLink } from 'react-router-dom'
 import { TimeDiff } from '../ui/TimeDiff'
 import { MessageContainer } from './MessageContainer'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useClient } from '../../context/ClientContext'
@@ -32,27 +31,7 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
     const { client } = useClient()
     const inspector = useInspector()
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
-    const [character, setProfile] = useState<Profile<any> | null>(null)
     const confirm = useConfirm()
-
-    const profileOverride = props.message.document.body.profileOverride
-
-    const avatarURL =
-        character?.parsedDoc.body.avatar ?? profileOverride?.avatar ?? props.message.authorUser?.profile?.avatar
-    const username =
-        character?.parsedDoc.body.username ??
-        profileOverride?.username ??
-        props.message.authorUser?.profile?.username ??
-        'Anonymous'
-    const link = profileOverride?.link ?? '/' + props.message.author
-
-    useEffect(() => {
-        if (profileOverride?.profileID) {
-            client.api.getProfile(profileOverride.profileID, props.message.author).then((character) => {
-                setProfile(character ?? null)
-            })
-        }
-    }, [profileOverride?.profileID])
 
     return (
         <>
@@ -70,10 +49,14 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                             height: { xs: '12px', sm: '18px' }
                         }}
                         component={RouterLink}
-                        to={link}
+                        to={
+                            props.message.document.meta?.apActorId
+                                ? `/ap/${props.message.document.meta.apActorId}`
+                                : `/${props.message.author}`
+                        }
                     >
                         <CCAvatar
-                            avatarURL={avatarURL}
+                            avatarURL={props.message.authorProfile.avatar}
                             identiconSource={props.message.author}
                             sx={{
                                 width: { xs: '12px', sm: '18px' },
@@ -99,10 +82,18 @@ export const RerouteMessageFrame = (props: RerouteMessageFrameProp): JSX.Element
                         whiteSpace: 'nowrap'
                     }}
                 >
-                    <CCLink to={link} underline="hover" color="inherit">
-                        {username}
+                    <CCLink
+                        to={
+                            props.message.document.meta?.apActorId
+                                ? `/ap/${props.message.document.meta.apActorId}`
+                                : `/${props.message.author}`
+                        }
+                        underline="hover"
+                        color="inherit"
+                    >
+                        {props.message.authorProfile.username ?? 'anonymous'}
                     </CCLink>
-                    {profileOverride?.avatar && <FaTheaterMasks />} rerouted{' '}
+                    {props.message.authorProfile.original && <FaTheaterMasks />} rerouted{' '}
                     {props.message.document.body.body && 'with comment:'}
                 </Box>
                 <Box display="flex" gap={0.5}>

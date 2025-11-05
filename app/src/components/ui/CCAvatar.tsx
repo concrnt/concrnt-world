@@ -7,7 +7,6 @@ export interface CCAvatarProps {
     sx?: SxProps
     alt?: string
     avatarURL?: string
-    avatarOverride?: string
     identiconSource?: string
     isLoading?: boolean
 }
@@ -22,7 +21,7 @@ export const CCAvatar = (props: CCAvatarProps): JSX.Element => {
     return (
         <Avatar
             alt={props.alt}
-            src={getImageURL(props.avatarOverride ?? props.avatarURL, { maxWidth: 256 })}
+            src={getImageURL(props.avatarURL, { maxWidth: 256 })}
             sx={{
                 ...props.sx,
                 borderRadius: props.circle ? undefined : 1
@@ -36,7 +35,7 @@ export const CCAvatar = (props: CCAvatarProps): JSX.Element => {
                 size={1000}
                 style={{
                     width: '100%',
-                    height: '100%',
+                    height: '100%'
                 }}
             />
         </Avatar>

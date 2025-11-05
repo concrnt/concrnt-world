@@ -47,6 +47,7 @@ import {
     type UpgradeAssociationSchema
 } from './schemas/'
 import {
+    UserProfile,
     type BadgeRef,
     type CreateCurrentOptions,
     type CreateMediaCrntOptions,
@@ -991,7 +992,7 @@ export class User implements Omit<CoreEntity, 'parsedAffiliationDoc' | 'parsedTo
 
     // ---------- //
 
-    profile?: ProfileSchema
+    profile?: UserProfile
 
     get notificationTimeline(): string {
         return 'world.concrnt.t-notify@' + this.ccid
@@ -1023,7 +1024,11 @@ export class User implements Omit<CoreEntity, 'parsedAffiliationDoc' | 'parsedTo
     constructor(client: Client, domain: FQDN, entity: CoreEntity, profile?: ProfileSchema) {
         this.client = client
         this.domain = domain
-        this.profile = profile
+        this.profile = {
+            ccid: entity.ccid,
+            alias: entity.alias,
+            ...profile
+        }
 
         this.ccid = entity.ccid
         this.alias = entity.alias
@@ -1105,6 +1110,7 @@ export class Association<T> implements Omit<CoreAssociation<T>, 'document' | 'pa
     document: CCDocument.Association<T>
     _document: string
     authorUser?: User
+    authorProfile: UserProfile
     get targetType(): 'messages' | 'characters' {
         if (this.target[0] === 'm') {
             return 'messages'
@@ -1128,6 +1134,10 @@ export class Association<T> implements Omit<CoreAssociation<T>, 'document' | 'pa
 
         this.document = JSON.parse(data.document)
         this._document = data.document
+
+        this.authorProfile = {
+            ccid: this.author
+        }
     }
 
     toJSON(): any {
@@ -1150,17 +1160,107 @@ export class Association<T> implements Omit<CoreAssociation<T>, 'document' | 'pa
         })
         if (!coreAss) return null
 
-        const association = new Association<T>(client, coreAss)
+        const association = new Association<any>(client, coreAss)
         association.authorUser = (await client.getUser(association.author)) ?? undefined
 
         association.owner = owner
+
+        association.authorProfile = { ...association.authorProfile, ...association.authorUser?.profile }
+        association.authorProfile.alias = association.authorUser?.alias
+
+        if (association.document.body.profileOverride) {
+            if (association.document.body.profileOverride.username) {
+                association.authorProfile.original = {
+                    ...association.authorProfile.original,
+                    username: association.authorProfile.username
+                }
+                association.authorProfile.username = association.document.body.profileOverride.username
+            }
+            if (association.document.body.profileOverride.avatar) {
+                association.authorProfile.original = {
+                    ...association.authorProfile.original,
+                    avatar: association.authorProfile.avatar
+                }
+                association.authorProfile.avatar = association.document.body.profileOverride.avatar
+            }
+            if (association.document.body.profileOverride.profileID) {
+                association.authorProfile.profileOverrideID = association.document.body.profileOverride.profileID
+                const profileOverride = await client.api
+                    .getProfile<ProfileSchema>(association.document.body.profileOverride.profileID, association.author)
+                    .catch((e) => {
+                        console.error('CLIENT::getAssociation::getProfile::error', e)
+                        return null
+                    })
+                if (profileOverride) {
+                    if (profileOverride.parsedDoc.body.username) {
+                        association.authorProfile.original = {
+                            ...association.authorProfile.original,
+                            username: association.authorProfile.username
+                        }
+                        association.authorProfile.username = profileOverride.parsedDoc.body.username
+                    }
+                    if (profileOverride.parsedDoc.body.avatar) {
+                        association.authorProfile.original = {
+                            ...association.authorProfile.original,
+                            avatar: association.authorProfile.avatar
+                        }
+                        association.authorProfile.avatar = profileOverride.parsedDoc.body.avatar
+                    }
+                }
+            }
+        }
 
         return association
     }
 
     static async loadByBody<T>(client: Client, body: CoreAssociation<T>): Promise<Association<T> | null> {
-        const association = new Association<T>(client, body)
+        const association = new Association<any>(client, body)
         association.authorUser = (await client.getUser(association.author)) ?? undefined
+
+        association.authorProfile = { ...association.authorProfile, ...association.authorUser?.profile }
+        association.authorProfile.alias = association.authorUser?.alias
+
+        if (association.document.body.profileOverride) {
+            if (association.document.body.profileOverride.username) {
+                association.authorProfile.original = {
+                    ...association.authorProfile.original,
+                    username: association.authorProfile.username
+                }
+                association.authorProfile.username = association.document.body.profileOverride.username
+            }
+            if (association.document.body.profileOverride.avatar) {
+                association.authorProfile.original = {
+                    ...association.authorProfile.original,
+                    avatar: association.authorProfile.avatar
+                }
+                association.authorProfile.avatar = association.document.body.profileOverride.avatar
+            }
+            if (association.document.body.profileOverride.profileID) {
+                association.authorProfile.profileOverrideID = association.document.body.profileOverride.profileID
+                const profileOverride = await client.api
+                    .getProfile<ProfileSchema>(association.document.body.profileOverride.profileID, association.author)
+                    .catch((e) => {
+                        console.error('CLIENT::getAssociation::getProfile::error', e)
+                        return null
+                    })
+                if (profileOverride) {
+                    if (profileOverride.parsedDoc.body.username) {
+                        association.authorProfile.original = {
+                            ...association.authorProfile.original,
+                            username: association.authorProfile.username
+                        }
+                        association.authorProfile.username = profileOverride.parsedDoc.body.username
+                    }
+                    if (profileOverride.parsedDoc.body.avatar) {
+                        association.authorProfile.original = {
+                            ...association.authorProfile.original,
+                            avatar: association.authorProfile.avatar
+                        }
+                        association.authorProfile.avatar = profileOverride.parsedDoc.body.avatar
+                    }
+                }
+            }
+        }
 
         return association
     }
@@ -1295,6 +1395,7 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
     _document: string
     _policyParams?: string
     authorUser?: User
+    authorProfile: UserProfile
     associationCounts?: Record<string, number>
     reactionCounts?: Record<string, number>
     postedTimelines?: Array<Timeline<any>>
@@ -1309,6 +1410,9 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         this.id = data.id
         this._document = data.document
         this.document = JSON.parse(data.document)
+        this.authorProfile = {
+            ccid: this.author
+        }
         this.schema = data.schema as Schema
         this.signature = data.signature
         this.timelines = data.timelines
@@ -1347,13 +1451,56 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         const coreMsg = await client.api.getMessageWithAuthor<T>(id, authorID, hint)
         if (!coreMsg) return null
 
-        const message = new Message(client, coreMsg)
+        const message = new Message<any>(client, coreMsg)
 
         message.authorUser = (await client.getUser(authorID)) ?? undefined
         message.associationCounts = await client.api.getMessageAssociationCountsByTarget(id, authorID)
         message.reactionCounts = await client.api.getMessageAssociationCountsByTarget(id, authorID, {
             schema: Schemas.reactionAssociation
         })
+        message.authorProfile = { ...message.authorProfile, ...message.authorUser?.profile }
+        message.authorProfile.alias = message.authorUser?.alias
+        if (message.document.body.profileOverride) {
+            if (message.document.body.profileOverride.username) {
+                message.authorProfile.original = {
+                    ...message.authorProfile.original,
+                    username: message.authorProfile.username
+                }
+                message.authorProfile.username = message.document.body.profileOverride.username
+            }
+            if (message.document.body.profileOverride.avatar) {
+                message.authorProfile.original = {
+                    ...message.authorProfile.original,
+                    avatar: message.authorProfile.avatar
+                }
+                message.authorProfile.avatar = message.document.body.profileOverride.avatar
+            }
+            if (message.document.body.profileOverride.profileID) {
+                message.authorProfile.profileOverrideID = message.document.body.profileOverride.profileID
+                const overrideProfile = await client.api
+                    .getProfile<ProfileSchema>(message.document.body.profileOverride.profileID, message.author)
+                    .catch((e) => {
+                        console.error('CLIENT::getMessage::getProfile::error', e)
+                        return null
+                    })
+                if (overrideProfile) {
+                    if (overrideProfile.parsedDoc.body.username) {
+                        message.authorProfile.original = {
+                            ...message.authorProfile.original,
+                            username: message.authorProfile.username
+                        }
+                        message.authorProfile.username = overrideProfile.parsedDoc.body.username
+                    }
+                    if (overrideProfile.parsedDoc.body.avatar) {
+                        message.authorProfile.original = {
+                            ...message.authorProfile.original,
+                            avatar: message.authorProfile.avatar
+                        }
+                        message.authorProfile.avatar = overrideProfile.parsedDoc.body.avatar
+                    }
+                }
+            }
+        }
 
         const timelines_request = await Promise.allSettled(message.timelines.map((e) => client.getTimeline(e)))
         const timelines_fulfilled = timelines_request.filter(isFulfilled)

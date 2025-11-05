@@ -5,7 +5,6 @@ import { Box } from '@mui/material'
 interface Props extends Meta {
     identiconSource: string
     avatarURL: string
-    avatarOverride?: string
 }
 
 export const Default = (props: Props): JSX.Element => {
@@ -13,16 +12,11 @@ export const Default = (props: Props): JSX.Element => {
         <Box display="flex" flexDirection="column" gap={1}>
             <Box display="flex" flexDirection="row" gap={1}>
                 <CCAvatar identiconSource={props.identiconSource} />
-                <CCAvatar identiconSource={props.identiconSource} avatarOverride={props.avatarOverride} />
             </Box>
 
             <Box display="flex" flexDirection="row" gap={1}>
                 <CCAvatar identiconSource={props.identiconSource} avatarURL={props.avatarURL} />
-                <CCAvatar
-                    identiconSource={props.identiconSource}
-                    avatarURL={props.avatarURL}
-                    avatarOverride={props.avatarOverride}
-                />
+                <CCAvatar identiconSource={props.identiconSource} avatarURL={props.avatarURL} />
             </Box>
         </Box>
     )
@@ -42,17 +36,11 @@ export default {
             control: {
                 type: 'text'
             }
-        },
-        avatarOverride: {
-            control: {
-                type: 'text'
-            }
         }
     },
     args: {
         identiconSource: 'con1t0tey8uxhkqkd4wcp4hd4jedt7f0vfhk29xdd2',
-        avatarURL: 'https://github.com/totegamma.png',
-        avatarOverride: 'https://github.com/concrnt.png'
+        avatarURL: 'https://github.com/totegamma.png'
     },
     parameters: {}
 }

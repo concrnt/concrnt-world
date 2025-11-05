@@ -136,9 +136,11 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                         textDecoration: 'none'
                                     }}
                                     component={RouterLink}
-                                    to={fav.document.body.profileOverride?.link ?? '/' + fav.author}
-                                    target={fav.document.body.profileOverride?.link ? '_blank' : undefined}
-                                    rel={fav.document.body.profileOverride?.link ? 'noopener noreferrer' : undefined}
+                                    to={
+                                        fav.document.meta?.apActorId
+                                            ? `/ap/${fav.document.meta.apActorId}`
+                                            : `/${fav.author}`
+                                    }
                                     onClick={(e) => {
                                         e.stopPropagation()
                                     }}
@@ -148,9 +150,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                             height: '20px',
                                             width: '20px'
                                         }}
-                                        avatarURL={
-                                            fav.document.body.profileOverride?.avatar ?? fav.authorUser?.profile?.avatar
-                                        }
+                                        avatarURL={fav.authorProfile.avatar}
                                         identiconSource={fav.author}
                                     />
                                     <Typography
@@ -159,9 +159,7 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                                             color: '#fff'
                                         }}
                                     >
-                                        {fav.document.body.profileOverride?.username ||
-                                            fav.authorUser?.profile?.username ||
-                                            'anonymous'}
+                                        {fav.authorProfile.username ?? 'anonymous'}
                                     </Typography>
                                 </Box>
                             ))}

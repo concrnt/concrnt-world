@@ -145,16 +145,7 @@ const timeline = forwardRef((props: RealtimeTimelineProps, ref: ForwardedRef<VLi
                             .getMessage<Messages>(item.resourceID, item.owner, item.timelineID.split('@')[1])
                             .then(async (msg) => {
                                 if (!msg) return
-                                let icon = undefined
-                                if (msg.document.body.profileOverride?.profileID) {
-                                    icon = await client.api
-                                        .getProfile<any>(msg.document.body.profileOverride?.profileID, item.owner)
-                                        .then((p) => p?.parsedDoc.body.avatar)
-                                } else if (msg.document.body.profileOverride?.avatar) {
-                                    icon = msg.document.body.profileOverride?.avatar
-                                } else {
-                                    icon = msg.authorUser?.profile?.avatar
-                                }
+                                let icon = msg.authorProfile.avatar
                                 setNewArrivals((prev) => {
                                     if (isCancelled) return prev
                                     if (!icon) return prev

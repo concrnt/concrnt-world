@@ -1,10 +1,9 @@
 import {
+    User,
     type MarkdownMessageSchema,
     type Message,
     type ReplyMessageSchema,
-    type ProfileSchema,
-    type User,
-    type ProfileOverride
+    type UserProfile
 } from '@concrnt/worldlib'
 import { Box, IconButton, ListItem, type SxProps } from '@mui/material'
 import { Link as routerLink, useNavigate, useLocation } from 'react-router-dom'
@@ -16,9 +15,7 @@ export interface ContentWithCCAvatarProps {
     message?: Message<MarkdownMessageSchema | ReplyMessageSchema>
     linkTo?: string
     author?: User
-    profileOverride?: ProfileOverride
-    characterOverride?: ProfileSchema
-    avatarOverride?: string
+    profile: UserProfile
     children?: JSX.Element | Array<JSX.Element | undefined>
     sx?: SxProps
     apId?: string
@@ -37,16 +34,14 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
     return (
         <>
             <Box itemProp="author" itemScope itemType="https://schema.org/Person">
-                {props.author && (
+                <>
+                    <meta itemProp="identifier" content={props.profile.ccid} />
+                    <meta itemProp="url" content={'https://concrnt.world/' + props.profile.ccid} />
+                </>
+                {props.profile.alias && <meta itemProp="alternateName" content={props.profile.alias} />}
+                {props.profile.username && (
                     <>
-                        <meta itemProp="identifier" content={props.author.ccid} />
-                        <meta itemProp="url" content={'https://concrnt.world/' + props.author.ccid} />
-                    </>
-                )}
-                {props.author?.alias && <meta itemProp="alternateName" content={props.author.alias} />}
-                {props.author?.profile?.username && (
-                    <>
-                        <meta itemProp="name" content={props.author.profile.username} />
+                        <meta itemProp="name" content={props.profile.username} />
                     </>
                 )}
             </Box>
@@ -73,11 +68,7 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                             e.stopPropagation() // prevent to navigate other page
                         }}
                     >
-                        <ProfileTooltip
-                            user={props.author}
-                            subProfileID={props.profileOverride?.profileID}
-                            profileOverride={props.profileOverride}
-                        >
+                        <ProfileTooltip user={props.author} profile={props.profile}>
                             <IconButton
                                 sx={{
                                     width: { xs: '38px', sm: '48px' },
@@ -88,15 +79,14 @@ export const ContentWithCCAvatar = (props: ContentWithCCAvatarProps): JSX.Elemen
                                 to={
                                     apLink ??
                                     '/' +
-                                        (props.author?.ccid ?? '') +
-                                        (props.profileOverride?.profileID ? '#' + props.profileOverride.profileID : '')
+                                        (props.profile.ccid ?? '') +
+                                        (props.profile.profileOverrideID ? '#' + props.profile.profileOverrideID : '')
                                 }
                                 onPointerDown={() => profile.forceClose()} // prevent to stick showing when clicking
                             >
                                 <CCAvatar
-                                    avatarURL={props.author?.profile?.avatar}
-                                    avatarOverride={props.avatarOverride || props.profileOverride?.avatar}
-                                    identiconSource={props.author?.ccid ?? ''}
+                                    avatarURL={props.profile.avatar}
+                                    identiconSource={props.profile.ccid}
                                     sx={{
                                         width: { xs: '38px', sm: '48px' },
                                         height: { xs: '38px', sm: '48px' }

@@ -15,7 +15,6 @@ import { useTranslation } from 'react-i18next'
 
 export interface MessageHeaderProps {
     message: Message<MarkdownMessageSchema | ReplyMessageSchema>
-    usernameOverride?: string
     additionalMenuItems?: JSX.Element | JSX.Element[]
     timeLink?: string
 }
@@ -52,7 +51,11 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                 <CCLink
                     underline="hover"
                     color="inherit"
-                    to={props.message.document.body.profileOverride?.link ?? `/${props.message.author}`}
+                    to={
+                        props.message.document.meta?.apActorId
+                            ? `/ap/${props.message.document.meta.apActorId}`
+                            : `/${props.message.author}`
+                    }
                     sx={{
                         flexShrink: 0
                     }}
@@ -64,10 +67,7 @@ export const MessageHeader = (props: MessageHeaderProps): JSX.Element => {
                             fontSize: { xs: '0.9rem', sm: '0.95rem' }
                         }}
                     >
-                        {props.usernameOverride ||
-                            props.message.document.body.profileOverride?.username ||
-                            props.message.authorUser?.profile?.username ||
-                            'anonymous'}
+                        {props.message.authorProfile.username || 'anonymous'}
                     </Typography>
                 </CCLink>
                 {props.message.document.body.profileOverride &&

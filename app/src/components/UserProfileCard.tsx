@@ -1,4 +1,4 @@
-import { type ProfileSchema, type User } from '@concrnt/worldlib'
+import { User, UserProfile } from '@concrnt/worldlib'
 import { Badge, Box, Chip, Typography } from '@mui/material'
 import { CCAvatar } from './ui/CCAvatar'
 import { useClient } from '../context/ClientContext'
@@ -11,21 +11,18 @@ import { CfmRenderer } from './ui/CfmRenderer'
 
 export interface UserProfileCardProps {
     user?: User
-    profile?: ProfileSchema
-    subProfileID?: string
-    profileOverride?: ProfileSchema
-    ccid?: string
+    profile?: UserProfile
 }
 
 export const UserProfileCard = (props: UserProfileCardProps): JSX.Element => {
     const { client } = useClient()
-    const isSelf = props.user?.ccid === client?.ccid
+    const isSelf = props.profile?.ccid === client?.ccid
     const { enqueueSnackbar } = useSnackbar()
 
-    const ccid = props.user?.ccid ?? props.ccid ?? '???????????????????'
-    const profile = props.profileOverride ?? props.user?.profile ?? props.profile
-
-    if (!profile) return <></>
+    const profile = props.profile ?? props.user?.profile
+    if (!profile) {
+        return <>no profile</>
+    }
 
     return (
         <Box display="flex" flexDirection="column" maxWidth="500px">
@@ -39,7 +36,7 @@ export const UserProfileCard = (props: UserProfileCardProps): JSX.Element => {
                 <Box
                     position="relative"
                     component={routerLink}
-                    to={'/' + ccid + (props.subProfileID ? '#' + props.subProfileID : '')}
+                    to={'/' + profile.ccid + (profile.profileOverrideID ? '#' + profile.profileOverrideID : '')}
                     sx={{
                         top: '-30px',
                         left: '10px'
@@ -52,26 +49,22 @@ export const UserProfileCard = (props: UserProfileCardProps): JSX.Element => {
                             horizontal: 'right'
                         }}
                         badgeContent={
-                            props.profileOverride && (
+                            profile.original && (
                                 <CCAvatar
                                     sx={{
                                         width: 24,
                                         height: 24
                                     }}
-                                    identiconSource={ccid}
-                                    avatarURL={props.user?.profile?.avatar ?? props.profile?.avatar}
+                                    identiconSource={profile.ccid}
+                                    avatarURL={profile.original.avatar ?? props.profile?.avatar}
                                 />
                             )
                         }
                     >
                         <CCAvatar
                             alt={profile.username}
-                            avatarURL={
-                                props.profileOverride
-                                    ? profile.avatar
-                                    : (props.user?.profile?.avatar ?? props.profile?.avatar)
-                            }
-                            identiconSource={ccid}
+                            avatarURL={profile.avatar}
+                            identiconSource={profile.ccid}
                             sx={{
                                 width: '60px',
                                 height: '60px'
@@ -108,15 +101,11 @@ export const UserProfileCard = (props: UserProfileCardProps): JSX.Element => {
                 <Typography variant="h2">{profile.username}</Typography>
                 <Chip
                     size="small"
-                    label={`${ccid.slice(0, 9)}...`}
+                    label={`${profile.ccid.slice(0, 9)}...`}
                     deleteIcon={<ContentPasteIcon />}
                     onDelete={() => {
-                        if (ccid) {
-                            navigator.clipboard.writeText(ccid)
-                            enqueueSnackbar('Copied', { variant: 'info' })
-                        } else {
-                            enqueueSnackbar('No CCID found', { variant: 'error' })
-                        }
+                        navigator.clipboard.writeText(profile.ccid)
+                        enqueueSnackbar('Copied', { variant: 'info' })
                     }}
                 />
             </Box>

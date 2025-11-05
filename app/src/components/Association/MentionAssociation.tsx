@@ -4,7 +4,8 @@ import {
     type Message,
     type ReplyMessageSchema,
     type MarkdownMessageSchema,
-    type User
+    type User,
+    UserProfile
 } from '@concrnt/worldlib'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
 import { Box, Typography } from '@mui/material'
@@ -22,11 +23,11 @@ export const MentionAssociation = (props: MentionAssociationProps): ReactElement
     const [target, setTarget] = useState<Message<MarkdownMessageSchema | ReplyMessageSchema> | null>(null)
     const isMeToOther = props.association?.authorUser?.ccid !== props.perspective
 
-    const Nominative = props.association?.authorUser?.profile?.username ?? 'anonymous'
-    const Possessive =
-        (target?.document.body.profileOverride?.username ?? target?.authorUser?.profile?.username ?? 'anonymous') + "'s"
+    const Nominative = props.association?.authorProfile.username ?? 'anonymous'
+    const Possessive = (target?.authorProfile.username ?? 'anonymous') + "'s"
 
     const actionUser: User | undefined = isMeToOther ? props.association.authorUser : target?.authorUser
+    const actionUserProfile: UserProfile = isMeToOther ? props.association.authorProfile : target?.authorProfile!
 
     const targetLink = target ? `/${target.author}/${target.id}` : '#' // Link to mention message
     useEffect(() => {
@@ -34,11 +35,7 @@ export const MentionAssociation = (props: MentionAssociationProps): ReactElement
     }, [props.association])
 
     return (
-        <ContentWithCCAvatar
-            author={actionUser}
-            linkTo={targetLink}
-            profileOverride={!isMeToOther ? target?.document.body.profileOverride : undefined}
-        >
+        <ContentWithCCAvatar author={actionUser} linkTo={targetLink} profile={actionUserProfile}>
             <Box display="flex" justifyContent="space-between">
                 <Typography>
                     {isMeToOther ? (

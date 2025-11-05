@@ -3,13 +3,11 @@ import { MessageHeader } from './MessageHeader'
 import { MessageActions } from './MessageActions'
 import { MessageReactions } from './MessageReactions'
 import { type RerouteMessageSchema, type Message, Schemas } from '@concrnt/worldlib'
-import { Profile } from '@concrnt/client'
 import { PostedTimelines } from './PostedTimelines'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ReplayIcon from '@mui/icons-material/Replay'
-import { useEffect, useMemo, useState } from 'react'
-import { useClient } from '../../context/ClientContext'
+import { useMemo, useState } from 'react'
 import { AutoSummaryProvider } from '../../context/AutoSummaryContext'
 import { useTranslator } from '../../context/Translator'
 import { useTranslation } from 'react-i18next'
@@ -35,20 +33,8 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
     const clipHeight = props.clipHeight ?? 450
     const [expanded, setExpanded] = useState(props.forceExpanded ?? false)
 
-    const { client } = useClient()
     const { t } = useTranslation('', { keyPrefix: 'common' })
     const { translatedText, processing } = useTranslator()
-
-    const [characterOverride, setProfileOverride] = useState<Profile<any> | undefined>(undefined)
-
-    useEffect(() => {
-        if (!(client && props.message.document.body.profileOverride?.profileID)) return
-        client.api
-            .getProfile(props.message.document.body.profileOverride?.profileID, props.message.author)
-            .then((profile) => {
-                setProfileOverride(profile ?? undefined)
-            })
-    }, [client, props.message])
 
     const reroutedsame = useMemo(() => {
         if (!props.rerouted) return false
@@ -71,14 +57,11 @@ export const MessageViewBase = (props: MessageViewProps): JSX.Element => {
     return (
         <ContentWithCCAvatar
             message={props.message}
+            profile={props.message.authorProfile}
             author={props.message.authorUser}
-            profileOverride={props.message.document.body.profileOverride}
-            avatarOverride={characterOverride?.parsedDoc.body.avatar}
-            characterOverride={characterOverride?.parsedDoc.body}
             apId={apId}
         >
             <MessageHeader
-                usernameOverride={characterOverride?.parsedDoc.body.username}
                 message={props.message}
                 additionalMenuItems={props.additionalMenuItems}
                 timeLink={props.message.document.meta?.apObjectRef} // Link to external message

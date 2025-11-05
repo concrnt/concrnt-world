@@ -91,12 +91,12 @@ export default function GuestMessagePage(): JSX.Element {
         <>
             {message && (
                 <Helmet>
-                    <title>{`${message.authorUser?.profile?.username || 'anonymous'}: "${
+                    <title>{`${message.authorProfile.username || 'anonymous'}: "${
                         message.document.body.body
                     }" - Concrnt`}</title>
                     <link
                         rel="canonical"
-                        href={`https://concrnt.world/${message.authorUser?.alias ?? message.author}/${message.id}`}
+                        href={`https://concrnt.world/${message.authorProfile.alias ?? message.author}/${message.id}`}
                     />
                     <meta name="description" content={message.document.body.body} />
                 </Helmet>

@@ -5,7 +5,8 @@ import {
     type ReplyMessageSchema,
     type MarkdownMessageSchema,
     type User,
-    MediaMessageSchema
+    MediaMessageSchema,
+    UserProfile
 } from '@concrnt/worldlib'
 import { ContentWithCCAvatar } from '../ContentWithCCAvatar'
 import { Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material'
@@ -36,19 +37,16 @@ export const ReactionAssociation = (props: ReactionAssociationProps): JSX.Elemen
     > | null>(null)
     const isMeToOther = props.association?.authorUser?.ccid !== props.perspective
 
-    const Nominative =
-        props.association.document.body.profileOverride?.username ??
-        props.association?.authorUser?.profile?.username ??
-        'anonymous'
-    const Possessive =
-        (target?.document.body.profileOverride?.username ?? target?.authorUser?.profile?.username ?? 'anonymous') + "'s"
+    const Nominative = props.association?.authorProfile.username ?? 'anonymous'
+    const Possessive = (target?.authorProfile.username ?? 'anonymous') + "'s"
 
     const actionUser: User | undefined = isMeToOther ? props.association.authorUser : target?.authorUser
+    const actionUserProfile: UserProfile = isMeToOther ? props.association.authorProfile : target?.authorProfile!
+
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 
     const masked =
-        (isMeToOther ? props.association.document.body.profileOverride : target?.document.body.profileOverride) !==
-        undefined
+        (isMeToOther ? props.association.authorProfile.original : target?.authorProfile.original) !== undefined
 
     const targetLink = target ? `/${target.author}/${target.id}` : '#' // Link to reacted message
     useEffect(() => {
@@ -56,13 +54,7 @@ export const ReactionAssociation = (props: ReactionAssociationProps): JSX.Elemen
     }, [props.association])
 
     return (
-        <ContentWithCCAvatar
-            author={actionUser}
-            linkTo={targetLink}
-            profileOverride={
-                isMeToOther ? props.association.document.body.profileOverride : target?.document.body.profileOverride
-            }
-        >
+        <ContentWithCCAvatar author={actionUser} linkTo={targetLink} profile={actionUserProfile}>
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Box display="flex" overflow="hidden">
                     <Box display="flex" alignItems="center" flexShrink={0} gap={0.5}>

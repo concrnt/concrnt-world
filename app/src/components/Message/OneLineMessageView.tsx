@@ -4,10 +4,7 @@ import { CCAvatar } from '../ui/CCAvatar'
 import { TimeDiff } from '../ui/TimeDiff'
 import { type Message, type ReplyMessageSchema, type MarkdownMessageSchema } from '@concrnt/worldlib'
 import { CfmRendererLite } from '../ui/CfmRendererLite'
-import { useEffect, useState } from 'react'
-import { useClient } from '../../context/ClientContext'
 import { CCLink } from '../ui/CCLink'
-import { Profile } from '@concrnt/client'
 import { CfmRenderer } from '../ui/CfmRenderer'
 
 export interface OneLineMessageViewProps {
@@ -15,20 +12,7 @@ export interface OneLineMessageViewProps {
 }
 
 export const OneLineMessageView = (props: OneLineMessageViewProps): JSX.Element => {
-    const { client } = useClient()
-
-    const [characterOverride, setProfileOverride] = useState<Profile<any> | undefined>(undefined)
-
     const externalLink = props.message.document.meta?.apObjectRef // Link to external message
-
-    useEffect(() => {
-        if (!(client && props.message.document.body.profileOverride?.profileID)) return
-        client.api
-            .getProfile(props.message.document.body.profileOverride?.profileID, props.message.author)
-            .then((profile) => {
-                setProfileOverride(profile ?? undefined)
-            })
-    }, [client, props.message])
 
     return (
         <Box
@@ -50,12 +34,9 @@ export const OneLineMessageView = (props: OneLineMessageViewProps): JSX.Element 
                 to={'/' + props.message.author}
             >
                 <CCAvatar
-                    alt={props.message.authorUser?.profile?.username}
-                    avatarURL={props.message.authorUser?.profile?.avatar}
-                    identiconSource={props.message.author}
-                    avatarOverride={
-                        characterOverride?.parsedDoc.body.avatar ?? props.message.document.body.profileOverride?.avatar
-                    }
+                    alt={props.message.authorProfile.username}
+                    avatarURL={props.message.authorProfile.avatar}
+                    identiconSource={props.message.authorProfile.ccid}
                     sx={{
                         width: { xs: '38px', sm: '48px' },
                         height: { xs: '12px', sm: '18px' }

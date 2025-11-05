@@ -1,6 +1,4 @@
-import { Tooltip, Paper } from '@mui/material'
-import { UserProfileCard } from '../UserProfileCard'
-import { ProfileOverride, type User } from '@concrnt/worldlib'
+import { UserProfile, type User } from '@concrnt/worldlib'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import { useClient } from '../../context/ClientContext'
 import { useEffect, useState } from 'react'
@@ -8,12 +6,13 @@ import { CCAvatar } from './CCAvatar'
 import { CCChip } from './CCChip'
 
 export interface CCUserChipProps {
-    user?: User
     ccid?: string
+    user?: User
+    profile?: UserProfile
+
     iconOverride?: JSX.Element
     onDelete?: () => void
     avatar?: boolean
-    profileOverride?: ProfileOverride
 }
 
 export const CCUserChip = (props: CCUserChipProps): JSX.Element => {
@@ -21,8 +20,7 @@ export const CCUserChip = (props: CCUserChipProps): JSX.Element => {
     const [user, setUser] = useState<User | null | undefined>(props.user)
 
     useEffect(() => {
-        if (props.user !== undefined) return
-        if (!props.ccid) return
+        if (props.user !== undefined || props.profile !== undefined || !props.ccid) return
         let unmounted = false
         client.getUser(props.ccid).then((user) => {
             if (unmounted) return
@@ -40,49 +38,22 @@ export const CCUserChip = (props: CCUserChipProps): JSX.Element => {
                 height: 20
             }}
             circle
-            identiconSource={user?.ccid ?? ''}
-            avatarURL={user?.profile?.avatar}
+            identiconSource={props.profile?.ccid ?? user?.ccid ?? ''}
+            avatarURL={props.profile?.avatar ?? user?.profile?.avatar}
         />
     ) : (
         (props.iconOverride ?? <AlternateEmailIcon fontSize="small" />)
     )
 
+    const username = props.profile?.username ?? user?.profile?.username ?? 'anonymous'
+
     return (
-        <Tooltip
-            enterDelay={500}
-            enterNextDelay={500}
-            leaveDelay={300}
-            placement="top"
-            components={{
-                Tooltip: Paper
-            }}
-            componentsProps={{
-                tooltip: {
-                    sx: {
-                        m: 1,
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        minWidth: '300px'
-                    }
-                }
-            }}
-            title={<UserProfileCard user={user ?? undefined} />}
-        >
+        <>
             {props.onDelete ? (
-                <CCChip
-                    size={'small'}
-                    label={props.profileOverride?.username ?? user?.profile?.username ?? 'anonymous'}
-                    icon={icon}
-                    onDelete={props.onDelete}
-                />
+                <CCChip size={'small'} label={username} icon={icon} onDelete={props.onDelete} />
             ) : (
-                <CCChip
-                    to={'/' + (user?.ccid ?? '')}
-                    size={'small'}
-                    label={props.profileOverride?.username ?? user?.profile?.username ?? 'anonymous'}
-                    icon={icon}
-                />
+                <CCChip to={'/' + (user?.ccid ?? '')} size={'small'} label={username} icon={icon} />
             )}
-        </Tooltip>
+        </>
     )
 }
