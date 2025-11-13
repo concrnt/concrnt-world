@@ -53,6 +53,10 @@ export const FavoriteAssociation = (props: FavoriteAssociationProps): JSX.Elemen
         props.association.getTargetMessage().then(setTarget)
     }, [props.association])
 
+    if (!target) {
+        return <></>
+    }
+
     return (
         <ContentWithCCAvatar author={actionUser} linkTo={targetLink} profile={actionUserProfile}>
             <Box display="flex" justifyContent="space-between" alignItems="center">

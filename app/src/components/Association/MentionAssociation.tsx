@@ -34,6 +34,10 @@ export const MentionAssociation = (props: MentionAssociationProps): ReactElement
         props.association.getTargetMessage().then(setTarget)
     }, [props.association])
 
+    if (!target) {
+        return <></>
+    }
+
     return (
         <ContentWithCCAvatar author={actionUser} linkTo={targetLink} profile={actionUserProfile}>
             <Box display="flex" justifyContent="space-between">
