@@ -100,7 +100,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                     display: isHidden ? 'none' : 'block',
                                     width: '100%',
                                     height: '100%',
-                                    objectFit: 'cover',
+                                    objectFit: 'contain',
                                     cursor: 'pointer'
                                 }}
                             />
@@ -185,7 +185,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                         width: '100%',
                                         height: '100%',
                                         cursor: 'pointer',
-                                        objectFit: 'cover'
+                                        objectFit: 'contain'
                                     }}
                                     onClick={() => {
                                         setShowModel(true)
