@@ -249,7 +249,7 @@ const RenderAst = ({ ast, emojis }: RenderAstProps): JSX.Element => {
                         summary.update()
                     }}
                 >
-                    <summary>{ast.summary.body}</summary>
+                    {ast.summary && <summary>{ast.summary.body}</summary>}
                     <RenderAst ast={ast.body} emojis={emojis} />
                 </details>
             )
