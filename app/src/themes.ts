@@ -384,11 +384,63 @@ export const createConcurrentThemeFromObject = (base: any, options?: any): Concu
     return createTheme(theme) as ConcurrentTheme
 }
 
+export function sanitizeTheme<T>(input: T): T {
+    const forbiddenKeys = new Set(['href', 'xlinkHref', 'dangerouslySetInnerHTML'])
+    const normalizeForSchemeCheck = (s: string) =>
+        s.trim().replace(/[\u0000-\u001F\u007F-\u009F\u200B-\u200D\uFEFF]/g, '')
+
+    const isDangerousStringValue = (v: string): boolean => {
+        const s = normalizeForSchemeCheck(v)
+        if (/^(?:javascript|vbscript|file)\s*:/i.test(s)) return true
+        if (/^data\s*:/i.test(s)) return true
+        if (/[<>]/.test(s)) return true
+        if (/linear-gradient\s*\(/i.test(s)) return true
+        return false
+    }
+
+    const seen = new WeakMap<object, any>()
+
+    const cloneAndStrip = (value: any): any => {
+        if (value === null || typeof value === undefined) return value
+
+        if (typeof value === 'string') {
+            if (isDangerousStringValue(value)) return undefined
+            return value
+        }
+
+        if (seen.has(value)) return seen.get(value)
+
+        if (typeof value !== 'object') return value
+
+        if (Array.isArray(value)) {
+            const arr: any[] = []
+            seen.set(value, arr)
+            for (const item of value) arr.push(cloneAndStrip(item))
+            return arr
+        }
+
+        const out: Record<string, any> = {}
+        seen.set(value, out)
+
+        for (const [k, v] of Object.entries(value)) {
+            if (forbiddenKeys.has(k)) continue
+            const sanitized = cloneAndStrip(v)
+            if (sanitized === undefined) continue
+            out[k] = sanitized
+        }
+
+        return out
+    }
+
+    return cloneAndStrip(input) as T
+}
+
 export const loadConcurrentTheme = (
     name: string,
     customs: Record<string, DeepPartial<ConcurrentTheme>> = {},
     options?: { fontSize?: number }
 ): ConcurrentTheme => {
     const base = customs[name] ?? Themes[name] ?? Themes.blue
-    return createConcurrentThemeFromObject(base, options)
+    const generated = createConcurrentThemeFromObject(base, options)
+    return sanitizeTheme<ConcurrentTheme>(generated)
 }
