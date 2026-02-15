@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { CCWallpaper } from './ui/CCWallpaper'
 import { WatchButton } from './WatchButton'
+import { useOptionalLibrary } from '../context/LibraryContext'
 
 interface TimelineCardProps {
     timelineFQID: string
@@ -11,11 +12,15 @@ interface TimelineCardProps {
     banner: string
     domain: string
     isOwner?: boolean
+    showWatchButton?: boolean
     sx?: SxProps
     onClick?: () => void
 }
 
 export function TimelineCard(props: TimelineCardProps): JSX.Element {
+    const hasLibraryProvider = useOptionalLibrary() !== null
+    const showWatchButton = props.showWatchButton !== false && hasLibraryProvider
+
     return (
         <Card
             sx={{
@@ -67,7 +72,7 @@ export function TimelineCard(props: TimelineCardProps): JSX.Element {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <WatchButton minimal timelineFQID={props.timelineFQID} />
+                        {showWatchButton ? <WatchButton minimal timelineFQID={props.timelineFQID} /> : null}
                     </CardActions>
                 </>
             )}

@@ -422,6 +422,7 @@ function WelcomeBody(): JSX.Element {
                 >
                     <TimelineCard
                         sx={{ minWidth: '300px' }}
+                        showWatchButton={false}
                         timelineFQID="tar69vv26r5s4wk0r067v20bvyw@ariake.concrnt.net"
                         name="Arrival Lounge"
                         description={t('arrivalTimelineDescription')}
@@ -430,6 +431,7 @@ function WelcomeBody(): JSX.Element {
                     />
                     <TimelineCard
                         sx={{ minWidth: '300px' }}
+                        showWatchButton={false}
                         timelineFQID="tdvtb8ha1d1pbckx3067v1wv8xr@denken.concrnt.net"
                         name="Dev Central"
                         description={t('devCentralDescription')}

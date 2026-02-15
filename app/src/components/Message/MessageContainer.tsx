@@ -341,7 +341,19 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                         gap: 1,
                         cursor: 'pointer'
                     }}
-                    onClick={() => setDisplayRuleOverride(true)}
+                    onPointerDown={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }}
+                    onMouseDown={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }}
+                    onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        setDisplayRuleOverride(true)
+                    }}
                 >
                     <CCAvatarWithResolver
                         ccid={props.messageOwner}
@@ -502,7 +514,16 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                         cursor: 'pointer',
                         userSelect: 'none'
                     }}
+                    onPointerDown={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }}
+                    onMouseDown={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }}
                     onClick={(e) => {
+                        e.preventDefault()
                         e.stopPropagation()
                         setDisplayRuleOverride(true)
                     }}

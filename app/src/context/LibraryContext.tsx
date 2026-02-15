@@ -666,3 +666,7 @@ export function useLibrary(): LibraryContextState {
     }
     return ctx
 }
+
+export function useOptionalLibrary(): LibraryContextState | null {
+    return useContext(LibraryContext) ?? null
+}
