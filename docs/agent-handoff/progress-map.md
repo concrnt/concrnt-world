@@ -21,61 +21,35 @@
 ### 完了
 - Phase0: 現状把握と共通前提の固定
 - Phase1: Library モデルとコンテキスト基盤
+- Phase2: /library（旧 /keep）ルートと Keep 画面
+- Phase3: User/Community/Message への Keep 導線追加
+- Phase4: Keep→Watch/Ack の同時操作（既定動作の雛形実装）
+- Phase5: Unkeep の安全な解除（UI/監査情報付き）
+- Phase6: フォルダ/タグ/一括操作（UI・CRUD）
+- Phase7: 表示制御（blur/omit/hide）の適用
+- Phase8: Draft 複数化（一覧、ピン、編集/削除、スケジュール登録）
+- Phase9: 予約投稿（起動時/定期スキャン）
 
 ### 進行中
-- Phase2: /keep ルートと Keep 画面（行内アクション一部残）
-- Phase4: Keep→Watch/Ack 同時操作（基盤済み、既定結合は未着手）
-- Phase5: Unkeep 安全解除（基盤済み、失敗時 UX は未着手）
-- Phase8: Draft 複数化（基盤準備済み、一覧UIは未着手）
-- Phase11: 品質固め（基盤の一部実施、移行スクリプトと受け入れテストは未着手）
+- Phase10: ホーム/Watch 表現の整合（導線は整備、言語・導線の最終調整残）
+- Phase11: 品質固め（移行、失敗時再試行仕様、受け入れ手順）
 
-### 未着手
-- Phase3: 各画面への Keep 導線追加
-- Phase6: フォルダ/タグ/一括操作
-- Phase7: 表示制御（blur/omit/hide）
-- Phase9: 予約投稿
-- Phase10: ホーム/Watch 表現の整合
+## 更新ルール
 
-## 進捗表現
+- `完了` は DoD 満たし、既知の高優先バグを主要フローで回避できた状態を意味する。
+- 進行中項目は、実装完了していても要件差分が残る場合でも `進行中` に残す。
 
-- `未着手`: まだ未実装
-- `一部`: 一部実装済み、残課題あり
-- `完了`: 受け入れ条件を満たしている
+## 直近コミット反映（cec93a33）
 
-## 更新ルール（状態変更時）
+- `/library` 画面を追加。
+- Keep/Unkeep トグルを Profile / Timeline / Message に導線追加。
+- フォルダ・タグ・Rule 管理の UI を追加。
+- Message 省略表示（hide/omit/blur）と Drafts + 予約投稿を追加。
+- KV/LS 分離と Debounce 同期は維持。
 
-- 完了条件（DoD）が満たされた時点で `完了` へ更新。
-- 機能追加の前提条件（依存）が変わった場合は、下の「未着手/注意点」セクションへ追記。
+## 残タスク（重要）
 
-## Phase2 残タスク
-- Keep 行の Watch/Ack トグル追加（User/Community）
-- メモ編集 UI（タグ/フォルダ/メモ）
-
-## Phase3 残タスク
-- `Profile.tsx` への Keep 導線
-- `TimelineHeader.tsx` への Keep 導線
-- `MessageActions.tsx` への Keep 導線
-
-## Phase4 残タスク
-- Kind 別の既定動作設計
-  - user: Keep + Watch、必要時 Ack
-  - timeline: Keep + Watch
-  - message: Keep のみ（追加 Watch は任意）
-- 既定オプションのUI
-
-## Phase5 残タスク
-- removeWithCleanup の部分失敗ハンドリング
-- 再試行・エラー表示
-
-## Phase6~10: 注意点
-
-- Phase6: `Folder`/`TagRule` はデータ層あり。UI整備と一括操作の副作用ログが必要
-- Phase7: Message 描画のホットパス。O(1) Map 化を優先
-- Phase9: `usePostAction` からの再利用を前提にスケジューラ実装
-- Phase10: UI 文言と導線をWatch観点に寄せる（既存List構造は維持）
-
-## 更新手順
-
-1. 担当エージェントは更新時に該当Phaseの状態だけを編集
-2. 変更内容を「完了条件」「未着手」「リスク」の3項目で追記
-3. 他Phaseへ影響が出る場合は、リンク先ファイル名を追記
+1. Unkeep 時の `managed` 解除対象を kind ごとに厳密化（`fqid` 参照先不整合の解消）。
+2. `KeepButton` からの Unkeep が常に `removeWithCleanup` 経由になる導線統一。
+3. 予約投稿の失敗再試行ルールと、バックグラウンド状態での確実実行整合。
+4. Phase10/11 の受け入れ手順を明文化（ユーザーテスト手順）。
