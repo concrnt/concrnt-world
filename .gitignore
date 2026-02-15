@@ -33,3 +33,6 @@ storybook-static
 docs/.obsidian/
 
 dev-dist
+
+# playwright-cli
+.playwright-cli/

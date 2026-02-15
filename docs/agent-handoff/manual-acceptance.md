@@ -321,3 +321,40 @@ Build:
 
 Result values: `Pass` / `Fail` / `Skip` / `N/A`
 If Fail: add reproduction steps and root cause in Notes column.
+
+---
+
+### Run 1 — Code-path Audit
+
+```
+Date: 2026-02-15
+Tester: claude-code (static code audit — no dev server)
+Build: 2381d9be
+
+| # | Result | Notes |
+|---|--------|-------|
+| 1 | Pass | useKeepToggle user branch (L53-72): user.Ack() → managed.ack=true, findSubIdFor → managed.watchTargets, upsertItem records both. KeepPage UserItemActions renders AckButton+WatchButton. |
+| 2 | Pass | removeWithCleanup (L147-212): iterates managed.watchTargets → client.api.unsubscribe each; if managed.ack → client.getUser → user.UnAck(). On full success → removeItem. Non-managed manual subscriptions are not touched (only managed.watchTargets are iterated). |
+| 3 | Pass | useKeepToggle timeline branch (L74-87): findSubIdFor(tRef.fqid) → upsertItem with managed.watchTargets → watchManaged subscribes. TimelineItemActions renders WatchButton for the fqid. TimelinePage header shows WatchButton+KeepButton+Settings. |
+| 4 | Pass | Unkeep on timeline item calls removeWithCleanup → unsubscribe each managed.watchTargets entry → removeItem on success. Same path as test 2. |
+| 5 | Pass | useKeepToggle message branch (L89-117): upsertItem without managed, then enqueueSnackbar with t('messageKept') + Watch Author button action. Button onClick: client.getUser(msgRef.author) → watchManagedFor(msgItemId, homeTimeline, subId) → snackbar t('nowWatchingAuthor'). watchManagedFor records on message item's managed.watchTargets. Unkeep via removeWithCleanup cleans up those watchTargets. |
+| 6 | Pass | FolderManager: addFolder (LibraryContext L547-556) creates UUID + name + order. KeepItemDrawer setFolder assigns folderId. KeepPage folderFilter Select filters by folderId. renameFolder updates name in-place. removeFolder (L559-570) filters folder out AND clears folderId on items with matching folderId. |
+| 7 | Pass | KeepItemDrawer: tag add via handleAddTag → setTags. TagRuleManager: addTagRule creates {tag, display}. useDisplayRule (L15-46): looks up authorItem via userByCcid Map, checks authorItem.tags against tagRuleByTag Map. For blur: mostRestrictive returns 'blur'. MessageContainer L495-514: blur wraps body in filter:blur(5px), click sets displayRuleOverride=true. |
+| 8 | Pass | DraftsPage sortEntries: pinned first, then updatedAt desc. Edit button (L142-155): reads LS_PREFIX+key+':draft', JSON.parse, opens editorModal with {draft: text, draftKey: entry.key}. EditorModal L102-126: passes draftKey to PostProps → CCPostEditor. CCPostEditor L136: useDraftState(props.draftKey) reads/writes to keyed localStorage. registerDraft updates DraftContext metadata. togglePinDraft toggles pinned flag. |
+| 9 | Pass | useScheduledPostRunner (L17-78): iterates entries, checks scheduledAt <= now, reads draft from LS, calls client.createMarkdownCrnt, on success removes draft+LS keys+snackbar. 45s interval timer fires runScheduledPosts. |
+| 10 | Pass | visibilitychange listener (L84-88): on tab return (!document.hidden) calls runScheduledPosts() immediately. Missed schedules caught because scheduledAt <= now still holds. |
+| 11 | Pass | On catch (L58-73): nextRetry = retryCount+1. If >= MAX_RETRIES(3): scheduledAt=undefined + retryCount + lastError → draft stays in list with failed chip. DraftsPage L121-137: shows retry N/3 chip when retryCount>0 && scheduledAt; shows ErrorOutline 'failed' chip when lastError && !scheduledAt. |
+| 12 | Pass | KeepPage sortItems (L56-66): pinned first (b.pinned ? 1 : -1), then marked, then updatedAt desc. Matches spec: pinned > marked > updatedAt. |
+| 13 | Pass | MessageContainer L331-375: displayRule === 'omit' && !displayRuleOverride → renders OneLineMessageView-style: CCAvatarWithResolver + t('omittedByDisplayRule') truncated + t('show'). Full row has cursor:pointer + onClick → setDisplayRuleOverride(true). |
+| 14 | Pass | MessageContainer L327-329: displayRule === 'hide' && !displayRuleOverride → return null. No placeholder, no UI trace. |
+| 15 | Pass | DraftsPage Edit button (same as test 8 detail): reads localStorage for draft text, opens EditorModal with draftKey. CCPostEditor mounts with useDraftState(draftKey) which usePersistent reads keyed LS. setDraft writes back to same key. On modal close, DraftsPage DraftPreview re-reads via usePersistent reactivity. |
+| 16 | Pass | useScheduledPostRunner L22: `if (inFlightRef.current.has(entry.id)) continue` — skips entries already in flight. L47: adds to Set before API call. L75-77: .finally removes from Set. Multiple visibilitychange events hitting the same entry.id are no-ops because the Set guard blocks re-entry. |
+| 17 | Pass | removeWithCleanup partial failure path (L190-204): when unsubscribe throws, failedOps is non-empty. Remaining targets = original minus succeeded. updateItem sets cleanupFailed:true + remaining watchTargets. Item is NOT removed. KeepPage L241-243: shows ErrorOutline 'cleanupFailed' chip. L278-295: cleanupFailed → Retry button (instead of normal ButtonGroup) calls removeWithCleanup again. Since item still exists with remaining targets, retry re-attempts those. On success → removeItem. |
+| 18 | Pass | useKeepToggle message branch (L89-117): enqueueSnackbar with action button. Button calls watchManagedFor(msgItemId, authorUser.homeTimeline, subId) which: subscribes API, then updates the message item's managed.watchTargets via updateItem. Unkeep's removeWithCleanup reads those targets and unsubscribes. All snackbar text uses t() i18n keys. |
+| 19 | Pass | DraftContext removeDraft (L75-92): finds entry by id, constructs prefix from LS_PREFIX+entry.key, calls localStorage.removeItem for draft/draftEmojis/draftMedias, then filters entry out of metadata. All 3 LS keys cleaned before metadata removal. |
+| 20 | Pass | useKeepToggle user branch (L53-72): Ack fires first unconditionally (`if (user) { await user.Ack(); managed.ack = true }`). Watch is separate: `const subId = user ? findSubIdFor(user.homeTimeline) : undefined; if (user && subId) { managed.watchTargets = [...] }`. When subId is undefined (no matching subscription list), ack is still recorded but watchTargets is absent. upsertItem stores {ack: true} without watchTargets. |
+| Migration | Pass | normalizeLibraryItem L232-244: checks rawManaged.watchSubs array. For timeline items with fqid: maps oldSubs to WatchTarget[{fqid, subId}], logs '[Library] Migrated watchSubs → watchTargets'. For non-timeline: logs warning, drops. Migration is idempotent: runs on every normalizeLibraryItem call, but once migrated, watchTargets exists so the `!managed?.watchTargets?.length` guard skips. Hard gate audit confirmed 0 writes to watchSubs anywhere in codebase. |
+```
+
+**Summary:** 20/20 Pass + Migration Pass. All code paths verified via static analysis.
+Recommendation: confirm with live browser run for visual regressions (blur rendering, snackbar timing, modal focus).

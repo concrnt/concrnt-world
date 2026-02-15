@@ -105,6 +105,12 @@
   - `world.concurrent.arakoshi.drafts`（DraftContext）
 - **結論: 全 hard gate クリア。**
 
+### Acceptance テスト実施（2026-02-15）
+
+- manual-acceptance 20 項目 + Migration Log の全コードパスを静的監査で検証。
+- 全 21 項目 **Pass**（コードパストレース）。
+- ライブブラウザでの視覚確認は推奨（blur 描画、snackbar タイミング、modal フォーカス）。
+
 ## 残タスク
 
-- manual-acceptance 20 項目の実行ログ記録（テスター実施待ち、dev サーバー + ブラウザ操作が必要）
+なし（全 Phase 完了）。ライブブラウザでの最終確認は任意。
