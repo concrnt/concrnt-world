@@ -32,11 +32,13 @@ import DnsIcon from '@mui/icons-material/Dns'
 import ForumIcon from '@mui/icons-material/Forum'
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople'
 import { useClient } from '../context/ClientContext'
+import { useOptionalLibrary } from '../context/LibraryContext'
 import { useSnackbar } from 'notistack'
 import { type CommunityTimelineSchema, Schemas } from '@concrnt/worldlib'
 import { CCEditor } from '../components/ui/cceditor'
 import { CCDrawer } from '../components/ui/CCDrawer'
 import { CfmRenderer } from '../components/ui/CfmRenderer'
+import { createCommunityTimelineAndAddToLibrary } from '../utils/createCommunityTimeline'
 
 export interface Domain {
     fqdn: string
@@ -164,6 +166,7 @@ export function ExplorerPlusPage(): JSX.Element {
     const [timelineQuery, setTimelineQuery] = useState('')
     const [userQuery, setUserQuery] = useState('')
     const [rerollCount, reroll] = useState(0)
+    const library = useOptionalLibrary()
 
     useEffect(() => {
         fetch(EXPLORER_HOST + '/stat').then(async (result) => {
@@ -239,17 +242,25 @@ export function ExplorerPlusPage(): JSX.Element {
     const pageRef = useRef<HTMLDivElement>(null)
 
     const createNewTimeline = (body: CommunityTimelineSchema): void => {
-        client
-            .createCommunityTimeline(body)
-            .then((e: any) => {
-                const id: string = e.id
-                if (id) navigate('/timeline/' + id)
-                else enqueueSnackbar(t('createFailed'), { variant: 'error' })
-            })
-            .catch((e) => {
+        void createCommunityTimelineAndAddToLibrary({
+            body,
+            createCommunityTimeline: (timelineBody) => client.createCommunityTimeline(timelineBody),
+            upsertTimeline: library
+                ? (timelineId: string) => {
+                    library.upsertItem({
+                        kind: 'timeline',
+                        ref: { fqid: timelineId }
+                    })
+                }
+                : undefined,
+            onCreated: (id) => {
+                navigate('/timeline/' + id)
+            },
+            onFailed: (e) => {
                 console.error(e)
                 enqueueSnackbar(t('createFailed'), { variant: 'error' })
-            })
+            }
+        })
     }
 
     return (

@@ -2,6 +2,7 @@ import { Box, Button, Divider, Tab, Tabs, TextField, Typography, useTheme } from
 import { type CommunityTimelineSchema, Schemas, type Timeline } from '@concrnt/worldlib'
 import { type Profile } from '@concrnt/client'
 import { useClient } from '../context/ClientContext'
+import { useOptionalLibrary } from '../context/LibraryContext'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +16,7 @@ import { TimelineCard } from '../components/TimelineCard'
 import { SubProfileCard } from '../components/SubProfileCard'
 import { DomainCard } from '../components/ui/DomainCard'
 import { Helmet } from 'react-helmet-async'
+import { createCommunityTimelineAndAddToLibrary } from '../utils/createCommunityTimeline'
 
 interface StreamWithDomain {
     domain: string
@@ -31,6 +33,7 @@ export function Explorer(): JSX.Element {
     const { client } = useClient()
     const theme = useTheme()
     const navigate = useNavigate()
+    const library = useOptionalLibrary()
 
     const { tab } = useParams()
     const path = useLocation()
@@ -157,17 +160,25 @@ export function Explorer(): JSX.Element {
     }, [profileSchema, selectedDomains, tab, itr])
 
     const createNewTimeline = (body: CommunityTimelineSchema): void => {
-        client
-            .createCommunityTimeline(body)
-            .then((e: any) => {
-                const id: string = e.id
-                if (id) navigate('/timeline/' + id)
-                else enqueueSnackbar(t('createFailed'), { variant: 'error' })
-            })
-            .catch((e) => {
+        void createCommunityTimelineAndAddToLibrary({
+            body,
+            createCommunityTimeline: (timelineBody) => client.createCommunityTimeline(timelineBody),
+            upsertTimeline: library
+                ? (timelineId: string) => {
+                    library.upsertItem({
+                        kind: 'timeline',
+                        ref: { fqid: timelineId }
+                    })
+                }
+                : undefined,
+            onCreated: (id) => {
+                navigate('/timeline/' + id)
+            },
+            onFailed: (e) => {
                 console.error(e)
                 enqueueSnackbar(t('createFailed'), { variant: 'error' })
-            })
+            }
+        })
     }
 
     useEffect(() => {
