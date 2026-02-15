@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState, useEffect } from 'react'
 import {
     Box,
     Button,
@@ -37,20 +37,32 @@ import { TagRuleManager } from '../components/TagRuleManager'
 import { CCDrawer } from '../components/ui/CCDrawer'
 import { useClient } from '../context/ClientContext'
 import { type User } from '@concrnt/worldlib'
-import { useEffect } from 'react'
 
 const kinds: ItemKind[] = ['user', 'timeline', 'message']
 
 const formatRef = (item: LibraryItem): string => {
     if (item.kind === 'user') {
         const user = item.ref as { ccid: string; hint?: string }
-        return `${user.ccid}${user.hint ? ` @${user.hint}` : ''}`
+        return `${user.hint ? `${user.hint} (${user.ccid})` : user.ccid}`
     }
     if (item.kind === 'timeline') {
         return (item.ref as { fqid: string }).fqid
     }
     const message = item.ref as { author: string; messageId: string; hint?: string }
     return `${message.author}/${message.messageId}${message.hint ? ` @${message.hint}` : ''}`
+}
+
+const resolveUserLabel = (user: User | null): string | undefined => {
+    if (!user) return
+    return user.profile?.username || (user as { username?: string }).username
+}
+
+const resolveTimelineLabel = (
+    timeline: { document?: { body?: { name?: string } }; _parsedDocument?: { body?: { name?: string } } } | null
+): string | undefined => {
+    if (!timeline) return
+    return timeline.document?.body?.name
+        || timeline._parsedDocument?.body?.name
 }
 
 const sortItems = (items: LibraryItem[]): LibraryItem[] => {
@@ -99,6 +111,7 @@ const TimelineItemActions = ({ item }: { item: LibraryItem }): JSX.Element => {
 export const KeepPage = (): JSX.Element => {
     const { items, folders, togglePin, toggleMark, setFolder } = useLibrary()
     const { removeWithCleanup } = useManagedOperations()
+    const { client } = useClient()
     const { t } = useTranslation('', { keyPrefix: 'pages.library' })
     const [tab, setTab] = useState<ItemKind>('user')
     const [editingItem, setEditingItem] = useState<LibraryItem | null>(null)
@@ -106,6 +119,8 @@ export const KeepPage = (): JSX.Element => {
     const [folderFilter, setFolderFilter] = useState<string>('')
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
     const [batchMode, setBatchMode] = useState(false)
+    const [resolvedItemNames, setResolvedItemNames] = useState<Record<string, string>>({})
+    const resolvingIdsRef = useRef<Set<string>>(new Set())
 
     const kindLabel: Record<ItemKind, string> = {
         user: t('users'),
@@ -120,6 +135,78 @@ export const KeepPage = (): JSX.Element => {
         }
         return sortItems(filtered)
     }, [items, tab, folderFilter])
+
+    const getDisplayLabel = (item: LibraryItem): string => {
+        const resolved = resolvedItemNames[item.id]
+        if (resolved) return resolved
+        if (item.kind === 'user') {
+            return formatRef(item)
+        }
+        if (item.kind === 'timeline') {
+            return formatRef(item)
+        }
+        return formatRef(item)
+    }
+
+    useEffect(() => {
+        let disposed = false
+        const entries = items
+
+        entries.forEach((item) => {
+            if (resolvingIdsRef.current.has(item.id)) return
+            if (resolvedItemNames[item.id]) return
+
+            if (item.kind === 'user') {
+                const userRef = item.ref as { ccid: string }
+                resolvingIdsRef.current.add(item.id)
+                const fallbackUserLabel = formatRef(item)
+                client
+                    .getUser(userRef.ccid)
+                    .then((user) => {
+                        if (disposed) return
+                        const name = resolveUserLabel(user)
+                        if (name) {
+                            setResolvedItemNames((prev) => ({ ...prev, [item.id]: `${name} (${userRef.ccid})` }))
+                        } else {
+                            setResolvedItemNames((prev) => ({ ...prev, [item.id]: fallbackUserLabel }))
+                        }
+                    })
+                    .catch(() => {
+                        if (disposed) return
+                        setResolvedItemNames((prev) => ({ ...prev, [item.id]: fallbackUserLabel }))
+                    })
+                    .finally(() => {
+                        resolvingIdsRef.current.delete(item.id)
+                    })
+            } else if (item.kind === 'timeline') {
+                const timelineRef = item.ref as { fqid: string }
+                resolvingIdsRef.current.add(item.id)
+                const fallbackTimelineLabel = formatRef(item)
+                client
+                    .getTimeline(timelineRef.fqid)
+                    .then((timeline: any) => {
+                        if (disposed) return
+                        const name = resolveTimelineLabel(timeline)
+                        if (name) {
+                            setResolvedItemNames((prev) => ({ ...prev, [item.id]: `${name} (${timelineRef.fqid})` }))
+                        } else {
+                            setResolvedItemNames((prev) => ({ ...prev, [item.id]: fallbackTimelineLabel }))
+                        }
+                    })
+                    .catch(() => {
+                        if (disposed) return
+                        setResolvedItemNames((prev) => ({ ...prev, [item.id]: fallbackTimelineLabel }))
+                    })
+                    .finally(() => {
+                        resolvingIdsRef.current.delete(item.id)
+                    })
+            }
+        })
+
+        return () => {
+            disposed = true
+        }
+    }, [items, client, resolvedItemNames])
 
     const toggleSelect = (id: string): void => {
         setSelectedIds((prev) => {
@@ -242,7 +329,7 @@ export const KeepPage = (): JSX.Element => {
                                             <Chip icon={<ErrorOutlineIcon />} size="small" label={t('cleanupFailed')} color="warning" variant="outlined" />
                                         )}
                                     </Stack>
-                                    <Typography>{formatRef(item)}</Typography>
+                                    <Typography>{getDisplayLabel(item)}</Typography>
                                     {(item.tags?.length ?? 0) > 0 && (
                                         <Stack direction="row" spacing={1} mt={0.5} flexWrap="wrap">
                                             {item.tags?.map((tag) => <Chip key={tag} size="small" label={tag} />)}
