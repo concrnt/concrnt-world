@@ -48,6 +48,8 @@ import { useDraftState } from '../../hooks/useDraftState'
 import { useDraftContext } from '../../context/DraftContext'
 import { usePostAction } from '../../hooks/usePostAction'
 import { useMediaUpload } from '../../hooks/useMediaUpload'
+import { usePersistent } from '../../hooks/usePersistent'
+import { LS_PREFIX } from '../../appConfig'
 
 const ModeSets = {
     plaintext: {
@@ -95,6 +97,11 @@ export interface CCPostEditorProps {
     submitIcon?: JSX.Element
 }
 
+interface DraftDestinationState {
+    timelineIds: string[]
+    postHome: boolean
+}
+
 export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): JSX.Element => {
     const { client } = useClient()
     const { t } = useTranslation('', { keyPrefix: 'ui.draft' })
@@ -106,7 +113,52 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     const textInputRef = useRef<HTMLInputElement>(null)
     const [selectedSubprofile, setSelectedSubprofile] = useState<Profile<ProfileSchema> | undefined>(undefined)
 
+    const isDraftSaveMode = Boolean(props.onSaveDraft)
+
     // destination handling
+    const defaultTimelineIds = useMemo(
+        () =>
+            props.streamPickerInitial
+                .map((timeline) => timeline.id)
+                .filter((id): id is string => Boolean(id))
+                .filter((id) => id !== ''),
+        [props.streamPickerInitial]
+    )
+
+    const defaultPostHome = props.defaultPostHome ?? true
+    const storagePrefix = props.draftKey ? `${LS_PREFIX}${props.draftKey}:` : LS_PREFIX
+    const [draftDestination, setDraftDestination] = usePersistent<DraftDestinationState>(`${storagePrefix}draftDestination`, {
+        timelineIds: defaultTimelineIds,
+        postHome: defaultPostHome
+    })
+
+    const timelineById = useMemo(() => {
+        const map = new Map<string, Timeline<CommunityTimelineSchema>>()
+        for (const timeline of props.streamPickerOptions) {
+            if (timeline.id) {
+                map.set(timeline.id, timeline)
+            }
+        }
+        return map
+    }, [props.streamPickerOptions])
+
+    const toTimelineIds = useCallback((timelines: Array<Timeline<CommunityTimelineSchema>>): string[] => {
+        return timelines
+            .map((timeline) => timeline.id)
+            .filter((id): id is string => Boolean(id))
+            .filter((id) => id !== '')
+    }, [])
+
+    const updateDraftDestination = useCallback(
+        (next: DraftDestinationState): void => {
+            if (!isDraftSaveMode) return
+            setDraftDestination(next)
+        },
+        [isDraftSaveMode, setDraftDestination]
+    )
+
+    const [postHomeButton, setPostHomeButton] = useState<boolean>(defaultPostHome)
+
     const [destTimelines, setDestTimelines] = useState<Array<Timeline<CommunityTimelineSchema>>>(
         props.streamPickerInitial
     )
@@ -115,14 +167,25 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         setDestTimelines(props.streamPickerInitial)
     }, [props.streamPickerInitial])
 
-    const [postHomeButton, setPostHomeButton] = useState<boolean>(props.defaultPostHome ?? true)
+    useEffect(() => {
+        if (!isDraftSaveMode) return
+
+        const storedTimelines = draftDestination.timelineIds
+            .map((timelineId) => timelineById.get(timelineId))
+            .filter((timeline): timeline is Timeline<CommunityTimelineSchema> => timeline !== undefined)
+
+        setDestTimelines(storedTimelines.length > 0 ? storedTimelines : props.streamPickerInitial)
+        setPostHomeButton(draftDestination.postHome)
+    }, [isDraftSaveMode, draftDestination.postHome, draftDestination.timelineIds, props.streamPickerInitial, timelineById])
+
     const [holdCtrlShift, setHoldCtrlShift] = useState<boolean>(false)
     const postHome = postHomeButton && !holdCtrlShift
 
     useEffect(() => {
+        if (isDraftSaveMode) return
         if (props.defaultPostHome === undefined) return
         setPostHomeButton(props.defaultPostHome)
-    }, [props.defaultPostHome])
+    }, [props.defaultPostHome, isDraftSaveMode])
 
     useEffect(() => {
         if (!client.ccid || !props.subprofile) {
@@ -144,12 +207,13 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         if (!props.draftKey) return
         if (props.onSaveDraft) return
         registerDraft(props.draftKey)
-    }, [props.draftKey])
+    }, [props.draftKey, props.onSaveDraft])
 
     useEffect(() => {
         if (!props.draftKey || !draft) return
+        if (isDraftSaveMode) return
         registerDraft(props.draftKey)
-    }, [draft, props.draftKey])
+    }, [draft, props.draftKey, isDraftSaveMode])
 
     useEffect(() => {
         if (props.value && props.value !== '') {
@@ -157,6 +221,61 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
             setDraft(props.value)
         }
     }, [props.value])
+
+    const setPostHome = useCallback(() => {
+        const nextPostHome = !postHomeButton
+        setPostHomeButton(nextPostHome)
+        if (isDraftSaveMode) {
+            updateDraftDestination({
+                timelineIds: toTimelineIds(destTimelines),
+                postHome: nextPostHome
+            })
+        }
+    }, [destTimelines, isDraftSaveMode, postHomeButton, toTimelineIds, updateDraftDestination])
+
+    const setDestination = useCallback(
+        (timelines: Array<Timeline<CommunityTimelineSchema>>): void => {
+            setDestTimelines(timelines)
+            if (isDraftSaveMode) {
+                updateDraftDestination({
+                    timelineIds: toTimelineIds(timelines),
+                    postHome: postHomeButton
+                })
+            }
+        },
+        [isDraftSaveMode, postHomeButton, toTimelineIds, updateDraftDestination]
+    )
+
+    const resetDestination = useCallback(() => {
+        setDestination(props.streamPickerInitial)
+        setPostHomeButton(defaultPostHome)
+        if (isDraftSaveMode) {
+            updateDraftDestination({
+                timelineIds: toTimelineIds(props.streamPickerInitial),
+                postHome: defaultPostHome
+            })
+        }
+        if (props.subprofile) {
+            client.api
+                .getProfile<ProfileSchema>(props.subprofile, client.ccid!)
+                .then((profile) => {
+                    setSelectedSubprofile(profile)
+                })
+        } else {
+            setSelectedSubprofile(undefined)
+        }
+    }, [
+        client.api,
+        client.ccid,
+        defaultPostHome,
+        isDraftSaveMode,
+        props.streamPickerInitial,
+        props.subprofile,
+        setDestination,
+        setSelectedSubprofile,
+        toTimelineIds,
+        updateDraftDestination
+    ])
 
     // mode handling
     let [mode, setMode] = useState<EditorMode>('markdown')
@@ -180,6 +299,14 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         setMode('markdown')
         resetDraft()
         setParticipants([])
+    }
+
+    const saveDraft = (): void => {
+        if (!props.draftKey) return
+        if (draft.length === 0 || draft.trim().length === 0) return
+        registerDraft(props.draftKey)
+        props.onSaveDraft?.()
+        props.onPost?.()
     }
 
     const destinationModified =
@@ -338,12 +465,10 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         </CCIconButton>
                         <TimelinePicker
                             postHome={postHome}
-                            setPostHome={() => {
-                                setPostHomeButton(!postHomeButton)
-                            }}
+                            setPostHome={setPostHome}
                             options={props.streamPickerOptions}
                             selected={destTimelines}
-                            setSelected={setDestTimelines}
+                            setSelected={setDestination}
                             placeholder={t('addDestination')}
                             selectedSubprofile={selectedSubprofile}
                             setSelectedSubprofile={setSelectedSubprofile}
@@ -351,17 +476,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         {destinationModified && (
                             <CCIconButton
                                 onClick={() => {
-                                    setDestTimelines(props.streamPickerInitial)
-                                    setPostHomeButton(props.defaultPostHome ?? true)
-                                    if (props.subprofile) {
-                                        client.api
-                                            .getProfile<ProfileSchema>(props.subprofile, client.ccid!)
-                                            .then((profile) => {
-                                                setSelectedSubprofile(profile)
-                                            })
-                                    } else {
-                                        setSelectedSubprofile(undefined)
-                                    }
+                                    resetDestination()
                                 }}
                                 sx={{
                                     width: '2rem',
@@ -419,8 +534,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 if (draft.length === 0 || draft.trim().length === 0) return
                                 if (e.key === 'Enter' && (e.ctrlKey === true || e.metaKey === true) && !sending) {
                                     if (props.onSaveDraft) {
-                                        registerDraft(props.draftKey!)
-                                        props.onSaveDraft()
+                                        saveDraft()
                                     } else {
                                         post(postHome)
                                     }
@@ -557,9 +671,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         <EditorActions
                             post={() => {
                                 if (props.onSaveDraft) {
-                                    if (draft.length === 0 || draft.trim().length === 0) return
-                                    registerDraft(props.draftKey!)
-                                    props.onSaveDraft()
+                                    saveDraft()
                                 } else {
                                     post(postHome)
                                 }
@@ -606,9 +718,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         <EditorActions
                             post={() => {
                                 if (props.onSaveDraft) {
-                                    if (draft.length === 0 || draft.trim().length === 0) return
-                                    registerDraft(props.draftKey!)
-                                    props.onSaveDraft()
+                                    saveDraft()
                                 } else {
                                     post(postHome)
                                 }

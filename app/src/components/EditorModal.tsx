@@ -25,6 +25,10 @@ export interface OpenOptions {
     mode?: EditorMode
     target?: Message<any>
     streamPickerInitial?: Array<Timeline<CommunityTimelineSchema>>
+    onPost?: () => void
+    onSaveDraft?: () => void
+    submitButtonLabel?: string
+    submitIcon?: JSX.Element
 }
 
 export interface PostProps extends CCPostEditorProps {
@@ -110,14 +114,17 @@ export const EditorModalProvider = (props: EditorModalProps): JSX.Element => {
                 actionTo: openOpts?.target,
                 subprofile: opts?.profile,
                 mode: openOpts?.mode,
+                onSaveDraft: openOpts?.onSaveDraft,
+                submitButtonLabel: openOpts?.submitButtonLabel,
+                submitIcon: openOpts?.submitIcon,
                 context: openOpts?.target ? (
                     <Box width="100%" maxHeight={isMobileSize ? '3rem' : 'unset'} overflow="auto">
                         <MessageContainer simple messageID={openOpts.target.id} messageOwner={openOpts.target.author} />
                     </Box>
                 ) : undefined,
-                onPost: () => {
+                onPost: openOpts?.onPost ?? (() => {
                     setPostProps(null)
-                },
+                }),
                 value: openOpts?.draft,
                 draftKey: openOpts?.draftKey
             })

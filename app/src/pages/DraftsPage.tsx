@@ -30,6 +30,7 @@ import { usePersistent } from '../hooks/usePersistent'
 import { LS_PREFIX } from '../appConfig'
 import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useGlobalState } from '../context/GlobalState'
+import { type CommunityTimelineSchema, type Timeline } from '@concrnt/worldlib'
 
 const sortEntries = (entries: DraftEntry[]): DraftEntry[] => {
     return [...entries].sort((a, b) => {
@@ -56,11 +57,74 @@ const DraftPreview = ({ draftKey }: { draftKey: string }): JSX.Element => {
     )
 }
 
+interface DraftDestinationState {
+    timelineIds: string[]
+    postHome: boolean
+}
+
+const getDraftDestination = (draftKey: string): DraftDestinationState => {
+    const prefix = draftKey ? `${LS_PREFIX}${draftKey}:` : LS_PREFIX
+    const raw = localStorage.getItem(prefix + 'draftDestination')
+
+    let destination: DraftDestinationState = { timelineIds: [], postHome: true }
+    if (!raw) return destination
+
+    try {
+        const parsed = JSON.parse(raw)
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+            const typed = parsed as Partial<DraftDestinationState>
+            return {
+                timelineIds: Array.isArray(typed.timelineIds) ? typed.timelineIds : [],
+                postHome: typeof typed.postHome === 'boolean' ? typed.postHome : true
+            }
+        }
+    } catch {
+        // ignore
+    }
+
+    return destination
+}
+
+const DraftDestinationPreview = ({
+    draftKey,
+    timelineById
+}: {
+    draftKey: string
+    timelineById: Map<string, Timeline<CommunityTimelineSchema>>
+}): JSX.Element => {
+    const destination = getDraftDestination(draftKey)
+
+    const destinationTimelines = destination.timelineIds
+        .map((timelineId) => timelineById.get(timelineId))
+        .filter((timeline): timeline is Timeline<CommunityTimelineSchema> => timeline !== undefined)
+
+    const timelineLabels = destinationTimelines.length > 0 ? destinationTimelines.map((timeline) => timeline.document.body.name) : []
+
+    return (
+        <Stack direction="row" spacing={0.5} mt={0.5} flexWrap="wrap" alignItems="center">
+            {destination.postHome && <Chip size="small" label="Home" color="primary" variant="outlined" />}
+            {timelineLabels.map((name) => (
+                <Chip key={name} size="small" label={name} variant="outlined" />
+            ))}
+            {timelineLabels.length === 0 && !destination.postHome && <Chip size="small" label="(No destination)" variant="outlined" />}
+        </Stack>
+    )
+}
+
 export const DraftsPage = (): JSX.Element => {
     const { entries, removeDraft, togglePinDraft, scheduleDraft, updateDraft } = useDraftContext()
     const editorModal = useEditorModal()
     const { t } = useTranslation('', { keyPrefix: 'pages.drafts' })
     const { allKnownTimelines } = useGlobalState()
+    const timelineById = useMemo(() => {
+        const map = new Map<string, Timeline<CommunityTimelineSchema>>()
+        for (const timeline of allKnownTimelines) {
+            if (timeline.id) {
+                map.set(timeline.id, timeline)
+            }
+        }
+        return map
+    }, [allKnownTimelines])
 
     const [activeDraftKey, setActiveDraftKey] = useState(() => crypto.randomUUID())
     const handleSaveDraft = useCallback(() => {
@@ -165,6 +229,7 @@ export const DraftsPage = (): JSX.Element => {
                                             />
                                         )}
                                     </Stack>
+                                    <DraftDestinationPreview draftKey={entry.key} timelineById={timelineById} />
                                 </Box>
                                 <Stack direction="row" spacing={0.5}>
                                     <IconButton
@@ -176,7 +241,13 @@ export const DraftsPage = (): JSX.Element => {
                                             if (raw) {
                                                 try { text = JSON.parse(raw) } catch { text = raw }
                                             }
-                                            editorModal.open({ draft: text, draftKey: entry.key })
+                                            editorModal.open({
+                                                draft: text,
+                                                draftKey: entry.key,
+                                                onSaveDraft: () => {},
+                                                submitButtonLabel: t('saveDraft'),
+                                                submitIcon: <SaveIcon />
+                                            })
                                         }}
                                     >
                                         <EditIcon fontSize="small" />

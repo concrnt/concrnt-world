@@ -81,6 +81,7 @@ export const DraftProvider = ({ children }: { children: JSX.Element | JSX.Elemen
                     localStorage.removeItem(prefix + 'draft')
                     localStorage.removeItem(prefix + 'draftEmojis')
                     localStorage.removeItem(prefix + 'draftMedias')
+                    localStorage.removeItem(prefix + 'draftDestination')
                 }
                 return {
                     ...prev,
