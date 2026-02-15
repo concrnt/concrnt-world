@@ -6,6 +6,7 @@
 ## 置き場
 
 - `README.md`（このファイル）: 運用ルール
+- `AGENT_BRIEF.md`: 実装依頼の最短要件（固定版）
 - `concurrent-arakoshi-world.md`: 仕様原本（最新）
 - `experimental-requirements.md`: 実験改変の最終要件（優先参照）
 - `progress-map.md`: フェーズ進捗の現状一覧
@@ -16,7 +17,8 @@
 1. `concurrent-arakoshi-world.md`（仕様）
 2. `phase-roadmap-full.md`（実行指示）
 3. `experimental-requirements.md`（実験要件）
-4. `progress-map.md`（進捗）
+4. `AGENT_BRIEF.md`（実装の最短要件）
+5. `progress-map.md`（進捗）
 
 ## 運用ルール
 
