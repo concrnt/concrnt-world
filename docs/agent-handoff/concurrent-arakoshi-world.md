@@ -163,6 +163,13 @@ type TagRule = { tag: string; display?: DisplayRule }
 
 要件（編集・削除・作成/更新日時ソート・ピン留め）との相性から、案B が実装効率が高い。
 
+## 6.1 下書きページインライン保存（ホーム同等）
+
+- `/drafts` 画面にホーム画面と同等の `CCPostEditor` を追加し、モーダルを経由せずその場で下書き保存できる経路を追加する。
+- 下書き保存/編集体験はホーム側の `showEditorOnTop` / `showEditorOnTopMobile` 設定を共有し、使い勝手を揃える。
+- エディタは `draftKey` 単位で状態を保持し、保存時に `DraftContext` エントリと localStorage が更新されるようにする。
+- `streamPickerInitial` / `streamPickerOptions` / `defaultPostHome` はホーム側実装を流用して、投稿先の初期値を一貫化する。
+
 ---
 
 ## 7. 予約投稿

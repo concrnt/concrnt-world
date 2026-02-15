@@ -32,6 +32,7 @@
 
 - Phase10: ホーム/Watch 表現の整合
 - Phase11: 品質固め（移行、受け入れ手順、hard gate 監査）
+- Phase12: DraftsPage インライン投稿導線
 
 ## 更新ルール
 
@@ -110,7 +111,10 @@
 - manual-acceptance 20 項目 + Migration Log の全コードパスを静的監査で検証。
 - 全 21 項目 **Pass**（コードパストレース）。
 - ライブブラウザでの視覚確認は推奨（blur 描画、snackbar タイミング、modal フォーカス）。
+- Case21（DraftsPage インライン投稿）は未実施（設計差分の追加）。
 
 ## 残タスク
 
-なし（全 Phase 完了）。ライブブラウザでの最終確認は任意。
+進行中: Phase12 実装（DraftsPage インライン投稿導線）  
+追加タスク: Case21（Acceptance）追加分の実行とログ記録  
+`Case21` は「投稿」ではなく「Draft 保存（その場で下書きに追加/更新）」として運用する

@@ -8,7 +8,7 @@
 
 ## Recommended Execution Order
 
-1-5 (Keep/Unkeep basics) → 6-7 (Folder/Tag) → 12-14 (Sort/Display rules) → 8 (Drafts) → 15 (Draft edit) → 9-11 (Scheduled posts) → 16 (Dedup guard) → 17 (Unkeep retry) → 18 (Watch Author) → 19 (Draft LS cleanup) → 20 (Ack independent) → Migration Log
+1-5 (Keep/Unkeep basics) → 6-7 (Folder/Tag) → 12-14 (Sort/Display rules) → 8 (Drafts) → 15 (Draft edit) → 21 (DraftsPage inline compose) → 9-11 (Scheduled posts) → 16 (Dedup guard) → 17 (Unkeep retry) → 18 (Watch Author) → 19 (Draft LS cleanup) → 20 (Ack independent) → Migration Log
 
 ---
 
@@ -268,6 +268,19 @@
 4. Navigate to KeepPage → verify the user entry has Ack state but no watchTargets.
 
 **Expected:** Ack fires independently of Watch; subId absence does not block Ack.
+
+### 21. DraftsPage Inline Compose (Draft save)
+
+**Precondition:** At least one timeline is writable.
+
+1. Navigate to `DraftsPage`.
+2. Verify an inline `CCPostEditor` exists near the top (same visible controls as home: destination picker, post button, shortcuts).
+3. Enter draft text and trigger post/save.
+4. Confirm a new/updated draft item appears in `DraftsPage` list.
+5. Verify the inline composer input is cleared after save.
+6. Verify the corresponding `draftKey` metadata and localStorage are updated (not removed) for the saved draft.
+
+**Expected:** DraftsPage allows drafting in-place without opening a modal; saved content is persisted as a draft entry and can be managed from the list.
 
 ---
 

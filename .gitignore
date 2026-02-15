@@ -36,3 +36,7 @@ dev-dist
 
 # playwright-cli
 .playwright-cli/
+
+# Environment variables
+.env
+.env.*
