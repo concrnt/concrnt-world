@@ -172,7 +172,9 @@
             "delete": "Delete",
             "pin": "Pin",
             "cancel": "Cancel",
-            "failed": "Failed"
+            "failed": "Failed",
+            "saveDraft": "Save",
+            "composePlaceholder": "Write a new draft..."
         },
         "list": {
             "subtitle": "Your watched timelines",

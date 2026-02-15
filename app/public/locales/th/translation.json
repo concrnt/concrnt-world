@@ -101,7 +101,9 @@
             "delete": "ลบ",
             "pin": "ปักหมุด",
             "cancel": "ยกเลิก",
-            "failed": "ล้มเหลว"
+            "failed": "ล้มเหลว",
+            "saveDraft": "บันทึก",
+            "composePlaceholder": "เขียนแบบร่างใหม่..."
         },
         "lists": {
             "title": "รายการ"

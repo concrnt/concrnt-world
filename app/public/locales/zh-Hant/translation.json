@@ -176,7 +176,9 @@
             "delete": "刪除",
             "pin": "置頂",
             "cancel": "取消",
-            "failed": "失敗"
+            "failed": "失敗",
+            "saveDraft": "儲存",
+            "composePlaceholder": "撰寫新草稿..."
         },
         "explore": {
             "title": "探索",

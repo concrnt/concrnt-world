@@ -52,6 +52,7 @@ export interface EditorActionsProps {
     setWhisperUsers: Dispatch<SetStateAction<User[]>>
     isPrivate?: boolean
     addon?: JSX.Element | boolean
+    submitIcon?: JSX.Element
 }
 
 export const EditorActions = (props: EditorActionsProps): JSX.Element => {
@@ -367,7 +368,7 @@ ${props.draft.trim() || t('enterContent')}
                                 color: theme.palette.text.disabled
                             }
                         }}
-                        endIcon={<SendIcon />}
+                        endIcon={props.submitIcon ?? <SendIcon />}
                     >
                         {props.isPrivate ? <LockIcon sx={{ fontSize: '1rem', mr: 1 }} /> : <></>}
                         {props.whisperUsers.length > 0 ? t('whisper') : ''}

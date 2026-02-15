@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
     Alert,
     Box,
@@ -8,6 +8,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    Divider,
     IconButton,
     Paper,
     Stack,
@@ -20,12 +21,15 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import ScheduleIcon from '@mui/icons-material/Schedule'
+import SaveIcon from '@mui/icons-material/Save'
 import { useTranslation } from 'react-i18next'
 
 import { useDraftContext, type DraftEntry } from '../context/DraftContext'
 import { useEditorModal } from '../components/EditorModal'
 import { usePersistent } from '../hooks/usePersistent'
 import { LS_PREFIX } from '../appConfig'
+import { CCPostEditor } from '../components/Editor/CCPostEditor'
+import { useGlobalState } from '../context/GlobalState'
 
 const sortEntries = (entries: DraftEntry[]): DraftEntry[] => {
     return [...entries].sort((a, b) => {
@@ -56,6 +60,12 @@ export const DraftsPage = (): JSX.Element => {
     const { entries, removeDraft, togglePinDraft, scheduleDraft, updateDraft } = useDraftContext()
     const editorModal = useEditorModal()
     const { t } = useTranslation('', { keyPrefix: 'pages.drafts' })
+    const { allKnownTimelines } = useGlobalState()
+
+    const [activeDraftKey, setActiveDraftKey] = useState(() => crypto.randomUUID())
+    const handleSaveDraft = useCallback(() => {
+        setActiveDraftKey(crypto.randomUUID())
+    }, [])
 
     const sorted = useMemo(() => sortEntries(entries), [entries])
 
@@ -91,6 +101,24 @@ export const DraftsPage = (): JSX.Element => {
                     {t('title')}
                 </Typography>
             </Box>
+            <Box sx={{ px: 1 }}>
+                <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
+                    <CCPostEditor
+                        key={activeDraftKey}
+                        draftKey={activeDraftKey}
+                        minRows={3}
+                        maxRows={5}
+                        streamPickerOptions={allKnownTimelines}
+                        streamPickerInitial={[]}
+                        onSaveDraft={handleSaveDraft}
+                        submitButtonLabel={t('saveDraft')}
+                        submitIcon={<SaveIcon />}
+                        placeholder={t('composePlaceholder')}
+                        sx={{ p: { xs: 0.5, sm: 1 } }}
+                    />
+                </Paper>
+            </Box>
+            <Divider sx={{ my: 1 }} />
             <Box sx={{ overflowY: 'auto', flex: 1, p: 1 }}>
                 {sorted.length === 0 ? (
                     <Paper variant="outlined" sx={{ p: 3, textAlign: 'center', color: 'text.secondary' }}>

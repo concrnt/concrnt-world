@@ -90,6 +90,9 @@ export interface CCPostEditorProps {
     minRows?: number
     maxRows?: number
     onPost?: () => void
+    onSaveDraft?: () => void
+    submitButtonLabel?: string
+    submitIcon?: JSX.Element
 }
 
 export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): JSX.Element => {
@@ -139,6 +142,7 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     const { registerDraft } = useDraftContext()
     useEffect(() => {
         if (!props.draftKey) return
+        if (props.onSaveDraft) return
         registerDraft(props.draftKey)
     }, [props.draftKey])
 
@@ -414,7 +418,12 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 }
                                 if (draft.length === 0 || draft.trim().length === 0) return
                                 if (e.key === 'Enter' && (e.ctrlKey === true || e.metaKey === true) && !sending) {
-                                    post(postHome)
+                                    if (props.onSaveDraft) {
+                                        registerDraft(props.draftKey!)
+                                        props.onSaveDraft()
+                                    } else {
+                                        post(postHome)
+                                    }
                                 }
                             }}
                             onKeyUp={(e: any) => {
@@ -547,7 +556,13 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         )}
                         <EditorActions
                             post={() => {
-                                post(postHome)
+                                if (props.onSaveDraft) {
+                                    if (draft.length === 0 || draft.trim().length === 0) return
+                                    registerDraft(props.draftKey!)
+                                    props.onSaveDraft()
+                                } else {
+                                    post(postHome)
+                                }
                             }}
                             disablePostButton={sending || uploading}
                             draft={draft}
@@ -558,7 +573,8 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 insertEmoji(emoji, textInputRef.current?.selectionEnd ?? undefined)
                             }}
                             setEmojiDict={setEmojiDict}
-                            submitButtonLabel={et(mode)}
+                            submitButtonLabel={props.submitButtonLabel ?? et(mode)}
+                            submitIcon={props.submitIcon}
                             onAddMedia={
                                 mode === 'media'
                                     ? (media) => {
@@ -589,7 +605,13 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                         )}
                         <EditorActions
                             post={() => {
-                                post(postHome)
+                                if (props.onSaveDraft) {
+                                    if (draft.length === 0 || draft.trim().length === 0) return
+                                    registerDraft(props.draftKey!)
+                                    props.onSaveDraft()
+                                } else {
+                                    post(postHome)
+                                }
                             }}
                             disableMedia={mode === 'plaintext' || mode === 'reroute'}
                             disableEmoji={mode === 'plaintext' || mode === 'reroute'}
@@ -602,7 +624,8 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                                 insertEmoji(emoji, textInputRef.current?.selectionEnd ?? undefined)
                             }}
                             setEmojiDict={setEmojiDict}
-                            submitButtonLabel={et(mode)}
+                            submitButtonLabel={props.submitButtonLabel ?? et(mode)}
+                            submitIcon={props.submitIcon}
                             onAddMedia={
                                 mode === 'media'
                                     ? (media) => {

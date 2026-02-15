@@ -101,7 +101,9 @@
             "delete": "삭제",
             "pin": "고정",
             "cancel": "취소",
-            "failed": "실패"
+            "failed": "실패",
+            "saveDraft": "저장",
+            "composePlaceholder": "새 초안 작성..."
         },
         "lists": {
             "title": "리스트"

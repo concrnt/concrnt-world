@@ -175,7 +175,9 @@
             "delete": "削除",
             "pin": "ピン留め",
             "cancel": "キャンセル",
-            "failed": "失敗"
+            "failed": "失敗",
+            "saveDraft": "保存",
+            "composePlaceholder": "新しい下書きを入力..."
         },
         "explore": {
             "title": "探索",
