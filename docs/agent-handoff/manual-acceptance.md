@@ -6,6 +6,10 @@
 - Logged in with a test account that has at least one known user and timeline
 - Browser DevTools console open (for migration log verification)
 
+## Recommended Execution Order
+
+1-5 (Keep/Unkeep basics) → 6-7 (Folder/Tag) → 12-14 (Sort/Display rules) → 8 (Drafts) → 15 (Draft edit) → 9-11 (Scheduled posts) → 16 (Dedup guard) → 17 (Unkeep retry) → 18 (Watch Author) → 19 (Draft LS cleanup) → 20 (Ack independent) → Migration Log
+
 ---
 
 ## Test Cases
@@ -278,3 +282,42 @@
 4. Verify the migrated item now has `watchTargets` in the correct format.
 
 **Expected:** Migration is idempotent and logged.
+
+---
+
+## Execution Log
+
+Record results here per test run. Copy the template below.
+
+```
+Date: YYYY-MM-DD
+Tester:
+Build:
+
+| # | Result | Notes |
+|---|--------|-------|
+| 1 | | |
+| 2 | | |
+| 3 | | |
+| 4 | | |
+| 5 | | |
+| 6 | | |
+| 7 | | |
+| 8 | | |
+| 9 | | |
+| 10 | | |
+| 11 | | |
+| 12 | | |
+| 13 | | |
+| 14 | | |
+| 15 | | |
+| 16 | | |
+| 17 | | |
+| 18 | | |
+| 19 | | |
+| 20 | | |
+| Migration | | |
+```
+
+Result values: `Pass` / `Fail` / `Skip` / `N/A`
+If Fail: add reproduction steps and root cause in Notes column.

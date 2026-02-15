@@ -40,3 +40,9 @@
 
 - Keep/Unkeep スナックバー文言は全て `ui.messageActions` 配下の i18n キーで管理する（6 言語対応済み）
 - ハードコード文字列は残さない
+
+## Phase 11 完了条件
+
+- watchSubs → watchTargets マイグレーションが起動時に再現的にログ出力される
+- 主要シナリオで二重購読・欠損購読がないこと（manual-acceptance 20 項目 Pass）
+- `world.concurrent.arakoshi.*` namespace 以外への KV 書き込みがないこと

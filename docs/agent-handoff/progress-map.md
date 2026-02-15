@@ -30,9 +30,8 @@
 - Phase8: Draft 複数化（一覧、ピン、編集/削除、スケジュール登録）
 - Phase9: 予約投稿（起動時/定期スキャン）
 
-### 進行中
-- Phase10: ホーム/Watch 表現の整合（導線は整備、言語・導線の最終調整残）
-- Phase11: 品質固め（移行、受け入れ手順）
+- Phase10: ホーム/Watch 表現の整合
+- Phase11: 品質固め（移行、受け入れ手順、hard gate 監査）
 
 ## 更新ルール
 
@@ -88,7 +87,14 @@
 6. **[LOW] i18n ハードコード解消**: `useKeepToggle` の全 snackbar 文言を `t('ui.messageActions.*')` 経由に統一。6 言語の JSON キーを揃えて追加（messageKept/watchAuthor/nowWatchingAuthor/keepFailed/cleanupFailedRetry/unkeepFailed）。
 7. **[DOCS] ドキュメント更新**: AGENT_BRIEF.md / manual-acceptance.md / progress-map.md を上記修正に合わせて更新。acceptance テストを 20 項目に拡充（19-20 追加、18 更新）。
 
-## 残タスク（重要）
+### Phase 10/11 最終化（2026-02-15）
 
-1. Phase11: 既存データ移行（watchSubs の残存検出/洗い替え）の実運用確認と、再起動耐性の検証ログ整備。
-2. Phase10/11: Home/Watch 表現の言語・導線の最終整合（最終運用前データ）
+- **Phase 10 完了確認**: Home/Watch 表現の整合を検証。ナビゲーション "Home"、ListPage subtitle "Your watched timelines"、WatchButton "Watch/Watching/Unwatch" が全 6 言語で一貫していることを確認。
+- **Phase 11 完了確認**: watchSubs マイグレーションコードを監査。`watchSubs` への書き込みは残存なし、読み取りはマイグレーション箇所のみ。二重購読・欠損購読のリスクなし。
+- **Hard gate 監査**: namespace compliance を監査し、`Migrator.tsx` の `world.concurrent.preference` → `${KV_PREFIX}.preference` への修正を実施。managed-only unkeep は正常。
+- **manual-acceptance.md**: 実行順序ガイドと Pass/Fail ログテンプレートを追加。20 項目。
+- **AGENT_BRIEF.md**: Phase 11 完了条件を追記。
+
+## 残タスク
+
+- manual-acceptance 20 項目の実行ログ記録（テスター実施待ち）

@@ -9,7 +9,7 @@ import { jumpToDomainRegistration } from '../util'
 import { useSnackbar } from 'notistack'
 import { RepositoryExportButton, RepositoryImportButton } from './RepositoryManageButtons'
 import { usePersistent } from '../hooks/usePersistent'
-import { LS_PREFIX } from '../appConfig'
+import { KV_PREFIX, LS_PREFIX } from '../appConfig'
 import { type JobRequest } from '../model'
 import { useTranslation } from 'react-i18next'
 
@@ -188,7 +188,7 @@ export function Migrator(): JSX.Element {
                             if (!settings) return
                             Client.create(client.keyPair!.privatekey, destFqdn).then((remoteClient) => {
                                 remoteClient.api
-                                    .writeKV('world.concurrent.preference', settings)
+                                    .writeKV(`${KV_PREFIX}.preference`, settings)
                                     .then((_) => {
                                         setActiveStep(activeStep + 1)
                                     })
