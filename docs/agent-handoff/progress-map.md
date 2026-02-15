@@ -95,6 +95,16 @@
 - **manual-acceptance.md**: 実行順序ガイドと Pass/Fail ログテンプレートを追加。20 項目。
 - **AGENT_BRIEF.md**: Phase 11 完了条件を追記。
 
+### Hard gate 自動監査（2026-02-15）
+
+- `writeKV('world.concurrent.preference'...)` — 0 件。namespace 違反修正済み。
+- `watchSubs` 参照 — context/LibraryContext.tsx のマイグレーション箇所のみ（読み取り専用、6 行）。components 配下は 0 件。
+- 全 `writeKV` 呼び出し（3 箇所）がすべて `${KV_PREFIX}.*` 経由を確認:
+  - `world.concurrent.arakoshi.preference`（PreferenceContext / Registration / Migrator）
+  - `world.concurrent.arakoshi.library`（LibraryContext）
+  - `world.concurrent.arakoshi.drafts`（DraftContext）
+- **結論: 全 hard gate クリア。**
+
 ## 残タスク
 
-- manual-acceptance 20 項目の実行ログ記録（テスター実施待ち）
+- manual-acceptance 20 項目の実行ログ記録（テスター実施待ち、dev サーバー + ブラウザ操作が必要）

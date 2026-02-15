@@ -30,5 +30,6 @@ package-lock.yaml
 test-results
 playwright-report
 storybook-static
+docs/.obsidian/
 
 dev-dist
