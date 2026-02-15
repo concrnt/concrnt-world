@@ -17,11 +17,13 @@ import {
 import PushPinIcon from '@mui/icons-material/PushPin'
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import ScheduleIcon from '@mui/icons-material/Schedule'
 import { useTranslation } from 'react-i18next'
 
 import { useDraftContext, type DraftEntry } from '../context/DraftContext'
+import { useEditorModal } from '../components/EditorModal'
 import { usePersistent } from '../hooks/usePersistent'
 import { LS_PREFIX } from '../appConfig'
 
@@ -52,6 +54,7 @@ const DraftPreview = ({ draftKey }: { draftKey: string }): JSX.Element => {
 
 export const DraftsPage = (): JSX.Element => {
     const { entries, removeDraft, togglePinDraft, scheduleDraft, updateDraft } = useDraftContext()
+    const editorModal = useEditorModal()
     const { t } = useTranslation('', { keyPrefix: 'pages.drafts' })
 
     const sorted = useMemo(() => sortEntries(entries), [entries])
@@ -136,6 +139,20 @@ export const DraftsPage = (): JSX.Element => {
                                     </Stack>
                                 </Box>
                                 <Stack direction="row" spacing={0.5}>
+                                    <IconButton
+                                        size="small"
+                                        onClick={() => {
+                                            const prefix = entry.key ? `${LS_PREFIX}${entry.key}:` : LS_PREFIX
+                                            const raw = localStorage.getItem(prefix + 'draft')
+                                            let text = ''
+                                            if (raw) {
+                                                try { text = JSON.parse(raw) } catch { text = raw }
+                                            }
+                                            editorModal.open({ draft: text, draftKey: entry.key })
+                                        }}
+                                    >
+                                        <EditIcon fontSize="small" />
+                                    </IconButton>
                                     <IconButton size="small" onClick={() => togglePinDraft(entry.id)}>
                                         {entry.pinned ? <PushPinIcon fontSize="small" color="primary" /> : <PushPinOutlinedIcon fontSize="small" />}
                                     </IconButton>

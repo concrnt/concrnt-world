@@ -1,9 +1,11 @@
-import { useMemo, useCallback, useState } from 'react'
+import { useMemo, useCallback, useState, createElement } from 'react'
 import { type User } from '@concrnt/worldlib'
+import { Button } from '@mui/material'
 import { useLibrary, makeItemId, type ItemKind, type UserRef, type TimelineRef, type MessageRef, type LibraryItem } from '../context/LibraryContext'
 import { useManagedOperations } from './useManagedOperations'
+import { useClient } from '../context/ClientContext'
 import { useGlobalState } from '../context/GlobalState'
-import { enqueueSnackbar } from 'notistack'
+import { enqueueSnackbar, closeSnackbar } from 'notistack'
 
 export interface UseKeepToggleParams {
     kind: ItemKind
@@ -20,6 +22,7 @@ export interface UseKeepToggleResult {
 }
 
 export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): UseKeepToggleResult {
+    const { client } = useClient()
     const { items, upsertItem } = useLibrary()
     const managedOps = useManagedOperations()
     const { listedSubscriptions } = useGlobalState()
@@ -76,9 +79,33 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
                         break
                     }
                     case 'message':
-                    default:
+                    default: {
+                        const msgRef = itemRef as MessageRef
                         upsertItem({ kind, ref: itemRef })
+                        enqueueSnackbar('Message kept', {
+                            variant: 'success',
+                            action: (snackbarId) =>
+                                createElement(Button, {
+                                    color: 'inherit',
+                                    size: 'small',
+                                    onClick: () => {
+                                        closeSnackbar(snackbarId)
+                                        client.getUser(msgRef.author).then((authorUser) => {
+                                            if (!authorUser?.homeTimeline) return
+                                            const subId = findSubIdFor(authorUser.homeTimeline)
+                                            if (subId) {
+                                                managedOps.watchManaged(authorUser.homeTimeline, subId)
+                                                    .then(() => {
+                                                        enqueueSnackbar('Now watching author', { variant: 'info' })
+                                                    })
+                                                    .catch(console.error)
+                                            }
+                                        }).catch(console.error)
+                                    }
+                                }, 'Watch Author')
+                        })
                         break
+                    }
                 }
             } catch (e) {
                 console.error('Keep failed', e)
@@ -97,7 +124,7 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
             .removeWithCleanup(item.id)
             .then((result) => {
                 if (!result.success) {
-                    enqueueSnackbar('Some cleanup operations failed', { variant: 'warning' })
+                    enqueueSnackbar('Some cleanup failed. Retry from Library.', { variant: 'warning' })
                 }
             })
             .catch((e) => {

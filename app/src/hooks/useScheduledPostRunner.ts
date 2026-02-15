@@ -12,12 +12,14 @@ export function useScheduledPostRunner(): void {
     const { entries, removeDraft, updateDraft } = useDraftContext()
     const entriesRef = useRef(entries)
     entriesRef.current = entries
+    const inFlightRef = useRef<Set<string>>(new Set())
 
     const runScheduledPosts = useCallback(() => {
         const now = Date.now()
         for (const entry of entriesRef.current) {
             if (!entry.scheduledAt || entry.scheduledAt > now) continue
             if ((entry.retryCount ?? 0) >= MAX_RETRIES) continue
+            if (inFlightRef.current.has(entry.id)) continue
 
             // Read draft content from localStorage
             const prefix = entry.key ? `${LS_PREFIX}${entry.key}:` : LS_PREFIX
@@ -42,6 +44,7 @@ export function useScheduledPostRunner(): void {
             // Post the draft
             if (!client?.user?.homeTimeline) continue
 
+            inFlightRef.current.add(entry.id)
             client
                 .createMarkdownCrnt(body, [client.user.homeTimeline])
                 .then(() => {
@@ -68,6 +71,9 @@ export function useScheduledPostRunner(): void {
                             lastError: e instanceof Error ? e.message : String(e)
                         })
                     }
+                })
+                .finally(() => {
+                    inFlightRef.current.delete(entry.id)
                 })
         }
     }, [client, removeDraft, updateDraft])

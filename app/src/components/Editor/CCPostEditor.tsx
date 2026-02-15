@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, memo, useMemo } from 'react'
+import { useState, useEffect, useRef, memo, useMemo, useCallback } from 'react'
 import {
     InputBase,
     Box,
@@ -45,6 +45,7 @@ import { TimelinePicker } from '../ui/TimelinePicker'
 import { Profile } from '@concrnt/client'
 
 import { useDraftState } from '../../hooks/useDraftState'
+import { useDraftContext } from '../../context/DraftContext'
 import { usePostAction } from '../../hooks/usePostAction'
 import { useMediaUpload } from '../../hooks/useMediaUpload'
 
@@ -83,6 +84,7 @@ export interface CCPostEditorProps {
     placeholder?: string
     sx?: SxProps
     value?: string
+    draftKey?: string
     defaultPostHome?: boolean
     subprofile?: string
     minRows?: number
@@ -131,7 +133,19 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
 
     // draft state (extracted hook)
     const { draft, setDraft, emojiDict, setEmojiDict, medias, setMedias, uploading, insertEmoji, resetDraft } =
-        useDraftState()
+        useDraftState(props.draftKey)
+
+    // registerDraft integration
+    const { registerDraft } = useDraftContext()
+    useEffect(() => {
+        if (!props.draftKey) return
+        registerDraft(props.draftKey)
+    }, [props.draftKey])
+
+    useEffect(() => {
+        if (!props.draftKey || !draft) return
+        registerDraft(props.draftKey)
+    }, [draft, props.draftKey])
 
     useEffect(() => {
         if (props.value && props.value !== '') {

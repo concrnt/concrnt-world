@@ -351,30 +351,30 @@ function App(): JSX.Element {
                         <EmojiPickerProvider>
                             <StorageProvider>
                                 <ConcordProvider>
-                                    <EditorModalProvider>
-                                        <TimelineDrawerProvider>
-                                            <UserDrawerProvider>
-                                                <ProfileProvider>
-                                                    <SearchDrawerProvider>
-                                                        <ConfirmProvider>
-                                                            <InspectorProvider>
-                                                                <GlobalActionsProvider>
-                                                                    <TimelineProvider>
-                                                                        <CommandPaletteProvider>
-                                                                            <DraftProvider>
-                                                                                <ScheduledPostRunner />
+                                    <DraftProvider>
+                                        <ScheduledPostRunner />
+                                        <EditorModalProvider>
+                                            <TimelineDrawerProvider>
+                                                <UserDrawerProvider>
+                                                    <ProfileProvider>
+                                                        <SearchDrawerProvider>
+                                                            <ConfirmProvider>
+                                                                <InspectorProvider>
+                                                                    <GlobalActionsProvider>
+                                                                        <TimelineProvider>
+                                                                            <CommandPaletteProvider>
                                                                                 {childs}
-                                                                            </DraftProvider>
-                                                                        </CommandPaletteProvider>
-                                                                    </TimelineProvider>
-                                                                </GlobalActionsProvider>
-                                                            </InspectorProvider>
-                                                        </ConfirmProvider>
-                                                    </SearchDrawerProvider>
-                                                </ProfileProvider>
-                                            </UserDrawerProvider>
-                                        </TimelineDrawerProvider>
-                                    </EditorModalProvider>
+                                                                            </CommandPaletteProvider>
+                                                                        </TimelineProvider>
+                                                                    </GlobalActionsProvider>
+                                                                </InspectorProvider>
+                                                            </ConfirmProvider>
+                                                        </SearchDrawerProvider>
+                                                    </ProfileProvider>
+                                                </UserDrawerProvider>
+                                            </TimelineDrawerProvider>
+                                        </EditorModalProvider>
+                                    </DraftProvider>
                                 </ConcordProvider>
                             </StorageProvider>
                         </EmojiPickerProvider>

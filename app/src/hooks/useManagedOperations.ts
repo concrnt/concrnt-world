@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { type User } from '@concrnt/worldlib'
 import { useClient } from '../context/ClientContext'
-import { useLibrary, type LibraryItem } from '../context/LibraryContext'
+import { useLibrary, type LibraryItem, type WatchTarget } from '../context/LibraryContext'
 import { useGlobalState } from '../context/GlobalState'
 
 export interface CleanupFailedOp {
@@ -133,11 +133,13 @@ export function useManagedOperations(): ManagedOperations {
             if (!item) return { success: true, failedOps: [] }
 
             const failedOps: CleanupFailedOp[] = []
+            const succeededTargets: WatchTarget[] = []
 
             if (item.managed?.watchTargets?.length) {
                 for (const target of item.managed.watchTargets) {
                     try {
                         await client.api.unsubscribe(target.fqid, target.subId)
+                        succeededTargets.push(target)
                     } catch (e) {
                         failedOps.push({
                             op: 'unsubscribe',
@@ -149,6 +151,7 @@ export function useManagedOperations(): ManagedOperations {
                 reloadList()
             }
 
+            let ackFailed = false
             if (item.managed?.ack) {
                 const ccid = (item.ref as { ccid: string }).ccid
                 try {
@@ -158,6 +161,7 @@ export function useManagedOperations(): ManagedOperations {
                         forceUpdate()
                     }
                 } catch (e) {
+                    ackFailed = true
                     failedOps.push({
                         op: 'unack',
                         id: ccid,
@@ -166,15 +170,28 @@ export function useManagedOperations(): ManagedOperations {
                 }
             }
 
-            // Always remove the item even if some cleanup failed (respect user's unkeep intent)
-            removeItem(itemId)
+            if (failedOps.length === 0) {
+                removeItem(itemId)
+            } else {
+                // Partial failure: remove succeeded targets, mark cleanupFailed
+                const remaining = (item.managed?.watchTargets ?? []).filter(
+                    (t) => !succeededTargets.some((s) => s.fqid === t.fqid && s.subId === t.subId)
+                )
+                updateItem(itemId, {
+                    managed: {
+                        watchTargets: remaining.length > 0 ? remaining : undefined,
+                        ack: ackFailed ? item.managed?.ack : undefined,
+                        cleanupFailed: true
+                    }
+                })
+            }
 
             return {
                 success: failedOps.length === 0,
                 failedOps
             }
         },
-        [client, items, removeItem, reloadList, forceUpdate]
+        [client, items, removeItem, updateItem, reloadList, forceUpdate]
     )
 
     return {

@@ -61,17 +61,19 @@
 
 ---
 
-### 5. Message Keep/Unkeep
+### 5. Message Keep/Unkeep + Watch Author
 
 **Precondition:** A message is visible in a timeline.
 
 1. Open message actions and click **Keep**.
-2. Navigate to KeepPage → "Messages" tab.
-3. Verify the message appears (no Watch/Ack buttons — messages have no watch association).
-4. Click **Unkeep**.
-5. Verify the message is removed from the list.
+2. Verify a "Message kept" snackbar appears with a **Watch Author** action button.
+3. Click **Watch Author** — verify "Now watching author" snackbar appears.
+4. Navigate to KeepPage → "Messages" tab.
+5. Verify the message appears.
+6. Click **Unkeep**.
+7. Verify the message is removed from the list.
 
-**Expected:** Keep/Unkeep works without Watch/Ack side effects.
+**Expected:** Keep shows Watch Author snackbar; clicking it subscribes to the author's home timeline.
 
 ---
 
@@ -101,15 +103,18 @@
 
 ---
 
-### 8. Draft Multi-management + Pin
+### 8. Draft Multi-management + Pin + Edit
 
 1. Navigate to DraftsPage.
 2. Create 3+ drafts with different content.
-3. Pin one draft using the pin icon (📌).
+3. Pin one draft using the pin icon.
 4. Verify pinned drafts sort to the top.
-5. Unpin and verify sort order reverts to `updatedAt` descending.
+5. Click the **Edit** (pencil) button on a draft.
+6. Verify the EditorModal opens with the draft content pre-filled and the correct `draftKey`.
+7. Edit the text and close the modal — verify changes persist in DraftsPage.
+8. Unpin and verify sort order reverts to `updatedAt` descending.
 
-**Expected:** Pin icon is an `IconButton` (matching KeepPage pattern); sorting is pinned > updatedAt.
+**Expected:** Pin/Edit buttons work; EditorModal opens with draftKey for persistent editing.
 
 ---
 
@@ -175,6 +180,63 @@
 3. Verify messages from the hidden user are completely absent (no placeholder).
 
 **Expected:** Hidden messages return `null` — no UI trace at all.
+
+---
+
+### 15. Draft Edit from DraftsPage
+
+**Precondition:** At least one draft exists in DraftsPage.
+
+1. Navigate to DraftsPage.
+2. Click the **Edit** (pencil) icon on a draft entry.
+3. Verify the EditorModal opens with the draft's text content.
+4. Modify the text and close/post.
+5. Reopen DraftsPage — verify the draft preview reflects the new content.
+
+**Expected:** Edit button opens EditorModal with draftKey; edits persist via localStorage.
+
+---
+
+### 16. Scheduled Post Dedup Guard
+
+**Precondition:** A draft is scheduled for immediate posting.
+
+1. Schedule a draft for a time in the past (or wait for it to fire).
+2. Throttle the network (DevTools → Slow 3G).
+3. Trigger `visibilitychange` by switching tabs multiple times quickly.
+4. Verify only one "Scheduled post sent" snackbar appears (no duplicates).
+
+**Expected:** `inFlightRef` guard prevents duplicate API calls for the same scheduled entry.
+
+---
+
+### 17. Unkeep Retry (Partial Failure)
+
+**Precondition:** A timeline or user item is kept with managed watchTargets.
+
+1. Disconnect network (DevTools → Offline).
+2. Click **Unkeep** on the item.
+3. Verify the item is **not** removed — it remains in the list with a "cleanupFailed" warning chip.
+4. Verify a **Retry** button appears instead of the normal Unkeep ButtonGroup.
+5. Reconnect network.
+6. Click **Retry**.
+7. Verify the item is now removed successfully.
+
+**Expected:** Partial failure preserves the item; Retry re-attempts cleanup and removes on success.
+
+---
+
+### 18. Message Keep Watch Offer
+
+**Precondition:** A message is visible in a timeline.
+
+1. Open message actions and click **Keep**.
+2. Verify a snackbar appears: "Message kept" with a **Watch Author** button.
+3. Click **Watch Author**.
+4. Verify a follow-up snackbar: "Now watching author".
+5. Navigate to KeepPage → check that the author's timeline has a managed watch entry.
+
+**Expected:** Watch Author snackbar fires subscription; managed watchTargets recorded.
 
 ---
 

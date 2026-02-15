@@ -33,6 +33,7 @@ export type WatchTarget = {
 export type Managed = {
     watchTargets?: WatchTarget[]
     ack?: boolean
+    cleanupFailed?: boolean
 }
 
 export type LibraryItem = {
@@ -148,10 +149,12 @@ const normalizeManaged = (managed: RawValue): Managed | undefined => {
         ? (rawTargets as unknown[]).map(normalizeWatchTarget).filter((t): t is WatchTarget => t !== undefined)
         : []
     const ack = (managed as { ack?: unknown }).ack === true
-    if (!watchTargets.length && ack === false) return undefined
+    const cleanupFailed = (managed as { cleanupFailed?: unknown }).cleanupFailed === true
+    if (!watchTargets.length && ack === false && !cleanupFailed) return undefined
     return {
         ...(watchTargets.length > 0 ? { watchTargets } : {}),
-        ...(ack ? { ack } : {})
+        ...(ack ? { ack } : {}),
+        ...(cleanupFailed ? { cleanupFailed } : {})
     }
 }
 

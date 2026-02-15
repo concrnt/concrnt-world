@@ -21,6 +21,8 @@ import PushPinIcon from '@mui/icons-material/PushPin'
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 import LinkIcon from '@mui/icons-material/Link'
 import EditIcon from '@mui/icons-material/Edit'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import ReplayIcon from '@mui/icons-material/Replay'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { useTranslation } from 'react-i18next'
 import { enqueueSnackbar } from 'notistack'
@@ -236,6 +238,9 @@ export const KeepPage = (): JSX.Element => {
                                         {item.managed && (
                                             <Chip icon={<LinkIcon />} size="small" label="managed" color="info" variant="outlined" />
                                         )}
+                                        {item.managed?.cleanupFailed && (
+                                            <Chip icon={<ErrorOutlineIcon />} size="small" label={t('cleanupFailed')} color="warning" variant="outlined" />
+                                        )}
                                     </Stack>
                                     <Typography>{formatRef(item)}</Typography>
                                     {(item.tags?.length ?? 0) > 0 && (
@@ -270,46 +275,53 @@ export const KeepPage = (): JSX.Element => {
                                             {item.pinned ? <PushPinIcon fontSize="small" color="primary" /> : <PushPinOutlinedIcon fontSize="small" />}
                                         </IconButton>
                                     </Tooltip>
-                                    <ButtonGroup size="small">
+                                    {item.managed?.cleanupFailed ? (
                                         <Button
-                                            color={item.marked ? 'secondary' : 'inherit'}
-                                            variant={item.marked ? 'contained' : 'outlined'}
-                                            onClick={() => {
-                                                toggleMark(item.id)
-                                            }}
-                                        >
-                                            {item.marked ? t('marked') : t('mark')}
-                                        </Button>
-                                        <Button
-                                            startIcon={<BookmarkAddedIcon />}
-                                            color="error"
+                                            startIcon={<ReplayIcon />}
+                                            size="small"
+                                            color="warning"
                                             variant="outlined"
                                             onClick={() => {
                                                 removeWithCleanup(item.id).then((result) => {
                                                     if (!result.success) {
-                                                        enqueueSnackbar(t('cleanupFailed'), {
-                                                            variant: 'warning',
-                                                            action: () => (
-                                                                <Button
-                                                                    color="inherit"
-                                                                    size="small"
-                                                                    onClick={() => {
-                                                                        removeWithCleanup(item.id)
-                                                                    }}
-                                                                >
-                                                                    {t('retry')}
-                                                                </Button>
-                                                            )
-                                                        })
+                                                        enqueueSnackbar(t('cleanupFailed'), { variant: 'warning' })
                                                     }
                                                 }).catch((e) => {
-                                                    console.error('failed to remove item with cleanup', e)
+                                                    console.error('failed to retry cleanup', e)
                                                 })
                                             }}
                                         >
-                                            {t('unkeep')}
+                                            {t('retry')}
                                         </Button>
-                                    </ButtonGroup>
+                                    ) : (
+                                        <ButtonGroup size="small">
+                                            <Button
+                                                color={item.marked ? 'secondary' : 'inherit'}
+                                                variant={item.marked ? 'contained' : 'outlined'}
+                                                onClick={() => {
+                                                    toggleMark(item.id)
+                                                }}
+                                            >
+                                                {item.marked ? t('marked') : t('mark')}
+                                            </Button>
+                                            <Button
+                                                startIcon={<BookmarkAddedIcon />}
+                                                color="error"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    removeWithCleanup(item.id).then((result) => {
+                                                        if (!result.success) {
+                                                            enqueueSnackbar(t('cleanupFailed'), { variant: 'warning' })
+                                                        }
+                                                    }).catch((e) => {
+                                                        console.error('failed to remove item with cleanup', e)
+                                                    })
+                                                }}
+                                            >
+                                                {t('unkeep')}
+                                            </Button>
+                                        </ButtonGroup>
+                                    )}
                                 </Stack>
                             )}
                         </Paper>

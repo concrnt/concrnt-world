@@ -67,7 +67,19 @@
 - マイグレーションログ（成功/失敗）を追加。
 - manual acceptance テストを14項目で整備（`manual-acceptance.md`）。
 
+### Provider 順序修正 + Draft 編集導線 + Unkeep 再試行 + Watch 導線
+
+- `DraftProvider` を `EditorModalProvider` の外側に移動し、EditorModal 内の CCPostEditor が `useDraftContext()` を使用可能に。
+- CCPostEditor に `draftKey` prop を追加し、`useDraftState(draftKey)` + `registerDraft` 連携を実装。
+- DraftsPage に Edit ボタン追加。EditorModal を `draftKey` 付きで開き、編集内容が永続化される。
+- `useScheduledPostRunner` に `inFlightRef<Set>` による重複投稿ガードを追加。
+- `Managed` 型に `cleanupFailed` を追加。`removeWithCleanup` を部分失敗時に item 保持 + `cleanupFailed` マーク方式に変更。
+- KeepPage に `cleanupFailed` 警告チップ + Retry ボタンを追加。
+- Message Keep 時に "Watch Author" snackbar アクションを追加（`useKeepToggle`）。
+- manual-acceptance テストを 18 項目に拡充（15-18 追加、5/8 更新）。
+
 ## 残タスク（重要）
 
 1. Phase11: 既存データ移行（watchSubs の残存検出/洗い替え）の実運用確認と、再起動耐性の検証ログ整備。
 2. Phase10/11: Home/Watch 表現の言語・導線の最終整合（最終運用前データ）
+3. i18n: Message Keep Watch Author の多言語対応（現在 en ハードコード）。

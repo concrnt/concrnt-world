@@ -21,6 +21,7 @@ const EditorModalContext = createContext<EditorModalState>({
 
 export interface OpenOptions {
     draft?: string
+    draftKey?: string
     mode?: EditorMode
     target?: Message<any>
     streamPickerInitial?: Array<Timeline<CommunityTimelineSchema>>
@@ -117,7 +118,8 @@ export const EditorModalProvider = (props: EditorModalProps): JSX.Element => {
                 onPost: () => {
                     setPostProps(null)
                 },
-                value: openOpts?.draft
+                value: openOpts?.draft,
+                draftKey: openOpts?.draftKey
             })
         },
         [home, allKnownTimelines, homePostTimelines, isMobileSize]
