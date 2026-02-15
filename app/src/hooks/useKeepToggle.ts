@@ -1,6 +1,7 @@
 import { useMemo, useCallback, useState, createElement } from 'react'
 import { type User } from '@concrnt/worldlib'
 import { Button } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { useLibrary, makeItemId, type ItemKind, type UserRef, type TimelineRef, type MessageRef, type LibraryItem } from '../context/LibraryContext'
 import { useManagedOperations } from './useManagedOperations'
 import { useClient } from '../context/ClientContext'
@@ -26,6 +27,7 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
     const { items, upsertItem } = useLibrary()
     const managedOps = useManagedOperations()
     const { listedSubscriptions } = useGlobalState()
+    const { t } = useTranslation('', { keyPrefix: 'ui.messageActions' })
     const [loading, setLoading] = useState(false)
 
     const itemId = useMemo(() => makeItemId(kind, itemRef), [kind, itemRef])
@@ -49,17 +51,23 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
             try {
                 switch (kind) {
                     case 'user': {
+                        // Ack is independent of Watch — fire even when subId is absent
+                        const managed: { ack?: boolean; watchTargets?: Array<{ fqid: string; subId: string }> } = {}
+                        if (user) {
+                            await user.Ack()
+                            managed.ack = true
+                        }
                         const subId = user ? findSubIdFor(user.homeTimeline) : undefined
                         if (user && subId) {
-                            upsertItem({
-                                kind,
-                                ref: itemRef,
-                                managed: { ack: true, watchTargets: [{ fqid: user.homeTimeline, subId }] }
-                            })
-                            await user.Ack()
+                            managed.watchTargets = [{ fqid: user.homeTimeline, subId }]
+                        }
+                        upsertItem({
+                            kind,
+                            ref: itemRef,
+                            managed: Object.keys(managed).length > 0 ? managed : undefined
+                        })
+                        if (user && subId) {
                             await managedOps.watchManaged(user.homeTimeline, subId)
-                        } else {
-                            upsertItem({ kind, ref: itemRef })
                         }
                         break
                     }
@@ -82,7 +90,8 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
                     default: {
                         const msgRef = itemRef as MessageRef
                         upsertItem({ kind, ref: itemRef })
-                        enqueueSnackbar('Message kept', {
+                        const msgItemId = makeItemId(kind, itemRef)
+                        enqueueSnackbar(t('messageKept'), {
                             variant: 'success',
                             action: (snackbarId) =>
                                 createElement(Button, {
@@ -94,22 +103,22 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
                                             if (!authorUser?.homeTimeline) return
                                             const subId = findSubIdFor(authorUser.homeTimeline)
                                             if (subId) {
-                                                managedOps.watchManaged(authorUser.homeTimeline, subId)
+                                                managedOps.watchManagedFor(msgItemId, authorUser.homeTimeline, subId)
                                                     .then(() => {
-                                                        enqueueSnackbar('Now watching author', { variant: 'info' })
+                                                        enqueueSnackbar(t('nowWatchingAuthor'), { variant: 'info' })
                                                     })
                                                     .catch(console.error)
                                             }
                                         }).catch(console.error)
                                     }
-                                }, 'Watch Author')
+                                }, t('watchAuthor'))
                         })
                         break
                     }
                 }
             } catch (e) {
                 console.error('Keep failed', e)
-                enqueueSnackbar('Failed to keep', { variant: 'error' })
+                enqueueSnackbar(t('keepFailed'), { variant: 'error' })
             } finally {
                 setLoading(false)
             }
@@ -124,12 +133,12 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
             .removeWithCleanup(item.id)
             .then((result) => {
                 if (!result.success) {
-                    enqueueSnackbar('Some cleanup failed. Retry from Library.', { variant: 'warning' })
+                    enqueueSnackbar(t('cleanupFailedRetry'), { variant: 'warning' })
                 }
             })
             .catch((e) => {
                 console.error('Unkeep failed', e)
-                enqueueSnackbar('Failed to unkeep', { variant: 'error' })
+                enqueueSnackbar(t('unkeepFailed'), { variant: 'error' })
             })
             .finally(() => {
                 setLoading(false)

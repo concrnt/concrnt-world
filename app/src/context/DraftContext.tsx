@@ -74,10 +74,19 @@ export const DraftProvider = ({ children }: { children: JSX.Element | JSX.Elemen
 
     const removeDraft = useCallback(
         (id: string): void => {
-            setStore((prev) => ({
-                ...prev,
-                entries: prev.entries.filter((e) => e.id !== id)
-            }))
+            setStore((prev) => {
+                const entry = prev.entries.find((e) => e.id === id)
+                if (entry) {
+                    const prefix = entry.key ? `${LS_PREFIX}${entry.key}:` : LS_PREFIX
+                    localStorage.removeItem(prefix + 'draft')
+                    localStorage.removeItem(prefix + 'draftEmojis')
+                    localStorage.removeItem(prefix + 'draftMedias')
+                }
+                return {
+                    ...prev,
+                    entries: prev.entries.filter((e) => e.id !== id)
+                }
+            })
         },
         [setStore]
     )

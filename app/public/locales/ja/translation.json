@@ -382,7 +382,13 @@
             "delete": "削除",
             "reallyDelete": "本当にこのメッセージを削除しますか？",
             "confirmDelete": "削除",
-            "removeFromStream": "このStreamから削除"
+            "removeFromStream": "このStreamから削除",
+            "messageKept": "メッセージをキープしました",
+            "watchAuthor": "著者をウォッチ",
+            "nowWatchingAuthor": "著者をウォッチ中",
+            "keepFailed": "キープに失敗しました",
+            "cleanupFailedRetry": "一部のクリーンアップに失敗しました。ライブラリから再試行してください。",
+            "unkeepFailed": "キープ解除に失敗しました"
         },
         "emoji": {
             "letsAddEmojiPack": "設定から絵文字パッケージを追加しましょう",

@@ -161,7 +161,13 @@
         },
         "messageActions": {
             "keep": "보관",
-            "unkeep": "보관 해제"
+            "unkeep": "보관 해제",
+            "messageKept": "메시지를 보관했습니다",
+            "watchAuthor": "작성자 구독",
+            "nowWatchingAuthor": "작성자를 구독 중입니다",
+            "keepFailed": "보관에 실패했습니다",
+            "cleanupFailedRetry": "일부 정리 작업이 실패했습니다. 라이브러리에서 재시도하세요.",
+            "unkeepFailed": "보관 해제에 실패했습니다"
         }
     },
     "settings": {

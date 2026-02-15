@@ -78,8 +78,17 @@
 - Message Keep 時に "Watch Author" snackbar アクションを追加（`useKeepToggle`）。
 - manual-acceptance テストを 18 項目に拡充（15-18 追加、5/8 更新）。
 
+### レビュー指摘修正（7項目）
+
+1. **[HIGH] watchManaged 分離**: `watchManaged` から timeline エントリの自動生成を撤去。既存アイテムの managed 更新のみ行う。新規 `watchManagedFor(itemId, fqid, subId)` を追加し、任意の既存アイテムに watchTargets を付与可能に。
+2. **[HIGH] Ack/Watch 独立化**: `useKeepToggle` の user Keep 分岐で Ack を Watch から分離。subId 未解決時でも `user.Ack()` + `managed.ack` を記録する。
+3. **[MEDIUM] Message Watch Author managed 記録**: Watch Author snackbar 実行時に `watchManagedFor` を使って message アイテムの `managed.watchTargets` に記録。Unkeep cleanup 対象となる。
+4. **[MEDIUM] Draft 削除時 localStorage 掃除**: `removeDraft` で `draftKey` 単位の localStorage キー（draft/draftEmojis/draftMedias）を全て破棄。
+5. **[MEDIUM] omit UI OneLineMessageView 準拠化**: omit 表示を OneLineMessageView に準拠した 1 行レイアウト（アバター + 省略テキスト + Show）に更新。全行クリックで復帰可能。
+6. **[LOW] i18n ハードコード解消**: `useKeepToggle` の全 snackbar 文言を `t('ui.messageActions.*')` 経由に統一。6 言語の JSON キーを揃えて追加（messageKept/watchAuthor/nowWatchingAuthor/keepFailed/cleanupFailedRetry/unkeepFailed）。
+7. **[DOCS] ドキュメント更新**: AGENT_BRIEF.md / manual-acceptance.md / progress-map.md を上記修正に合わせて更新。acceptance テストを 20 項目に拡充（19-20 追加、18 更新）。
+
 ## 残タスク（重要）
 
 1. Phase11: 既存データ移行（watchSubs の残存検出/洗い替え）の実運用確認と、再起動耐性の検証ログ整備。
 2. Phase10/11: Home/Watch 表現の言語・導線の最終整合（最終運用前データ）
-3. i18n: Message Keep Watch Author の多言語対応（現在 en ハードコード）。

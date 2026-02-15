@@ -380,7 +380,13 @@
             "delete": "刪除",
             "reallyDelete": "確定要刪除此訊息嗎？",
             "confirmDelete": "確認",
-            "removeFromStream": "從串流中移除"
+            "removeFromStream": "從串流中移除",
+            "messageKept": "訊息已收藏",
+            "watchAuthor": "關注作者",
+            "nowWatchingAuthor": "正在關注作者",
+            "keepFailed": "收藏失敗",
+            "cleanupFailedRetry": "部分清理操作失敗，請從收藏庫重試。",
+            "unkeepFailed": "取消收藏失敗"
         },
         "emoji": {
             "letsAddEmojiPack": "讓我們從設定新增表情符號包",

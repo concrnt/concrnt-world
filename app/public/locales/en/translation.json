@@ -383,7 +383,13 @@
             "delete": "Delete",
             "reallyDelete": "Really delete this message?",
             "confirmDelete": "Confirm",
-            "removeFromStream": "Remove from Stream"
+            "removeFromStream": "Remove from Stream",
+            "messageKept": "Message kept",
+            "watchAuthor": "Watch Author",
+            "nowWatchingAuthor": "Now watching author",
+            "keepFailed": "Failed to keep",
+            "cleanupFailedRetry": "Some cleanup failed. Retry from Library.",
+            "unkeepFailed": "Failed to unkeep"
         },
         "emoji": {
             "letsAddEmojiPack": "Let's add an emoji package from settings",

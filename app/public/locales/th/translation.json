@@ -149,7 +149,13 @@
         },
         "messageActions": {
             "keep": "เก็บ",
-            "unkeep": "เลิกเก็บ"
+            "unkeep": "เลิกเก็บ",
+            "messageKept": "เก็บข้อความแล้ว",
+            "watchAuthor": "ติดตามผู้เขียน",
+            "nowWatchingAuthor": "กำลังติดตามผู้เขียน",
+            "keepFailed": "การเก็บล้มเหลว",
+            "cleanupFailedRetry": "การล้างข้อมูลบางส่วนล้มเหลว ลองใหม่จากไลบรารี",
+            "unkeepFailed": "การเลิกเก็บล้มเหลว"
         }
     },
     "settings": {

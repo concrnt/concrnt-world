@@ -331,20 +331,44 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
     if (displayRule === 'omit' && !displayRuleOverride) {
         return (
             <>
-                <Box sx={props.sx}>
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Typography variant="caption" color="textDisabled">
-                            {t('omittedByDisplayRule')}
-                        </Typography>
-                        <Typography
-                            variant="caption"
-                            color="textDisabled"
-                            onClick={() => setDisplayRuleOverride(true)}
-                            sx={{ cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
-                        >
-                            {t('show')}
-                        </Typography>
-                    </Box>
+                <Box
+                    sx={{
+                        ...props.sx,
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: 'text.disabled',
+                        overflow: 'hidden',
+                        gap: 1,
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => setDisplayRuleOverride(true)}
+                >
+                    <CCAvatarWithResolver
+                        ccid={props.messageOwner}
+                        sx={{
+                            width: { xs: '38px', sm: '48px' },
+                            height: { xs: '12px', sm: '18px' }
+                        }}
+                    />
+                    <Typography
+                        variant="caption"
+                        color="text.disabled"
+                        sx={{
+                            flex: 1,
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                        }}
+                    >
+                        {t('omittedByDisplayRule')}
+                    </Typography>
+                    <Typography
+                        variant="caption"
+                        color="text.disabled"
+                        sx={{ flexShrink: 0, '&:hover': { textDecoration: 'underline' } }}
+                    >
+                        {t('show')}
+                    </Typography>
                 </Box>
                 {props.after}
             </>

@@ -226,17 +226,44 @@
 
 ---
 
-### 18. Message Keep Watch Offer
+### 18. Message Keep Watch Offer (managed on message item)
 
 **Precondition:** A message is visible in a timeline.
 
 1. Open message actions and click **Keep**.
-2. Verify a snackbar appears: "Message kept" with a **Watch Author** button.
+2. Verify a snackbar appears (i18n: "Message kept") with a **Watch Author** button.
 3. Click **Watch Author**.
-4. Verify a follow-up snackbar: "Now watching author".
-5. Navigate to KeepPage → check that the author's timeline has a managed watch entry.
+4. Verify a follow-up snackbar (i18n: "Now watching author").
+5. Navigate to KeepPage → Messages tab → verify the message item's `managed.watchTargets` contains the author's timeline (check via DevTools → LocalStorage).
+6. Click **Unkeep** on the message → verify the managed watch subscription is cleaned up.
 
-**Expected:** Watch Author snackbar fires subscription; managed watchTargets recorded.
+**Expected:** Watch Author snackbar fires subscription; watchTargets recorded on message item; Unkeep cleans up the subscription.
+
+---
+
+### 19. Draft Deletion Cleans localStorage
+
+**Precondition:** At least one draft exists in DraftsPage with content.
+
+1. Note the draft's key (check via DevTools → LocalStorage for `arakoshi:<key>:draft`).
+2. In DraftsPage, click the delete button on the draft.
+3. Check DevTools → LocalStorage.
+4. Verify `arakoshi:<key>:draft`, `arakoshi:<key>:draftEmojis`, `arakoshi:<key>:draftMedias` are all removed.
+
+**Expected:** Draft deletion removes both metadata and all associated localStorage keys.
+
+---
+
+### 20. User Keep Ack Independent of Watch
+
+**Precondition:** A user profile page is open.
+
+1. Ensure no subscription lists are available (or the user's homeTimeline has no matching subId).
+2. Click **Keep** on the user.
+3. Verify the user is kept with `managed.ack: true` even though Watch was not fired.
+4. Navigate to KeepPage → verify the user entry has Ack state but no watchTargets.
+
+**Expected:** Ack fires independently of Watch; subId absence does not block Ack.
 
 ---
 

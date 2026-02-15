@@ -17,6 +17,7 @@ export interface CleanupResult {
 
 export interface ManagedOperations {
     watchManaged: (fqid: string, subId: string) => Promise<void>
+    watchManagedFor: (itemId: string, fqid: string, subId: string) => Promise<void>
     unwatchManaged: (fqid: string, subId: string) => Promise<void>
     ackManaged: (user: User) => Promise<void>
     unackManaged: (user: User) => Promise<void>
@@ -33,10 +34,10 @@ export function useManagedOperations(): ManagedOperations {
             await client.api.subscribe(fqid, subId)
             reloadList()
 
+            // Only update existing timeline item's managed; never auto-create
             const existing = items.find(
                 (item) => item.kind === 'timeline' && (item.ref as { fqid: string }).fqid === fqid
             )
-
             if (existing) {
                 const currentTargets = existing.managed?.watchTargets ?? []
                 if (!currentTargets.some((t) => t.fqid === fqid && t.subId === subId)) {
@@ -47,15 +48,31 @@ export function useManagedOperations(): ManagedOperations {
                         }
                     })
                 }
-            } else {
-                upsertItem({
-                    kind: 'timeline',
-                    ref: { fqid },
-                    managed: { watchTargets: [{ fqid, subId }] }
+            }
+        },
+        [client, items, updateItem, reloadList]
+    )
+
+    // Attach watch target to an existing item by its id (any kind)
+    const watchManagedFor = useCallback(
+        async (itemId: string, fqid: string, subId: string): Promise<void> => {
+            await client.api.subscribe(fqid, subId)
+            reloadList()
+
+            const existing = items.find((i) => i.id === itemId)
+            if (!existing) return
+
+            const currentTargets = existing.managed?.watchTargets ?? []
+            if (!currentTargets.some((t) => t.fqid === fqid && t.subId === subId)) {
+                updateItem(existing.id, {
+                    managed: {
+                        ...existing.managed,
+                        watchTargets: [...currentTargets, { fqid, subId }]
+                    }
                 })
             }
         },
-        [client, items, upsertItem, updateItem, reloadList]
+        [client, items, updateItem, reloadList]
     )
 
     const unwatchManaged = useCallback(
@@ -196,6 +213,7 @@ export function useManagedOperations(): ManagedOperations {
 
     return {
         watchManaged,
+        watchManagedFor,
         unwatchManaged,
         ackManaged,
         unackManaged,
