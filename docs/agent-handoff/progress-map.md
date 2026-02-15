@@ -5,8 +5,16 @@
 ## 参照元
 
 - 仕様基準: `concurrent-arakoshi-world.md`
+- 実験要件: `experimental-requirements.md`
 - 実装順: `phase-roadmap-full.md`
 - エントリーテンプレ: `phase-03-keep-entrypoints.md` など
+
+## 実験前提（実装固定条件）
+
+- KVキーは `world.concurrent.arakoshi.*` に限定して扱う
+- ローカル保存も concurrent-arakoshi 側へ分離（IndexedDB/localStorage）
+- 本家との双方向同期は行わない（本家→fork のインポートのみ許可）
+- Keep/Unkeep は `managed` 由来のみ解除対象とする
 
 ## 全体状況
 
