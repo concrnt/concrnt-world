@@ -58,7 +58,16 @@
 - 予約投稿失敗時の `retryCount` / `lastError` による再試行を追加。
 - `omit` テキストを表示ルール説明に合わせて更新。
 
+### 34863c8b（性能最適化/受け入れ整備）
+
+- `LibraryContext` に `userByCcid / timelineByFqid / tagRuleByTag` を追加し、`useDisplayRule` を `Map.get()` O(1) 参照へ変更。
+- TimelineHeader（TimelinePage）に Watch ボタンを配置し、Keep と並列操作を追加。
+- KeepPage の Pin UI を DraftsPage と揃えてアイコン化。
+- 韓国語・タイ語文言の watch/watching 表現を統一。
+- マイグレーションログ（成功/失敗）を追加。
+- manual acceptance テストを14項目で整備（`manual-acceptance.md`）。
+
 ## 残タスク（重要）
 
-1. Phase11: 移行スクリプト（既存データ互換）と受け入れテスト手順を最終化。
-2. Phase11: 表示制御ルールのホットパス最適化（O(1) Map 化）を検討。
+1. Phase11: 既存データ移行（watchSubs の残存検出/洗い替え）の実運用確認と、再起動耐性の検証ログ整備。
+2. Phase10/11: Home/Watch 表現の言語・導線の最終整合（最終運用前データ）
