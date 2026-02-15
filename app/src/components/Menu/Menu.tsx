@@ -23,6 +23,7 @@ import CellTowerIcon from '@mui/icons-material/CellTower'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import ViewColumnIcon from '@mui/icons-material/ViewColumn'
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark'
+import EditNoteIcon from '@mui/icons-material/EditNote'
 
 import { memo } from 'react'
 import { ListsMenu } from '../ListsMenu/main'
@@ -192,6 +193,26 @@ export const Menu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                                     />
                                 </Box>
                                 <ListItemText primary={t('library.title')} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton sx={{ gap: 1 }} component={NavLink} to="/drafts" onClick={props.onClick}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        width: '1.75rem',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <EditNoteIcon
+                                        sx={{
+                                            color: 'background.contrastText',
+                                            fontSize: '1.5rem'
+                                        }}
+                                    />
+                                </Box>
+                                <ListItemText primary={t('drafts.title')} />
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>

@@ -25,6 +25,7 @@ import { CCAvatarWithResolver } from '../ui/CCAvatarWithResolver'
 import { useTranslation } from 'react-i18next'
 import { useGlobalState } from '../../context/GlobalState'
 import { GfmMessageView } from './GfmMessageView'
+import { useDisplayRule } from '../../hooks/useDisplayRule'
 
 import SearchOffIcon from '@mui/icons-material/SearchOff'
 import TerminalIcon from '@mui/icons-material/Terminal'
@@ -60,6 +61,11 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
     const [filteredWord, setFilteredWord] = useState<string | undefined>()
     const [filteredTimeline, setFilteredTimeline] = useState<string | undefined>()
     const [filterOverride, setFilterOverride] = useState<boolean>(false)
+    const displayRule = useDisplayRule(
+        props.messageOwner,
+        message?.timelines
+    )
+    const [displayRuleOverride, setDisplayRuleOverride] = useState<boolean>(false)
 
     if (message) {
         message.onUpdate = () => {
@@ -318,6 +324,33 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
         return null
     }
 
+    if (displayRule === 'hide' && !displayRuleOverride) {
+        return null
+    }
+
+    if (displayRule === 'omit' && !displayRuleOverride) {
+        return (
+            <>
+                <Box sx={props.sx}>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Typography variant="caption" color="textDisabled">
+                            {t('mutedByWord')}
+                        </Typography>
+                        <Typography
+                            variant="caption"
+                            color="textDisabled"
+                            onClick={() => setDisplayRuleOverride(true)}
+                            sx={{ cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+                        >
+                            {t('show')}
+                        </Typography>
+                    </Box>
+                </Box>
+                {props.after}
+            </>
+        )
+    }
+
     let body
     switch (message?.schema) {
         case Schemas.markdownMessage:
@@ -433,6 +466,28 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
         default:
             body = <Typography>unknown schema: {(message as any)?.schema ?? '<undefined>'}</Typography>
             break
+    }
+
+    if (displayRule === 'blur' && !displayRuleOverride) {
+        return (
+            <>
+                <Box
+                    sx={{
+                        position: 'relative',
+                        filter: 'blur(5px)',
+                        cursor: 'pointer',
+                        userSelect: 'none'
+                    }}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        setDisplayRuleOverride(true)
+                    }}
+                >
+                    {body}
+                </Box>
+                {props.after}
+            </>
+        )
     }
 
     return (

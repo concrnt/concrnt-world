@@ -13,6 +13,10 @@
         "home": {
             "title": "หน้าหลัก"
         },
+        "list": {
+            "subtitle": "ไทม์ไลน์ที่คุณติดตาม",
+            "goExplore": "ติดตามชุมชนเพื่อเริ่มต้น"
+        },
         "notifications": {
             "title": "การแจ้งเตือน"
         },
@@ -46,6 +50,56 @@
                 "areYouSure": "แน่ใจหรือว่าต้องการที่จะออกจากระบบ?",
                 "logoutWarn": "คุณจะไม่สามารถเข้าสูระบบใหม่ได้หากไม่มีรหัสลับ(Secret Key)ของคุณ"
             }
+        },
+        "library": {
+            "title": "คลัง",
+            "users": "ผู้ใช้",
+            "communities": "ชุมชน",
+            "messages": "ข้อความ",
+            "noItems": "ยังไม่มีรายการ",
+            "keep": "เก็บ",
+            "unkeep": "เลิกเก็บ",
+            "pin": "ปักหมุด",
+            "pinned": "ปักหมุดแล้ว",
+            "mark": "ทำเครื่องหมาย",
+            "marked": "ทำเครื่องหมายแล้ว",
+            "memo": "บันทึก",
+            "edit": "แก้ไข",
+            "folder": "โฟลเดอร์",
+            "tags": "แท็ก",
+            "display": "การแสดงผล",
+            "displayNormal": "ปกติ",
+            "displayBlur": "เบลอ",
+            "displayOmit": "ละเว้น",
+            "displayHide": "ซ่อน",
+            "watch": "ติดตาม",
+            "unwatch": "เลิกติดตาม",
+            "ack": "ติดตาม",
+            "unack": "เลิกติดตาม",
+            "manageFolders": "จัดการโฟลเดอร์",
+            "tagRules": "กฎแท็ก",
+            "batchMove": "ย้ายไปโฟลเดอร์",
+            "batchTag": "แท็ก",
+            "batchSubscribe": "สมัครรับ",
+            "batchUnsubscribe": "ยกเลิกการรับ",
+            "cleanupFailed": "การล้างข้อมูลบางรายการล้มเหลว",
+            "retry": "ลองอีกครั้ง",
+            "kept": "เก็บแล้ว",
+            "addFolder": "เพิ่มโฟลเดอร์",
+            "renameFolder": "เปลี่ยนชื่อโฟลเดอร์",
+            "deleteFolder": "ลบโฟลเดอร์"
+        },
+        "drafts": {
+            "title": "แบบร่าง",
+            "noDrafts": "ยังไม่มีแบบร่าง",
+            "newDraft": "แบบร่างใหม่",
+            "schedule": "ตั้งเวลา",
+            "scheduledFor": "กำหนดเวลา",
+            "scheduleFailed": "ส่งโพสต์ตั้งเวลาล้มเหลว",
+            "scheduleWarning": "โพสต์ตั้งเวลาจะส่งเฉพาะเมื่อแท็บนี้เปิดอยู่",
+            "delete": "ลบ",
+            "pin": "ปักหมุด",
+            "cancel": "ยกเลิก"
         },
         "lists": {
             "title": "รายการ"
@@ -90,6 +144,10 @@
             "user": "ผู้ใช้",
             "pin": "ปักหมุด",
             "delete": "ลบ"
+        },
+        "messageActions": {
+            "keep": "เก็บ",
+            "unkeep": "เลิกเก็บ"
         }
     },
     "settings": {

@@ -92,6 +92,13 @@ interface LibraryContextState {
     setDisplay: (itemId: string, display?: DisplayRule) => void
     updateItem: (itemId: string, patch: Partial<LibraryItem>) => void
     byKind: (kind: ItemKind) => LibraryItem[]
+    addFolder: (name: string) => string
+    removeFolder: (folderId: string) => void
+    renameFolder: (folderId: string, name: string) => void
+    reorderFolders: (folderIds: string[]) => void
+    addTagRule: (tag: string, display?: DisplayRule) => void
+    removeTagRule: (tag: string) => void
+    updateTagRule: (tag: string, display?: DisplayRule) => void
 }
 
 const LIBRARY_LOCAL_STORAGE_KEY = LS_PREFIX + 'library'
@@ -160,7 +167,7 @@ const normalizeRef = (kind: ItemKind, ref: RawValue): UserRef | TimelineRef | Me
     }
 }
 
-const makeItemId = (kind: ItemKind, ref: UserRef | TimelineRef | MessageRef): string => {
+export const makeItemId = (kind: ItemKind, ref: UserRef | TimelineRef | MessageRef): string => {
     switch (kind) {
         case 'user':
             return `user:${encodeURIComponent((ref as UserRef).ccid)}`
@@ -480,6 +487,89 @@ export const LibraryProvider = ({ children }: { children: JSX.Element | JSX.Elem
         [store.items]
     )
 
+    const addFolder = useCallback(
+        (name: string): string => {
+            const id = crypto.randomUUID()
+            setStore((prev) => ({
+                ...prev,
+                folders: [...prev.folders, { id, name, order: prev.folders.length }]
+            }))
+            return id
+        },
+        [setStore]
+    )
+
+    const removeFolder = useCallback(
+        (folderId: string): void => {
+            setStore((prev) => ({
+                ...prev,
+                folders: prev.folders.filter((f) => f.id !== folderId),
+                items: prev.items.map((item) =>
+                    item.folderId === folderId ? { ...item, folderId: undefined, updatedAt: Date.now() } : item
+                )
+            }))
+        },
+        [setStore]
+    )
+
+    const renameFolder = useCallback(
+        (folderId: string, name: string): void => {
+            setStore((prev) => ({
+                ...prev,
+                folders: prev.folders.map((f) => (f.id === folderId ? { ...f, name } : f))
+            }))
+        },
+        [setStore]
+    )
+
+    const reorderFolders = useCallback(
+        (folderIds: string[]): void => {
+            setStore((prev) => ({
+                ...prev,
+                folders: folderIds
+                    .map((id, index) => {
+                        const folder = prev.folders.find((f) => f.id === id)
+                        return folder ? { ...folder, order: index } : undefined
+                    })
+                    .filter((f): f is Folder => f !== undefined)
+            }))
+        },
+        [setStore]
+    )
+
+    const addTagRule = useCallback(
+        (tag: string, display?: DisplayRule): void => {
+            setStore((prev) => {
+                if (prev.tagRules.find((r) => r.tag === tag)) return prev
+                return {
+                    ...prev,
+                    tagRules: [...prev.tagRules, { tag, display }]
+                }
+            })
+        },
+        [setStore]
+    )
+
+    const removeTagRule = useCallback(
+        (tag: string): void => {
+            setStore((prev) => ({
+                ...prev,
+                tagRules: prev.tagRules.filter((r) => r.tag !== tag)
+            }))
+        },
+        [setStore]
+    )
+
+    const updateTagRule = useCallback(
+        (tag: string, display?: DisplayRule): void => {
+            setStore((prev) => ({
+                ...prev,
+                tagRules: prev.tagRules.map((r) => (r.tag === tag ? { ...r, display } : r))
+            }))
+        },
+        [setStore]
+    )
+
     const value = useMemo(
         () => ({
             items: store.items,
@@ -494,9 +584,16 @@ export const LibraryProvider = ({ children }: { children: JSX.Element | JSX.Elem
             setMemo,
             setDisplay,
             updateItem,
-            byKind
+            byKind,
+            addFolder,
+            removeFolder,
+            renameFolder,
+            reorderFolders,
+            addTagRule,
+            removeTagRule,
+            updateTagRule
         }),
-        [store.items, store.folders, store.tagRules, upsertItem, removeItem, togglePin, toggleMark, setFolder, setTags, setMemo, setDisplay, updateItem, byKind]
+        [store.items, store.folders, store.tagRules, upsertItem, removeItem, togglePin, toggleMark, setFolder, setTags, setMemo, setDisplay, updateItem, byKind, addFolder, removeFolder, renameFolder, reorderFolders, addTagRule, removeTagRule, updateTagRule]
     )
 
     return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>

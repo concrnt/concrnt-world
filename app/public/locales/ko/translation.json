@@ -13,6 +13,10 @@
         "home": {
             "title": "홈"
         },
+        "list": {
+            "subtitle": "구독 중인 타임라인",
+            "goExplore": "커뮤니티를 팔로우하여 시작하세요"
+        },
         "notifications": {
             "title": "알림"
         },
@@ -46,6 +50,56 @@
                 "areYouSure": "확실해?",
                 "logoutWarn": "비밀코드 없이는 다시 로그인 못해"
             }
+        },
+        "library": {
+            "title": "라이브러리",
+            "users": "사용자",
+            "communities": "커뮤니티",
+            "messages": "메시지",
+            "noItems": "아직 항목이 없습니다.",
+            "keep": "보관",
+            "unkeep": "보관 해제",
+            "pin": "고정",
+            "pinned": "고정됨",
+            "mark": "마크",
+            "marked": "마크됨",
+            "memo": "메모",
+            "edit": "편집",
+            "folder": "폴더",
+            "tags": "태그",
+            "display": "표시",
+            "displayNormal": "일반",
+            "displayBlur": "흐림",
+            "displayOmit": "생략",
+            "displayHide": "숨기기",
+            "watch": "구독",
+            "unwatch": "구독 해제",
+            "ack": "팔로우",
+            "unack": "언팔로우",
+            "manageFolders": "폴더 관리",
+            "tagRules": "태그 규칙",
+            "batchMove": "폴더로 이동",
+            "batchTag": "태그",
+            "batchSubscribe": "구독",
+            "batchUnsubscribe": "구독 해제",
+            "cleanupFailed": "일부 정리 작업이 실패했습니다",
+            "retry": "재시도",
+            "kept": "보관됨",
+            "addFolder": "폴더 추가",
+            "renameFolder": "폴더 이름 변경",
+            "deleteFolder": "폴더 삭제"
+        },
+        "drafts": {
+            "title": "임시 저장",
+            "noDrafts": "아직 임시 저장된 글이 없습니다.",
+            "newDraft": "새 임시 저장",
+            "schedule": "예약",
+            "scheduledFor": "예약 시간",
+            "scheduleFailed": "예약 게시 전송에 실패했습니다",
+            "scheduleWarning": "예약 게시는 이 탭이 활성화된 동안에만 전송됩니다.",
+            "delete": "삭제",
+            "pin": "고정",
+            "cancel": "취소"
         },
         "lists": {
             "title": "리스트"
@@ -102,6 +156,10 @@
             "user": "유저",
             "pin": "고정",
             "delete": "삭제"
+        },
+        "messageActions": {
+            "keep": "보관",
+            "unkeep": "보관 해제"
         }
     },
     "settings": {

@@ -24,6 +24,7 @@ import { useState } from 'react'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { KeepButton } from '../KeepButton'
 // import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove'
 import { useEmojiPicker } from '../../context/EmojiPickerContext'
 import { Link as RouterLink } from 'react-router-dom'
@@ -319,6 +320,12 @@ export const MessageActions = (props: MessageActionsProps): JSX.Element => {
                         </ListItemText>
                     </MenuItem>
                 )}
+                <KeepButton
+                    variant="menuItem"
+                    kind="message"
+                    itemRef={{ author: props.message.author, messageId: props.message.id }}
+                    onAfterToggle={() => setMenuAnchor(null)}
+                />
                 <MenuItem
                     onClick={(e) => {
                         e.stopPropagation()

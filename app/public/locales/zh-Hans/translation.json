@@ -107,6 +107,10 @@
         "home": {
             "title": "主页"
         },
+        "list": {
+            "subtitle": "你关注的时间线",
+            "goExplore": "关注社区以开始使用"
+        },
         "notifications": {
             "title": "通知",
             "favorite": "{{ name }} 喜欢了您的帖子",
@@ -121,6 +125,56 @@
         },
         "contacts": {
             "title": "联系人"
+        },
+        "library": {
+            "title": "收藏库",
+            "users": "用户",
+            "communities": "社区",
+            "messages": "消息",
+            "noItems": "暂无项目",
+            "keep": "收藏",
+            "unkeep": "取消收藏",
+            "pin": "置顶",
+            "pinned": "已置顶",
+            "mark": "标记",
+            "marked": "已标记",
+            "memo": "备注",
+            "edit": "编辑",
+            "folder": "文件夹",
+            "tags": "标签",
+            "display": "显示",
+            "displayNormal": "正常",
+            "displayBlur": "模糊",
+            "displayOmit": "省略",
+            "displayHide": "隐藏",
+            "watch": "关注",
+            "unwatch": "取消关注",
+            "ack": "关注",
+            "unack": "取消关注",
+            "manageFolders": "管理文件夹",
+            "tagRules": "标签规则",
+            "batchMove": "移至文件夹",
+            "batchTag": "标签",
+            "batchSubscribe": "订阅",
+            "batchUnsubscribe": "取消订阅",
+            "cleanupFailed": "部分清理操作失败",
+            "retry": "重试",
+            "kept": "已收藏",
+            "addFolder": "添加文件夹",
+            "renameFolder": "重命名文件夹",
+            "deleteFolder": "删除文件夹"
+        },
+        "drafts": {
+            "title": "草稿",
+            "noDrafts": "暂无草稿",
+            "newDraft": "新建草稿",
+            "schedule": "定时发送",
+            "scheduledFor": "预定时间",
+            "scheduleFailed": "定时帖子发送失败",
+            "scheduleWarning": "定时帖子仅在此标签页活跃时发送",
+            "delete": "删除",
+            "pin": "置顶",
+            "cancel": "取消"
         },
         "explore": {
             "title": "探索",
@@ -319,6 +373,8 @@
             "superReaction": "超级回应",
             "translate": "翻译",
             "inspect": "详情",
+            "keep": "收藏",
+            "unkeep": "取消收藏",
             "delete": "删除",
             "reallyDelete": "确定要删除此消息吗？",
             "confirmDelete": "确认",

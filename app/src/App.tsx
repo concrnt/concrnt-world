@@ -25,6 +25,9 @@ import { useTranslation } from 'react-i18next'
 import { ManageSubsPage } from './pages/ManageSubs'
 import { ExplorerPlusPage } from './pages/ExplorerPlus'
 import { KeepPage } from './pages/KeepPage'
+import { DraftsPage } from './pages/DraftsPage'
+import { DraftProvider } from './context/DraftContext'
+import { useScheduledPostRunner } from './hooks/useScheduledPostRunner'
 import { UseSoundFormats } from './constants'
 import { useGlobalState } from './context/GlobalState'
 import { ConcrntLogo } from './components/theming/ConcrntLogo'
@@ -48,6 +51,11 @@ import { InspectorProvider } from './context/Inspector'
 import { ProfileProvider } from './context/ProfileContext'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
+
+const ScheduledPostRunner = (): null => {
+    useScheduledPostRunner()
+    return null
+}
 
 function App(): JSX.Element {
     const { client } = useClient()
@@ -353,7 +361,10 @@ function App(): JSX.Element {
                                                                 <GlobalActionsProvider>
                                                                     <TimelineProvider>
                                                                         <CommandPaletteProvider>
-                                                                            {childs}
+                                                                            <DraftProvider>
+                                                                                <ScheduledPostRunner />
+                                                                                {childs}
+                                                                            </DraftProvider>
                                                                         </CommandPaletteProvider>
                                                                     </TimelineProvider>
                                                                 </GlobalActionsProvider>
@@ -517,6 +528,7 @@ function App(): JSX.Element {
                                 <Route path="/timeline/:id" element={<TimelinePage />} />
                                 <Route path="/contacts" element={<ContactsPage />} />
                                 <Route path="/library" element={<KeepPage />} />
+                                <Route path="/drafts" element={<DraftsPage />} />
                                 <Route path="/explorer/:tab" element={<ExplorerPlusPage />} />
                                 <Route path="/classicexplorer/:tab" element={<Explorer />} />
                                 <Route

@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction } from 'react'
+import { type Dispatch, type SetStateAction, useCallback } from 'react'
 import { usePersistent } from './usePersistent'
 import { LS_PREFIX } from '../appConfig'
 import { type WorldMedia, type Emoji, type EmojiLite } from '../model'
@@ -36,11 +36,11 @@ export function useDraftState(draftKey?: string): DraftState {
         setEmojiDict((prev) => ({ ...prev, [emoji.shortcode]: { imageURL: emoji.imageURL } }))
     }
 
-    const resetDraft = (): void => {
+    const resetDraft = useCallback((): void => {
         setDraft('')
         setEmojiDict({})
         setMedias([])
-    }
+    }, [setDraft, setEmojiDict, setMedias])
 
     return {
         draft,

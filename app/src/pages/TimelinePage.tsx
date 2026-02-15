@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
-import { Box, Divider } from '@mui/material'
+import { Box, Divider, IconButton } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { TimelineHeader } from '../components/TimelineHeader'
 import { useClient } from '../context/ClientContext'
@@ -14,6 +14,7 @@ import TagIcon from '@mui/icons-material/Tag'
 import TuneIcon from '@mui/icons-material/Tune'
 import InfoIcon from '@mui/icons-material/Info'
 import LockIcon from '@mui/icons-material/Lock'
+import { KeepButton } from '../components/KeepButton'
 import { useGlobalState } from '../context/GlobalState'
 import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useEditorModal } from '../components/EditorModal'
@@ -87,12 +88,26 @@ export const TimelinePage = memo((): JSX.Element => {
                 <TimelineHeader
                     title={timeline?.document.body.name ?? 'Not Found'}
                     titleIcon={timeline?.policy.isReadPublic() ? <TagIcon /> : <LockIcon />}
-                    secondaryAction={isOwner ? <TuneIcon /> : <InfoIcon />}
+                    useRawSecondaryAction
+                    secondaryAction={
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <KeepButton
+                                variant="icon"
+                                kind="timeline"
+                                itemRef={{ fqid: targetTimelineID }}
+                            />
+                            <IconButton
+                                sx={{ p: 1 }}
+                                onClick={() => {
+                                    setTimelineBannerOpen(true)
+                                }}
+                            >
+                                {isOwner ? <TuneIcon /> : <InfoIcon />}
+                            </IconButton>
+                        </Box>
+                    }
                     onTitleClick={() => {
                         timelineRef.current?.scrollToIndex(0, { align: 'start' })
-                    }}
-                    onSecondaryActionClick={() => {
-                        setTimelineBannerOpen(true)
                     }}
                 />
                 {timeline?.policy.isReadable(client) ? (

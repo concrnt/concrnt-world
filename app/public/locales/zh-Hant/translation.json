@@ -107,6 +107,10 @@
         "home": {
             "title": "首頁"
         },
+        "list": {
+            "subtitle": "你關注的時間線",
+            "goExplore": "追蹤社群以開始使用"
+        },
         "notifications": {
             "title": "通知",
             "favorite": "{{ name }} 喜歡了您的貼文",
@@ -121,6 +125,56 @@
         },
         "contacts": {
             "title": "聯絡人"
+        },
+        "library": {
+            "title": "收藏庫",
+            "users": "用戶",
+            "communities": "社群",
+            "messages": "訊息",
+            "noItems": "尚無項目",
+            "keep": "收藏",
+            "unkeep": "取消收藏",
+            "pin": "置頂",
+            "pinned": "已置頂",
+            "mark": "標記",
+            "marked": "已標記",
+            "memo": "備註",
+            "edit": "編輯",
+            "folder": "資料夾",
+            "tags": "標籤",
+            "display": "顯示",
+            "displayNormal": "正常",
+            "displayBlur": "模糊",
+            "displayOmit": "省略",
+            "displayHide": "隱藏",
+            "watch": "關注",
+            "unwatch": "取消關注",
+            "ack": "追蹤",
+            "unack": "取消追蹤",
+            "manageFolders": "管理資料夾",
+            "tagRules": "標籤規則",
+            "batchMove": "移至資料夾",
+            "batchTag": "標籤",
+            "batchSubscribe": "訂閱",
+            "batchUnsubscribe": "取消訂閱",
+            "cleanupFailed": "部分清理操作失敗",
+            "retry": "重試",
+            "kept": "已收藏",
+            "addFolder": "新增資料夾",
+            "renameFolder": "重新命名資料夾",
+            "deleteFolder": "刪除資料夾"
+        },
+        "drafts": {
+            "title": "草稿",
+            "noDrafts": "尚無草稿",
+            "newDraft": "新增草稿",
+            "schedule": "排程",
+            "scheduledFor": "排程時間",
+            "scheduleFailed": "排程貼文傳送失敗",
+            "scheduleWarning": "排程貼文僅在此分頁處於活動狀態時傳送",
+            "delete": "刪除",
+            "pin": "置頂",
+            "cancel": "取消"
         },
         "explore": {
             "title": "探索",
@@ -319,6 +373,8 @@
             "superReaction": "超級回應",
             "translate": "翻譯",
             "inspect": "檢查",
+            "keep": "收藏",
+            "unkeep": "取消收藏",
             "delete": "刪除",
             "reallyDelete": "確定要刪除此訊息嗎？",
             "confirmDelete": "確認",

@@ -106,6 +106,10 @@
         "home": {
             "title": "ホーム"
         },
+        "list": {
+            "subtitle": "ウォッチ中のタイムライン",
+            "goExplore": "コミュニティをフォローして始めましょう"
+        },
         "notifications": {
             "title": "通知",
             "favorite": "{{ name }}さんがあなたのカレントをお気に入りしました",
@@ -133,7 +137,43 @@
             "pinned": "ピン留め中",
             "mark": "マーク",
             "marked": "マーク中",
-            "memo": "メモ"
+            "memo": "メモ",
+            "edit": "編集",
+            "folder": "フォルダ",
+            "tags": "タグ",
+            "display": "表示",
+            "displayNormal": "通常",
+            "displayBlur": "ぼかし",
+            "displayOmit": "省略",
+            "displayHide": "非表示",
+            "watch": "ウォッチ",
+            "unwatch": "ウォッチ解除",
+            "ack": "フォロー",
+            "unack": "フォロー解除",
+            "manageFolders": "フォルダ管理",
+            "tagRules": "タグルール",
+            "batchMove": "フォルダに移動",
+            "batchTag": "タグ",
+            "batchSubscribe": "購読",
+            "batchUnsubscribe": "購読解除",
+            "cleanupFailed": "一部のクリーンアップに失敗しました",
+            "retry": "再試行",
+            "kept": "キープ済み",
+            "addFolder": "フォルダを追加",
+            "renameFolder": "フォルダ名を変更",
+            "deleteFolder": "フォルダを削除"
+        },
+        "drafts": {
+            "title": "下書き",
+            "noDrafts": "下書きはまだありません",
+            "newDraft": "新しい下書き",
+            "schedule": "スケジュール",
+            "scheduledFor": "予定日時",
+            "scheduleFailed": "予約投稿の送信に失敗しました",
+            "scheduleWarning": "予約投稿はこのタブがアクティブな時のみ送信されます",
+            "delete": "削除",
+            "pin": "ピン留め",
+            "cancel": "キャンセル"
         },
         "explore": {
             "title": "探索",
@@ -335,6 +375,8 @@
             "superReaction": "スーパーリアクション",
             "translate": "翻訳",
             "inspect": "詳細",
+            "keep": "キープ",
+            "unkeep": "キープ解除",
             "delete": "削除",
             "reallyDelete": "本当にこのメッセージを削除しますか？",
             "confirmDelete": "削除",

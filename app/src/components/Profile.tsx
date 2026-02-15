@@ -16,6 +16,7 @@ import {
 import { CCAvatar } from '../components/ui/CCAvatar'
 import { WatchButton } from '../components/WatchButton'
 import { AckButton } from '../components/AckButton'
+import { KeepButton } from '../components/KeepButton'
 
 import { Link as NavLink } from 'react-router-dom'
 import Tilt from 'react-parallax-tilt'
@@ -283,6 +284,12 @@ export function Profile(props: ProfileProps): JSX.Element {
                             <>
                                 {!isSelf && <AckButton user={props.user} />}
                                 <WatchButton timelineFQID={timelineID} />
+                                <KeepButton
+                                    variant="icon"
+                                    kind="user"
+                                    itemRef={{ ccid: props.user.ccid, hint: props.user.profile?.username }}
+                                    user={props.user}
+                                />
                             </>
                         )}
                         {isSelf && (

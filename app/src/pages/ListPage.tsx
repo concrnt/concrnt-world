@@ -235,6 +235,9 @@ export function ListPage(): JSX.Element {
                         timelineRef.current?.scrollToIndex(0, { align: 'start' })
                     }}
                 />
+                <Typography variant="caption" color="text.secondary" sx={{ px: 2, pb: 0.5 }}>
+                    {t('subtitle')}
+                </Typography>
                 <Tabs
                     value={id}
                     textColor="secondary"
