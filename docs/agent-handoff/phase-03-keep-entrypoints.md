@@ -41,7 +41,7 @@
 ## 6) 完了条件（DoD）
 
 - 3ファイルすべてで Keep が動作する
-- Keep 追加時に `managed` が必要なら追記される（watchSubs / ack）
+- Keep 追加時に `managed` が必要なら追記される（watchTargets / ack）
 - Unkeep 時に managed 由来だけが解除対象になる
 - 既存の Watch/Ack ボタン挙動が壊れていない
 
@@ -62,4 +62,3 @@
 
 - 追加のUI仕様（アイコン/文言）があればこの項目に追記
 - TODO と保留が発生した場合は明示的に `保留理由` を添付
-

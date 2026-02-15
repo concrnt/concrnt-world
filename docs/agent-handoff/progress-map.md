@@ -32,14 +32,16 @@
 
 ### 進行中
 - Phase10: ホーム/Watch 表現の整合（導線は整備、言語・導線の最終調整残）
-- Phase11: 品質固め（移行、失敗時再試行仕様、受け入れ手順）
+- Phase11: 品質固め（移行、受け入れ手順）
 
 ## 更新ルール
 
 - `完了` は DoD 満たし、既知の高優先バグを主要フローで回避できた状態を意味する。
 - 進行中項目は、実装完了していても要件差分が残る場合でも `進行中` に残す。
 
-## 直近コミット反映（cec93a33）
+## 直近コミット反映
+
+### cec93a33
 
 - `/library` 画面を追加。
 - Keep/Unkeep トグルを Profile / Timeline / Message に導線追加。
@@ -47,9 +49,16 @@
 - Message 省略表示（hide/omit/blur）と Drafts + 予約投稿を追加。
 - KV/LS 分離と Debounce 同期は維持。
 
+### d70f228d（後続修正）
+
+- `managed.watchSubs` を `watchTargets`（`fqid + subId`）へ統一。
+- Unkeep を `removeWithCleanup` 経由化して managed 削除を一貫化。
+- `Keep→Watch` のサブスク選択を決定論的 `findSubIdFor` へ変更。
+- 予約投稿の `document.hidden` 停止条件を撤去、タブ復帰時再実行を追加。
+- 予約投稿失敗時の `retryCount` / `lastError` による再試行を追加。
+- `omit` テキストを表示ルール説明に合わせて更新。
+
 ## 残タスク（重要）
 
-1. Unkeep 時の `managed` 解除対象を kind ごとに厳密化（`fqid` 参照先不整合の解消）。
-2. `KeepButton` からの Unkeep が常に `removeWithCleanup` 経由になる導線統一。
-3. 予約投稿の失敗再試行ルールと、バックグラウンド状態での確実実行整合。
-4. Phase10/11 の受け入れ手順を明文化（ユーザーテスト手順）。
+1. Phase11: 移行スクリプト（既存データ互換）と受け入れテスト手順を最終化。
+2. Phase11: 表示制御ルールのホットパス最適化（O(1) Map 化）を検討。

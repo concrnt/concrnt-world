@@ -15,7 +15,8 @@
 
 ## 画面追加
 
-- `/keep` を追加（User / Community / Message のタブ切替）  
+- `/library`（実装上のルート名）を追加（User / Community / Message のタブ切替）
+- 旧要件では `/keep` 表記のため、`/library` を実体として扱う
 - Message は「省略・展開」表示を必須とする
 
 ## 下書き・予約投稿

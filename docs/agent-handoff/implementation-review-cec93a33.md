@@ -45,8 +45,18 @@
 ## Low
 
 1. Message の省略表示が「1行プレースホルダ」仕様としてはある程度成立しているが、`omit` 文言が常時 `mutedByWord` 固定（`app/src/pages/Message/MessageContainer.tsx:336-338`）。
-   - 実害: 表示理由を区別しづらい。
-   - 対応: `displayRule`/`tag` 由来の理由文字列へ差し替え。
+  - 実害: 表示理由を区別しづらい。
+  - 対応: `displayRule`/`tag` 由来の理由文字列へ差し替え。
+
+## 追記（d70f228d 反映）
+
+- High 1: `useManagedOperations.ts` の `removeWithCleanup` は `watchSubs` 依存を排除し、`watchTargets`（`{ fqid, subId }`）を使用する形へ修正済み。
+- High 2: `useKeepToggle.unkeep()` が `removeItem` ではなく `managedOps.removeWithCleanup()` を経由するよう変更済み。
+- Medium 1: `useKeepToggle.ts` と `WatchButton.tsx` のサブスクターゲット選定を決定論的な `findSubIdFor(...)` に変更済み。
+- Medium 2: 予約投稿ランナーの `document.hidden` 条件を外し、タブ復帰時の再実行を追加済み。
+- Medium 3: 予約投稿失敗時は `scheduledAt` を保持し、`retryCount` と `lastError` で再試行状態を追跡する実装へ修正済み。
+- Medium 4: `MessageContainer` の `omit` 文言は `omittedByDisplayRule` を使う形へ更新済み。
+- Low 1: 上記によりほぼ解消。残課題としては `useDisplayRule` の O(1) 最適化検討のみ。
 
 ## 補足（現状把握）
 

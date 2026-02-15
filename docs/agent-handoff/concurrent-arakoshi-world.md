@@ -39,8 +39,10 @@ type MessageRef = { author: string; messageId: string; hint?: string }
 
 type DisplayRule = 'normal' | 'blur' | 'omit' | 'hide'
 
+type WatchTarget = { fqid: string; subId: string }
+
 type Managed = {
-  watchSubs?: string[]
+  watchTargets?: WatchTarget[]
   ack?: boolean
 }
 
@@ -84,7 +86,7 @@ type LibraryItem = {
 
 ### Unkeep
 
-- `LibraryItem.managed.watchSubs` があれば unsubscribe
+- `LibraryItem.managed.watchTargets` があれば `unsubscribe`
 - `LibraryItem.managed.ack === true` なら `user.UnAck()`
 
 この managed 記録がある限り、Keep 外しても手動 Watch/Ack は残る。
@@ -97,7 +99,7 @@ type LibraryItem = {
 
 ### 3.1 Keep 画面（必須）
 
-- ルート例：`/keep`
+- ルート例：`/library`（旧要件 `/keep` の表現）
 - タブ：**Users / Communities / Messages**
 - 表示：`pinned` 上位 → `marked` → 更新順/作成順
 - 各行アクション：
@@ -182,7 +184,7 @@ type TagRule = { tag: string; display?: DisplayRule }
 ## 9. 実装順（推奨）
 
 1. LibraryContext（データモデル＋永続化）
-2. Keep 画面（/keep）とメニュー追加
+2. Keep 画面（/library）とメニュー追加
 3. User/Community/Message への Keep 導線
 4. Keep→Watch/Ack 同時操作 + managed 記録
 5. Unkeep→managed のみ解除
