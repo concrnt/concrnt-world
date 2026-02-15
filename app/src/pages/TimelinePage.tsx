@@ -15,6 +15,7 @@ import TuneIcon from '@mui/icons-material/Tune'
 import InfoIcon from '@mui/icons-material/Info'
 import LockIcon from '@mui/icons-material/Lock'
 import { KeepButton } from '../components/KeepButton'
+import { WatchButton } from '../components/WatchButton'
 import { useGlobalState } from '../context/GlobalState'
 import { CCPostEditor } from '../components/Editor/CCPostEditor'
 import { useEditorModal } from '../components/EditorModal'
@@ -91,6 +92,7 @@ export const TimelinePage = memo((): JSX.Element => {
                     useRawSecondaryAction
                     secondaryAction={
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <WatchButton timelineFQID={targetTimelineID} minimal small />
                             <KeepButton
                                 variant="icon"
                                 kind="timeline"

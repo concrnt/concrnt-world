@@ -13,6 +13,7 @@ import {
     Stack,
     Tab,
     Tabs,
+    Tooltip,
     Typography
 } from '@mui/material'
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded'
@@ -257,13 +258,18 @@ export const KeepPage = (): JSX.Element => {
                             {item.kind === 'timeline' && <TimelineItemActions item={item} />}
 
                             {!batchMode && (
-                                <Stack direction="row" justifyContent="flex-end" spacing={1}>
+                                <Stack direction="row" justifyContent="flex-end" spacing={1} alignItems="center">
                                     <IconButton
                                         size="small"
                                         onClick={() => setEditingItem(item)}
                                     >
                                         <EditIcon fontSize="small" />
                                     </IconButton>
+                                    <Tooltip title={item.pinned ? t('pinned') : t('pin')}>
+                                        <IconButton size="small" onClick={() => togglePin(item.id)}>
+                                            {item.pinned ? <PushPinIcon fontSize="small" color="primary" /> : <PushPinOutlinedIcon fontSize="small" />}
+                                        </IconButton>
+                                    </Tooltip>
                                     <ButtonGroup size="small">
                                         <Button
                                             color={item.marked ? 'secondary' : 'inherit'}
@@ -273,16 +279,6 @@ export const KeepPage = (): JSX.Element => {
                                             }}
                                         >
                                             {item.marked ? t('marked') : t('mark')}
-                                        </Button>
-                                        <Button
-                                            startIcon={item.pinned ? <PushPinIcon /> : <PushPinOutlinedIcon />}
-                                            color={item.pinned ? 'secondary' : 'inherit'}
-                                            variant={item.pinned ? 'contained' : 'outlined'}
-                                            onClick={() => {
-                                                togglePin(item.id)
-                                            }}
-                                        >
-                                            {item.pinned ? t('pinned') : t('pin')}
                                         </Button>
                                         <Button
                                             startIcon={<BookmarkAddedIcon />}

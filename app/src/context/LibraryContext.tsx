@@ -87,6 +87,9 @@ interface LibraryContextState {
     items: LibraryItem[]
     folders: Folder[]
     tagRules: TagRule[]
+    userByCcid: Map<string, LibraryItem>
+    timelineByFqid: Map<string, LibraryItem>
+    tagRuleByTag: Map<string, TagRule>
     upsertItem: (item: LibraryItemInput) => string
     removeItem: (itemId: string) => void
     togglePin: (itemId: string) => void
@@ -107,6 +110,7 @@ interface LibraryContextState {
 }
 
 const LIBRARY_LOCAL_STORAGE_KEY = LS_PREFIX + 'library'
+// Library data is stored under arakoshi namespace only. Never write to upstream 'world.concurrent.*' keys.
 const LIBRARY_KV_KEY = `${KV_PREFIX}.library`
 const DEFAULT_LIBRARY: LibraryStore = {
     items: [],
@@ -227,12 +231,13 @@ const normalizeLibraryItem = (item: RawValue): LibraryItem | undefined => {
     if (rawManaged && Array.isArray(rawManaged.watchSubs) && !managed?.watchTargets?.length) {
         const oldSubs = (rawManaged.watchSubs as unknown[]).filter((id): id is string => typeof id === 'string')
         if (oldSubs.length > 0 && kind === 'timeline') {
-            // For timeline items, fqid is available on the ref
             const fqid = (ref as TimelineRef).fqid
             const migrated: WatchTarget[] = oldSubs.map((subId) => ({ fqid, subId }))
             managed = { ...managed, watchTargets: migrated }
+            console.info('[Library] Migrated watchSubs → watchTargets for timeline:', fqid)
+        } else if (oldSubs.length > 0) {
+            console.warn('[Library] Dropped legacy watchSubs for', kind, 'item (no fqid)')
         }
-        // For user items, old watchSubs are dropped (they were broken — no fqid on user ref)
     }
 
     const now = Date.now()
@@ -325,6 +330,28 @@ export const LibraryProvider = ({ children }: { children: JSX.Element | JSX.Elem
     }, [client])
 
     useDebouncedKVSync(client, LIBRARY_KV_KEY, store, initialized)
+
+    const userByCcid = useMemo(() => {
+        const map = new Map<string, LibraryItem>()
+        for (const item of store.items) {
+            if (item.kind === 'user') map.set((item.ref as UserRef).ccid, item)
+        }
+        return map
+    }, [store.items])
+
+    const timelineByFqid = useMemo(() => {
+        const map = new Map<string, LibraryItem>()
+        for (const item of store.items) {
+            if (item.kind === 'timeline') map.set((item.ref as TimelineRef).fqid, item)
+        }
+        return map
+    }, [store.items])
+
+    const tagRuleByTag = useMemo(() => {
+        const map = new Map<string, TagRule>()
+        for (const rule of store.tagRules) map.set(rule.tag, rule)
+        return map
+    }, [store.tagRules])
 
     const upsertItem = useCallback(
         (item: LibraryItemInput): string => {
@@ -602,6 +629,9 @@ export const LibraryProvider = ({ children }: { children: JSX.Element | JSX.Elem
             items: store.items,
             folders: store.folders,
             tagRules: store.tagRules,
+            userByCcid,
+            timelineByFqid,
+            tagRuleByTag,
             upsertItem,
             removeItem,
             togglePin,
@@ -620,7 +650,7 @@ export const LibraryProvider = ({ children }: { children: JSX.Element | JSX.Elem
             removeTagRule,
             updateTagRule
         }),
-        [store.items, store.folders, store.tagRules, upsertItem, removeItem, togglePin, toggleMark, setFolder, setTags, setMemo, setDisplay, updateItem, byKind, addFolder, removeFolder, renameFolder, reorderFolders, addTagRule, removeTagRule, updateTagRule]
+        [store.items, store.folders, store.tagRules, userByCcid, timelineByFqid, tagRuleByTag, upsertItem, removeItem, togglePin, toggleMark, setFolder, setTags, setMemo, setDisplay, updateItem, byKind, addFolder, removeFolder, renameFolder, reorderFolders, addTagRule, removeTagRule, updateTagRule]
     )
 
     return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>

@@ -13,35 +13,28 @@ const mostRestrictive = (a: DisplayRule, b: DisplayRule): DisplayRule => {
 }
 
 export function useDisplayRule(authorCCID: string, timelineFQIDs?: string[]): DisplayRule {
-    const { items, tagRules } = useLibrary()
+    const { userByCcid, timelineByFqid, tagRuleByTag } = useLibrary()
 
     return useMemo(() => {
         let rule: DisplayRule = 'normal'
 
-        // Check author's user item display rule
-        const authorItem = items.find(
-            (item) => item.kind === 'user' && (item.ref as { ccid: string }).ccid === authorCCID
-        )
+        const authorItem = userByCcid.get(authorCCID)
         if (authorItem?.display) {
             rule = mostRestrictive(rule, authorItem.display)
         }
 
-        // Check timeline items display rules
         if (timelineFQIDs) {
             for (const fqid of timelineFQIDs) {
-                const tlItem = items.find(
-                    (item) => item.kind === 'timeline' && (item.ref as { fqid: string }).fqid === fqid
-                )
+                const tlItem = timelineByFqid.get(fqid)
                 if (tlItem?.display) {
                     rule = mostRestrictive(rule, tlItem.display)
                 }
             }
         }
 
-        // Check tag rules: if author item has tags, match them against tagRules
         if (authorItem?.tags?.length) {
             for (const tag of authorItem.tags) {
-                const tagRule = tagRules.find((r) => r.tag === tag)
+                const tagRule = tagRuleByTag.get(tag)
                 if (tagRule?.display) {
                     rule = mostRestrictive(rule, tagRule.display)
                 }
@@ -49,5 +42,5 @@ export function useDisplayRule(authorCCID: string, timelineFQIDs?: string[]): Di
         }
 
         return rule
-    }, [items, tagRules, authorCCID, timelineFQIDs])
+    }, [userByCcid, timelineByFqid, tagRuleByTag, authorCCID, timelineFQIDs])
 }
