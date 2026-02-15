@@ -15,6 +15,7 @@ import { RegistrationReady } from '../components/Registration/LetsGo'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import { defaultPreference } from '../context/PreferenceContext'
+import { KV_PREFIX } from '../appConfig'
 import { GuestBase } from '../components/GuestBase'
 import { Helmet } from 'react-helmet-async'
 
@@ -59,7 +60,7 @@ export default function Registration(): JSX.Element {
 
         const storage = JSON.stringify(defaultPreference)
         client.api
-            .writeKV('world.concurrent.preference', storage)
+            .writeKV(`${KV_PREFIX}.preference`, storage)
             .then(() => {})
             .catch((e) => {
                 alert(`Failed to write preference: ${e.message}`)

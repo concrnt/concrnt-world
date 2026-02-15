@@ -3,6 +3,7 @@ import { usePreference } from './PreferenceContext'
 import { useEffect, useState } from 'react'
 import { type ConcurrentTheme } from '../model'
 import { loadConcurrentTheme } from '../themes'
+import { LS_PREFIX } from '../appConfig'
 
 interface ConcrntThemeProps {
     children: React.ReactNode
@@ -17,7 +18,7 @@ export const ConcrntThemeProvider = (props: ConcrntThemeProps): JSX.Element => {
     useEffect(() => {
         const newtheme = loadConcurrentTheme(themeName, customThemes, { fontSize: baseFontSize })
         newtheme.typography.fontSize = baseFontSize
-        localStorage.setItem('theme', JSON.stringify(newtheme))
+        localStorage.setItem(LS_PREFIX + 'theme', JSON.stringify(newtheme))
         setTheme(newtheme)
         let themeColorMetaTag: HTMLMetaElement = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement
         if (!themeColorMetaTag) {

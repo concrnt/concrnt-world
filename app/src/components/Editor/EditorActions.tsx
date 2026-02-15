@@ -31,6 +31,7 @@ import { type WorldMedia, type Emoji, type EmojiLite } from '../../model'
 import { UserPicker } from '../ui/UserPicker'
 import { type User } from '@concrnt/worldlib'
 import { usePersistent } from '../../hooks/usePersistent'
+import { LS_PREFIX } from '../../appConfig'
 import { genBlurHash } from '../../util'
 import { useGlobalState } from '../../context/GlobalState'
 
@@ -114,7 +115,7 @@ export const EditorActions = (props: EditorActionsProps): JSX.Element => {
 
     const [addingMediaURL, setAddingMediaURL] = useState<string>('')
     const [detailMenuAnchorEl, setDetailMenuAnchorEl] = useState<null | HTMLElement>(null)
-    const [openWhisperWarning, setOpenWhisperWarning] = usePersistent('openWhisperWarning', true)
+    const [openWhisperWarning, setOpenWhisperWarning] = usePersistent(LS_PREFIX + 'openWhisperWarning', true)
 
     return (
         <Box

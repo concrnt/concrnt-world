@@ -1,4 +1,5 @@
 import { type FallbackProps } from 'react-error-boundary'
+import { INDEXEDDB_NAME, LS_PREFIX } from '../appConfig'
 import { type Preference, defaultPreference } from '../context/PreferenceContext'
 
 // @ts-expect-error vite dynamic import
@@ -25,7 +26,7 @@ export function EmergencyKit({ error }: FallbackProps): JSX.Element {
 
     useEffect(() => {
         // do not refresh in 5 minutes
-        const lastQuickFix = localStorage.getItem('lastQuickFix')
+        const lastQuickFix = localStorage.getItem(LS_PREFIX + 'lastQuickFix')
         if (lastQuickFix) {
             const diff = new Date().getTime() - new Date(lastQuickFix).getTime()
             if (diff < 5 * 60 * 1000) {
@@ -37,7 +38,7 @@ export function EmergencyKit({ error }: FallbackProps): JSX.Element {
             error?.message.includes('Failed to fetch dynamically imported module') ||
             error?.message.includes("'text/html' is not a valid JavaScript MIME type")
         ) {
-            localStorage.setItem('lastQuickFix', new Date().toISOString())
+            localStorage.setItem(LS_PREFIX + 'lastQuickFix', new Date().toISOString())
             window.location.reload()
         }
     }, [])
@@ -59,14 +60,14 @@ export function EmergencyKit({ error }: FallbackProps): JSX.Element {
     }
 
     const resetThemeAndEnterSafemode = (): void => {
-        const preference = localStorage.getItem('preference')
+        const preference = localStorage.getItem(LS_PREFIX + 'preference')
         if (preference) {
             const parsed: Preference = JSON.parse(preference)
             parsed.themeName = defaultPreference.themeName
-            localStorage.setItem('preference', JSON.stringify(parsed))
+            localStorage.setItem(LS_PREFIX + 'preference', JSON.stringify(parsed))
         }
 
-        localStorage.setItem('noloadsettings', 'true')
+        localStorage.setItem(LS_PREFIX + 'noloadsettings', 'true')
 
         window.location.replace('/')
     }
@@ -133,7 +134,7 @@ buildTime: ${buildTime.toLocaleString()}`
                         padding: '20px'
                     }}
                     onClick={async (): Promise<void> => {
-                        localStorage.removeItem('lastQuickFix')
+                        localStorage.removeItem(LS_PREFIX + 'lastQuickFix')
 
                         // delete all caches
                         if (window.caches) {
@@ -146,7 +147,7 @@ buildTime: ${buildTime.toLocaleString()}`
                         }
                         if (window.indexedDB) {
                             await new Promise((resolve) => {
-                                const req = window.indexedDB.deleteDatabase('concrnt-client')
+                                const req = window.indexedDB.deleteDatabase(INDEXEDDB_NAME)
                                 req.onsuccess = resolve
                                 req.onerror = resolve
                             })

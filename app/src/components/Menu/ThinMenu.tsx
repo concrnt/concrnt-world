@@ -9,6 +9,7 @@ import ContactsIcon from '@mui/icons-material/Contacts'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import ViewColumnIcon from '@mui/icons-material/ViewColumn'
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark'
 
 import { memo } from 'react'
 import { CCAvatar } from '../ui/CCAvatar'
@@ -110,6 +111,13 @@ export const ThinMenu = memo<MenuProps>((props: MenuProps): JSX.Element => {
                     </IconButton>
                     <IconButton sx={{ p: 0.5 }} component={Link} to="/contacts" onClick={props.onClick}>
                         <ContactsIcon
+                            sx={{
+                                color: 'background.contrastText'
+                            }}
+                        />
+                    </IconButton>
+                    <IconButton sx={{ p: 0.5 }} component={Link} to="/library" onClick={props.onClick}>
+                        <CollectionsBookmarkIcon
                             sx={{
                                 color: 'background.contrastText'
                             }}

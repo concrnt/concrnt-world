@@ -7,11 +7,13 @@ import { useClient } from '../context/ClientContext'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import { useGlobalState } from '../context/GlobalState'
 import { type Timeline } from '@concrnt/worldlib'
+import { useManagedOperations } from '../hooks/useManagedOperations'
 
 export interface WatchButtonProps {
     timelineFQID: string
     minimal?: boolean
     small?: boolean
+    managed?: boolean
 }
 
 export const WatchButton = (props: WatchButtonProps): JSX.Element => {
@@ -21,6 +23,7 @@ export const WatchButton = (props: WatchButtonProps): JSX.Element => {
 
     const [isHovered, setIsHovered] = useState(false)
     const { allKnownTimelines, listedSubscriptions, reloadList } = useGlobalState()
+    const managedOps = useManagedOperations()
 
     const { t } = useTranslation('', { keyPrefix: 'common' })
 
@@ -59,11 +62,14 @@ export const WatchButton = (props: WatchButtonProps): JSX.Element => {
                             if (watching) {
                                 setMenuAnchor(e.currentTarget)
                             } else {
-                                client.api
-                                    .subscribe(props.timelineFQID, Object.keys(listedSubscriptions)[0])
-                                    .then((subscription) => {
+                                const firstSubId = Object.keys(listedSubscriptions)[0]
+                                if (props.managed) {
+                                    managedOps.watchManaged(props.timelineFQID, firstSubId)
+                                } else {
+                                    client.api.subscribe(props.timelineFQID, firstSubId).then(() => {
                                         reloadList()
                                     })
+                                }
                             }
                         }}
                         onMouseEnter={() => {
@@ -108,13 +114,21 @@ export const WatchButton = (props: WatchButtonProps): JSX.Element => {
                             }
                             onChange={(check) => {
                                 if (check.target.checked) {
-                                    client.api.subscribe(props.timelineFQID, key).then((_) => {
-                                        reloadList()
-                                    })
+                                    if (props.managed) {
+                                        managedOps.watchManaged(props.timelineFQID, key)
+                                    } else {
+                                        client.api.subscribe(props.timelineFQID, key).then(() => {
+                                            reloadList()
+                                        })
+                                    }
                                 } else {
-                                    client.api.unsubscribe(props.timelineFQID, key).then((_) => {
-                                        reloadList()
-                                    })
+                                    if (props.managed) {
+                                        managedOps.unwatchManaged(props.timelineFQID, key)
+                                    } else {
+                                        client.api.unsubscribe(props.timelineFQID, key).then(() => {
+                                            reloadList()
+                                        })
+                                    }
                                 }
                             }}
                         />

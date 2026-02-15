@@ -19,17 +19,13 @@ import {
     Select,
     Button
 } from '@mui/material'
-import { useSnackbar } from 'notistack'
-import { usePersistent } from '../../hooks/usePersistent'
 import { type CommunityTimelineSchema, type Timeline, type Message, type User, ProfileSchema } from '@concrnt/worldlib'
 import { useClient } from '../../context/ClientContext'
-import { type WorldMedia, type Emoji, type EmojiLite } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { CCIconButton } from '../ui/CCIconButton'
 import ReplayIcon from '@mui/icons-material/Replay'
 import { EmojiSuggestion } from '../Editor/EmojiSuggestion'
 import { UserSuggestion } from '../Editor/UserSuggestion'
-import { useStorage } from '../../context/StorageContext'
 import { EditorActions } from './EditorActions'
 import { EditorPreview } from './EditorPreview'
 
@@ -43,11 +39,14 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import FeedbackIcon from '@mui/icons-material/Feedback'
 import { usePreference } from '../../context/PreferenceContext'
 import { CCComboBox } from '../ui/CCComboBox'
-import { genBlurHash } from '../../util'
 
 import modelPoster from '../../resources/view-3dmodel.png'
 import { TimelinePicker } from '../ui/TimelinePicker'
 import { Profile } from '@concrnt/client'
+
+import { useDraftState } from '../../hooks/useDraftState'
+import { usePostAction } from '../../hooks/usePostAction'
+import { useMediaUpload } from '../../hooks/useMediaUpload'
 
 const ModeSets = {
     plaintext: {
@@ -93,8 +92,6 @@ export interface CCPostEditorProps {
 
 export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): JSX.Element => {
     const { client } = useClient()
-    const { uploadFile } = useStorage()
-    const { enqueueSnackbar } = useSnackbar()
     const { t } = useTranslation('', { keyPrefix: 'ui.draft' })
     const { t: et } = useTranslation('', { keyPrefix: 'ui.postButton' })
 
@@ -102,7 +99,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     const [autoSwitchMediaPostType] = usePreference('autoSwitchMediaPostType')
 
     const textInputRef = useRef<HTMLInputElement>(null)
-    let [sending, setSending] = useState<boolean>(false)
     const [selectedSubprofile, setSelectedSubprofile] = useState<Profile<ProfileSchema> | undefined>(undefined)
 
     // destination handling
@@ -133,8 +129,9 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         }
     }, [props.subprofile])
 
-    // draft handling
-    const [draft, setDraft] = usePersistent<string>('draft', '')
+    // draft state (extracted hook)
+    const { draft, setDraft, emojiDict, setEmojiDict, medias, setMedias, uploading, insertEmoji, resetDraft } =
+        useDraftState()
 
     useEffect(() => {
         if (props.value && props.value !== '') {
@@ -142,25 +139,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
             setDraft(props.value)
         }
     }, [props.value])
-
-    // emoji
-    const [emojiDict, setEmojiDict] = usePersistent<Record<string, EmojiLite>>('draftEmojis', {})
-
-    const insertEmoji = (emoji: Emoji): void => {
-        const newDraft =
-            draft.slice(0, textInputRef.current?.selectionEnd ?? 0) +
-            `:${emoji.shortcode}:` +
-            draft.slice(textInputRef.current?.selectionEnd ?? 0)
-        setDraft(newDraft)
-        setEmojiDict((prev) => ({ ...prev, [emoji.shortcode]: { imageURL: emoji.imageURL } }))
-    }
-
-    // media
-    const [medias, setMedias] = usePersistent<Array<{ key: string; progress: number; media: WorldMedia }>>(
-        'draftMedias',
-        []
-    )
-    const uploading = medias.some((media) => media.media.mediaURL === '')
 
     // mode handling
     let [mode, setMode] = useState<EditorMode>('markdown')
@@ -177,11 +155,12 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         }
     }, [props.mode])
 
+    // whisper
+    const [participants, setParticipants] = useState<User[]>([])
+
     const reset = (): void => {
         setMode('markdown')
-        setDraft('')
-        setEmojiDict({})
-        setMedias([])
+        resetDraft()
         setParticipants([])
     }
 
@@ -194,10 +173,6 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
     const [mediaMenuAnchorEl, setMediaMenuAnchorEl] = useState<null | HTMLElement>(null)
     const [selectedMediaIndex, setSelectedMediaIndex] = useState<number>(-1)
 
-    // whisper
-    const [participants, setParticipants] = useState<User[]>([])
-    const whisper = participants.map((p) => p.ccid)
-
     // check Visibility
     const isPrivate = useMemo(() => {
         return (
@@ -207,250 +182,33 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
         )
     }, [destTimelines, participants])
 
-    const post = (postHome: boolean): void => {
-        if (!client?.user) return
-        if ((draft.length === 0 || draft.trim().length === 0) && !(mode === 'media' || mode === 'reroute')) {
-            enqueueSnackbar(t('plzAddMessage'), { variant: 'error' })
-            return
+    // post action (extracted hook)
+    const { post, sending } = usePostAction({
+        client,
+        mode,
+        draft,
+        emojiDict,
+        medias,
+        destTimelines,
+        selectedSubprofile,
+        participants,
+        actionTo: props.actionTo,
+        isPrivate,
+        onSuccess: () => {
+            reset()
+            props.onPost?.()
         }
-        if (mode === 'media' && medias.length === 0) {
-            enqueueSnackbar(t('plzAttachMedia'), { variant: 'error' })
-            return
-        }
-        if (destTimelines.length === 0 && !postHome) {
-            enqueueSnackbar(t('plzAddDestination'), { variant: 'error' })
-            return
-        }
+    })
 
-        const destTimelineIDs = destTimelines.map((t) => t.fqid).filter((e) => e)
-
-        const homeTimeline = selectedSubprofile
-            ? 'world.concrnt.t-subhome.' + selectedSubprofile.id + '@' + client.user.ccid
-            : client.user.homeTimeline
-        const dest = [...new Set([...destTimelineIDs, ...(postHome ? [homeTimeline] : [])])].filter((e) => e)
-
-        const mentionsMatches = draft.matchAll(/(^|\s+)@(con1\w{38})/g)
-        const mentions = [...new Set(Array.from(mentionsMatches).map((m) => m[2]))]
-
-        setSending((sending = true))
-
-        const emojis = Object.keys(emojiDict).length > 0 ? emojiDict : undefined
-        const profileOverride = selectedSubprofile ? { profileID: selectedSubprofile.id } : undefined
-
-        let req
-        switch (mode) {
-            case 'plaintext':
-                req = client.createPlainTextCrnt(draft, dest, {
-                    profileOverride,
-                    whisper,
-                    isPrivate
-                })
-                break
-            case 'markdown':
-                req = client.createMarkdownCrnt(draft, dest, {
-                    emojis,
-                    mentions,
-                    profileOverride,
-                    whisper,
-                    isPrivate
-                })
-                break
-            case 'media':
-                req = client.createMediaCrnt(draft, dest, {
-                    emojis,
-                    medias: medias.map((media) => media.media),
-                    profileOverride,
-                    whisper,
-                    isPrivate
-                })
-                break
-            case 'reply':
-                if (!props.actionTo) {
-                    req = Promise.reject(new Error('No actionTo'))
-                    break
-                }
-                req = props.actionTo.reply(dest, draft, {
-                    emojis,
-                    profileOverride,
-                    whisper,
-                    isPrivate
-                })
-                break
-            case 'reroute':
-                if (!props.actionTo) {
-                    req = Promise.reject(new Error('No actionTo'))
-                    break
-                }
-                req = props.actionTo.reroute(dest, '', {
-                    emojis,
-                    profileOverride,
-                    whisper,
-                    isPrivate
-                })
-                break
-            default:
-                enqueueSnackbar('Invalid mode', { variant: 'error' })
-        }
-
-        req
-            ?.then(() => {
-                reset()
-                props.onPost?.()
-            })
-            .catch((error) => {
-                enqueueSnackbar(`Failed to post message: ${error.message}`, { variant: 'error' })
-            })
-            .finally(() => {
-                setSending(false)
-            })
-    }
-
-    const uploadMedia = async (file: File): Promise<void> => {
-        let fileType = file.type
-
-        if (!fileType) {
-            if (file.name.endsWith('.glb')) {
-                fileType = 'model/gltf-binary'
-            }
-        }
-
-        if (!fileType) {
-            enqueueSnackbar('Invalid file type', { variant: 'error' })
-            return
-        }
-
-        const mediaExists = draft.match(/!\[[^\]]*\]\([^)]*\)/g)
-        if (!mediaExists && mode === 'markdown' && autoSwitchMediaPostType) {
-            setMode((mode = 'media'))
-        }
-
-        if (mode === 'media') {
-            let url = URL.createObjectURL(file)
-            let blurhash = ''
-
-            if (fileType.startsWith('image')) {
-                try {
-                    blurhash = (await genBlurHash(url)) ?? ''
-                } catch (e) {
-                    console.error('Failed to generate blurhash:', e)
-                }
-            } else if (fileType.startsWith('video')) {
-                const canvas = document.createElement('canvas')
-                const video = document.createElement('video')
-                video.src = url
-                video.muted = true
-                video.playsInline = true
-
-                await new Promise<void>((resolve) => {
-                    let rendered = false
-                    video.oncanplay = async () => {
-                        if (rendered || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) return
-                        rendered = true
-                        setTimeout(() => {
-                            video.pause()
-                            resolve()
-                        }, 33)
-                    }
-
-                    setTimeout(() => {
-                        if (rendered) return
-                        rendered = true
-                        resolve()
-                    }, 3000)
-                    video.play()
-                })
-
-                canvas.width = video.videoWidth
-                canvas.height = video.videoHeight
-                const ctx = canvas.getContext('2d')
-                if (!ctx) return
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-                const thumbnailURL = canvas.toDataURL('image/jpeg')
-                url = thumbnailURL
-                try {
-                    blurhash = (await genBlurHash(thumbnailURL)) ?? ''
-                } catch (e) {
-                    console.error('Failed to generate blurhash:', e)
-                }
-            }
-
-            setMedias((medias) => [
-                ...medias,
-                {
-                    key: url,
-                    progress: 0,
-                    media: {
-                        mediaURL: '',
-                        mediaType: fileType,
-                        blurhash
-                    }
-                }
-            ])
-
-            await uploadFile(file, (progress) => {
-                setMedias((medias) => {
-                    const newMedias = [...medias]
-                    const index = newMedias.findIndex((media) => media.key === url)
-                    if (index >= 0) {
-                        newMedias[index] = {
-                            ...newMedias[index],
-                            progress
-                        }
-                    }
-                    return newMedias
-                })
-            })
-                .then((result) => {
-                    setMedias((medias) => {
-                        const newMedias = [...medias]
-                        const index = newMedias.findIndex((media) => media.key === url)
-                        if (index >= 0) {
-                            newMedias[index] = {
-                                ...newMedias[index],
-                                progress: 1,
-                                media: {
-                                    ...newMedias[index].media,
-                                    mediaURL: result
-                                }
-                            }
-                        } else {
-                            console.error('Failed to update media:', url)
-                        }
-                        return newMedias
-                    })
-                })
-                .catch((e) => {
-                    enqueueSnackbar(`Failed to upload media: ${e}`, { variant: 'error' })
-                    setMedias((medias) => medias.filter((media) => media.key !== url))
-                })
-        } else {
-            const uploadingText = ' ![uploading...]()'
-            setDraft((before) => before + uploadingText)
-            const result = await uploadFile(file)
-            if (!result) {
-                setDraft((before) => before.replace(uploadingText, '') + `\n![upload failed]()`)
-            } else {
-                if (fileType.startsWith('video')) {
-                    setDraft(
-                        (before) =>
-                            before.replace(uploadingText, '') +
-                            `\n<video controls><source src="${result}#t=0.1"></video>`
-                    )
-                } else {
-                    setDraft((before) => before.replace(uploadingText, '') + `\n![image](${result})`)
-                }
-            }
-        }
-    }
-
-    const handlePasteFile = async (event: any): Promise<void> => {
-        if (!event.clipboardData) return
-        for (const item of event.clipboardData.items) {
-            const file = item.getAsFile()
-            if (!file) continue
-            await uploadMedia(file)
-        }
-    }
+    // media upload (extracted hook)
+    const { uploadMedia, handlePasteFile } = useMediaUpload({
+        mode,
+        setMode: (m) => setMode((mode = m)),
+        draft,
+        setDraft,
+        setMedias,
+        autoSwitchMediaPostType
+    })
 
     return (
         <Box
@@ -782,7 +540,9 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             setDraft={setDraft}
                             textInputRef={textInputRef}
                             uploadImage={uploadMedia}
-                            insertEmoji={insertEmoji}
+                            insertEmoji={(emoji) => {
+                                insertEmoji(emoji, textInputRef.current?.selectionEnd ?? undefined)
+                            }}
                             setEmojiDict={setEmojiDict}
                             submitButtonLabel={et(mode)}
                             onAddMedia={
@@ -824,7 +584,9 @@ export const CCPostEditor = memo<CCPostEditorProps>((props: CCPostEditorProps): 
                             setDraft={setDraft}
                             textInputRef={textInputRef}
                             uploadImage={uploadMedia}
-                            insertEmoji={insertEmoji}
+                            insertEmoji={(emoji) => {
+                                insertEmoji(emoji, textInputRef.current?.selectionEnd ?? undefined)
+                            }}
                             setEmojiDict={setEmojiDict}
                             submitButtonLabel={et(mode)}
                             onAddMedia={

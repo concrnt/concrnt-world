@@ -3,13 +3,16 @@ import { useMemo, useState } from 'react'
 import { type User } from '@concrnt/worldlib'
 import { useTranslation } from 'react-i18next'
 import { useClient } from '../context/ClientContext'
+import { useManagedOperations } from '../hooks/useManagedOperations'
 
 export interface AckButtonProps {
     user: User
+    managed?: boolean
 }
 
 export const AckButton = (props: AckButtonProps): JSX.Element | null => {
     const { client, forceUpdate } = useClient()
+    const managedOps = useManagedOperations()
 
     const myAck = useMemo(() => {
         return client.ackings?.find((ack) => ack.ccid === props.user.ccid)
@@ -39,13 +42,21 @@ export const AckButton = (props: AckButtonProps): JSX.Element | null => {
                 onClick={(e) => {
                     e.stopPropagation()
                     if (myAck) {
-                        props.user.UnAck().then(() => {
-                            forceUpdate()
-                        })
+                        if (props.managed) {
+                            managedOps.unackManaged(props.user)
+                        } else {
+                            props.user.UnAck().then(() => {
+                                forceUpdate()
+                            })
+                        }
                     } else {
-                        props.user.Ack().then(() => {
-                            forceUpdate()
-                        })
+                        if (props.managed) {
+                            managedOps.ackManaged(props.user)
+                        } else {
+                            props.user.Ack().then(() => {
+                                forceUpdate()
+                            })
+                        }
                     }
                 }}
             >

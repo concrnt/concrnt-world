@@ -66,6 +66,7 @@ interface ClientOptions {
     appName?: string
     progressCallback?: (status: string) => void
     skipInit?: boolean
+    dbName?: string
 }
 
 interface Cache<T> {
@@ -116,7 +117,7 @@ export class Client {
         opts?.progressCallback?.('initializing cache engine')
         let cacheEngine: KVS | undefined = undefined
         try {
-            cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
+            cacheEngine = new IndexedDBKVS(opts?.dbName ?? 'concrnt-client', 'kvs')
         } catch (e) {
             console.info('indexeddb is not available. fallback to in-memory cache')
         }
@@ -286,7 +287,7 @@ export class Client {
         opts?.progressCallback?.('initializing cache engine')
         let cacheEngine: KVS | undefined = undefined
         try {
-            cacheEngine = new IndexedDBKVS('concrnt-client', 'kvs')
+            cacheEngine = new IndexedDBKVS(opts?.dbName ?? 'concrnt-client', 'kvs')
         } catch (e) {
             console.info('indexeddb is not available. fallback to in-memory cache')
         }

@@ -24,6 +24,7 @@ import { CfmRendererLite } from './components/ui/CfmRendererLite'
 import { useTranslation } from 'react-i18next'
 import { ManageSubsPage } from './pages/ManageSubs'
 import { ExplorerPlusPage } from './pages/ExplorerPlus'
+import { KeepPage } from './pages/KeepPage'
 import { UseSoundFormats } from './constants'
 import { useGlobalState } from './context/GlobalState'
 import { ConcrntLogo } from './components/theming/ConcrntLogo'
@@ -515,6 +516,7 @@ function App(): JSX.Element {
                                 <Route path="/:authorID/:messageID" element={<MessagePage />} />
                                 <Route path="/timeline/:id" element={<TimelinePage />} />
                                 <Route path="/contacts" element={<ContactsPage />} />
+                                <Route path="/library" element={<KeepPage />} />
                                 <Route path="/explorer/:tab" element={<ExplorerPlusPage />} />
                                 <Route path="/classicexplorer/:tab" element={<Explorer />} />
                                 <Route

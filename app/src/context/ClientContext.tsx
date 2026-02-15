@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { usePersistent } from '../hooks/usePersistent'
+import { INDEXEDDB_NAME } from '../appConfig'
 
 // @ts-expect-error vite dynamic import
 import { branch, sha } from '~build/git'
@@ -47,6 +48,7 @@ export const ClientProvider = (props: ClientProviderProps): JSX.Element => {
             if (prvkey !== '') {
                 Client.create(prvkey, domain, {
                     appName: versionString,
+                    dbName: INDEXEDDB_NAME,
                     progressCallback: (msg) => {
                         setProgress(msg)
                     }
@@ -60,6 +62,7 @@ export const ClientProvider = (props: ClientProviderProps): JSX.Element => {
             } else if (subkey !== '') {
                 Client.createFromSubkey(subkey, {
                     appName: versionString,
+                    dbName: INDEXEDDB_NAME,
                     progressCallback: (msg) => {
                         setProgress(msg)
                     }

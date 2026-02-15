@@ -1,12 +1,13 @@
 import { Box, CssBaseline, Typography } from '@mui/material'
 import { ConcrntLogo } from '../theming/ConcrntLogo'
+import { LS_PREFIX } from '../../appConfig'
 
 export interface FullScreenLoadingProps {
     message: string
 }
 
 export const FullScreenLoading = (props: FullScreenLoadingProps): JSX.Element => {
-    const themeStr = localStorage.getItem('theme')
+    const themeStr = localStorage.getItem(LS_PREFIX + 'theme')
     let theme
     try {
         if (themeStr) {

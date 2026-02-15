@@ -8,6 +8,7 @@ import { FullScreenLoading } from './components/ui/FullScreenLoading'
 import { PreferenceProvider } from './context/PreferenceContext'
 import { GlobalStateProvider } from './context/GlobalState'
 import { ClientProvider } from './context/ClientContext'
+import { LibraryProvider } from './context/LibraryContext'
 import { HelmetProvider } from 'react-helmet-async'
 
 import './i18n'
@@ -155,7 +156,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                                 <PreferenceProvider>
                                                     <ConcrntThemeProvider>
                                                         <GlobalStateProvider>
-                                                            <AppPage />
+                                                            <LibraryProvider>
+                                                                <AppPage />
+                                                            </LibraryProvider>
                                                         </GlobalStateProvider>
                                                     </ConcrntThemeProvider>
                                                 </PreferenceProvider>

@@ -19,6 +19,7 @@ import { type EmojiPackage, type Emoji, type RawEmojiPackage } from '../model'
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
 import SearchIcon from '@mui/icons-material/Search'
 import { usePersistent } from '../hooks/usePersistent'
+import { LS_PREFIX } from '../appConfig'
 import { Link as RouterLink } from 'react-router-dom'
 
 import Fuzzysort from 'fuzzysort'
@@ -64,7 +65,7 @@ export const EmojiPickerProvider = (props: EmojiPickerProps): JSX.Element => {
 
     const [anchor, setAnchor] = useState<HTMLElement | null>(null)
     const onSelectedRef = useRef<((selected: Emoji) => void) | null>(null)
-    const [frequentEmojis, setFrequentEmojis] = usePersistent<Emoji[]>('FrequentEmojis', [])
+    const [frequentEmojis, setFrequentEmojis] = usePersistent<Emoji[]>(LS_PREFIX + 'FrequentEmojis', [])
     const [query, setQuery] = useState<string>('')
     const [emojiPackages, setEmojiPackages] = useState<EmojiPackage[]>([])
     const [allemojis, setAllEmojis] = useState<Emoji[]>([])

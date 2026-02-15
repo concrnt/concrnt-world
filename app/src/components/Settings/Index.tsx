@@ -1,4 +1,5 @@
 import { Typography, Box, Button, Paper, Alert, AlertTitle } from '@mui/material'
+import { INDEXEDDB_NAME } from '../../appConfig'
 import { useClient } from '../../context/ClientContext'
 import SettingsIcon from '@mui/icons-material/Settings'
 import PaletteIcon from '@mui/icons-material/Palette'
@@ -43,7 +44,7 @@ export function SettingsIndex(): JSX.Element {
                 })
             })
             if (window.indexedDB) {
-                const req = window.indexedDB.deleteDatabase('concrnt-client')
+                const req = window.indexedDB.deleteDatabase(INDEXEDDB_NAME)
                 console.log(req)
                 req.onsuccess = () => {
                     // reload

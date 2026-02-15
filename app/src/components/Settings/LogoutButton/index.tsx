@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { type Identity } from '@concrnt/client'
 import { TestMasterkey } from '../../SwitchMasterToSub'
+import { INDEXEDDB_NAME } from '../../../appConfig'
 
 export const LogoutButton = (): JSX.Element => {
     const [openLogoutModal, setOpenLogoutModal] = useState(false)
@@ -20,7 +21,7 @@ export const LogoutButton = (): JSX.Element => {
             localStorage.removeItem(key)
         }
         if (window.indexedDB) {
-            window.indexedDB.deleteDatabase('concrnt-client')
+            window.indexedDB.deleteDatabase(INDEXEDDB_NAME)
         }
         setOpenLogoutModal(false)
         navigate('/welcome')

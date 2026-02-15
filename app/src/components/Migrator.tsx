@@ -9,6 +9,7 @@ import { jumpToDomainRegistration } from '../util'
 import { useSnackbar } from 'notistack'
 import { RepositoryExportButton, RepositoryImportButton } from './RepositoryManageButtons'
 import { usePersistent } from '../hooks/usePersistent'
+import { LS_PREFIX } from '../appConfig'
 import { type JobRequest } from '../model'
 import { useTranslation } from 'react-i18next'
 
@@ -17,7 +18,7 @@ export function Migrator(): JSX.Element {
 
     const { client } = useClient()
     const [currentDomain, setCurrentDomain] = useState<Domain | null>(null)
-    const [destFqdn, setDestFqdn] = usePersistent<string>('migrator-dest-fqdn', '')
+    const [destFqdn, setDestFqdn] = usePersistent<string>(LS_PREFIX + 'migrator-dest-fqdn', '')
     const [destinationDomain, setDestinationDomain] = useState<Domain | null>(null)
     const activeStep = parseInt(location.hash.replace('#', '')) || 0
     const setActiveStep = (step: number): void => {
@@ -183,7 +184,7 @@ export function Migrator(): JSX.Element {
                     <Button
                         fullWidth
                         onClick={() => {
-                            const settings = localStorage.getItem('preference')
+                            const settings = localStorage.getItem(LS_PREFIX + 'preference')
                             if (!settings) return
                             Client.create(client.keyPair!.privatekey, destFqdn).then((remoteClient) => {
                                 remoteClient.api

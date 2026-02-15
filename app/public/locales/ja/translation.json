@@ -121,6 +121,20 @@
         "contacts": {
             "title": "連絡先"
         },
+        "library": {
+            "title": "ライブラリ",
+            "users": "ユーザー",
+            "communities": "コミュニティ",
+            "messages": "メッセージ",
+            "noItems": "まだアイテムがありません",
+            "keep": "キープ",
+            "unkeep": "キープ解除",
+            "pin": "ピン留め",
+            "pinned": "ピン留め中",
+            "mark": "マーク",
+            "marked": "マーク中",
+            "memo": "メモ"
+        },
         "explore": {
             "title": "探索",
             "domains": "ドメイン",

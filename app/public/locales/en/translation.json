@@ -122,6 +122,20 @@
         "contacts": {
             "title": "Contacts"
         },
+        "library": {
+            "title": "Library",
+            "users": "Users",
+            "communities": "Communities",
+            "messages": "Messages",
+            "noItems": "No items yet.",
+            "keep": "Keep",
+            "unkeep": "Unkeep",
+            "pin": "Pin",
+            "pinned": "Pinned",
+            "mark": "Mark",
+            "marked": "Marked",
+            "memo": "Memo"
+        },
         "explore": {
             "title": "Explore",
             "domains": "Domains",
