@@ -25,8 +25,13 @@ export type MessageRef = {
 
 export type DisplayRule = 'normal' | 'blur' | 'omit' | 'hide'
 
+export type WatchTarget = {
+    fqid: string
+    subId: string
+}
+
 export type Managed = {
-    watchSubs?: string[]
+    watchTargets?: WatchTarget[]
     ack?: boolean
 }
 
@@ -124,17 +129,24 @@ const normalizeTags = (tags: unknown): string[] => {
         .filter((tag) => tag.length > 0)
 }
 
+const normalizeWatchTarget = (t: unknown): WatchTarget | undefined => {
+    if (!t || typeof t !== 'object') return undefined
+    const candidate = t as Partial<WatchTarget>
+    if (typeof candidate.fqid !== 'string' || typeof candidate.subId !== 'string') return undefined
+    return { fqid: candidate.fqid, subId: candidate.subId }
+}
+
 const normalizeManaged = (managed: RawValue): Managed | undefined => {
     if (managed === null || managed === undefined) return undefined
     if (typeof managed !== 'object') return undefined
-    const rawSubs = (managed as { watchSubs?: unknown }).watchSubs
-    const watchSubs = Array.isArray(rawSubs)
-        ? (rawSubs as unknown[]).filter((id): id is string => typeof id === 'string')
+    const rawTargets = (managed as { watchTargets?: unknown }).watchTargets
+    const watchTargets = Array.isArray(rawTargets)
+        ? (rawTargets as unknown[]).map(normalizeWatchTarget).filter((t): t is WatchTarget => t !== undefined)
         : []
     const ack = (managed as { ack?: unknown }).ack === true
-    if (!watchSubs.length && ack === false) return undefined
+    if (!watchTargets.length && ack === false) return undefined
     return {
-        ...(watchSubs.length > 0 ? { watchSubs } : {}),
+        ...(watchTargets.length > 0 ? { watchTargets } : {}),
         ...(ack ? { ack } : {})
     }
 }
@@ -208,6 +220,21 @@ const normalizeLibraryItem = (item: RawValue): LibraryItem | undefined => {
     const ref = normalizeRef(kind, candidate.ref)
     if (!ref) return
 
+    let managed = normalizeManaged(candidate.managed)
+
+    // Migrate old watchSubs → watchTargets
+    const rawManaged = candidate.managed as { watchSubs?: unknown } | undefined
+    if (rawManaged && Array.isArray(rawManaged.watchSubs) && !managed?.watchTargets?.length) {
+        const oldSubs = (rawManaged.watchSubs as unknown[]).filter((id): id is string => typeof id === 'string')
+        if (oldSubs.length > 0 && kind === 'timeline') {
+            // For timeline items, fqid is available on the ref
+            const fqid = (ref as TimelineRef).fqid
+            const migrated: WatchTarget[] = oldSubs.map((subId) => ({ fqid, subId }))
+            managed = { ...managed, watchTargets: migrated }
+        }
+        // For user items, old watchSubs are dropped (they were broken — no fqid on user ref)
+    }
+
     const now = Date.now()
     return {
         id: typeof candidate.id === 'string' ? candidate.id : makeItemId(kind, ref),
@@ -221,7 +248,7 @@ const normalizeLibraryItem = (item: RawValue): LibraryItem | undefined => {
         tags: normalizeTags(candidate.tags),
         memo: typeof candidate.memo === 'string' ? candidate.memo : undefined,
         display: isDisplayRule(candidate.display) ? candidate.display : undefined,
-        managed: normalizeManaged(candidate.managed)
+        managed
     }
 }
 

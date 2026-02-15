@@ -20,7 +20,7 @@ export interface UseKeepToggleResult {
 }
 
 export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): UseKeepToggleResult {
-    const { items, upsertItem, removeItem } = useLibrary()
+    const { items, upsertItem } = useLibrary()
     const managedOps = useManagedOperations()
     const { listedSubscriptions } = useGlobalState()
     const [loading, setLoading] = useState(false)
@@ -31,10 +31,14 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
 
     const isKept = item !== undefined
 
-    const firstSubId = useMemo(() => {
-        const keys = Object.keys(listedSubscriptions)
-        return keys.length > 0 ? keys[0] : undefined
-    }, [listedSubscriptions])
+    const findSubIdFor = useCallback(
+        (targetFqid: string): string | undefined => {
+            const keys = Object.keys(listedSubscriptions)
+            if (keys.length === 0) return undefined
+            return keys.find((k) => listedSubscriptions[k].items.some((e) => e.id === targetFqid)) ?? keys[0]
+        },
+        [listedSubscriptions]
+    )
 
     const keep = useCallback(() => {
         const run = async (): Promise<void> => {
@@ -42,14 +46,15 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
             try {
                 switch (kind) {
                     case 'user': {
-                        if (user && firstSubId) {
+                        const subId = user ? findSubIdFor(user.homeTimeline) : undefined
+                        if (user && subId) {
                             upsertItem({
                                 kind,
                                 ref: itemRef,
-                                managed: { ack: true, watchSubs: [firstSubId] }
+                                managed: { ack: true, watchTargets: [{ fqid: user.homeTimeline, subId }] }
                             })
                             await user.Ack()
-                            await managedOps.watchManaged(user.homeTimeline, firstSubId)
+                            await managedOps.watchManaged(user.homeTimeline, subId)
                         } else {
                             upsertItem({ kind, ref: itemRef })
                         }
@@ -57,13 +62,14 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
                     }
                     case 'timeline': {
                         const tRef = itemRef as TimelineRef
-                        if (firstSubId) {
+                        const subId = findSubIdFor(tRef.fqid)
+                        if (subId) {
                             upsertItem({
                                 kind,
                                 ref: itemRef,
-                                managed: { watchSubs: [firstSubId] }
+                                managed: { watchTargets: [{ fqid: tRef.fqid, subId }] }
                             })
-                            await managedOps.watchManaged(tRef.fqid, firstSubId)
+                            await managedOps.watchManaged(tRef.fqid, subId)
                         } else {
                             upsertItem({ kind, ref: itemRef })
                         }
@@ -82,13 +88,26 @@ export function useKeepToggle({ kind, itemRef, user }: UseKeepToggleParams): Use
             }
         }
         run()
-    }, [kind, itemRef, user, firstSubId, upsertItem, managedOps])
+    }, [kind, itemRef, user, findSubIdFor, upsertItem, managedOps])
 
     const unkeep = useCallback(() => {
-        if (item) {
-            removeItem(item.id)
-        }
-    }, [item, removeItem])
+        if (!item) return
+        setLoading(true)
+        managedOps
+            .removeWithCleanup(item.id)
+            .then((result) => {
+                if (!result.success) {
+                    enqueueSnackbar('Some cleanup operations failed', { variant: 'warning' })
+                }
+            })
+            .catch((e) => {
+                console.error('Unkeep failed', e)
+                enqueueSnackbar('Failed to unkeep', { variant: 'error' })
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }, [item, managedOps])
 
     return { isKept, item, keep, unkeep, loading }
 }

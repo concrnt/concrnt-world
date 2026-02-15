@@ -17,6 +17,7 @@
         "fav": "喜歡",
         "reaction": "回應",
         "mutedByWord": "關鍵詞靜音貼文",
+        "omittedByDisplayRule": "已被顯示規則隱藏",
         "mutedByTimeline": "時間軸靜音貼文",
         "show": "顯示",
         "followed": "追蹤了你",
@@ -171,10 +172,11 @@
             "schedule": "排程",
             "scheduledFor": "排程時間",
             "scheduleFailed": "排程貼文傳送失敗",
-            "scheduleWarning": "排程貼文僅在此分頁處於活動狀態時傳送",
+            "scheduleWarning": "請保持此分頁開啟以傳送排程貼文",
             "delete": "刪除",
             "pin": "置頂",
-            "cancel": "取消"
+            "cancel": "取消",
+            "failed": "失敗"
         },
         "explore": {
             "title": "探索",

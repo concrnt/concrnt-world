@@ -17,6 +17,7 @@
         "fav": "Favorite",
         "reaction": "Reaction",
         "mutedByWord": "Post muted by word",
+        "omittedByDisplayRule": "Post hidden by display rule",
         "mutedByTimeline": "Post muted by timeline",
         "show": "Show",
         "followed": "Follows you",
@@ -167,10 +168,11 @@
             "schedule": "Schedule",
             "scheduledFor": "Scheduled for",
             "scheduleFailed": "Failed to send scheduled post",
-            "scheduleWarning": "Scheduled posts only send while this tab is active.",
+            "scheduleWarning": "Please keep this tab open for scheduled posts to send.",
             "delete": "Delete",
             "pin": "Pin",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "failed": "Failed"
         },
         "list": {
             "subtitle": "Your watched timelines",

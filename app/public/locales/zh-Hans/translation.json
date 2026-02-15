@@ -17,6 +17,7 @@
         "fav": "喜欢",
         "reaction": "回应",
         "mutedByWord": "关键词静音帖子",
+        "omittedByDisplayRule": "已被显示规则隐藏",
         "mutedByTimeline": "时间线静音帖子",
         "show": "显示",
         "followed": "关注了你",
@@ -171,10 +172,11 @@
             "schedule": "定时发送",
             "scheduledFor": "预定时间",
             "scheduleFailed": "定时帖子发送失败",
-            "scheduleWarning": "定时帖子仅在此标签页活跃时发送",
+            "scheduleWarning": "请保持此标签页打开以发送定时帖子",
             "delete": "删除",
             "pin": "置顶",
-            "cancel": "取消"
+            "cancel": "取消",
+            "failed": "失败"
         },
         "explore": {
             "title": "探索",

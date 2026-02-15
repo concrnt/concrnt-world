@@ -17,6 +17,7 @@ import {
 import PushPinIcon from '@mui/icons-material/PushPin'
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import ScheduleIcon from '@mui/icons-material/Schedule'
 import { useTranslation } from 'react-i18next'
 
@@ -50,7 +51,7 @@ const DraftPreview = ({ draftKey }: { draftKey: string }): JSX.Element => {
 }
 
 export const DraftsPage = (): JSX.Element => {
-    const { entries, removeDraft, togglePinDraft, scheduleDraft } = useDraftContext()
+    const { entries, removeDraft, togglePinDraft, scheduleDraft, updateDraft } = useDraftContext()
     const { t } = useTranslation('', { keyPrefix: 'pages.drafts' })
 
     const sorted = useMemo(() => sortEntries(entries), [entries])
@@ -110,8 +111,26 @@ export const DraftsPage = (): JSX.Element => {
                                                 icon={<ScheduleIcon />}
                                                 size="small"
                                                 label={`${t('scheduledFor')} ${new Date(entry.scheduledAt).toLocaleString()}`}
-                                                color="info"
+                                                color={(entry.retryCount ?? 0) > 0 ? 'warning' : 'info'}
                                                 variant="outlined"
+                                            />
+                                        )}
+                                        {(entry.retryCount ?? 0) > 0 && entry.scheduledAt && (
+                                            <Chip
+                                                size="small"
+                                                label={`retry ${entry.retryCount}/3`}
+                                                color="warning"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                        {entry.lastError && !entry.scheduledAt && (
+                                            <Chip
+                                                icon={<ErrorOutlineIcon />}
+                                                size="small"
+                                                label={t('failed')}
+                                                color="error"
+                                                variant="outlined"
+                                                onDelete={() => updateDraft(entry.id, { lastError: undefined, retryCount: undefined })}
                                             />
                                         )}
                                     </Stack>

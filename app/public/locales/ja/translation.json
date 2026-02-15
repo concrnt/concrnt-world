@@ -17,6 +17,7 @@
         "fav": "お気に入り",
         "reaction": "リアクション",
         "mutedByWord": "ワードミュートした投稿",
+        "omittedByDisplayRule": "表示ルールにより非表示",
         "mutedByTimeline": "タイムラインミュートした投稿",
         "show": "表示する",
         "followed": "フォローされています",
@@ -170,10 +171,11 @@
             "schedule": "スケジュール",
             "scheduledFor": "予定日時",
             "scheduleFailed": "予約投稿の送信に失敗しました",
-            "scheduleWarning": "予約投稿はこのタブがアクティブな時のみ送信されます",
+            "scheduleWarning": "予約投稿を送信するにはこのタブを開いたままにしてください",
             "delete": "削除",
             "pin": "ピン留め",
-            "cancel": "キャンセル"
+            "cancel": "キャンセル",
+            "failed": "失敗"
         },
         "explore": {
             "title": "探索",

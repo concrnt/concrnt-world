@@ -7,7 +7,8 @@
         "follow": "ติดตาม",
         "following": "กำลังติดตาม",
         "unfollow": "เลิกติดตาม",
-        "followers": "ผู้ติดตาม"
+        "followers": "ผู้ติดตาม",
+        "omittedByDisplayRule": "ซ่อนโดยกฎการแสดงผล"
     },
     "pages": {
         "home": {
@@ -96,10 +97,11 @@
             "schedule": "ตั้งเวลา",
             "scheduledFor": "กำหนดเวลา",
             "scheduleFailed": "ส่งโพสต์ตั้งเวลาล้มเหลว",
-            "scheduleWarning": "โพสต์ตั้งเวลาจะส่งเฉพาะเมื่อแท็บนี้เปิดอยู่",
+            "scheduleWarning": "กรุณาเปิดแท็บนี้ไว้เพื่อส่งโพสต์ตั้งเวลา",
             "delete": "ลบ",
             "pin": "ปักหมุด",
-            "cancel": "ยกเลิก"
+            "cancel": "ยกเลิก",
+            "failed": "ล้มเหลว"
         },
         "lists": {
             "title": "รายการ"

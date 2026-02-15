@@ -62,11 +62,13 @@ export const WatchButton = (props: WatchButtonProps): JSX.Element => {
                             if (watching) {
                                 setMenuAnchor(e.currentTarget)
                             } else {
-                                const firstSubId = Object.keys(listedSubscriptions)[0]
+                                const keys = Object.keys(listedSubscriptions)
+                                const subId = keys.find((k) => listedSubscriptions[k].items.some((e) => e.id === props.timelineFQID)) ?? keys[0]
+                                if (!subId) return
                                 if (props.managed) {
-                                    managedOps.watchManaged(props.timelineFQID, firstSubId)
+                                    managedOps.watchManaged(props.timelineFQID, subId)
                                 } else {
-                                    client.api.subscribe(props.timelineFQID, firstSubId).then(() => {
+                                    client.api.subscribe(props.timelineFQID, subId).then(() => {
                                         reloadList()
                                     })
                                 }

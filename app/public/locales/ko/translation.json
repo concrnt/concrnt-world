@@ -7,7 +7,8 @@
         "follow": "팔로우",
         "following": "팔로잉",
         "unfollow": "언팔로우",
-        "followers": "팔로워"
+        "followers": "팔로워",
+        "omittedByDisplayRule": "표시 규칙에 의해 숨김"
     },
     "pages": {
         "home": {
@@ -96,10 +97,11 @@
             "schedule": "예약",
             "scheduledFor": "예약 시간",
             "scheduleFailed": "예약 게시 전송에 실패했습니다",
-            "scheduleWarning": "예약 게시는 이 탭이 활성화된 동안에만 전송됩니다.",
+            "scheduleWarning": "예약 게시를 전송하려면 이 탭을 열어두세요.",
             "delete": "삭제",
             "pin": "고정",
-            "cancel": "취소"
+            "cancel": "취소",
+            "failed": "실패"
         },
         "lists": {
             "title": "리스트"

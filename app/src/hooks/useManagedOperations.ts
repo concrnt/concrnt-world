@@ -38,12 +38,12 @@ export function useManagedOperations(): ManagedOperations {
             )
 
             if (existing) {
-                const currentSubs = existing.managed?.watchSubs ?? []
-                if (!currentSubs.includes(subId)) {
+                const currentTargets = existing.managed?.watchTargets ?? []
+                if (!currentTargets.some((t) => t.fqid === fqid && t.subId === subId)) {
                     updateItem(existing.id, {
                         managed: {
                             ...existing.managed,
-                            watchSubs: [...currentSubs, subId]
+                            watchTargets: [...currentTargets, { fqid, subId }]
                         }
                     })
                 }
@@ -51,7 +51,7 @@ export function useManagedOperations(): ManagedOperations {
                 upsertItem({
                     kind: 'timeline',
                     ref: { fqid },
-                    managed: { watchSubs: [subId] }
+                    managed: { watchTargets: [{ fqid, subId }] }
                 })
             }
         },
@@ -68,12 +68,12 @@ export function useManagedOperations(): ManagedOperations {
             )
             if (!existing) return
 
-            const currentSubs = existing.managed?.watchSubs ?? []
-            const nextSubs = currentSubs.filter((id) => id !== subId)
+            const currentTargets = existing.managed?.watchTargets ?? []
+            const nextTargets = currentTargets.filter((t) => !(t.fqid === fqid && t.subId === subId))
             updateItem(existing.id, {
                 managed: {
                     ...existing.managed,
-                    watchSubs: nextSubs.length > 0 ? nextSubs : undefined
+                    watchTargets: nextTargets.length > 0 ? nextTargets : undefined
                 }
             })
         },
@@ -134,15 +134,14 @@ export function useManagedOperations(): ManagedOperations {
 
             const failedOps: CleanupFailedOp[] = []
 
-            if (item.managed?.watchSubs?.length) {
-                const fqid = (item.ref as { fqid: string }).fqid
-                for (const subId of item.managed.watchSubs) {
+            if (item.managed?.watchTargets?.length) {
+                for (const target of item.managed.watchTargets) {
                     try {
-                        await client.api.unsubscribe(fqid, subId)
+                        await client.api.unsubscribe(target.fqid, target.subId)
                     } catch (e) {
                         failedOps.push({
                             op: 'unsubscribe',
-                            id: `${fqid}:${subId}`,
+                            id: `${target.fqid}:${target.subId}`,
                             error: e instanceof Error ? e : new Error(String(e))
                         })
                     }

@@ -334,7 +334,7 @@ export const MessageContainer = memo<MessageContainerProps>((props: MessageConta
                 <Box sx={props.sx}>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <Typography variant="caption" color="textDisabled">
-                            {t('mutedByWord')}
+                            {t('omittedByDisplayRule')}
                         </Typography>
                         <Typography
                             variant="caption"

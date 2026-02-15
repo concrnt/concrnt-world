@@ -12,6 +12,8 @@ export interface DraftEntry {
     updatedAt: number
     pinned?: boolean
     scheduledAt?: number
+    retryCount?: number
+    lastError?: string
 }
 
 export interface DraftStore {
