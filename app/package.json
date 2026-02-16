@@ -50,6 +50,7 @@
     "jspdf": "^2.5.1",
     "mfm-js": "^0.24.0",
     "mfm-renderer-react": "^0.0.9",
+    "music-metadata": "^11.12.1",
     "notistack": "^3.0.2",
     "protobufjs": "^7.3.2",
     "react": "^18.2.0",

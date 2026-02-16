@@ -10,12 +10,15 @@ import { type WorldMedia } from '../../model'
 import { Blurhash } from 'react-blurhash'
 import { useGlobalState } from '../../context/GlobalState'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import PlayCircleIcon from '@mui/icons-material/PlayCircle'
+import StopCircleIcon from '@mui/icons-material/StopCircle'
 
 import poster from '../../resources/view-3dmodel.png'
 
 import { CCIconButton } from './CCIconButton'
 import { useTranslation } from 'react-i18next'
 import { ModelViewer } from '../ModelViewer'
+import { useAudioPlayer } from '../../context/AudioPlayer'
 
 export interface EmbeddedGalleryProps {
     medias: WorldMedia[]
@@ -29,6 +32,7 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
     const mediaViewer = useMediaViewer()
 
     const { getImageURL } = useGlobalState()
+    const { play, stop, nowPlaying } = useAudioPlayer()
 
     const setAllowedUrl = (url: string): void => {
         const key = 'reveal:' + url
@@ -117,16 +121,38 @@ export const MediaCard = ({ media, onExpand }: { media: WorldMedia; onExpand?: (
                                 height: '100%',
                                 overflow: 'hidden'
                             }}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                if (nowPlaying === media.mediaURL) {
+                                    stop()
+                                } else {
+                                    play(media.mediaURL)
+                                }
+                            }}
                         >
-                            <audio
-                                controls
-                                src={media.mediaURL}
-                                preload="metadata"
-                                style={{
-                                    width: '100%',
-                                    height: '100%'
-                                }}
-                            />
+                            {nowPlaying === media.mediaURL ? (
+                                <StopCircleIcon
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -50%)',
+                                        color: 'rgba(255, 255, 255, 0.8)',
+                                        fontSize: 48
+                                    }}
+                                />
+                            ) : (
+                                <PlayCircleIcon
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -50%)',
+                                        color: 'rgba(255, 255, 255, 0.8)',
+                                        fontSize: 48
+                                    }}
+                                />
+                            )}
                         </Box>
                     )}
 

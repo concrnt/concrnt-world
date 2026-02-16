@@ -1410,6 +1410,10 @@ export class Message<T> implements Omit<CoreMessage<T>, 'document' | 'policyPara
         this.id = data.id
         this._document = data.document
         this.document = JSON.parse(data.document)
+        if ('author' in this.document) {
+            this.document.signer = (this.document as any).author
+            this.document.body = (this.document as any).value
+        }
         this.authorProfile = {
             ccid: this.author
         }
