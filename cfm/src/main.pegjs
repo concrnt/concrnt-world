@@ -61,7 +61,7 @@ Heading = h:"#"+ space t:InlineElements (newline / EOF)
     }
 }
 
-Marquee = startMarquee b:(!stopMarquee HeadElement)+ stopMarquee (newline / EOF)
+Marquee = startMarquee body:(!stopMarquee HeadElement)+ stopMarquee (newline / EOF)
 {
     return {
         type: "Marquee",
