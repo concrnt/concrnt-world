@@ -45,7 +45,7 @@ import { DeckPage } from './pages/Deck'
 import { TimelineProvider } from './context/TimelineProvider'
 import { InspectorProvider } from './context/Inspector'
 import { ProfileProvider } from './context/ProfileContext'
-import { AudioPlayerProvider } from './context/AudioPlayer'
+import { AudioPlayerOutlet, AudioPlayerProvider } from './context/AudioPlayer'
 
 const SwitchMasterToSub = lazy(() => import('./components/SwitchMasterToSub'))
 
@@ -340,33 +340,35 @@ function App(): JSX.Element {
             <TickerProvider>
                 <UrlSummaryProvider host={client.host}>
                     <MediaViewerProvider>
-                        <EmojiPickerProvider>
-                            <StorageProvider>
-                                <ConcordProvider>
-                                    <EditorModalProvider>
-                                        <TimelineDrawerProvider>
-                                            <UserDrawerProvider>
-                                                <ProfileProvider>
-                                                    <SearchDrawerProvider>
-                                                        <ConfirmProvider>
-                                                            <InspectorProvider>
-                                                                <GlobalActionsProvider>
-                                                                    <TimelineProvider>
-                                                                        <CommandPaletteProvider>
-                                                                            {childs}
-                                                                        </CommandPaletteProvider>
-                                                                    </TimelineProvider>
-                                                                </GlobalActionsProvider>
-                                                            </InspectorProvider>
-                                                        </ConfirmProvider>
-                                                    </SearchDrawerProvider>
-                                                </ProfileProvider>
-                                            </UserDrawerProvider>
-                                        </TimelineDrawerProvider>
-                                    </EditorModalProvider>
-                                </ConcordProvider>
-                            </StorageProvider>
-                        </EmojiPickerProvider>
+                        <AudioPlayerProvider>
+                            <EmojiPickerProvider>
+                                <StorageProvider>
+                                    <ConcordProvider>
+                                        <EditorModalProvider>
+                                            <TimelineDrawerProvider>
+                                                <UserDrawerProvider>
+                                                    <ProfileProvider>
+                                                        <SearchDrawerProvider>
+                                                            <ConfirmProvider>
+                                                                <InspectorProvider>
+                                                                    <GlobalActionsProvider>
+                                                                        <TimelineProvider>
+                                                                            <CommandPaletteProvider>
+                                                                                {childs}
+                                                                            </CommandPaletteProvider>
+                                                                        </TimelineProvider>
+                                                                    </GlobalActionsProvider>
+                                                                </InspectorProvider>
+                                                            </ConfirmProvider>
+                                                        </SearchDrawerProvider>
+                                                    </ProfileProvider>
+                                                </UserDrawerProvider>
+                                            </TimelineDrawerProvider>
+                                        </EditorModalProvider>
+                                    </ConcordProvider>
+                                </StorageProvider>
+                            </EmojiPickerProvider>
+                        </AudioPlayerProvider>
                     </MediaViewerProvider>
                 </UrlSummaryProvider>
             </TickerProvider>
@@ -490,47 +492,46 @@ function App(): JSX.Element {
                             flex: 1
                         }}
                     >
-                        <AudioPlayerProvider>
-                            <Paper
-                                elevation={isDeckPage ? 0 : 3}
-                                sx={{
-                                    flexGrow: '1',
-                                    margin: { xs: 0.5, sm: 1 },
-                                    display: 'flex',
-                                    flexFlow: 'column',
-                                    borderRadius: isDeckPage ? 0 : 2,
-                                    overflow: 'hidden',
-                                    background: 'none'
-                                }}
-                            >
-                                <Routes>
-                                    <Route index element={<ListPage />} />
-                                    <Route path="/:id" element={<EntityPage />} />
-                                    <Route path="/intent" element={<ListPage />} />
-                                    <Route path="/settings/*" element={<Settings />} />
-                                    <Route path="/:id/media" element={<EntityPage />} />
-                                    <Route path="/:id/activity" element={<EntityPage />} />
-                                    <Route path="/:id/profile/:profileid" element={<EntityPage />} />
-                                    <Route path="/:id/profile/:profileid/media" element={<EntityPage />} />
-                                    <Route path="/:id/profile/:profileid/activity" element={<EntityPage />} />
-                                    <Route path="/:authorID/:messageID" element={<MessagePage />} />
-                                    <Route path="/timeline/:id" element={<TimelinePage />} />
-                                    <Route path="/contacts" element={<ContactsPage />} />
-                                    <Route path="/explorer/:tab" element={<ExplorerPlusPage />} />
-                                    <Route path="/classicexplorer/:tab" element={<Explorer />} />
-                                    <Route
-                                        path="/notifications"
-                                        element={<Notifications latestNotification={latestNotificationDate} />}
-                                    />
-                                    <Route path="/ap/:id" element={<ApUserPage />} />
-                                    <Route path="/devtool" element={<Devtool />} />
-                                    <Route path="/subscriptions" element={<ManageSubsPage />} />
-                                    <Route path="/concord/*" element={<ConcordPage />} />
-                                    <Route path="/tutorial" element={<Tutorial />} />
-                                    <Route path="/deck" element={<DeckPage />} />
-                                </Routes>
-                            </Paper>
-                        </AudioPlayerProvider>
+                        <Paper
+                            elevation={isDeckPage ? 0 : 3}
+                            sx={{
+                                flexGrow: '1',
+                                margin: { xs: 0.5, sm: 1 },
+                                display: 'flex',
+                                flexFlow: 'column',
+                                borderRadius: isDeckPage ? 0 : 2,
+                                overflow: 'hidden',
+                                background: 'none'
+                            }}
+                        >
+                            <Routes>
+                                <Route index element={<ListPage />} />
+                                <Route path="/:id" element={<EntityPage />} />
+                                <Route path="/intent" element={<ListPage />} />
+                                <Route path="/settings/*" element={<Settings />} />
+                                <Route path="/:id/media" element={<EntityPage />} />
+                                <Route path="/:id/activity" element={<EntityPage />} />
+                                <Route path="/:id/profile/:profileid" element={<EntityPage />} />
+                                <Route path="/:id/profile/:profileid/media" element={<EntityPage />} />
+                                <Route path="/:id/profile/:profileid/activity" element={<EntityPage />} />
+                                <Route path="/:authorID/:messageID" element={<MessagePage />} />
+                                <Route path="/timeline/:id" element={<TimelinePage />} />
+                                <Route path="/contacts" element={<ContactsPage />} />
+                                <Route path="/explorer/:tab" element={<ExplorerPlusPage />} />
+                                <Route path="/classicexplorer/:tab" element={<Explorer />} />
+                                <Route
+                                    path="/notifications"
+                                    element={<Notifications latestNotification={latestNotificationDate} />}
+                                />
+                                <Route path="/ap/:id" element={<ApUserPage />} />
+                                <Route path="/devtool" element={<Devtool />} />
+                                <Route path="/subscriptions" element={<ManageSubsPage />} />
+                                <Route path="/concord/*" element={<ConcordPage />} />
+                                <Route path="/tutorial" element={<Tutorial />} />
+                                <Route path="/deck" element={<DeckPage />} />
+                            </Routes>
+                        </Paper>
+                        <AudioPlayerOutlet />
                         <Box
                             sx={{
                                 display: {

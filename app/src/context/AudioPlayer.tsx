@@ -12,12 +12,14 @@ export interface AudioPlayerState {
     nowPlaying: string | null
     play(src: string): void
     stop(): void
+    player: JSX.Element | null
 }
 
 const AudioPlayerContext = createContext<AudioPlayerState>({
     nowPlaying: null,
     play: () => {},
-    stop: () => {}
+    stop: () => {},
+    player: null
 })
 
 interface AudioPlayerProviderProps {
@@ -224,9 +226,19 @@ export const AudioPlayerProvider = (props: AudioPlayerProviderProps): JSX.Elemen
 
     const seekValue = seekingTime ?? currentTime
 
-    return (
-        <AudioPlayerContext.Provider value={useMemo(() => ({ nowPlaying: src, play, stop }), [src, play, stop])}>
-            {props.children}
+    const player = src ? (
+        <Paper
+            sx={{
+                height: '64px',
+                margin: { xs: 0.5, sm: 1 },
+                borderRadius: 2,
+                display: 'flex',
+                alignItems: 'center',
+                px: 1,
+                gap: 0.5,
+                position: 'relative'
+            }}
+        >
             <audio
                 ref={audioRef}
                 preload="metadata"
@@ -252,206 +264,204 @@ export const AudioPlayerProvider = (props: AudioPlayerProviderProps): JSX.Elemen
                     setIsPlaying(false)
                 }}
             />
-            {src && (
-                <Paper
-                    sx={{
-                        height: '64px',
-                        margin: { xs: 0.5, sm: 1 },
-                        borderRadius: 2,
-                        display: 'flex',
-                        alignItems: 'center',
-                        px: 1,
-                        gap: 0.5,
-                        position: 'relative'
-                    }}
-                >
-                    <Box sx={{ width: 40, display: 'flex', justifyContent: 'center' }}>
-                        <IconButton onClick={togglePlay} size="small">
-                            {isPlaying ? (
-                                <PauseIcon sx={{ color: 'text.primary' }} />
-                            ) : (
-                                <PlayArrowIcon sx={{ color: 'text.primary' }} />
-                            )}
-                        </IconButton>
-                    </Box>
+            <Box sx={{ width: 40, display: 'flex', justifyContent: 'center' }}>
+                <IconButton onClick={togglePlay} size="small">
+                    {isPlaying ? (
+                        <PauseIcon sx={{ color: 'text.primary' }} />
+                    ) : (
+                        <PlayArrowIcon sx={{ color: 'text.primary' }} />
+                    )}
+                </IconButton>
+            </Box>
 
-                    <Box
-                        sx={{
-                            px: 0.75,
-                            display: 'flex',
-                            alignItems: 'center',
-                            minWidth: 0,
-                            maxWidth: 260,
-                            flexShrink: 1
-                        }}
-                    >
-                        {(artworkUrl || trackTitle || trackComposer) && (
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, minWidth: 0 }}>
-                                {artworkUrl && (
-                                    <Box
-                                        component="img"
-                                        src={artworkUrl}
-                                        alt="album art"
-                                        sx={{
-                                            width: 28,
-                                            height: 28,
-                                            borderRadius: 0.75,
-                                            objectFit: 'cover',
-                                            flexShrink: 0
-                                        }}
-                                    />
-                                )}
-                                <Box sx={{ minWidth: 0 }}>
-                                    <Typography
-                                        variant="caption"
-                                        sx={{
-                                            display: 'block',
-                                            lineHeight: 1.2,
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                    >
-                                        {trackTitle || ''}
-                                    </Typography>
-                                    {trackComposer && (
-                                        <Typography
-                                            variant="caption"
-                                            sx={{
-                                                display: 'block',
-                                                lineHeight: 1.1,
-                                                fontSize: '0.68rem',
-                                                opacity: 0.75,
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap'
-                                            }}
-                                        >
-                                            {trackComposer}
-                                        </Typography>
-                                    )}
-                                </Box>
-                            </Box>
-                        )}
-                    </Box>
-
-                    <Box sx={{ flex: 1, px: 0.5, display: 'flex', alignItems: 'center', minWidth: 0 }}>
-                        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Typography
-                                variant="caption"
+            <Box
+                sx={{
+                    px: 0.75,
+                    display: 'flex',
+                    alignItems: 'center',
+                    minWidth: 0,
+                    maxWidth: 260,
+                    flexShrink: 1
+                }}
+            >
+                {(artworkUrl || trackTitle || trackComposer) && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, minWidth: 0 }}>
+                        {artworkUrl && (
+                            <Box
+                                component="img"
+                                src={artworkUrl}
+                                alt="album art"
                                 sx={{
-                                    minWidth: 36,
-                                    textAlign: 'right',
-                                    lineHeight: 1,
-                                    fontVariantNumeric: 'tabular-nums'
-                                }}
-                            >
-                                {formatTimeLabel(seekValue)}
-                            </Typography>
-                            <Slider
-                                size="small"
-                                min={0}
-                                max={duration > 0 ? duration : 1}
-                                value={Math.min(seekValue, duration > 0 ? duration : 1)}
-                                sx={{ my: 0, flex: 1 }}
-                                onChange={(_, value) => {
-                                    const nextTime = Array.isArray(value) ? value[0] : value
-                                    setSeekingTime(nextTime)
-                                }}
-                                onChangeCommitted={(_, value) => {
-                                    if (!audioRef.current) return
-                                    const nextTime = Array.isArray(value) ? value[0] : value
-                                    audioRef.current.currentTime = nextTime
-                                    setCurrentTime(nextTime)
-                                    setSeekingTime(null)
+                                    width: 28,
+                                    height: 28,
+                                    borderRadius: 0.75,
+                                    objectFit: 'cover',
+                                    flexShrink: 0
                                 }}
                             />
+                        )}
+                        <Box sx={{ minWidth: 0 }}>
                             <Typography
                                 variant="caption"
                                 sx={{
-                                    minWidth: 36,
-                                    textAlign: 'left',
-                                    lineHeight: 1,
-                                    fontVariantNumeric: 'tabular-nums'
+                                    display: 'block',
+                                    lineHeight: 1.2,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap'
                                 }}
                             >
-                                {formatTimeLabel(duration)}
+                                {trackTitle || ''}
                             </Typography>
-                        </Box>
-                    </Box>
-
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box
-                            sx={{
-                                width: 40,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                position: 'relative'
-                            }}
-                            onMouseEnter={() => {
-                                setVolumePanelOpen(true)
-                            }}
-                            onMouseLeave={() => {
-                                setVolumePanelOpen(false)
-                            }}
-                        >
-                            <IconButton
-                                size="small"
-                                onClick={() => {
-                                    setVolumePanelOpen((prev) => !prev)
-                                }}
-                            >
-                                {volume <= 0 ? (
-                                    <VolumeOffIcon sx={{ color: 'text.primary' }} />
-                                ) : (
-                                    <VolumeUpIcon sx={{ color: 'text.primary' }} />
-                                )}
-                            </IconButton>
-                            {volumePanelOpen && (
-                                <Paper
+                            {trackComposer && (
+                                <Typography
+                                    variant="caption"
                                     sx={{
-                                        position: 'absolute',
-                                        bottom: 'calc(100% + 8px)',
-                                        right: 0,
-                                        width: 40,
-                                        height: 140,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        p: 1
+                                        display: 'block',
+                                        lineHeight: 1.1,
+                                        fontSize: '0.68rem',
+                                        opacity: 0.75,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap'
                                     }}
                                 >
-                                    <Slider
-                                        orientation="vertical"
-                                        min={0}
-                                        max={1}
-                                        step={0.01}
-                                        value={clampVolume(volume)}
-                                        onChange={(_, value) => {
-                                            const nextVolume = Array.isArray(value) ? value[0] : value
-                                            setVolume(clampVolume(nextVolume))
-                                        }}
-                                    />
-                                </Paper>
+                                    {trackComposer}
+                                </Typography>
                             )}
                         </Box>
-                        <Box sx={{ width: 40, display: 'flex', justifyContent: 'center' }}>
-                            <IconButton
-                                size="small"
-                                onClick={() => {
-                                    stop()
-                                }}
-                            >
-                                <CloseIcon sx={{ color: 'text.primary' }} />
-                            </IconButton>
-                        </Box>
                     </Box>
-                </Paper>
-            )}
+                )}
+            </Box>
+
+            <Box sx={{ flex: 1, px: 0.5, display: 'flex', alignItems: 'center', minWidth: 0 }}>
+                <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            minWidth: 36,
+                            textAlign: 'right',
+                            lineHeight: 1,
+                            fontVariantNumeric: 'tabular-nums'
+                        }}
+                    >
+                        {formatTimeLabel(seekValue)}
+                    </Typography>
+                    <Slider
+                        size="small"
+                        min={0}
+                        max={duration > 0 ? duration : 1}
+                        value={Math.min(seekValue, duration > 0 ? duration : 1)}
+                        sx={{ my: 0, flex: 1 }}
+                        onChange={(_, value) => {
+                            const nextTime = Array.isArray(value) ? value[0] : value
+                            setSeekingTime(nextTime)
+                        }}
+                        onChangeCommitted={(_, value) => {
+                            if (!audioRef.current) return
+                            const nextTime = Array.isArray(value) ? value[0] : value
+                            audioRef.current.currentTime = nextTime
+                            setCurrentTime(nextTime)
+                            setSeekingTime(null)
+                        }}
+                    />
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            minWidth: 36,
+                            textAlign: 'left',
+                            lineHeight: 1,
+                            fontVariantNumeric: 'tabular-nums'
+                        }}
+                    >
+                        {formatTimeLabel(duration)}
+                    </Typography>
+                </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box
+                    sx={{
+                        width: 40,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        position: 'relative'
+                    }}
+                    onMouseEnter={() => {
+                        setVolumePanelOpen(true)
+                    }}
+                    onMouseLeave={() => {
+                        setVolumePanelOpen(false)
+                    }}
+                >
+                    <IconButton
+                        size="small"
+                        onClick={() => {
+                            setVolumePanelOpen((prev) => !prev)
+                        }}
+                    >
+                        {volume <= 0 ? (
+                            <VolumeOffIcon sx={{ color: 'text.primary' }} />
+                        ) : (
+                            <VolumeUpIcon sx={{ color: 'text.primary' }} />
+                        )}
+                    </IconButton>
+                    {volumePanelOpen && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                bottom: 'calc(100% + 8px)',
+                                right: 0,
+                                width: 40,
+                                height: 140,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                p: 1
+                            }}
+                        >
+                            <Slider
+                                orientation="vertical"
+                                min={0}
+                                max={1}
+                                step={0.01}
+                                value={clampVolume(volume)}
+                                onChange={(_, value) => {
+                                    const nextVolume = Array.isArray(value) ? value[0] : value
+                                    setVolume(clampVolume(nextVolume))
+                                }}
+                            />
+                        </Paper>
+                    )}
+                </Box>
+                <Box sx={{ width: 40, display: 'flex', justifyContent: 'center' }}>
+                    <IconButton
+                        size="small"
+                        onClick={() => {
+                            stop()
+                        }}
+                    >
+                        <CloseIcon sx={{ color: 'text.primary' }} />
+                    </IconButton>
+                </Box>
+            </Box>
+        </Paper>
+    ) : null
+
+    return (
+        <AudioPlayerContext.Provider
+            value={useMemo(() => ({ nowPlaying: src, play, stop, player }), [src, play, stop, player])}
+        >
+            {props.children}
         </AudioPlayerContext.Provider>
     )
 }
 
 export const useAudioPlayer = (): AudioPlayerState => {
     return useContext(AudioPlayerContext)
+}
+
+export const AudioPlayerOutlet = (): JSX.Element => {
+    const { player } = useAudioPlayer()
+    return player || <></>
 }
