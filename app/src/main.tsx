@@ -15,6 +15,7 @@ import { GA4Provider } from './context/GA4'
 import { ConcrntThemeProvider } from './context/Theme'
 import AuthorizePage from './pages/Authorize'
 import { SnackbarProvider } from 'notistack'
+import { PrivacyPolicy } from './pages/PrivacyPolicy'
 
 const AppPage = lazy(() => import('./App'))
 const Welcome = lazy(() => import('./pages/Welcome'))
@@ -66,6 +67,15 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                 </GA4Provider>
                             }
                         />
+                        <Route
+                            path="/privacy-policy"
+                            element={
+                                <GA4Provider tag={tag}>
+                                    <PrivacyPolicy />
+                                </GA4Provider>
+                            }
+                        />
+
                         <Route
                             path="/authorize"
                             element={
