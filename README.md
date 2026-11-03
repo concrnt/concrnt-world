@@ -1,3 +1,6 @@
+# Archived!
+このプロジェクトは、concrnt本体のアップデートに合わせて [world-app](https://github.com/concrnt/world-app) へ移行しました。
+
 ![wordmark](https://github.com/totegamma/concurrent/assets/7270849/44864682-ca2d-427a-b1fb-552ca50bcfce)
 ### Concrnt: SNSのアカウントをあなたのインターネット人格として確立します。
 
